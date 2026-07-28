@@ -13,6 +13,7 @@ use DateTimeImmutable;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use function array_key_exists;
 
@@ -312,21 +313,22 @@ class JsonWebTokenManager
      * from the service token that's being used to create this user token.
      *
      * @param UserInterface $user The user that this token is created for.
-     * @param int $serviceTokenId The ID of the service token that's used to create this user token.
-     * @param string | array $audience The audience claim or claims conveyed in this user token.
+     * @param TokenInterface $token The service token used to create this user token.
      * @return string The user token as JWT.
      */
     public function createUserTokenFromServiceToken(
         UserInterface $user,
-        int $serviceTokenId,
-        string | array $audience
+        TokenInterface $token,
     ): string {
+        $tokenId = $token->getUserIdentifier();
+        $audience = $token->getAttribute('aud');
+
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
         $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_SHORT_TTL, audience: $audience);
 
         // bolt on the issued-with data point.
-        $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
+        $arr[self::ISSUED_WITH_KEY] = $tokenId;
         return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 

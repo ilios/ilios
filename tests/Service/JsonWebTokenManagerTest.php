@@ -26,6 +26,7 @@ use DateTime;
 use Mockery as m;
 use App\Service\JsonWebTokenManager;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 #[CoversClass(JsonWebTokenManager::class)]
 final class JsonWebTokenManagerTest extends KernelTestCase
@@ -418,6 +419,9 @@ final class JsonWebTokenManagerTest extends KernelTestCase
     {
         $issuedWith = 100;
         $applicationScope = 'lti-schnitzelfest';
+        $token = m::mock(TokenInterface::class);
+        $token->shouldReceive('getAttribute')->with('aud')->andReturn($applicationScope);
+        $token->shouldReceive('getUserIdentifier')->andReturn($issuedWith);
         $user = $this->getContainer()->get(UserData::class)->getOne();
         $mockUser = m::mock(UserInterface::class);
         $mockUser->shouldReceive('getId')->andReturn($user['id']);
@@ -429,7 +433,7 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($mockSessionUser)->once()->andReturn(true);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUserId')->andReturn($mockSessionUser);
-        $jwt = $this->obj->createUserTokenFromServiceToken($mockUser, $issuedWith, $applicationScope);
+        $jwt = $this->obj->createUserTokenFromServiceToken($mockUser, $token);
         $decoded = (array) JWT::decode($jwt, new Key(self::DEFAULT_SECRET_KEY, JsonWebTokenManager::SIGNING_ALGORITHM));
         $this->assertEquals($applicationScope, $decoded['aud']);
         $this->assertEquals($issuedWith, $decoded[JsonWebTokenManager::ISSUED_WITH_KEY]);
