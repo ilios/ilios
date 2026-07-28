@@ -313,17 +313,17 @@ class JsonWebTokenManager
      *
      * @param UserInterface $user The user that this token is created for.
      * @param int $serviceTokenId The ID of the service token that's used to create this user token.
-     * @param string $applicationScope The application scope ("audience") of this user token.
+     * @param string | array $audience The audience claim or claims conveyed in this user token.
      * @return string The user token as JWT.
      */
     public function createUserTokenFromServiceToken(
         UserInterface $user,
         int $serviceTokenId,
-        string $applicationScope
+        string | array $audience
     ): string {
         // collect the data needed to create a user token for the given user.
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($user->getId());
-        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_SHORT_TTL, audience: $applicationScope);
+        $arr = $this->getUserTokenDetails($sessionUser, self::USER_TOKEN_SHORT_TTL, audience: $audience);
 
         // bolt on the issued-with data point.
         $arr[self::ISSUED_WITH_KEY] = $serviceTokenId;
@@ -333,7 +333,7 @@ class JsonWebTokenManager
     public function getUserTokenDetails(
         SessionUserInterface $sessionUser,
         string $timeToLive,
-        string $audience = self::TOKEN_AUD,
+        string | array $audience = self::TOKEN_AUD,
         ?string $refreshToken = null,
     ): array {
         $now = new DateTimeImmutable();
@@ -347,8 +347,11 @@ class JsonWebTokenManager
         if ($refreshToken) {
             $firstCreatedAt = $this->getFirstCreatedAt($refreshToken);
             $refreshCount = $this->getRefreshCount($refreshToken) + 1;
+            if (is_string($audience)) {
+                $audience = [$audience];
+            }
             // Merge (and de-dupe) the directly given audience claim with the claims asserted in the given token.
-            $audience = array_unique(array_merge($this->getAudienceClaimsFromToken($refreshToken), [$audience]));
+            $audience = array_unique(array_merge($this->getAudienceClaimsFromToken($refreshToken), $audience));
             // If we only have one claim then only pass that one by itself and not as a one-item list.
             if (1 === count($audience)) {
                 $audience = $audience[0];
