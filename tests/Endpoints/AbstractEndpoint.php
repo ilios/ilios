@@ -1194,6 +1194,32 @@ abstract class AbstractEndpoint extends WebTestCase
     }
 
     /**
+     * Test PATCHing bad data to the API
+     */
+    protected function badPatchTest(object $data, string $jwt, int $code = Response::HTTP_BAD_REQUEST): void
+    {
+        $endpoint = strtolower($data->data->type);
+        $this->createJsonApiRequest(
+            'PATCH',
+            $this->getUrl(
+                $this->kernelBrowser,
+                "app_api_{$endpoint}_patch",
+                ['version' => $this->apiVersion, 'id' => $data->data->id]
+            ),
+            json_encode($data),
+            $jwt
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+
+        $this->assertEquals(
+            $code,
+            $response->getStatusCode(),
+            'Wrong Response Header.  Page Body: ' . substr($response->getContent(), 0, 1000)
+        );
+    }
+
+    /**
      * Test deleting an object from the API
      *
      */

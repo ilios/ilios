@@ -198,4 +198,16 @@ final class TermTest extends AbstractReadWriteEndpoint
         $this->assertObjectHasProperty('id', $term->parent);
         $this->assertSame('1', $term->parent->id);
     }
+
+    public function testCannotPatchWithEmptyTitle(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['title'] = '';
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt);
+    }
 }
