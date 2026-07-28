@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadIlmSessionData;
@@ -124,5 +125,61 @@ final class LearnerGroupTest extends AbstractReadWriteEndpoint
         $data['parent'] = null;
         $postData = $data;
         $this->putTest($data, $postData, $id, $jwt);
+    }
+
+    public static function getBadGroupStructureProvider(): array
+    {
+        return [
+            [0, 3, [3]],
+            [0, 3, [5]],
+            [0, 5, [4, 5]],
+        ];
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testPutGroupWithBadStructure(int $pKey, int $cKey, array $users): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $parentGroup = $data[$pKey];
+        $childGroup = $data[$cKey];
+
+        $this->assertSame($childGroup['parent'], $parentGroup['id']);
+        $childGroup['users'] = $users;
+
+        $this->badPutTest($childGroup, $childGroup['id'], $jwt);
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testCreateGroupWithBadStructure(int $pKey, int $cKey, array $users): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $parentGroup = $data[$pKey];
+        $childGroup = $this->getDataLoader()->create();
+        $childGroup['parent'] = $parentGroup['id'];
+
+        $childGroup['users'] = $users;
+
+        $this->badPostTest($childGroup, $jwt);
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testPatchGroupWithBadStructure(int $pKey, int $cKey, array $users): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $parentGroup = $data[$pKey];
+        $childGroup = $data[$cKey];
+
+        $this->assertSame($childGroup['parent'], $parentGroup['id']);
+        $childGroup['users'] = $users;
+
+        $jsonApiData = $dataLoader->createJsonApi($childGroup);
+
+        $this->badPatchTest($jsonApiData, $jwt);
     }
 }

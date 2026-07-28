@@ -13,6 +13,7 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
@@ -148,13 +149,13 @@ class LearnerGroup implements LearnerGroupInterface
 
     public function __construct()
     {
-        $this->users            = new ArrayCollection();
-        $this->ilmSessions      = new ArrayCollection();
-        $this->offerings        = new ArrayCollection();
-        $this->children         = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->ilmSessions = new ArrayCollection();
+        $this->offerings = new ArrayCollection();
+        $this->children = new ArrayCollection();
         $this->instructorGroups = new ArrayCollection();
-        $this->instructors      = new ArrayCollection();
-        $this->descendants      = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
+        $this->descendants = new ArrayCollection();
         $this->needsAccommodation = false;
     }
 
@@ -329,5 +330,37 @@ class LearnerGroup implements LearnerGroupInterface
     public function getUrl(): ?string
     {
         return $this->url;
+    }
+
+    #[Assert\Callback]
+    public function validateUserRelationships(ExecutionContextInterface $context): void
+    {
+        $parent = $this->getParent();
+        if (null === $parent) {
+            return;
+        }
+
+        $parentUsers = $parent->getUsers();
+        $siblings = $parent->getChildren()->filter(fn(LearnerGroupInterface $group) => $group !== $this);
+
+        //get all the users in all groups at this level in a flat array
+        $siblingUsers = array_merge(
+            ...$siblings->map(fn(LearnerGroupInterface $group) => $group->getUsers()->toArray())->toArray()
+        );
+
+        foreach ($this->users as $user) {
+            if (!$parentUsers->contains($user)) {
+                $context->buildViolation('Every user in a learner group must also be a user in its parent group.')
+                    ->atPath('users')
+                    ->addViolation();
+                return;
+            }
+            if (in_array($user, $siblingUsers)) {
+                $context->buildViolation('A user cannot be added to more than one sibling group.')
+                    ->atPath('users')
+                    ->addViolation();
+                return;
+            }
+        }
     }
 }

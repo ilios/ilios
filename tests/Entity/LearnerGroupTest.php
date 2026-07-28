@@ -12,6 +12,7 @@ use App\Entity\LearnerGroup;
 use App\Entity\Program;
 use App\Entity\ProgramYear;
 use App\Entity\School;
+use App\Entity\User;
 use Mockery as m;
 
 /**
@@ -61,6 +62,80 @@ final class LearnerGroupTest extends EntityBase
 
         $this->object->setCohort(m::mock(CohortInterface::class));
 
+        $this->validate(0);
+    }
+
+    public function testUsersMustBelongToParent(): void
+    {
+        $this->object->setTitle('test');
+        $this->object->setCohort(m::mock(CohortInterface::class));
+
+        $sharedUser = new User();
+        $extraUser = new User();
+
+        $parent = new LearnerGroup();
+        $parent->addUser($sharedUser);
+
+        $this->object->setParent($parent);
+        $this->object->addUser($sharedUser);
+        $this->validate(0);
+
+        $this->object->addUser($extraUser);
+        $errors = $this->validate(1);
+        $this->assertArrayHasKey('users', $errors);
+        $this->assertSame(
+            'Every user in a learner group must also be a user in its parent group.',
+            $errors['users']
+        );
+    }
+
+    public function testUsersValidateWithoutParent(): void
+    {
+        $this->object->setTitle('test');
+        $this->object->setCohort(m::mock(CohortInterface::class));
+        $this->object->addUser(new User());
+        $this->validate(0);
+    }
+
+    public function testUsersMayNotAppearInSiblingGroup(): void
+    {
+        $this->object->setTitle('test');
+        $this->object->setCohort(m::mock(CohortInterface::class));
+
+        $user1 = new User();
+        $user2 = new User();
+
+        $parent = new LearnerGroup();
+        $parent->addUser($user1);
+        $parent->addUser($user2);
+
+        $sibling = new LearnerGroup();
+        $sibling->addUser($user1);
+        $parent->addChild($sibling);
+
+        $this->object->setParent($parent);
+        $this->object->addUser($user2);
+        $this->validate(0);
+
+        $this->object->addUser($user1);
+        $errors = $this->validate(1);
+        $this->assertArrayHasKey('users', $errors);
+        $this->assertSame('A user cannot be added to more than one sibling group.', $errors['users']);
+    }
+
+    public function testSiblingCheckIgnoresSelf(): void
+    {
+        $this->object->setTitle('test');
+        $this->object->setCohort(m::mock(CohortInterface::class));
+
+        $user = new User();
+
+        $parent = new LearnerGroup();
+        $parent->addUser($user);
+        $parent->addChild($this->object);
+
+        $this->object->setParent($parent);
+        $this->object->addUser($user);
         $this->validate(0);
     }
 
