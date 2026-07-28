@@ -193,7 +193,7 @@ final class UserData extends AbstractDataLoader
         $arr[] = [
             'id' => 5,
             'lastName' => 'fuenf',
-            'middleName' =>  'baz',
+            'middleName' => 'baz',
             'firstName' => 'five',
             'email' => 'five@test.org',
             'preferredEmail' => 'baz@test.org',
@@ -208,7 +208,7 @@ final class UserData extends AbstractDataLoader
             'reports' => [],
             'school' => "1",
             'directedCourses' => [],
-            'learnerGroups' => ['1', '5'],
+            'learnerGroups' => ['1', '5', '6'],
             'instructedLearnerGroups' => [],
             'instructorGroups' => [],
             'instructorIlmSessions' => [],

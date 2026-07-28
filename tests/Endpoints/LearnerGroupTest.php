@@ -19,7 +19,7 @@ use App\Tests\Fixture\LoadVocabularyData;
 #[Group('api_2')]
 final class LearnerGroupTest extends AbstractReadWriteEndpoint
 {
-    protected string $testName =  'learnerGroups';
+    protected string $testName = 'learnerGroups';
 
     protected function getFixtures(): array
     {
@@ -72,9 +72,9 @@ final class LearnerGroupTest extends AbstractReadWriteEndpoint
             'location' => [[3], ['location' => 'fourth location']],
             'url' => [[0, 3], ['url' => 'https://iliosproject.org']],
             'needsAccommodation' => [[1], ['needsAccommodation' => true]],
-            'doesNotNeedAccommodation' => [[0, 2, 3, 4], ['needsAccommodation' => false]],
+            'doesNotNeedAccommodation' => [[0, 2, 3, 4, 5], ['needsAccommodation' => false]],
             'cohort' => [[1], ['cohort' => 2]],
-            'parent' => [[3], ['parent' => 1]],
+            'parent' => [[3, 5], ['parent' => 1]],
             'ancestor' => [[3], ['ancestor' => 3]],
             'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
             // 'children' => [[0], ['children' => [4]]], // skipped
