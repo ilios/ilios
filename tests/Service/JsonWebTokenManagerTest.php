@@ -386,7 +386,7 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $now = new DateTime();
         $default = [
             'iss' => 'ilios',
-            'aud' => 'ilios',
+            'aud' => JsonWebTokenManager::TOKEN_AUD,
             'iat' => $now->format('U'),
             'exp' => $now->modify('+1 year')->format('U'),
         ];
@@ -443,15 +443,14 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $this->permissionChecker->shouldReceive('canCreateOrUpdateUsersInAnySchool')->andReturn(false);
         $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn(false);
         $ttl = 'P90D';
-        $audience = 'ilios';
         $tokenAudience = 'lti-wurstwasser';
         $tokenRefreshCount = 42;
         $tokenFirstCreatedAt = date_format(new DateTimeImmutable('2026-07-14 16:30:00'), 'U');
         $refreshToken = $this->buildServiceTokenJwt(
             ['aud' => $tokenAudience, 'firstCreatedAt' => $tokenFirstCreatedAt, 'refreshCount' => $tokenRefreshCount]
         );
-        $token = $this->obj->getUserTokenDetails($sessionUser, $ttl, $audience, $refreshToken);
-        $this->assertEquals([$tokenAudience, 'ilios'], $token['aud']);
+        $token = $this->obj->getUserTokenDetails($sessionUser, $ttl, JsonWebTokenManager::TOKEN_AUD, $refreshToken);
+        $this->assertEquals([$tokenAudience, JsonWebTokenManager::TOKEN_AUD], $token['aud']);
         $this->assertEquals($tokenFirstCreatedAt, $token['firstCreatedAt']);
         $this->assertEquals(++$tokenRefreshCount, $token['refreshCount']);
     }
