@@ -42,7 +42,7 @@ final class MigrationsTest extends TestCase
         $this->assertEquals('Up-to-date! No migrations to execute.', $result->getMessage());
     }
 
-    public function testCheckFailsDueToUnprocessedMigrations(): void
+    public function testCheckFailsDueToUnavailableMigrations(): void
     {
         $migration = new ExecutedMigration(new Version('whatever'));
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
@@ -55,7 +55,8 @@ final class MigrationsTest extends TestCase
         $this->assertInstanceOf(Failure::class, $result);
         $this->assertEquals('You have previously executed migrations in the database that are not registered migrations.', $result->getMessage());
     }
-    public function testCheckFailsDueToUnavailableMigrations(): void
+
+    public function testCheckFailsDueToUnprocessedMigrations(): void
     {
         $migration = new AvailableMigration(new Version('whatever'), m::mock(AbstractMigration::class));
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
