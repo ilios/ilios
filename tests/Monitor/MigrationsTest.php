@@ -6,11 +6,14 @@ namespace App\Tests\Monitor;
 
 use App\Monitor\Migrations;
 use App\Tests\TestCase;
+use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\AvailableMigration;
 use Doctrine\Migrations\Metadata\AvailableMigrationsList;
+use Doctrine\Migrations\Metadata\ExecutedMigration;
 use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
 use Doctrine\Migrations\Version\MigrationStatusCalculator;
+use Doctrine\Migrations\Version\Version;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Mockery as m;
@@ -41,7 +44,7 @@ final class MigrationsTest extends TestCase
 
     public function testCheckFailsDueToUnprocessedMigrations(): void
     {
-        $migration = m::mock(AvailableMigration::class);
+        $migration = new ExecutedMigration(new Version('whatever'));
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
         $statusCalculator->shouldReceive('getExecutedUnavailableMigrations')->andReturn(new ExecutedMigrationsList([$migration]));
         $statusCalculator->shouldReceive('getNewMigrations')->andReturn(new AvailableMigrationsList([]));
@@ -54,7 +57,7 @@ final class MigrationsTest extends TestCase
     }
     public function testCheckFailsDueToUnavailableMigrations(): void
     {
-        $migration = m::mock(AvailableMigration::class);
+        $migration = new AvailableMigration(new Version('whatever'), m::mock(AbstractMigration::class));
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
         $statusCalculator->shouldReceive('getExecutedUnavailableMigrations')->andReturn(new ExecutedMigrationsList([]));
         $statusCalculator->shouldReceive('getNewMigrations')->andReturn(new AvailableMigrationsList([$migration]));
