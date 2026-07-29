@@ -230,7 +230,7 @@ class SyncAllUsersCommand extends Command
 
         $unsyncedUsers = $this->userRepository->findBy(
             ['examined' => false, 'enabled' => true, 'userSyncIgnore' => false],
-            ['lastName' => ' ASC', 'firstName' => 'ASC']
+            ['lastName' => 'ASC', 'firstName' => 'ASC']
         );
         $output->writeln('<info>Found ' . count($unsyncedUsers) . ' unexamined users.</info>');
 
