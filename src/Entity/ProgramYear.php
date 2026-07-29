@@ -63,19 +63,19 @@ class ProgramYear implements ProgramYearInterface
     #[Assert\Type(type: 'bool')]
     protected bool $archived;
 
-    #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'programYears')]
+    #[ORM\ManyToOne(targetEntity: Program::class, inversedBy: 'programYears')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected ProgramInterface $program;
 
-    #[ORM\OneToOne(mappedBy: 'programYear', targetEntity: 'Cohort')]
+    #[ORM\OneToOne(mappedBy: 'programYear', targetEntity: Cohort::class)]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected CohortInterface $cohort;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'programYears')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'programYears')]
     #[ORM\JoinTable(name: 'program_year_director')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
@@ -84,7 +84,7 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directors;
 
-    #[ORM\ManyToMany(targetEntity: 'Competency', inversedBy: 'programYears')]
+    #[ORM\ManyToMany(targetEntity: Competency::class, inversedBy: 'programYears')]
     #[ORM\JoinTable(name: 'program_year_x_competency')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'competency_id', referencedColumnName: 'competency_id', onDelete: 'CASCADE')]
@@ -93,7 +93,7 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $competencies;
 
-    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYears')]
+    #[ORM\ManyToMany(targetEntity: Term::class, inversedBy: 'programYears')]
     #[ORM\JoinTable(name: 'program_year_x_term')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
@@ -102,7 +102,7 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
-    #[ORM\OneToMany(mappedBy: 'programYear', targetEntity: 'ProgramYearObjective')]
+    #[ORM\OneToMany(mappedBy: 'programYear', targetEntity: ProgramYearObjective::class)]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

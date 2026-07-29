@@ -29,7 +29,7 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\OneToOne(inversedBy: 'previousIndexing', targetEntity: 'MeshDescriptor')]
+    #[ORM\OneToOne(inversedBy: 'previousIndexing', targetEntity: MeshDescriptor::class)]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid', unique: true)]
     #[IA\Expose]
     #[IA\Type('entity')]

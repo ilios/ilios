@@ -93,7 +93,7 @@ class MeshTerm implements MeshTermInterface
     #[IA\Type('dateTime')]
     protected DateTime $updatedAt;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshConcept', inversedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: MeshConcept::class, inversedBy: 'terms')]
     #[ORM\JoinTable(name: 'mesh_concept_x_term')]
     #[ORM\JoinColumn(name: 'mesh_term_id', referencedColumnName: 'mesh_term_id')]
     #[ORM\InverseJoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]

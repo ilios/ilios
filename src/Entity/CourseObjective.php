@@ -41,7 +41,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'courseObjectives')]
+    #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'courseObjectives')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
@@ -55,7 +55,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[Assert\Type(type: 'integer')]
     protected int $position;
 
-    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'courseObjectives')]
+    #[ORM\ManyToMany(targetEntity: Term::class, inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_term')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
@@ -73,7 +73,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $title;
 
-    #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', inversedBy: 'courseObjectives')]
+    #[ORM\ManyToMany(targetEntity: ProgramYearObjective::class, inversedBy: 'courseObjectives')]
     #[ORM\JoinTable('course_objective_x_program_year_objective')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(
@@ -86,13 +86,13 @@ class CourseObjective implements CourseObjectiveInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYearObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'courseObjectives')]
+    #[ORM\ManyToMany(targetEntity: SessionObjective::class, mappedBy: 'courseObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseObjectives')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'courseObjectives')]
     #[ORM\JoinTable(name: 'course_objective_x_mesh')]
     #[ORM\JoinColumn(name: 'course_objective_id', referencedColumnName: 'course_objective_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(
@@ -105,13 +105,13 @@ class CourseObjective implements CourseObjectiveInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $meshDescriptors;
 
-    #[ORM\ManyToOne(targetEntity: 'CourseObjective', inversedBy: 'descendants')]
+    #[ORM\ManyToOne(targetEntity: CourseObjective::class, inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'course_objective_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CourseObjectiveInterface $ancestor = null;
 
-    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'CourseObjective')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: CourseObjective::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

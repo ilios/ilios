@@ -72,29 +72,29 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[Assert\NotBlank]
     protected DateTime $endDate;
 
-    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventoryExport')]
+    #[ORM\OneToOne(mappedBy: 'report', targetEntity: CurriculumInventoryExport::class)]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventoryExportInterface $export = null;
 
-    #[ORM\OneToOne(mappedBy: 'report', targetEntity: 'CurriculumInventorySequence')]
+    #[ORM\OneToOne(mappedBy: 'report', targetEntity: CurriculumInventorySequence::class)]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventorySequenceInterface $sequence = null;
 
-    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(mappedBy: 'report', targetEntity: CurriculumInventorySequenceBlock::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sequenceBlocks;
 
-    #[ORM\ManyToOne(targetEntity: 'Program', inversedBy: 'curriculumInventoryReports')]
+    #[ORM\ManyToOne(targetEntity: Program::class, inversedBy: 'curriculumInventoryReports')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?ProgramInterface $program = null;
 
-    #[ORM\OneToMany(mappedBy: 'report', targetEntity: 'CurriculumInventoryAcademicLevel')]
+    #[ORM\OneToMany(mappedBy: 'report', targetEntity: CurriculumInventoryAcademicLevel::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
@@ -105,7 +105,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     #[Assert\Length(max: 64)]
     protected string $token;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredCurriculumInventoryReports')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'administeredCurriculumInventoryReports')]
     #[ORM\JoinTable(name: 'curriculum_inventory_report_administrator')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]

@@ -59,12 +59,12 @@ class ServiceToken implements ServiceTokenInterface
     protected DateTime $expiresAt;
 
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
-    #[ORM\OneToMany(mappedBy: 'serviceToken', targetEntity: 'AuditLog')]
+    #[ORM\OneToMany(mappedBy: 'serviceToken', targetEntity: AuditLog::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $auditLogs;
 
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
-    #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'serviceTokenInstigators')]
+    #[ORM\ManyToMany(targetEntity: Alert::class, mappedBy: 'serviceTokenInstigators')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $alerts;
 

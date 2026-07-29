@@ -77,7 +77,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[Assert\Length(max: 64)]
     protected string $token;
 
-    #[ORM\ManyToOne(targetEntity: 'LearningMaterialUserRole', inversedBy: 'learningMaterials')]
+    #[ORM\ManyToOne(targetEntity: LearningMaterialUserRole::class, inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
         name: 'learning_material_user_role_id',
         referencedColumnName: 'learning_material_user_role_id',
@@ -88,7 +88,7 @@ class LearningMaterial implements LearningMaterialInterface
     #[Assert\NotNull]
     protected LearningMaterialUserRoleInterface $userRole;
 
-    #[ORM\ManyToOne(targetEntity: 'LearningMaterialStatus', inversedBy: 'learningMaterials')]
+    #[ORM\ManyToOne(targetEntity: LearningMaterialStatus::class, inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(
         name: 'learning_material_status_id',
         referencedColumnName: 'learning_material_status_id',
@@ -99,20 +99,20 @@ class LearningMaterial implements LearningMaterialInterface
     #[Assert\NotNull]
     protected LearningMaterialStatusInterface $status;
 
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'learningMaterials')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'owning_user_id', referencedColumnName: 'user_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected UserInterface $owningUser;
 
-    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'SessionLearningMaterial')]
+    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: SessionLearningMaterial::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionLearningMaterials;
 
-    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: 'CourseLearningMaterial')]
+    #[ORM\OneToMany(mappedBy: 'learningMaterial', targetEntity: CourseLearningMaterial::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

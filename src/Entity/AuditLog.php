@@ -51,11 +51,11 @@ class AuditLog implements AuditLogInterface
     #[Assert\Length(min: 1, max: 1000)]
     protected string $valuesChanged;
 
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'auditLogs')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'auditLogs')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', nullable: true)]
     protected ?UserInterface $user;
 
-    #[ORM\ManyToOne(targetEntity: 'ServiceToken', inversedBy: 'auditLogs')]
+    #[ORM\ManyToOne(targetEntity: ServiceToken::class, inversedBy: 'auditLogs')]
     #[ORM\JoinColumn(name: 'token_id', referencedColumnName: 'id', nullable: true)]
     protected ?ServiceTokenInterface $serviceToken;
 

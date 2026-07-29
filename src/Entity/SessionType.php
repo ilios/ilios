@@ -71,20 +71,20 @@ class SessionType implements SessionTypeInterface
     #[Assert\Type(type: 'bool')]
     protected bool $assessment;
 
-    #[ORM\ManyToOne(targetEntity: 'AssessmentOption', inversedBy: 'sessionTypes')]
+    #[ORM\ManyToOne(targetEntity: AssessmentOption::class, inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'assessment_option_id', referencedColumnName: 'assessment_option_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?AssessmentOptionInterface $assessmentOption = null;
 
-    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'sessionTypes')]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'sessionTypes')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\ManyToMany(targetEntity: 'AamcMethod', inversedBy: 'sessionTypes')]
+    #[ORM\ManyToMany(targetEntity: AamcMethod::class, inversedBy: 'sessionTypes')]
     #[ORM\JoinTable(name: 'session_type_x_aamc_method')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id')]
     #[ORM\InverseJoinColumn(name: 'method_id', referencedColumnName: 'method_id')]
@@ -93,7 +93,7 @@ class SessionType implements SessionTypeInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $aamcMethods;
 
-    #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: 'Session')]
+    #[ORM\OneToMany(mappedBy: 'sessionType', targetEntity: Session::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

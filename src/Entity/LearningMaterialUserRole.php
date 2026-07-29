@@ -42,7 +42,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     #[Assert\Length(min: 1, max: 60)]
     protected string $title;
 
-    #[ORM\OneToMany(mappedBy: 'userRole', targetEntity: 'LearningMaterial')]
+    #[ORM\OneToMany(mappedBy: 'userRole', targetEntity: LearningMaterial::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $learningMaterials;
 

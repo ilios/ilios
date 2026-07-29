@@ -42,7 +42,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     #[Assert\Length(min: 1, max: 20)]
     protected string $title;
 
-    #[ORM\OneToMany(mappedBy: 'clerkshipType', targetEntity: 'Course')]
+    #[ORM\OneToMany(mappedBy: 'clerkshipType', targetEntity: Course::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

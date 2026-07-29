@@ -47,7 +47,7 @@ class Cohort implements CohortInterface
     #[Assert\Length(min: 1, max: 60)]
     protected string $title;
 
-    #[ORM\OneToOne(inversedBy: 'cohort', targetEntity: 'ProgramYear')]
+    #[ORM\OneToOne(inversedBy: 'cohort', targetEntity: ProgramYear::class)]
     #[ORM\JoinColumn(
         name: 'program_year_id',
         referencedColumnName: 'program_year_id',
@@ -58,19 +58,19 @@ class Cohort implements CohortInterface
     #[IA\Type('entity')]
     protected ?ProgramYearInterface $programYear = null;
 
-    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'cohorts')]
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courses;
 
-    #[ORM\OneToMany(targetEntity: 'LearnerGroup', mappedBy: 'cohort')]
+    #[ORM\OneToMany(targetEntity: LearnerGroup::class, mappedBy: 'cohort')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'User', mappedBy: 'cohorts')]
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'cohorts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

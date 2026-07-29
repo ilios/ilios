@@ -79,66 +79,66 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('boolean')]
     protected bool $deleted;
 
-    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courses;
 
-    #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessions;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshConcept', mappedBy: 'descriptors')]
+    #[ORM\ManyToMany(targetEntity: MeshConcept::class, mappedBy: 'descriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $concepts;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshQualifier', mappedBy: 'descriptors')]
+    #[ORM\ManyToMany(targetEntity: MeshQualifier::class, mappedBy: 'descriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $qualifiers;
 
-    #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: 'MeshTree')]
+    #[ORM\OneToMany(mappedBy: 'descriptor', targetEntity: MeshTree::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $trees;
 
-    #[ORM\ManyToMany(targetEntity: 'SessionLearningMaterial', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: SessionLearningMaterial::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionLearningMaterials;
 
-    #[ORM\ManyToMany(targetEntity: 'CourseLearningMaterial', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: CourseLearningMaterial::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseLearningMaterials;
 
-    #[ORM\OneToOne(mappedBy: 'descriptor', targetEntity: 'MeshPreviousIndexing')]
+    #[ORM\OneToOne(mappedBy: 'descriptor', targetEntity: MeshPreviousIndexing::class)]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected MeshPreviousIndexingInterface $previousIndexing;
 
-    #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: SessionObjective::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: CourseObjective::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'meshDescriptors')]
+    #[ORM\ManyToMany(targetEntity: ProgramYearObjective::class, mappedBy: 'meshDescriptors')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

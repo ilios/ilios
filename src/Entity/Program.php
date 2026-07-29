@@ -60,26 +60,26 @@ class Program implements ProgramInterface
     #[Assert\Type(type: 'integer')]
     protected int $duration;
 
-    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'programs')]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'programs')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\OneToMany(mappedBy: 'program', targetEntity: 'ProgramYear')]
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: ProgramYear::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYears;
 
-    #[ORM\OneToMany(mappedBy: 'program', targetEntity: 'CurriculumInventoryReport')]
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: CurriculumInventoryReport::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $curriculumInventoryReports;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedPrograms')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'directedPrograms')]
     #[ORM\JoinTable(name: 'program_director')]
     #[ORM\JoinColumn(name: 'program_id', referencedColumnName: 'program_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]

@@ -59,7 +59,7 @@ class Alert implements AlertInterface
     #[Assert\Type(type: 'bool')]
     protected bool $dispatched;
 
-    #[ORM\ManyToMany(targetEntity: 'AlertChangeType', inversedBy: 'alerts')]
+    #[ORM\ManyToMany(targetEntity: AlertChangeType::class, inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_change')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'alert_change_type_id', referencedColumnName: 'alert_change_type_id')]
@@ -68,7 +68,7 @@ class Alert implements AlertInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $changeTypes;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'alerts')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_instigator')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -77,7 +77,7 @@ class Alert implements AlertInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instigators;
 
-    #[ORM\ManyToMany(targetEntity: 'School', inversedBy: 'alerts')]
+    #[ORM\ManyToMany(targetEntity: School::class, inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_recipient')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
@@ -86,7 +86,7 @@ class Alert implements AlertInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $recipients;
 
-    #[ORM\ManyToMany(targetEntity: 'ServiceToken', inversedBy: 'alerts')]
+    #[ORM\ManyToMany(targetEntity: ServiceToken::class, inversedBy: 'alerts')]
     #[ORM\JoinTable(name: 'alert_service_token_instigators')]
     #[ORM\JoinColumn(name: 'alert_id', referencedColumnName: 'alert_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'service_token_id', referencedColumnName: 'id', onDelete: 'CASCADE')]

@@ -112,7 +112,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[Assert\Type(type: 'integer')]
     protected int $duration;
 
-    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'startingSequenceBlocks')]
+    #[ORM\ManyToOne(targetEntity: CurriculumInventoryAcademicLevel::class, inversedBy: 'startingSequenceBlocks')]
     #[ORM\JoinColumn(
         name: 'starting_academic_level_id',
         referencedColumnName: 'academic_level_id',
@@ -123,7 +123,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('entity')]
     protected CurriculumInventoryAcademicLevelInterface $startingAcademicLevel;
 
-    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryAcademicLevel', inversedBy: 'endingSequenceBlocks')]
+    #[ORM\ManyToOne(targetEntity: CurriculumInventoryAcademicLevel::class, inversedBy: 'endingSequenceBlocks')]
     #[ORM\JoinColumn(
         name: 'ending_academic_level_id',
         referencedColumnName: 'academic_level_id',
@@ -134,13 +134,13 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('entity')]
     protected CurriculumInventoryAcademicLevelInterface $endingAcademicLevel;
 
-    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sequenceBlocks')]
+    #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CourseInterface $course = null;
 
-    #[ORM\ManyToOne(targetEntity: 'CurriculumInventorySequenceBlock', inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: CurriculumInventorySequenceBlock::class, inversedBy: 'children')]
     #[ORM\JoinColumn(
         name: 'parent_sequence_block_id',
         referencedColumnName: 'sequence_block_id',
@@ -150,20 +150,20 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type('entity')]
     protected ?CurriculumInventorySequenceBlockInterface $parent = null;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: CurriculumInventorySequenceBlock::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
-    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'sequenceBlocks')]
+    #[ORM\ManyToOne(targetEntity: CurriculumInventoryReport::class, inversedBy: 'sequenceBlocks')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected CurriculumInventoryReportInterface $report;
 
-    #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'sequenceBlocks')]
+    #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'sequenceBlocks')]
     #[ORM\JoinTable('curriculum_inventory_sequence_block_x_session')]
     #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
@@ -172,7 +172,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessions;
 
-    #[ORM\ManyToMany(targetEntity: 'Session', inversedBy: 'excludedSequenceBlocks')]
+    #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'excludedSequenceBlocks')]
     #[ORM\JoinTable('curriculum_inventory_sequence_block_x_excluded_session')]
     #[ORM\JoinColumn(name: 'sequence_block_id', referencedColumnName: 'sequence_block_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]

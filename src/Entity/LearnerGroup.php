@@ -72,50 +72,50 @@ class LearnerGroup implements LearnerGroupInterface
     #[Assert\Type(type: 'bool')]
     protected bool $needsAccommodation;
 
-    #[ORM\ManyToOne(targetEntity: 'Cohort', inversedBy: 'learnerGroups')]
+    #[ORM\ManyToOne(targetEntity: Cohort::class, inversedBy: 'learnerGroups')]
     #[ORM\JoinColumn(name: 'cohort_id', referencedColumnName: 'cohort_id', nullable: false, onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected CohortInterface $cohort;
 
-    #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: LearnerGroup::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?LearnerGroupInterface $parent = null;
 
-    #[ORM\ManyToOne(targetEntity: 'LearnerGroup', inversedBy: 'descendants')]
+    #[ORM\ManyToOne(targetEntity: LearnerGroup::class, inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'group_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?LearnerGroupInterface $ancestor = null;
 
-    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'LearnerGroup')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: LearnerGroup::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $descendants;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'LearnerGroup')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: LearnerGroup::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
-    #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'learnerGroups')]
+    #[ORM\ManyToMany(targetEntity: IlmSession::class, mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $ilmSessions;
 
-    #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'learnerGroups')]
+    #[ORM\ManyToMany(targetEntity: Offering::class, mappedBy: 'learnerGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $offerings;
 
-    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'learnerGroups')]
+    #[ORM\ManyToMany(targetEntity: InstructorGroup::class, inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor_group')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(
@@ -128,7 +128,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerGroups')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'learnerGroups')]
     #[ORM\JoinTable(name: 'group_x_user')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
@@ -137,7 +137,7 @@ class LearnerGroup implements LearnerGroupInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $users;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedLearnerGroups')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instructedLearnerGroups')]
     #[ORM\JoinTable(name: 'group_x_instructor')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]

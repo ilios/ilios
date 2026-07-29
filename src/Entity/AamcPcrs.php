@@ -39,7 +39,7 @@ class AamcPcrs implements AamcPcrsInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $description;
 
-    #[ORM\ManyToMany(targetEntity: 'Competency', mappedBy: 'aamcPcrses')]
+    #[ORM\ManyToMany(targetEntity: Competency::class, mappedBy: 'aamcPcrses')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
