@@ -63,7 +63,7 @@ class CourseRepository extends ServiceEntityRepository implements
         $qb->addSelect('x')->from(Course::class, 'x');
 
         $terms = explode(' ', $q);
-        $terms = array_filter($terms, strlen(...));
+        $terms = array_filter($terms, fn($term): bool => (bool) strlen($term));
         if (empty($terms)) {
             return [];
         }

@@ -134,7 +134,7 @@ class MeshDescriptorRepository extends ServiceEntityRepository implements
     protected function getTermsFromQ(string $q): array
     {
         $terms = explode(' ', $q);
-        return array_filter($terms, strlen(...));
+        return array_filter($terms, fn($term): bool => (bool) strlen($term));
     }
     protected function getQueryForFindByQ(array $terms, ?array $orderBy, ?int $offset): Query
     {
