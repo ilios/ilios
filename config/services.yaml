@@ -171,7 +171,7 @@ services:
   App\Monitor\PhpVersion:
     arguments:
       $version: !php/const PHP_VERSION
-      $minimumSupportedVersion: "8.5"
+      $composerFilePath: "%kernel.project_dir%/composer.json"
 
   Laminas\Diagnostics\Check\ApcFragmentation:
     arguments:

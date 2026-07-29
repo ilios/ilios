@@ -8,8 +8,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
-
-use function version_compare;
+use Composer\Semver\Semver;
 
 /**
  * Validates PHP version.
@@ -19,22 +18,41 @@ use function version_compare;
  */
 class PhpVersion implements CheckInterface
 {
-    public const string COMPARISON_OPERATOR = '>=';
-
     /**
-     * @param string $version The given PHP version.
-     * @param string $minimumSupportedVersion The minimum supported PHP version to check against.
+     * @param string $version The PHP version to check.
+     * @param string $composerFilePath Path to the composer.json file that declares the minimum required PHP version.
      */
-    public function __construct(protected string $version, protected string $minimumSupportedVersion)
+    public function __construct(protected string $version, protected string $composerFilePath)
     {
     }
 
     public function check(): ResultInterface
     {
-        if (!version_compare($this->version, $this->minimumSupportedVersion, self::COMPARISON_OPERATOR)) {
-            return new Failure('The current PHP version is older than the expected version.');
+        $contents = @file_get_contents($this->composerFilePath);
+        if (!$contents) {
+            return new Failure("Unable to read file contents of the given composer file");
         }
-        return new Success('The current PHP version matches or exceeds the expected minimum version.');
+        $json = @json_decode($contents, true);
+        if (is_null($json)) {
+            return new Failure("Unable to decode the given composer file");
+        }
+
+        $expected = array_key_exists('require', $json) && array_key_exists('php', $json['require'])
+            ? $json['require']['php']
+            : false;
+        if (!$expected) {
+            return new Failure("Unable to find the PHP version requirement in the given composer file");
+        }
+
+        if (!Semver::satisfies($this->version, $expected)) {
+            return new Failure(
+                "The current PHP version '{$this->version}' doesn't meet the expected version requirement '{$expected}'"
+            );
+        }
+
+        return new Success(
+            "The current PHP version '{$this->version}' meets the expected version requirement '{$expected}'"
+        );
     }
 
     public function getLabel(): string
