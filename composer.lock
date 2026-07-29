@@ -11657,16 +11657,16 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v15.36.0",
+            "version": "v15.37.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "be55406ba5da7ddc3b50b88dc70d31f975538688"
+                "reference": "8c620457202b5c8d81582338238f769790ef718a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/be55406ba5da7ddc3b50b88dc70d31f975538688",
-                "reference": "be55406ba5da7ddc3b50b88dc70d31f975538688",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/8c620457202b5c8d81582338238f769790ef718a",
+                "reference": "8c620457202b5c8d81582338238f769790ef718a",
                 "shasum": ""
             },
             "require": {
@@ -11721,7 +11721,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/v15.36.0"
+                "source": "https://github.com/webonyx/graphql-php/tree/v15.37.1"
             },
             "funding": [
                 {
@@ -11733,7 +11733,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2026-07-28T08:46:53+00:00"
+            "time": "2026-07-29T07:35:47+00:00"
         },
         {
             "name": "zircote/swagger-php",
