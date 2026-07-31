@@ -59,7 +59,7 @@ class LearningMaterialRepository extends ServiceEntityRepository implements DTOR
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('DISTINCT x')->from(LearningMaterial::class, 'x');
         $terms = explode(' ', $q);
-        $terms = array_filter($terms, strlen(...));
+        $terms = array_filter($terms, fn($term): bool => (bool) strlen($term));
         if (empty($terms)) {
             return [];
         }

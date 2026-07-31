@@ -59,21 +59,21 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[Assert\Type(type: 'bool')]
     protected bool $publicNotes;
 
-    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'learningMaterials')]
+    #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected CourseInterface $course;
 
-    #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'courseLearningMaterials')]
+    #[ORM\ManyToOne(targetEntity: LearningMaterial::class, inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected LearningMaterialInterface $learningMaterial;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'courseLearningMaterials')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'courseLearningMaterials')]
     #[ORM\JoinTable(name: 'course_learning_material_x_mesh')]
     #[ORM\JoinColumn(
         name: 'course_learning_material_id',

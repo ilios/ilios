@@ -48,26 +48,26 @@ class Competency implements CompetencyInterface
     #[Assert\Length(max: 200)]
     protected ?string $title = null;
 
-    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'competencies')]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'competencies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: Competency::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_competency_id', referencedColumnName: 'competency_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CompetencyInterface $parent = null;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Competency')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Competency::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
-    #[ORM\ManyToMany(targetEntity: 'AamcPcrs', inversedBy: 'competencies')]
+    #[ORM\ManyToMany(targetEntity: AamcPcrs::class, inversedBy: 'competencies')]
     #[ORM\JoinTable(name: 'competency_x_aamc_pcrs')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
     #[ORM\InverseJoinColumn(name: 'pcrs_id', referencedColumnName: 'pcrs_id')]
@@ -76,7 +76,7 @@ class Competency implements CompetencyInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $aamcPcrses;
 
-    #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'competencies')]
+    #[ORM\ManyToMany(targetEntity: ProgramYear::class, mappedBy: 'competencies')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
@@ -89,7 +89,7 @@ class Competency implements CompetencyInterface
     #[Assert\Type(type: 'bool')]
     protected bool $active;
 
-    #[ORM\OneToMany(mappedBy: 'competency', targetEntity: 'ProgramYearObjective')]
+    #[ORM\OneToMany(mappedBy: 'competency', targetEntity: ProgramYearObjective::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

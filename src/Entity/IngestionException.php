@@ -36,7 +36,7 @@ class IngestionException implements IngestionExceptionInterface
     #[Assert\Length(min: 1, max: 32)]
     protected string $uid;
 
-    #[ORM\OneToOne(targetEntity: 'User')]
+    #[ORM\OneToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(
         name: 'user_id',
         referencedColumnName: 'user_id',

@@ -41,7 +41,7 @@ class IlmSession implements IlmSessionInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\OneToOne(inversedBy: 'ilmSession', targetEntity: 'Session')]
+    #[ORM\OneToOne(inversedBy: 'ilmSession', targetEntity: Session::class)]
     #[ORM\JoinColumn(
         name: 'session_id',
         referencedColumnName: 'session_id',
@@ -68,7 +68,7 @@ class IlmSession implements IlmSessionInterface
     #[Assert\NotBlank]
     protected DateTime $dueDate;
 
-    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'ilmSessions')]
+    #[ORM\ManyToMany(targetEntity: LearnerGroup::class, inversedBy: 'ilmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_group')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id', onDelete: 'CASCADE')]
@@ -77,7 +77,7 @@ class IlmSession implements IlmSessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'ilmSessions')]
+    #[ORM\ManyToMany(targetEntity: InstructorGroup::class, inversedBy: 'ilmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor_group')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(
@@ -90,7 +90,7 @@ class IlmSession implements IlmSessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorIlmSessions')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instructorIlmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_instructor')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -99,7 +99,7 @@ class IlmSession implements IlmSessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructors;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'learnerIlmSessions')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'learnerIlmSessions')]
     #[ORM\JoinTable(name: 'ilm_session_facet_x_learner')]
     #[ORM\JoinColumn(name: 'ilm_session_facet_id', referencedColumnName: 'ilm_session_facet_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]

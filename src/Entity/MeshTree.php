@@ -36,7 +36,7 @@ class MeshTree implements MeshTreeInterface
     #[Assert\Length(min: 1, max: 80)]
     protected string $treeNumber;
 
-    #[ORM\ManyToOne(targetEntity: 'MeshDescriptor', inversedBy: 'trees')]
+    #[ORM\ManyToOne(targetEntity: MeshDescriptor::class, inversedBy: 'trees')]
     #[ORM\JoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]
     #[IA\Expose]
     #[IA\Type('entity')]

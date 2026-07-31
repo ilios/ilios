@@ -176,7 +176,7 @@ abstract class AbstractDataLoader implements DataLoaderInterface
         $properties = $this->entityMetadata->extractExposedProperties($reflection);
         $scalarProperties = array_filter(
             $properties,
-            fn(ReflectionProperty $p) => $p->getAttributes(Id::class)
+            fn(ReflectionProperty $p): bool => !!$p->getAttributes(Id::class)
         );
 
         $names = array_map(fn(ReflectionProperty $p) => $p->name, $scalarProperties);

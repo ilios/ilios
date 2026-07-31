@@ -63,7 +63,7 @@ class MeshConcept implements MeshConceptInterface
     #[Assert\Length(max: 512)]
     protected ?string $casn1Name = null;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshTerm', mappedBy: 'concepts')]
+    #[ORM\ManyToMany(targetEntity: MeshTerm::class, mappedBy: 'concepts')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
@@ -81,7 +81,7 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Type('dateTime')]
     protected DateTime $updatedAt;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'concepts')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'concepts')]
     #[ORM\JoinTable(name: 'mesh_descriptor_x_concept')]
     #[ORM\JoinColumn(name: 'mesh_concept_uid', referencedColumnName: 'mesh_concept_uid')]
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
+use App\Service\SessionUserPermissionChecker;
 use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 abstract class AbstractBase extends TestCase
 {
-    final protected m\MockInterface $permissionChecker;
+    final protected m\MockInterface | SessionUserPermissionChecker $permissionChecker;
     final protected Voter $voter;
 
     /**
@@ -31,10 +32,11 @@ abstract class AbstractBase extends TestCase
     /**
      * Creates a mock token that has the given (mock) session-user.
      * @param ?m\MockInterface $mockSessionUser A mock session user.
-     * @return m\MockInterface a mock service token object
+     * @return m\MockInterface|TokenInterface a mock service token object
      */
-    protected function createMockTokenWithMockSessionUser(?m\MockInterface $mockSessionUser): m\MockInterface
-    {
+    protected function createMockTokenWithMockSessionUser(
+        ?m\MockInterface $mockSessionUser
+    ): m\MockInterface | TokenInterface {
         $mock = m::mock(TokenInterface::class);
         $mock->shouldReceive('getUser')->andReturn($mockSessionUser);
         return $mock;

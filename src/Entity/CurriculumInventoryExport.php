@@ -32,7 +32,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\OneToOne(inversedBy: 'export', targetEntity: 'CurriculumInventoryReport')]
+    #[ORM\OneToOne(inversedBy: 'export', targetEntity: CurriculumInventoryReport::class)]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
@@ -45,7 +45,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[Assert\Length(min: 1, max: 16000000)]
     protected string $document;
 
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'created_by', referencedColumnName: 'user_id')]
     #[IA\Expose]
     #[IA\Type('entity')]

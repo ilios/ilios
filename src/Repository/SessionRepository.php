@@ -46,7 +46,7 @@ class SessionRepository extends ServiceEntityRepository implements
         $qb->leftJoin('x.course', 'course');
 
         $terms = explode(' ', $q);
-        $terms = array_filter($terms, strlen(...));
+        $terms = array_filter($terms, fn($term): bool => (bool) strlen($term));
         if (empty($terms)) {
             return [];
         }

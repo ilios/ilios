@@ -58,19 +58,19 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     #[Assert\Type(type: 'integer')]
     protected int $level;
 
-    #[ORM\ManyToOne(targetEntity: 'CurriculumInventoryReport', inversedBy: 'academicLevels')]
+    #[ORM\ManyToOne(targetEntity: CurriculumInventoryReport::class, inversedBy: 'academicLevels')]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', onDelete: 'cascade')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected CurriculumInventoryReportInterface $report;
 
-    #[ORM\OneToMany(mappedBy: 'startingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(mappedBy: 'startingAcademicLevel', targetEntity: CurriculumInventorySequenceBlock::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $startingSequenceBlocks;
 
-    #[ORM\OneToMany(mappedBy: 'endingAcademicLevel', targetEntity: 'CurriculumInventorySequenceBlock')]
+    #[ORM\OneToMany(mappedBy: 'endingAcademicLevel', targetEntity: CurriculumInventorySequenceBlock::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

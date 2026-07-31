@@ -50,26 +50,26 @@ class InstructorGroup implements InstructorGroupInterface
     #[Assert\Length(min: 1, max: 60)]
     protected string $title;
 
-    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'instructorGroups')]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'instructorGroups')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', mappedBy: 'instructorGroups')]
+    #[ORM\ManyToMany(targetEntity: LearnerGroup::class, mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'IlmSession', mappedBy: 'instructorGroups')]
+    #[ORM\ManyToMany(targetEntity: IlmSession::class, mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $ilmSessions;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructorGroups')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instructorGroups')]
     #[ORM\JoinTable(name: 'instructor_group_x_user')]
     #[ORM\JoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
@@ -78,7 +78,7 @@ class InstructorGroup implements InstructorGroupInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $users;
 
-    #[ORM\ManyToMany(targetEntity: 'Offering', mappedBy: 'instructorGroups')]
+    #[ORM\ManyToMany(targetEntity: Offering::class, mappedBy: 'instructorGroups')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

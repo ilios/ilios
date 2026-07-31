@@ -83,53 +83,53 @@ class School implements SchoolInterface
     /**
      * Don't put alerts in the school API it takes forever to load them all
      */
-    #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'recipients')]
+    #[ORM\ManyToMany(targetEntity: Alert::class, mappedBy: 'recipients')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $alerts;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Competency')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: Competency::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $competencies;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Course')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: Course::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courses;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Program')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: Program::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programs;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'Vocabulary')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: Vocabulary::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $vocabularies;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'InstructorGroup')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: InstructorGroup::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
-    #[ORM\OneToOne(mappedBy: 'school', targetEntity: 'CurriculumInventoryInstitution')]
+    #[ORM\OneToOne(mappedBy: 'school', targetEntity: CurriculumInventoryInstitution::class)]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution = null;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SessionType')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: SessionType::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionTypes;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'directedSchools')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'directedSchools')]
     #[ORM\JoinTable(name: 'school_director')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -138,7 +138,7 @@ class School implements SchoolInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $directors;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSchools')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'administeredSchools')]
     #[ORM\JoinTable(name: 'school_administrator')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -147,7 +147,7 @@ class School implements SchoolInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administrators;
 
-    #[ORM\OneToMany(mappedBy: 'school', targetEntity: 'SchoolConfig')]
+    #[ORM\OneToMany(mappedBy: 'school', targetEntity: SchoolConfig::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

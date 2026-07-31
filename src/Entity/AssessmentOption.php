@@ -43,7 +43,7 @@ class AssessmentOption implements AssessmentOptionInterface
     #[Assert\Length(min: 1, max: 18)]
     protected string $name;
 
-    #[ORM\OneToMany(mappedBy: 'assessmentOption', targetEntity: 'SessionType')]
+    #[ORM\OneToMany(mappedBy: 'assessmentOption', targetEntity: SessionType::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

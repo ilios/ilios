@@ -54,7 +54,7 @@ class MeshQualifier implements MeshQualifierInterface
     #[IA\Type('dateTime')]
     protected DateTime $updatedAt;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'qualifiers')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'qualifiers')]
     #[ORM\JoinTable(name: 'mesh_descriptor_x_qualifier')]
     #[ORM\JoinColumn(name: 'mesh_qualifier_uid', referencedColumnName: 'mesh_qualifier_uid')]
     #[ORM\InverseJoinColumn(name: 'mesh_descriptor_uid', referencedColumnName: 'mesh_descriptor_uid')]

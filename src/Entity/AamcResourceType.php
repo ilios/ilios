@@ -51,7 +51,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $description;
 
-    #[ORM\ManyToMany(targetEntity: 'Term', mappedBy: 'aamcResourceTypes')]
+    #[ORM\ManyToMany(targetEntity: Term::class, mappedBy: 'aamcResourceTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

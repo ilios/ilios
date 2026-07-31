@@ -19,7 +19,7 @@ use App\Tests\TestCase;
 #[CoversClass(Manager::class)]
 final class ManagerTest extends TestCase
 {
-    protected m\MockInterface $repository;
+    protected m\MockInterface | CurriculumInventoryReportRepository $repository;
     protected Manager $manager;
 
     protected function setUp(): void

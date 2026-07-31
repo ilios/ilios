@@ -8,9 +8,12 @@ use App\Monitor\Migrations;
 use App\Tests\TestCase;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Metadata\AvailableMigration;
 use Doctrine\Migrations\Metadata\AvailableMigrationsList;
+use Doctrine\Migrations\Metadata\ExecutedMigration;
 use Doctrine\Migrations\Metadata\ExecutedMigrationsList;
 use Doctrine\Migrations\Version\MigrationStatusCalculator;
+use Doctrine\Migrations\Version\Version;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Mockery as m;
@@ -39,9 +42,9 @@ final class MigrationsTest extends TestCase
         $this->assertEquals('Up-to-date! No migrations to execute.', $result->getMessage());
     }
 
-    public function testCheckFailsDueToUnprocessedMigrations(): void
+    public function testCheckFailsDueToUnavailableMigrations(): void
     {
-        $migration = m::mock(AbstractMigration::class);
+        $migration = new ExecutedMigration(new Version('whatever'));
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
         $statusCalculator->shouldReceive('getExecutedUnavailableMigrations')->andReturn(new ExecutedMigrationsList([$migration]));
         $statusCalculator->shouldReceive('getNewMigrations')->andReturn(new AvailableMigrationsList([]));
@@ -52,9 +55,10 @@ final class MigrationsTest extends TestCase
         $this->assertInstanceOf(Failure::class, $result);
         $this->assertEquals('You have previously executed migrations in the database that are not registered migrations.', $result->getMessage());
     }
-    public function testCheckFailsDueToUnavailableMigrations(): void
+
+    public function testCheckFailsDueToUnprocessedMigrations(): void
     {
-        $migration = m::mock(AbstractMigration::class);
+        $migration = new AvailableMigration(new Version('whatever'), m::mock(AbstractMigration::class));
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
         $statusCalculator->shouldReceive('getExecutedUnavailableMigrations')->andReturn(new ExecutedMigrationsList([]));
         $statusCalculator->shouldReceive('getNewMigrations')->andReturn(new AvailableMigrationsList([$migration]));

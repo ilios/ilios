@@ -86,14 +86,14 @@ class Offering implements OfferingInterface
     #[Assert\NotBlank]
     protected DateTime $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'offerings')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'offerings')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SessionInterface $session;
 
-    #[ORM\ManyToMany(targetEntity: 'LearnerGroup', inversedBy: 'offerings')]
+    #[ORM\ManyToMany(targetEntity: LearnerGroup::class, inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_group')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'group_id')]
@@ -102,7 +102,7 @@ class Offering implements OfferingInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learnerGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'InstructorGroup', inversedBy: 'offerings')]
+    #[ORM\ManyToMany(targetEntity: InstructorGroup::class, inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_instructor_group')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'instructor_group_id', referencedColumnName: 'instructor_group_id')]
@@ -111,7 +111,7 @@ class Offering implements OfferingInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $instructorGroups;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'offerings')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'offerings')]
     #[ORM\JoinTable(name: 'offering_x_learner')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
@@ -120,7 +120,7 @@ class Offering implements OfferingInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learners;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'instructedOfferings')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'instructedOfferings')]
     #[ORM\JoinTable(name: 'offering_x_instructor')]
     #[ORM\JoinColumn(name: 'offering_id', referencedColumnName: 'offering_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id')]

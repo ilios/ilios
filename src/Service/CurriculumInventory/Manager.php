@@ -372,7 +372,7 @@ class Manager
     /**
      * Retrieves the relations between given program-objectives and PCRS (via competencies).
      * @param array|int[] $programObjectiveIds
-     * @param array|int[] $pcrsIds
+     * @param array<int, string> $pcrsIds
      * @param array|int[] $consolidatedProgramObjectivesMap
      * @throws Exception
      */

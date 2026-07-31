@@ -49,7 +49,7 @@ class SchoolConfig implements SchoolConfigInterface
     #[Assert\Length(min: 0, max: 65000)]
     protected string $value;
 
-    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'configurations')]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'configurations')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]

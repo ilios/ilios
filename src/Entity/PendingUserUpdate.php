@@ -52,7 +52,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[Assert\Length(min: 1, max: 255)]
     protected ?string $value = null;
 
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'pendingUserUpdates')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'pendingUserUpdates')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     #[IA\Expose]
     #[IA\Type('entity')]

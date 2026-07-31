@@ -47,14 +47,14 @@ class Vocabulary implements VocabularyInterface
     #[Assert\Length(min: 1, max: 200)]
     protected string $title;
 
-    #[ORM\ManyToOne(targetEntity: 'School', inversedBy: 'vocabularies')]
+    #[ORM\ManyToOne(targetEntity: School::class, inversedBy: 'vocabularies')]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[ORM\OneToMany(mappedBy: 'vocabulary', targetEntity: 'Term')]
+    #[ORM\OneToMany(mappedBy: 'vocabulary', targetEntity: Term::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

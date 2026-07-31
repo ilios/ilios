@@ -41,7 +41,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\ManyToOne(targetEntity: 'ProgramYear', inversedBy: 'programYearObjectives')]
+    #[ORM\ManyToOne(targetEntity: ProgramYear::class, inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
@@ -55,7 +55,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[Assert\Type(type: 'integer')]
     protected int $position;
 
-    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'programYearObjectives')]
+    #[ORM\ManyToMany(targetEntity: Term::class, inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_term')]
     #[ORM\JoinColumn(
         name: 'program_year_objective_id',
@@ -77,19 +77,19 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $title;
 
-    #[ORM\ManyToOne(targetEntity: 'Competency', inversedBy: 'programYearObjectives')]
+    #[ORM\ManyToOne(targetEntity: Competency::class, inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'competency_id', referencedColumnName: 'competency_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?CompetencyInterface $competency = null;
 
-    #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'programYearObjectives')]
+    #[ORM\ManyToMany(targetEntity: CourseObjective::class, mappedBy: 'programYearObjectives')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'programYearObjectives')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'programYearObjectives')]
     #[ORM\JoinTable(name: 'program_year_objective_x_mesh')]
     #[ORM\JoinColumn(
         name: 'program_year_objective_id',
@@ -106,13 +106,13 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $meshDescriptors;
 
-    #[ORM\ManyToOne(targetEntity: 'ProgramYearObjective', inversedBy: 'descendants')]
+    #[ORM\ManyToOne(targetEntity: ProgramYearObjective::class, inversedBy: 'descendants')]
     #[ORM\JoinColumn(name: 'ancestor_id', referencedColumnName: 'program_year_objective_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?ProgramYearObjectiveInterface $ancestor = null;
 
-    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: 'ProgramYearObjective')]
+    #[ORM\OneToMany(mappedBy: 'ancestor', targetEntity: ProgramYearObjective::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

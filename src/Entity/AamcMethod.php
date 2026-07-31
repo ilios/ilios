@@ -41,7 +41,7 @@ class AamcMethod implements AamcMethodInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $description;
 
-    #[ORM\ManyToMany(targetEntity: 'SessionType', mappedBy: 'aamcMethods')]
+    #[ORM\ManyToMany(targetEntity: SessionType::class, mappedBy: 'aamcMethods')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

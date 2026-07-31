@@ -45,7 +45,7 @@ class Report implements ReportInterface
     #[Assert\NotBlank]
     protected DateTime $createdAt;
 
-    #[ORM\ManyToOne(targetEntity: 'School')]
+    #[ORM\ManyToOne(targetEntity: School::class)]
     #[ORM\JoinColumn(name: 'school_id', referencedColumnName: 'school_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
@@ -73,7 +73,7 @@ class Report implements ReportInterface
     #[Assert\Length(max: 14)]
     protected ?string $prepositionalObjectTableRowId = null;
 
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'reports')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reports')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', nullable: false, onDelete: 'cascade')]
     #[IA\Expose]
     #[IA\Type('entity')]

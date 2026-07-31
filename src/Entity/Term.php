@@ -49,7 +49,7 @@ class Term implements TermInterface
     #[Assert\Type(type: 'integer')]
     protected int $id;
 
-    #[ORM\ManyToMany(targetEntity: 'Course', mappedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
@@ -62,43 +62,43 @@ class Term implements TermInterface
     #[Assert\Length(max: 65000)]
     protected ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Term', inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: Term::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_term_id', referencedColumnName: 'term_id')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?TermInterface $parent = null;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: 'Term')]
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Term::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $children;
 
-    #[ORM\ManyToMany(targetEntity: 'ProgramYear', mappedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: ProgramYear::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $programYears;
 
-    #[ORM\ManyToMany(targetEntity: 'Session', mappedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessions;
 
-    #[ORM\ManyToMany(targetEntity: 'SessionObjective', mappedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: SessionObjective::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'CourseObjective', mappedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: CourseObjective::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $courseObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'ProgramYearObjective', mappedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: ProgramYearObjective::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
@@ -112,14 +112,14 @@ class Term implements TermInterface
     #[Assert\Length(min: 1, max: 200)]
     protected string $title;
 
-    #[ORM\ManyToOne(targetEntity: 'Vocabulary', inversedBy: 'terms')]
+    #[ORM\ManyToOne(targetEntity: Vocabulary::class, inversedBy: 'terms')]
     #[ORM\JoinColumn(name: 'vocabulary_id', referencedColumnName: 'vocabulary_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected VocabularyInterface $vocabulary;
 
-    #[ORM\ManyToMany(targetEntity: 'AamcResourceType', inversedBy: 'terms')]
+    #[ORM\ManyToMany(targetEntity: AamcResourceType::class, inversedBy: 'terms')]
     #[ORM\JoinTable(name: 'term_x_aamc_resource_type')]
     #[ORM\JoinColumn(name: 'term_id', referencedColumnName: 'term_id')]
     #[ORM\InverseJoinColumn(name: 'resource_type_id', referencedColumnName: 'resource_type_id')]

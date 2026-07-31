@@ -124,26 +124,26 @@ class Session implements SessionInterface
     #[Assert\Length(max: 65000)]
     protected ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: 'SessionType', inversedBy: 'sessions')]
+    #[ORM\ManyToOne(targetEntity: SessionType::class, inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'session_type_id', referencedColumnName: 'session_type_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SessionTypeInterface $sessionType;
 
-    #[ORM\ManyToOne(targetEntity: 'Course', inversedBy: 'sessions')]
+    #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'sessions')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', nullable: false, onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected CourseInterface $course;
 
-    #[ORM\OneToOne(mappedBy: 'session', targetEntity: 'IlmSession')]
+    #[ORM\OneToOne(mappedBy: 'session', targetEntity: IlmSession::class)]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?IlmSessionInterface $ilmSession = null;
 
-    #[ORM\ManyToMany(targetEntity: 'Term', inversedBy: 'sessions')]
+    #[ORM\ManyToMany(targetEntity: Term::class, inversedBy: 'sessions')]
     #[ORM\JoinTable(name: 'session_x_term')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'term_id', referencedColumnName: 'term_id', onDelete: 'CASCADE')]
@@ -152,13 +152,13 @@ class Session implements SessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $terms;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionObjective')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: SessionObjective::class)]
     #[ORM\OrderBy(['position' => 'ASC', 'id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $sessionObjectives;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessions')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'sessions')]
     #[ORM\JoinTable(name: 'session_x_mesh')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(
@@ -171,27 +171,27 @@ class Session implements SessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $meshDescriptors;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'SessionLearningMaterial')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: SessionLearningMaterial::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $learningMaterials;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: 'Offering')]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: Offering::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $offerings;
 
-    #[ORM\ManyToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'sessions')]
+    #[ORM\ManyToMany(targetEntity: CurriculumInventorySequenceBlock::class, mappedBy: 'sessions')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $sequenceBlocks;
 
-    #[ORM\ManyToMany(targetEntity: 'CurriculumInventorySequenceBlock', mappedBy: 'excludedSessions')]
+    #[ORM\ManyToMany(targetEntity: CurriculumInventorySequenceBlock::class, mappedBy: 'excludedSessions')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     protected Collection $excludedSequenceBlocks;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'administeredSessions')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'administeredSessions')]
     #[ORM\JoinTable(name: 'session_administrator')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -200,7 +200,7 @@ class Session implements SessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $administrators;
 
-    #[ORM\ManyToMany(targetEntity: 'User', inversedBy: 'studentAdvisedSessions')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'studentAdvisedSessions')]
     #[ORM\JoinTable(name: 'session_student_advisor')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'user_id', referencedColumnName: 'user_id', onDelete: 'CASCADE')]
@@ -209,13 +209,13 @@ class Session implements SessionInterface
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
     protected Collection $studentAdvisors;
 
-    #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'prerequisites')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'prerequisites')]
     #[ORM\JoinColumn(name: 'postrequisite_id', referencedColumnName: 'session_id', onDelete: 'SET NULL')]
     #[IA\Expose]
     #[IA\Type('entity')]
     protected ?SessionInterface $postrequisite = null;
 
-    #[ORM\OneToMany(mappedBy: 'postrequisite', targetEntity: 'Session')]
+    #[ORM\OneToMany(mappedBy: 'postrequisite', targetEntity: Session::class)]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]

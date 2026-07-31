@@ -64,21 +64,21 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[Assert\Type(type: 'bool')]
     protected bool $publicNotes;
 
-    #[ORM\ManyToOne(targetEntity: 'Session', inversedBy: 'learningMaterials')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'learningMaterials')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected SessionInterface $session;
 
-    #[ORM\ManyToOne(targetEntity: 'LearningMaterial', inversedBy: 'sessionLearningMaterials')]
+    #[ORM\ManyToOne(targetEntity: LearningMaterial::class, inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinColumn(name: 'learning_material_id', referencedColumnName: 'learning_material_id', nullable: false)]
     #[IA\Expose]
     #[IA\Type('entity')]
     #[Assert\NotNull]
     protected LearningMaterialInterface $learningMaterial;
 
-    #[ORM\ManyToMany(targetEntity: 'MeshDescriptor', inversedBy: 'sessionLearningMaterials')]
+    #[ORM\ManyToMany(targetEntity: MeshDescriptor::class, inversedBy: 'sessionLearningMaterials')]
     #[ORM\JoinTable(name: 'session_learning_material_x_mesh')]
     #[ORM\JoinColumn(
         name: 'session_learning_material_id',

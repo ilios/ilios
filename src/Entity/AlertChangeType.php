@@ -42,7 +42,7 @@ class AlertChangeType implements AlertChangeTypeInterface
     #[Assert\Length(min: 1, max: 60)]
     protected string $title;
 
-    #[ORM\ManyToMany(targetEntity: 'Alert', mappedBy: 'changeTypes')]
+    #[ORM\ManyToMany(targetEntity: Alert::class, mappedBy: 'changeTypes')]
     #[ORM\OrderBy(['id' => 'ASC'])]
     #[IA\Expose]
     #[IA\Type(IA\Type::ENTITY_COLLECTION)]
