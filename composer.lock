@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7e03cd3e586e3e0cab1757cba5247de",
+    "content-hash": "3dc219dde0558f3df94c8343ff8672a2",
     "packages": [
         {
             "name": "async-aws/core",
@@ -15807,6 +15807,7 @@
         "symfony/twig-bundle": 0,
         "symfony/validator": 0,
         "symfony/web-link": 0,
+        "symfony/web-profiler-bundle": 0,
         "symfony/yaml": 0
     },
     "prefer-stable": false,
