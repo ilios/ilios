@@ -24,12 +24,6 @@ use InvalidArgumentException;
  */
 trait ManagerRepository
 {
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
-    abstract protected function getEntityName();
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
-    abstract protected function getEntityManager();
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint,SlevomatCodingStandard.TypeHints.ParameterTypeHint
-    abstract public function find($id);
     abstract protected function hydrateDTOsFromIds(array $ids): array;
 
     public function getClass(): string
