@@ -14,19 +14,16 @@ interface RepositoryInterface
     /**
      * Flush and clear the entity repository when doing bulk updates
      */
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
-    public function flushAndClear();
+    public function flushAndClear(): void;
 
     /**
      * Flush the entity repository when doing bulk updates
      */
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
-    public function flush();
+    public function flush(): void;
 
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ReturnTypeHint
     public function findOneBy(
         array $criteria
-    );
+    ): object|null;
 
     /**
      * Find a single entity by its ID
@@ -48,7 +45,7 @@ interface RepositoryInterface
         ?array $orderBy = null,
         $limit = null,
         $offset = null
-    );
+    ): array;
 
     /**
      * Searches the data store for all objects matching the given criteria.
