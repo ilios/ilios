@@ -10,8 +10,6 @@ use App\Entity\ProgramYearObjective;
 use App\Entity\Session;
 use App\Entity\SessionObjective;
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
@@ -22,10 +20,8 @@ use App\Entity\CurriculumInventoryReportInterface;
 use function array_values;
 use function array_keys;
 
-class CurriculumInventoryReportRepository extends ServiceEntityRepository implements RepositoryInterface
+class CurriculumInventoryReportRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected DTOCacheManager $cacheManager,

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventoryAcademicLevel;
@@ -16,10 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
-class CurriculumInventoryAcademicLevelRepository extends ServiceEntityRepository implements RepositoryInterface
+class CurriculumInventoryAcademicLevelRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected DTOCacheManager $cacheManager,

@@ -7,8 +7,6 @@ namespace App\Repository;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\Vocabulary;
@@ -18,9 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
-class VocabularyRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
+class VocabularyRepository extends BaseRepository implements DataImportRepositoryInterface
 {
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

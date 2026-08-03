@@ -6,10 +6,8 @@ namespace App\Repository;
 
 use App\Entity\Session;
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -19,10 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
-class SessionRepository extends ServiceEntityRepository implements RepositoryInterface
+class SessionRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected DTOCacheManager $cacheManager,

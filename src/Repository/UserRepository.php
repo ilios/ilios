@@ -11,9 +11,7 @@ use App\Entity\Session;
 use App\Entity\UserRole;
 use App\Entity\UserRoleInterface;
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,10 +29,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
-class UserRepository extends ServiceEntityRepository implements RepositoryInterface
+class UserRepository extends BaseRepository
 {
     use CalendarEventRepository;
-    use ManagerRepository;
 
     public function __construct(
         ManagerRegistry $registry,

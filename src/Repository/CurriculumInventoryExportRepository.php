@@ -7,18 +7,14 @@ namespace App\Repository;
 use App\Entity\CurriculumInventoryExport;
 use App\Entity\DTO\CurriculumInventoryExportDTO;
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 use function array_keys;
 
-class CurriculumInventoryExportRepository extends ServiceEntityRepository implements RepositoryInterface
+class CurriculumInventoryExportRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected DTOCacheManager $cacheManager,

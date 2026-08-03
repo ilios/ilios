@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\ServiceToken;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
-class ServiceTokenRepository extends ServiceEntityRepository implements RepositoryInterface
+class ServiceTokenRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
     ) {

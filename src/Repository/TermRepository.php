@@ -8,9 +8,7 @@ use App\Entity\Term;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,9 +18,8 @@ use Exception;
 use function array_values;
 use function array_keys;
 
-class TermRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
+class TermRepository extends BaseRepository implements DataImportRepositoryInterface
 {
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

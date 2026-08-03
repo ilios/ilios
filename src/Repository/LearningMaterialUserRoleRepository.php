@@ -6,19 +6,14 @@ namespace App\Repository;
 
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearningMaterialUserRole;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class LearningMaterialUserRoleRepository extends ServiceEntityRepository implements
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class LearningMaterialUserRoleRepository extends BaseRepository implements DataImportRepositoryInterface
 {
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

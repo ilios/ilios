@@ -12,11 +12,9 @@ use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
 use App\Service\DTOCacheManager;
 use App\Service\MeshDescriptorSetTransmogrifier;
-use App\Traits\ManagerRepository;
 use DateTime;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\MeshDescriptorDTO;
@@ -31,10 +29,8 @@ use Ilios\MeSH\Model\Term;
 use function array_values;
 use function array_keys;
 
-class MeshDescriptorRepository extends ServiceEntityRepository implements RepositoryInterface
+class MeshDescriptorRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected MeshDescriptorSetTransmogrifier $transmogrifier,
