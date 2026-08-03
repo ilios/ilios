@@ -21,13 +21,14 @@ final class PhpVersionTest extends TestCase
     }
 
     #[DataProvider('checkSucceedsProvider')]
-    public function testCheckSucceeds(string $version, string $minimumSupportedVersion): void
+    public function testCheckSucceeds(string $version): void
     {
-        $check = new PhpVersion($version, $minimumSupportedVersion);
+        $composerFilePath = __DIR__ . '/TESTFILES/composer.json';
+        $check = new PhpVersion($version, $composerFilePath);
         $result = $check->check();
         $this->assertInstanceOf(Success::class, $result);
         $this->assertEquals(
-            'The current PHP version matches or exceeds the expected minimum version.',
+            "The current PHP version '{$version}' meets the expected version requirement '>= 8.5'",
             $result->getMessage()
         );
     }
@@ -35,25 +36,22 @@ final class PhpVersionTest extends TestCase
     public static function checkSucceedsProvider(): array
     {
         return [
-            [PHP_VERSION, PHP_VERSION],
-            ['8', '8'],
-            ['8.0', '8'],
-            ['8.0.0', '8'],
-            ['8.4', '8.4'],
-            ['8.4.0', '8.4.0'],
-            ['9', '8'],
-            ['8.5', '8.4'],
-            ['8.4.1', '8.4.0'],
+            ['8.5'],
+            ['8.5.0'],
+            ['8.5.1'],
+            ['8.6'],
+            ['9'],
         ];
     }
     #[DataProvider('checkFailsProvider')]
-    public function testCheckFails(string $version, string $minimumSupportedVersion): void
+    public function testCheckFails(string $version): void
     {
-        $check = new PhpVersion($version, $minimumSupportedVersion);
+        $composerFilePath = __DIR__ . '/TESTFILES/composer.json';
+        $check = new PhpVersion($version, $composerFilePath);
         $result = $check->check();
         $this->assertInstanceOf(Failure::class, $result);
         $this->assertEquals(
-            'The current PHP version is older than the expected version.',
+            "The current PHP version '{$version}' doesn't meet the expected version requirement '>= 8.5'",
             $result->getMessage()
         );
     }
@@ -61,9 +59,46 @@ final class PhpVersionTest extends TestCase
     public static function checkFailsProvider(): array
     {
         return [
-            ['7', '8'],
-            ['8.0', '8.1'],
-            ['8.1.0', '8.1.1'],
+            ['7'],
+            ['8'],
+            ['8.4'],
+            ['8.4.0'],
         ];
+    }
+
+    public function testCheckFailsIfComposerFileCannotBeRead(): void
+    {
+        $composerFilePath = __DIR__ . '/TESTFILES/not-a-file.json';
+        $check = new PhpVersion('whatever', $composerFilePath);
+        $result = $check->check();
+        $this->assertInstanceOf(Failure::class, $result);
+        $this->assertEquals(
+            "Unable to read file contents of the given composer file",
+            $result->getMessage()
+        );
+    }
+
+    public function testCheckFailsIfComposerFileCannotBeDecoded(): void
+    {
+        $composerFilePath = __DIR__ . '/TESTFILES/dummy.txt';
+        $check = new PhpVersion('whatever', $composerFilePath);
+        $result = $check->check();
+        $this->assertInstanceOf(Failure::class, $result);
+        $this->assertEquals(
+            "Unable to decode the given composer file",
+            $result->getMessage()
+        );
+    }
+
+    public function testCheckFailsIfComposerDoesntDeclarePhpVersionRequirement(): void
+    {
+        $composerFilePath = __DIR__ . '/TESTFILES/empty.composer.json';
+        $check = new PhpVersion('whatever', $composerFilePath);
+        $result = $check->check();
+        $this->assertInstanceOf(Failure::class, $result);
+        $this->assertEquals(
+            "Unable to find the PHP version requirement in the given composer file",
+            $result->getMessage()
+        );
     }
 }
