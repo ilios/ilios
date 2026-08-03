@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use App\Exception\InvalidInputWithSafeUserMessageException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -31,7 +30,7 @@ trait ApiEntityValidation
         AuthorizationCheckerInterface $authorizationChecker
     ): void {
         $this->validateEntity($entity, $validator);
-        if (! $authorizationChecker->isGranted($permission, $entity)) {
+        if (!$authorizationChecker->isGranted($permission, $entity)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
     }
@@ -49,7 +48,7 @@ trait ApiEntityValidation
         }
         if (count($errors)) {
             $errorsString = implode("\n", $errors);
-            throw new HttpException(Response::HTTP_BAD_REQUEST, $errorsString);
+            throw new InvalidInputWithSafeUserMessageException($errorsString);
         }
     }
 }
