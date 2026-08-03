@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
-class IlmSessionRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class IlmSessionRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

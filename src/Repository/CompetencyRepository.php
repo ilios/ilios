@@ -19,10 +19,7 @@ use Exception;
 use function array_values;
 use function array_keys;
 
-class CompetencyRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class CompetencyRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
 {
     use ManagerRepository;
     use ImportableEntityRepository;

@@ -17,7 +17,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 
 class AlertChangeTypeRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

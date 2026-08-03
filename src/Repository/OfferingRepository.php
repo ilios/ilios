@@ -21,7 +21,7 @@ use function array_keys;
 /**
  * Class OfferingRepository
  */
-class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class OfferingRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

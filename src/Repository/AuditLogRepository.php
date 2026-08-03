@@ -13,7 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
-class AuditLogRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AuditLogRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

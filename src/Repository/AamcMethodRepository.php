@@ -16,10 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
-class AamcMethodRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class AamcMethodRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
 {
     use ManagerRepository;
     use ImportableEntityRepository;

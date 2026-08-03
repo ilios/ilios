@@ -17,9 +17,7 @@ use function array_values;
 use function array_key_exists;
 use function array_keys;
 
-class MeshPreviousIndexingRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class MeshPreviousIndexingRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

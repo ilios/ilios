@@ -18,7 +18,7 @@ use Doctrine\ORM\AbstractQuery;
 use function array_values;
 use function array_keys;
 
-class SessionObjectiveRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class SessionObjectiveRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

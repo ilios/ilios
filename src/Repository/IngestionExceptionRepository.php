@@ -15,9 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
-class IngestionExceptionRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class IngestionExceptionRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

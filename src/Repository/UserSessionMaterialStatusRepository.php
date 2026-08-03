@@ -16,9 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
-class UserSessionMaterialStatusRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class UserSessionMaterialStatusRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
     use ImportableEntityRepository;

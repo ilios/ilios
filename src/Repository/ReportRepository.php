@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
-class ReportRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class ReportRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

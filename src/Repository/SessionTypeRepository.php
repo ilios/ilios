@@ -20,7 +20,6 @@ use function array_values;
 use function array_keys;
 
 class SessionTypeRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

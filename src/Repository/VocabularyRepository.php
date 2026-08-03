@@ -18,10 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
-class VocabularyRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class VocabularyRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
 {
     use ManagerRepository;
     use ImportableEntityRepository;

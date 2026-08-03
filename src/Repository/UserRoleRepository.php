@@ -14,10 +14,7 @@ use App\Entity\UserRole;
 use App\Entity\DTO\UserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class UserRoleRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class UserRoleRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
 {
     use ManagerRepository;
     use ImportableEntityRepository;

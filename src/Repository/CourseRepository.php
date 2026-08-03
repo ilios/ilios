@@ -21,9 +21,7 @@ use Exception;
 use function array_values;
 use function array_keys;
 
-class CourseRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class CourseRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

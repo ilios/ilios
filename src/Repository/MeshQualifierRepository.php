@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
-class MeshQualifierRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class MeshQualifierRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

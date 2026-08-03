@@ -15,9 +15,7 @@ use Doctrine\ORM\QueryBuilder;
 
 use function array_keys;
 
-class CurriculumInventoryExportRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class CurriculumInventoryExportRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

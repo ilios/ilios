@@ -18,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function is_array;
 
-class AuthenticationRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class AuthenticationRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

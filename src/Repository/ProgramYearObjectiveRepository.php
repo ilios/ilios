@@ -18,9 +18,7 @@ use Doctrine\ORM\AbstractQuery;
 use function array_values;
 use function array_keys;
 
-class ProgramYearObjectiveRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class ProgramYearObjectiveRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

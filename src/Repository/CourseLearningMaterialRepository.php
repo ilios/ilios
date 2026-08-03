@@ -16,9 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
-class CourseLearningMaterialRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class CourseLearningMaterialRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

@@ -31,9 +31,7 @@ use Ilios\MeSH\Model\Term;
 use function array_values;
 use function array_keys;
 
-class MeshDescriptorRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class MeshDescriptorRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
-class MeshTreeRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class MeshTreeRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

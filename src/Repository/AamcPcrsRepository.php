@@ -14,10 +14,7 @@ use App\Entity\AamcPcrs;
 use App\Entity\DTO\AamcPcrsDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
-class AamcPcrsRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class AamcPcrsRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
 {
     use ManagerRepository;
     use ImportableEntityRepository;

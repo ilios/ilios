@@ -15,9 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
-class CurriculumInventorySequenceRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class CurriculumInventorySequenceRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

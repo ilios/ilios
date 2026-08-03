@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
-class PendingUserUpdateRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class PendingUserUpdateRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

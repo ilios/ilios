@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
-class CohortRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class CohortRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

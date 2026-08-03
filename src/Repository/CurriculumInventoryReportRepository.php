@@ -22,9 +22,7 @@ use App\Entity\CurriculumInventoryReportInterface;
 use function array_values;
 use function array_keys;
 
-class CurriculumInventoryReportRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class CurriculumInventoryReportRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use ManagerRepository;
 

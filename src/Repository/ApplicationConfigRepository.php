@@ -15,7 +15,6 @@ use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 class ApplicationConfigRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

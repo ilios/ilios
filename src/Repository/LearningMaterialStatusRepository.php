@@ -15,7 +15,6 @@ use App\Entity\DTO\LearningMaterialStatusDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 class LearningMaterialStatusRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

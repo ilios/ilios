@@ -31,7 +31,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
-class UserRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class UserRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;

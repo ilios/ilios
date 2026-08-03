@@ -18,7 +18,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 
 class CurriculumInventoryInstitutionRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

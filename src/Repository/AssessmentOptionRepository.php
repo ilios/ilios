@@ -17,7 +17,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 
 class AssessmentOptionRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

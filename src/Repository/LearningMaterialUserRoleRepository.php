@@ -15,7 +15,6 @@ use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
 
 class LearningMaterialUserRoleRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
     RepositoryInterface,
     DataImportRepositoryInterface
 {

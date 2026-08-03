@@ -24,10 +24,7 @@ use App\Traits\CalendarEventRepository;
 use function array_values;
 use function array_keys;
 
-class SchoolRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class SchoolRepository extends ServiceEntityRepository implements RepositoryInterface, DataImportRepositoryInterface
 {
     use CalendarEventRepository;
     use ManagerRepository;
