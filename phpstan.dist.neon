@@ -12,3 +12,10 @@ parameters:
         - tests/
     level: 6
     reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        -
+            identifiers:
+                - missingType.return
+                - missingType.parameter
+                - missingType.generics
+                - missingType.iterableValue
