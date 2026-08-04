@@ -856,51 +856,6 @@ final class SessionUserTest extends TestCase
         $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
     }
 
-    public function testPerformsNonLearnerFunctionIfUserIsCurriculumInventoryReportAdministrator(): void
-    {
-        $reportIds = [2, 3];
-        $this->userRepository
-            ->shouldReceive('getDirectedCourseAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['courseIds' => []]);
-        $this->userRepository
-            ->shouldReceive('getAdministeredCourseAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['courseIds' => []]);
-        $this->userRepository
-            ->shouldReceive('getDirectedSchoolIds')
-            ->with($this->userId)
-            ->andReturn([]);
-        $this->userRepository
-            ->shouldReceive('getAdministeredSchoolIds')
-            ->with($this->userId)
-            ->andReturn([]);
-        $this->userRepository
-            ->shouldReceive('getInstructorGroupIds')
-            ->with($this->userId)
-            ->andReturn([]);
-        $this->userRepository
-            ->shouldReceive('getInstructedOfferingIlmSessionCourseAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['courseIds' => [], 'sessionIds' => []]);
-        $this->userRepository
-            ->shouldReceive('getAdministeredSessionCourseAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['sessionIds' => []]);
-        $this->userRepository
-            ->shouldReceive('getDirectedProgramAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['programIds' => []]);
-        $this->userRepository
-            ->shouldReceive('getDirectedProgramYearProgramAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['programYearIds' => []]);
-        $this->userRepository
-            ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
-            ->with($this->userId)
-            ->andReturn(['reportIds' => $reportIds]);
-        $this->assertTrue($this->sessionUser->performsNonLearnerFunction());
-    }
 
     public function testDoesNotPerformNonLearnerFunction(): void
     {
@@ -944,7 +899,7 @@ final class SessionUserTest extends TestCase
         $this->userRepository
             ->shouldReceive('getAdministeredCurriculumInventoryReportAndSchoolIds')
             ->with($this->userId)
-            ->andReturn(['reportIds' => []]);
+            ->andReturn(['reportIds' => $reportIds]);
         $this->assertFalse($this->sessionUser->performsNonLearnerFunction());
     }
 

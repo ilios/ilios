@@ -78,8 +78,7 @@ class SessionUser implements SessionUserInterface
             !empty($this->getAdministeredSessionIds()) ||
             !empty($this->getInstructedSessionIds()) ||
             !empty($this->getDirectedProgramIds()) ||
-            !empty($this->getDirectedProgramYearIds()) ||
-            !empty($this->getAdministeredCurriculumInventoryReportIds());
+            !empty($this->getDirectedProgramYearIds());
     }
 
     public function isEqualTo(UserInterface $user): bool
