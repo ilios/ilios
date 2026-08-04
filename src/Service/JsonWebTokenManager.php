@@ -42,8 +42,6 @@ class JsonWebTokenManager
 
     public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
 
-    public const string APPLICATION_SCOPE_KEY = 'application_scope';
-
     protected string $jwtKey;
 
     public function __construct(
