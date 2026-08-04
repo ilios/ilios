@@ -82,6 +82,14 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                 JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY,
                 $this->jwtManager->getWriteableSchoolIdsFromToken($jwt)
             );
+            $token->setAttribute(
+                JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY,
+                $this->jwtManager->getCanCreateUserTokensFromToken($jwt)
+            );
+            $token->setAttribute(
+                'aud',
+                $this->jwtManager->getAudienceClaimsFromToken($jwt)
+            );
         }
         return $token;
     }
