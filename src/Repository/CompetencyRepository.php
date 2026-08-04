@@ -8,8 +8,6 @@ use App\Entity\Competency;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CompetencyDTO;
@@ -19,12 +17,8 @@ use Exception;
 use function array_values;
 use function array_keys;
 
-class CompetencyRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class CompetencyRepository extends BaseRepository implements DataImportRepositoryInterface
 {
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

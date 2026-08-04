@@ -7,8 +7,6 @@ namespace App\Repository;
 use App\Entity\AamcResourceType;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
@@ -16,12 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
-class AamcResourceTypeRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class AamcResourceTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

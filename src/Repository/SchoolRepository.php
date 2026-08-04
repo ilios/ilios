@@ -8,9 +8,7 @@ use App\Entity\School;
 use App\Entity\Session;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types as DoctrineType;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
@@ -24,13 +22,9 @@ use App\Traits\CalendarEventRepository;
 use function array_values;
 use function array_keys;
 
-class SchoolRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface,
-    DataImportRepositoryInterface
+class SchoolRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use CalendarEventRepository;
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

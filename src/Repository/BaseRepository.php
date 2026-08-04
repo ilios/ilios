@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Repository;
 
 use App\Service\DTOCacheManager;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\AbstractQuery;
@@ -17,12 +18,9 @@ use Exception;
 use InvalidArgumentException;
 
 /**
- * Trait ManagerRepository
- * Applied to Entity repositories to give them generic repository functionality
- * Relies on the repository extending Doctrine\ORM\EntityRepository
- * and implementing App\Repository\DTORepositoryInterface
+ * A base class for all entity repositories in Ilios.
  */
-trait ManagerRepository
+abstract class BaseRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     abstract protected function hydrateDTOsFromIds(array $ids): array;
 
@@ -203,7 +201,7 @@ trait ManagerRepository
         $manyToManyOwningSideMappings = array_filter(
             $mappings,
             fn(AssociationMapping $mapping)
-                => in_array($mapping->fieldName, $related) && $mapping instanceof ManyToManyOwningSideMapping
+            => in_array($mapping->fieldName, $related) && $mapping instanceof ManyToManyOwningSideMapping
         );
 
         $manyToManyInverseSideMapping = array_filter(

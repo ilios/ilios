@@ -8,19 +8,14 @@ use App\Entity\DTO\UserSessionMaterialStatusDTO;
 use App\Entity\UserSessionMaterialStatus;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use App\Traits\ManagerRepository;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
-class UserSessionMaterialStatusRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class UserSessionMaterialStatusRepository extends BaseRepository
 {
-    use ManagerRepository;
     use ImportableEntityRepository;
 
     public function __construct(

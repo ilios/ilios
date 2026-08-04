@@ -6,9 +6,7 @@ namespace App\Repository;
 
 use App\Entity\ProgramYear;
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
 use Doctrine\ORM\AbstractQuery;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\ProgramYearDTO;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,12 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
-class ProgramYearRepository extends ServiceEntityRepository implements
-    DTORepositoryInterface,
-    RepositoryInterface
+class ProgramYearRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected DTOCacheManager $cacheManager,

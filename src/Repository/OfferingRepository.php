@@ -6,10 +6,8 @@ namespace App\Repository;
 
 use App\Entity\Offering;
 use App\Service\DTOCacheManager;
-use App\Traits\ManagerRepository;
 use DateTime;
 use DateTimeZone;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\OfferingDTO;
@@ -21,10 +19,8 @@ use function array_keys;
 /**
  * Class OfferingRepository
  */
-class OfferingRepository extends ServiceEntityRepository implements DTORepositoryInterface, RepositoryInterface
+class OfferingRepository extends BaseRepository
 {
-    use ManagerRepository;
-
     public function __construct(
         ManagerRegistry $registry,
         protected DTOCacheManager $cacheManager,

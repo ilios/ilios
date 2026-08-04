@@ -39,6 +39,11 @@ interface RepositoryInterface
     public function findDTOBy(array $criteria): ?object;
 
     /**
+     * Find and hydrate as DTOs
+     */
+    public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
+
+    /**
      * @param int $limit
      * @param int $offset
      */
@@ -49,11 +54,6 @@ interface RepositoryInterface
         $limit = null,
         $offset = null
     );
-
-    /**
-     * Searches the data store for all objects matching the given criteria.
-     */
-    public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array;
 
     public function update(
         object $entity,
