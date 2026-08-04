@@ -124,8 +124,6 @@ services:
   App\Service\CasManager:
     public: true
 
-  App\Service\CurriculumInventory\VerificationPreviewBuilder: ~
-
   App\Service\SessionUserPermissionChecker:
     public: true
 
