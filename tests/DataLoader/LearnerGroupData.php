@@ -38,7 +38,7 @@ final class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => ['2'],
             'instructorGroups' => [],
-            'users' => ['2'],
+            'users' => ['2', '5'],
             'instructors' => [],
             'descendants' => [],
             'needsAccommodation' => true,

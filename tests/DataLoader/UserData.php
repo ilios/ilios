@@ -208,7 +208,7 @@ final class UserData extends AbstractDataLoader
             'reports' => [],
             'school' => "1",
             'directedCourses' => [],
-            'learnerGroups' => ['1', '5', '6'],
+            'learnerGroups' => ['1', '2', '5', '6'],
             'instructedLearnerGroups' => [],
             'instructorGroups' => [],
             'instructorIlmSessions' => [],
