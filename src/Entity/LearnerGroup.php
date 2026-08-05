@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Validator\AllUsersInParentGroups;
-use App\Validator\NoUsersInSiblingGroups;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IlmSessionsEntity;
 use App\Traits\InstructorGroupsEntity;
@@ -20,12 +18,11 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
 use App\Repository\LearnerGroupRepository;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: '`group`')]
 #[ORM\Entity(repositoryClass: LearnerGroupRepository::class)]
 #[IA\Entity]
-#[AllUsersInParentGroups]
-#[NoUsersInSiblingGroups]
 class LearnerGroup implements LearnerGroupInterface
 {
     use IdentifiableEntity;
@@ -333,5 +330,37 @@ class LearnerGroup implements LearnerGroupInterface
     public function getUrl(): ?string
     {
         return $this->url;
+    }
+
+    #[Assert\Callback]
+    public function validateUserRelationships(ExecutionContextInterface $context): void
+    {
+        $parent = $this->getParent();
+        if (null === $parent) {
+            return;
+        }
+
+        $parentUsers = $parent->getUsers();
+        $siblings = $parent->getChildren()->filter(fn(LearnerGroupInterface $group) => $group !== $this);
+
+        //get all the users in all groups at this level in a flat array
+        $siblingUsers = array_merge(
+            ...$siblings->map(fn(LearnerGroupInterface $group) => $group->getUsers()->toArray())->toArray()
+        );
+
+        foreach ($this->users as $user) {
+            if (!$parentUsers->contains($user)) {
+                $context->buildViolation('Every user in a learner group must also be a user in its parent group.')
+                    ->atPath('users')
+                    ->addViolation();
+                return;
+            }
+            if (in_array($user, $siblingUsers)) {
+                $context->buildViolation('A user cannot be added to more than one sibling group.')
+                    ->atPath('users')
+                    ->addViolation();
+                return;
+            }
+        }
     }
 }

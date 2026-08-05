@@ -13,12 +13,7 @@ use App\Entity\Program;
 use App\Entity\ProgramYear;
 use App\Entity\School;
 use App\Entity\User;
-use App\Repository\LearnerGroupRepository;
-use App\Validator\AllUsersInParentGroupsValidator;
-use App\Validator\NoUsersInSiblingGroupsValidator;
 use Mockery as m;
-use Symfony\Component\Validator\ConstraintValidatorFactory;
-use Symfony\Component\Validator\Validation;
 
 /**
  * Tests for Entity LearnerGroup
@@ -28,55 +23,17 @@ use Symfony\Component\Validator\Validation;
 final class LearnerGroupTest extends EntityBase
 {
     protected LearnerGroup $object;
-    protected LearnerGroupRepository|m\MockInterface $learnerGroupRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->object = new LearnerGroup();
-        $this->learnerGroupRepository = m::mock(LearnerGroupRepository::class);
-        $this->learnerGroupRepository->shouldReceive('getUsersIdsInGroup')->byDefault()->andReturn([]);
-        $this->learnerGroupRepository->shouldReceive('getChildUsersInGroup')->byDefault()->andReturn([]);
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
         unset($this->object);
-        unset($this->learnerGroupRepository);
-    }
-
-    /**
-     * Custom validators need the repository injected; the default
-     * ConstraintValidatorFactory cannot construct them.
-     */
-    protected function validate(int $expectedCount): array
-    {
-        $validator = Validation::createValidatorBuilder()
-            ->enableAttributeMapping()
-            ->setConstraintValidatorFactory(new ConstraintValidatorFactory([
-                AllUsersInParentGroupsValidator::class => new AllUsersInParentGroupsValidator(
-                    $this->learnerGroupRepository
-                ),
-                NoUsersInSiblingGroupsValidator::class => new NoUsersInSiblingGroupsValidator(
-                    $this->learnerGroupRepository
-                ),
-            ]))
-            ->getValidator();
-        $errors = $validator->validate($this->getObject());
-        $errorCount = count($errors);
-        $parsedErrors = [];
-        foreach ($errors as $error) {
-            $parsedErrors[$error->getPropertyPath()] = $error->getMessage();
-        }
-        $this->assertEquals(
-            $errorCount,
-            $expectedCount,
-            "Expected {$expectedCount} errors, found {$errorCount}: " .
-            var_export($parsedErrors, true)
-        );
-
-        return $parsedErrors;
     }
 
     public function testNotBlankValidation(): void
@@ -114,20 +71,13 @@ final class LearnerGroupTest extends EntityBase
         $this->object->setCohort(m::mock(CohortInterface::class));
 
         $sharedUser = new User();
-        $sharedUser->setId(1);
         $extraUser = new User();
-        $extraUser->setId(2);
 
         $parent = new LearnerGroup();
-        $parent->setId(10);
+        $parent->addUser($sharedUser);
 
         $this->object->setParent($parent);
         $this->object->addUser($sharedUser);
-
-        $this->learnerGroupRepository
-            ->shouldReceive('getUsersIdsInGroup')
-            ->with(10)
-            ->andReturn([1]);
         $this->validate(0);
 
         $this->object->addUser($extraUser);
@@ -143,9 +93,7 @@ final class LearnerGroupTest extends EntityBase
     {
         $this->object->setTitle('test');
         $this->object->setCohort(m::mock(CohortInterface::class));
-        $user = new User();
-        $user->setId(1);
-        $this->object->addUser($user);
+        $this->object->addUser(new User());
         $this->validate(0);
     }
 
@@ -155,25 +103,18 @@ final class LearnerGroupTest extends EntityBase
         $this->object->setCohort(m::mock(CohortInterface::class));
 
         $user1 = new User();
-        $user1->setId(1);
         $user2 = new User();
-        $user2->setId(2);
 
         $parent = new LearnerGroup();
-        $parent->setId(10);
+        $parent->addUser($user1);
+        $parent->addUser($user2);
+
+        $sibling = new LearnerGroup();
+        $sibling->addUser($user1);
+        $parent->addChild($sibling);
 
         $this->object->setParent($parent);
         $this->object->addUser($user2);
-
-        // Sibling group 20 already has user 1; this group only has user 2.
-        $this->learnerGroupRepository
-            ->shouldReceive('getUsersIdsInGroup')
-            ->with(10)
-            ->andReturn([1, 2]);
-        $this->learnerGroupRepository
-            ->shouldReceive('getChildUsersInGroup')
-            ->with(10)
-            ->andReturn([20 => [1]]);
         $this->validate(0);
 
         $this->object->addUser($user1);
@@ -186,26 +127,15 @@ final class LearnerGroupTest extends EntityBase
     {
         $this->object->setTitle('test');
         $this->object->setCohort(m::mock(CohortInterface::class));
-        $this->object->setId(30);
 
         $user = new User();
-        $user->setId(1);
 
         $parent = new LearnerGroup();
-        $parent->setId(10);
+        $parent->addUser($user);
+        $parent->addChild($this->object);
 
         $this->object->setParent($parent);
         $this->object->addUser($user);
-
-        $this->learnerGroupRepository
-            ->shouldReceive('getUsersIdsInGroup')
-            ->with(10)
-            ->andReturn([1]);
-        // Repository still reports this group's own membership; the validator must ignore self.
-        $this->learnerGroupRepository
-            ->shouldReceive('getChildUsersInGroup')
-            ->with(10)
-            ->andReturn([30 => [1]]);
         $this->validate(0);
     }
 
