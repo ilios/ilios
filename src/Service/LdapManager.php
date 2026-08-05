@@ -78,6 +78,10 @@ class LdapManager
                 $values = [];
                 foreach ($attributes as $ldapKey => $iliosKey) {
                     $value = $userData->hasAttribute($ldapKey) ? $userData->getAttribute($ldapKey)[0] : null;
+                    if (is_string($value)) {
+                        //trim strings to remove unprintable whitespace
+                        $value = trim($value);
+                    }
                     $values[$iliosKey] = $value;
                 }
                 $rhett[] = $values;
