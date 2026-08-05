@@ -53,7 +53,13 @@ class IndexController extends AbstractController
         $response = $this->authentication->createAuthenticationResponse($request);
         if ($response instanceof RedirectResponse) {
             $crawlerDetect = new CrawlerDetect();
-            if (!$crawlerDetect->isCrawler($request->headers->get('User-Agent'))) {
+            if (
+                $crawlerDetect->isCrawler($request->headers->get('User-Agent')) ||
+                $request->getPathInfo() === '/lti-login'
+            ) {
+                // Create a new response, instead of keeping the redirect which we're ignoring
+                $response = new Response();
+            } else {
                 return $response;
             }
         }
