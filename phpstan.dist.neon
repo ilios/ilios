@@ -10,5 +10,11 @@ parameters:
         - public/
         - src/
         - tests/
-    level: 5
+    level: 6
     reportUnmatchedIgnoredErrors: true
+    ignoreErrors:
+        -
+            identifiers:
+                - missingType.parameter
+                - missingType.generics
+                - missingType.iterableValue
