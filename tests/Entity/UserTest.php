@@ -8,6 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Cohort;
 use App\Entity\Authentication;
+use App\Entity\LearnerGroup;
 use App\Entity\User;
 use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -646,6 +647,80 @@ final class UserTest extends EntityBase
             'getSessionMaterialStatuses',
             'setSessionMaterialStatuses'
         );
+    }
+
+    public function testLearnerGroupsMustBelongToParent(): void
+    {
+        $this->object->setLastName('Andrews');
+        $this->object->setFirstName('Julia');
+        $this->object->setEmail('sanders@ucsf.edu');
+        $parent = new LearnerGroup();
+        $child = new LearnerGroup();
+        $child->setParent($parent);
+
+        $this->object->addLearnerGroup($parent);
+        $this->object->addLearnerGroup($child);
+        $this->object->addLearnerGroup(new LearnerGroup());
+        $this->validate(0);
+
+        $orphanChild = new LearnerGroup();
+        $orphanChild->setParent(new LearnerGroup());
+        $this->object->addLearnerGroup($orphanChild);
+        $errors = $this->validate(1);
+        $this->assertArrayHasKey('learnerGroups', $errors);
+        $this->assertSame(
+            'Every user in a learner group must also be a user in its parent group.',
+            $errors['learnerGroups']
+        );
+    }
+
+    public function testLearnerGroupsValidateWithoutParent(): void
+    {
+        $this->object->setLastName('Andrews');
+        $this->object->setFirstName('Julia');
+        $this->object->setEmail('sanders@ucsf.edu');
+        $this->object->addLearnerGroup(new LearnerGroup());
+        $this->object->addLearnerGroup(new LearnerGroup());
+        $this->object->addLearnerGroup(new LearnerGroup());
+        $this->validate(0);
+    }
+
+    public function testLearnerGroupsMayNotAppearInSiblingGroup(): void
+    {
+        $this->object->setLastName('Andrews');
+        $this->object->setFirstName('Julia');
+        $this->object->setEmail('sanders@ucsf.edu');
+        $parent = new LearnerGroup();
+        $sibling1 = new LearnerGroup();
+        $sibling2 = new LearnerGroup();
+        $sibling1->setParent($parent);
+        $sibling2->setParent($parent);
+        $parent->addChild($sibling1);
+        $parent->addChild($sibling2);
+
+        $this->object->addLearnerGroup($parent);
+        $this->object->addLearnerGroup($sibling2);
+        $this->validate(0);
+
+        $this->object->addLearnerGroup($sibling1);
+        $errors = $this->validate(1);
+        $this->assertArrayHasKey('learnerGroups', $errors);
+        $this->assertSame('A user cannot be added to more than one sibling group.', $errors['learnerGroups']);
+    }
+
+    public function testSiblingCheckIgnoresSelf(): void
+    {
+        $this->object->setLastName('Andrews');
+        $this->object->setFirstName('Julia');
+        $this->object->setEmail('sanders@ucsf.edu');
+        $parent = new LearnerGroup();
+        $child = new LearnerGroup();
+        $child->setParent($parent);
+        $parent->addChild($child);
+
+        $this->object->addLearnerGroup($parent);
+        $this->object->addLearnerGroup($child);
+        $this->validate(0);
     }
 
     protected function getObject(): User
