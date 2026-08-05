@@ -44,6 +44,25 @@ final class LearnerGroupRepositoryTest extends KernelTestCase
         unset($this->entityManager);
     }
 
+    public function testGetUsersIdsInGroup(): void
+    {
+        $userIds = $this->repository->getUsersIdsInGroup(1);
+        sort($userIds);
+        $this->assertSame([2, 5], $userIds);
+
+        $this->assertSame([5], $this->repository->getUsersIdsInGroup(6));
+        $this->assertSame([], $this->repository->getUsersIdsInGroup(4));
+    }
+
+    public function testGetChildUsersInGroup(): void
+    {
+        // Groups 4 and 6 are children of parent 1; group 6 has user 5, group 4 has none.
+        $this->assertSame([6 => [5]], $this->repository->getChildUsersInGroup(1));
+
+        // Groups with no children return an empty map.
+        $this->assertSame([], $this->repository->getChildUsersInGroup(4));
+    }
+
     public function testFindErrorsInGroupTreesReturnsEmptyWhenChildrenAreSubsetsOfParents(): void
     {
         // In the fixtures everything is working
