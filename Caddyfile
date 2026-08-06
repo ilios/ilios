@@ -1,0 +1,30 @@
+# Oh hey, I'm the FrankenPHP web server config file.
+# RTFM at https://frankenphp.dev/docs/config.
+# Also see https://github.com/dunglas/frankenphp-demo/blob/main/Caddyfile
+
+# Configure worker mode globally here.
+# see https://frankenphp.dev/docs/config/#caddyfile-config
+{
+	frankenphp {
+		worker ./public/index.php
+	}
+}
+
+# Web server config.
+# For development purposes, let's listen on localhost over plain HTTP.
+http://localhost {
+	# Enable logging.
+	log
+
+	# Enable compression.
+	encode zstd br gzip
+
+	# Set the web root dir.
+	root public/
+
+	php_server {
+		# Disable directory index listings.
+		# see https://frankenphp.dev/docs/performance/#try_files
+		try_files {path} index.php
+	}
+}
