@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadIlmSessionData;
@@ -19,7 +20,7 @@ use App\Tests\Fixture\LoadVocabularyData;
 #[Group('api_2')]
 final class LearnerGroupTest extends AbstractReadWriteEndpoint
 {
-    protected string $testName =  'learnerGroups';
+    protected string $testName = 'learnerGroups';
 
     protected function getFixtures(): array
     {
@@ -72,9 +73,9 @@ final class LearnerGroupTest extends AbstractReadWriteEndpoint
             'location' => [[3], ['location' => 'fourth location']],
             'url' => [[0, 3], ['url' => 'https://iliosproject.org']],
             'needsAccommodation' => [[1], ['needsAccommodation' => true]],
-            'doesNotNeedAccommodation' => [[0, 2, 3, 4], ['needsAccommodation' => false]],
+            'doesNotNeedAccommodation' => [[0, 2, 3, 4, 5], ['needsAccommodation' => false]],
             'cohort' => [[1], ['cohort' => 2]],
-            'parent' => [[3], ['parent' => 1]],
+            'parent' => [[3, 5], ['parent' => 1]],
             'ancestor' => [[3], ['ancestor' => 3]],
             'noParent' => [[0, 1, 2, 4], ['parent' => 'null']],
             // 'children' => [[0], ['children' => [4]]], // skipped
@@ -124,5 +125,61 @@ final class LearnerGroupTest extends AbstractReadWriteEndpoint
         $data['parent'] = null;
         $postData = $data;
         $this->putTest($data, $postData, $id, $jwt);
+    }
+
+    public static function getBadGroupStructureProvider(): array
+    {
+        return [
+            [0, 3, [3]],
+            [0, 3, [5]],
+            [0, 5, [4, 5]],
+        ];
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testPutGroupWithBadStructure(int $pKey, int $cKey, array $users): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $parentGroup = $data[$pKey];
+        $childGroup = $data[$cKey];
+
+        $this->assertSame($childGroup['parent'], $parentGroup['id']);
+        $childGroup['users'] = $users;
+
+        $this->badPutTest($childGroup, $childGroup['id'], $jwt);
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testCreateGroupWithBadStructure(int $pKey, int $cKey, array $users): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $parentGroup = $data[$pKey];
+        $childGroup = $this->getDataLoader()->create();
+        $childGroup['parent'] = $parentGroup['id'];
+
+        $childGroup['users'] = $users;
+
+        $this->badPostTest($childGroup, $jwt);
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testPatchGroupWithBadStructure(int $pKey, int $cKey, array $users): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $parentGroup = $data[$pKey];
+        $childGroup = $data[$cKey];
+
+        $this->assertSame($childGroup['parent'], $parentGroup['id']);
+        $childGroup['users'] = $users;
+
+        $jsonApiData = $dataLoader->createJsonApi($childGroup);
+
+        $this->badPatchTest($jsonApiData, $jwt);
     }
 }

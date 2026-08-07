@@ -21,6 +21,7 @@ use App\Traits\OfferingsEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: 'user')]
 #[ORM\Index(columns: ["school_id"], name: "fkey_user_school")]
@@ -1200,5 +1201,37 @@ class User implements UserInterface
     public function getSessionMaterialStatuses(): Collection
     {
         return $this->sessionMaterialStatuses;
+    }
+
+    #[Assert\Callback]
+    public function validateUserRelationships(ExecutionContextInterface $context): void
+    {
+        $learnerGroupsWithParent = $this->learnerGroups->filter(
+            fn(LearnerGroupInterface $group): bool => !is_null($group->getParent())
+        );
+
+        foreach ($learnerGroupsWithParent as $learnerGroup) {
+            $parent = $learnerGroup->getParent();
+            if (!$this->learnerGroups->contains($parent)) {
+                $context->buildViolation(
+                    'Every user in a learner group must also be a user in its parent group.'
+                )
+                    ->atPath('learnerGroups')
+                    ->addViolation();
+                return;
+            }
+
+            $siblings = $parent->getChildren()->filter(
+                fn(LearnerGroupInterface $group) => $group !== $learnerGroup
+            );
+            foreach ($siblings as $sibling) {
+                if ($this->learnerGroups->contains($sibling)) {
+                    $context->buildViolation('A user cannot be added to more than one sibling group.')
+                        ->atPath('learnerGroups')
+                        ->addViolation();
+                    return;
+                }
+            }
+        }
     }
 }

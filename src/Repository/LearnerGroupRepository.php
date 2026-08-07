@@ -137,6 +137,37 @@ class LearnerGroupRepository extends BaseRepository
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    public function getUsersIdsInGroup(int $groupId): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('u.id AS userId')
+            ->from(LearnerGroup::class, 'x')
+            ->where('x.id = :id')
+            ->setParameter('id', $groupId)
+            ->join('x.users', 'u');
+
+        $arr = $qb->getQuery()->getArrayResult();
+
+        return array_column($arr, 'userId');
+    }
+
+    public function getChildUsersInGroup(int $parentId): array
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('x.id AS groupId, u.id AS userId')
+            ->from(LearnerGroup::class, 'x')
+            ->join('x.users', 'u')
+            ->where('IDENTITY(x.parent) = :parentId')
+            ->setParameter('parentId', $parentId);
+
+        $usersByGroup = [];
+        foreach ($qb->getQuery()->getArrayResult() as ['groupId' => $groupId, 'userId' => $userId]) {
+            $usersByGroup[(int) $groupId][] = (int) $userId;
+        }
+
+        return $usersByGroup;
+    }
+
     public function findErrorsInGroupTrees(): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

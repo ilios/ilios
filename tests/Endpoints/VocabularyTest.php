@@ -92,4 +92,16 @@ final class VocabularyTest extends AbstractReadWriteEndpoint
         $data['title'] = '';
         $this->badPutTest($data, $data['id'], $jwt);
     }
+
+    public function testCannotPatchWithEmptyTitle(): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $data['title'] = '';
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt);
+    }
 }

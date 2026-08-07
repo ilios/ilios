@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadAuthenticationData;
@@ -31,7 +32,7 @@ final class UserTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
 
-    protected string $testName =  'users';
+    protected string $testName = 'users';
     protected bool $enableDeleteTestsWithServiceToken = false;
     protected bool $enablePostTestsWithServiceToken = false;
     protected bool $enablePatchTestsWithServiceToken = false;
@@ -619,6 +620,55 @@ final class UserTest extends AbstractReadWriteEndpoint
         $responseData = $this->getOne('users', 'users', $userId, $rootUserJwt);
 
         $this->compareData($user, $responseData);
+    }
+
+    public static function getBadGroupStructureProvider(): array
+    {
+        return [
+            [3, [4]],
+            [3, [6]],
+            [3, [1, 4, 6]],
+        ];
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testPutUserWithBadGroupStructure(int $userKey, array $learnerGroups): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $user = $data[$userKey];
+
+        $user['learnerGroups'] = $learnerGroups;
+
+        $this->badPutTest($user, $user['id'], $jwt);
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testCreateUserWithBadGroupStructure(int $userKey, array $learnerGroups): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $user = $dataLoader->create();
+
+        $user['learnerGroups'] = $learnerGroups;
+
+        $this->badPostTest($user, $jwt);
+    }
+
+    #[DataProvider('getBadGroupStructureProvider')]
+    public function testPatchUserWithBadGroupStructure(int $userKey, array $learnerGroups): void
+    {
+        $jwt = $this->createJwtForRootUser($this->kernelBrowser);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getAll();
+        $user = $data[$userKey];
+
+        $user['learnerGroups'] = $learnerGroups;
+
+        $jsonApiData = $dataLoader->createJsonApi($user);
+
+        $this->badPatchTest($jsonApiData, $jwt);
     }
 
     public function testAccessDeniedWithServiceToken(): void

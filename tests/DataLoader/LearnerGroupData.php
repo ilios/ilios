@@ -17,7 +17,7 @@ final class LearnerGroupData extends AbstractDataLoader
             'title' => 'first learner group',
             'location' => 'room 101',
             'cohort' => 1,
-            'children' => ['4'],
+            'children' => ['4', '6'],
             'ilmSessions' => ['1'],
             'offerings' => ['1'],
             'instructorGroups' => ['1'],
@@ -38,7 +38,7 @@ final class LearnerGroupData extends AbstractDataLoader
             'ilmSessions' => [],
             'offerings' => ['2'],
             'instructorGroups' => [],
-            'users' => ['2'],
+            'users' => ['2', '5'],
             'instructors' => [],
             'descendants' => [],
             'needsAccommodation' => true,
@@ -99,14 +99,31 @@ final class LearnerGroupData extends AbstractDataLoader
         ];
 
 
+        $arr[] = [
+            'id' => 6,
+            'title' => 'sixth learner group',
+            'cohort' => 1,
+            'children' => [],
+            'parent' => 1,
+            'ancestor' => null,
+            'ilmSessions' => [],
+            'offerings' => [],
+            'instructorGroups' => [],
+            'users' => ['5'],
+            'instructors' => [],
+            'descendants' => [],
+            'needsAccommodation' => false,
+        ];
+
+
         return $arr;
     }
 
     public function create(): array
     {
         return [
-            'id' => 6,
-            'title' => 'sixth learner group',
+            'id' => 7,
+            'title' => 'new learner group',
             'cohort' => "1",
             'ancestor' => 2,
             'children' => [],
