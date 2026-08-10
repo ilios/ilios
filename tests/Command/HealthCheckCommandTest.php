@@ -71,7 +71,9 @@ final class HealthCheckCommandTest extends KernelTestCase
         $frontend = new Frontend(__DIR__);
         $config2 = m::mock(Config::class);
         $config2->shouldReceive('get')->with('file_system_storage_path')->andReturn(__DIR__);
-        $fileSystem = new IliosFileSystem($config2, m::mock(Filesystem::class));
+        $fs = m::mock(Filesystem::class);
+        $fs->shouldReceive('testCRUD')->andReturn(true);
+        $fileSystem = new IliosFileSystem($config2, $fs);
         $noDefaultSecret = new NoDefaultSecret();
         $statusCalculator = m::mock(MigrationStatusCalculator::class);
         $statusCalculator->shouldReceive('getExecutedUnavailableMigrations')->andReturn(new ExecutedMigrationsList([]));
@@ -81,7 +83,7 @@ final class HealthCheckCommandTest extends KernelTestCase
         $migrations = new Migrations($factory);
         $phpConfiguration = new PhpConfiguration();
         $phpExtension = new PhpExtension(['curl']);
-        $phpVersion = new PhpVersion(PHP_VERSION, '8.5');
+        $phpVersion = new PhpVersion(PHP_VERSION, __DIR__ . '/../../composer.json');
         $requiredEnv = new RequiredENV();
         $secretLength = new SecretLength();
         $timezone = new Timezone();
