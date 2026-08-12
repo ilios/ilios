@@ -20,7 +20,7 @@ use function array_key_exists;
 class JsonWebTokenManager
 {
     public const string PREPEND_KEY = 'ilios.jwt.key.';
-    private const string TOKEN_ISS = 'ilios';
+    public const string TOKEN_ISS = 'ilios';
     public const string TOKEN_AUD = 'ilios';
 
     public const string TOKEN_AUD_LTI_DASHBOARD = 'lti-dashboard';
