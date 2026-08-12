@@ -7,6 +7,7 @@ namespace App\Tests\Service;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Entity\UserInterface;
 use App\Service\SecretManager;
+use App\Service\TokenCodec;
 use DateTimeImmutable;
 use Firebase\JWT\ExpiredException;
 use App\Tests\DataLoader\UserData;
@@ -49,11 +50,12 @@ final class JsonWebTokenManagerTest extends KernelTestCase
         $this->serviceTokenUserProvider = m::mock(ServiceTokenUserProvider::class);
         $this->secretManager = m::mock(SecretManager::class);
         $this->secretManager->expects('getSecret')->once()->andReturn(self::SECRET);
+        $codec = new TokenCodec($this->secretManager);
         $this->obj = new JsonWebTokenManager(
+            $codec,
             $this->permissionChecker,
             $this->sessionUserProvider,
             $this->serviceTokenUserProvider,
-            $this->secretManager,
         );
     }
 
