@@ -11,7 +11,6 @@ readonly class ServiceTokenData extends AbstractTokenData
     public function __construct(
         DateTimeImmutable $issuedAt,
         DateTimeImmutable $expiresAt,
-        string $permissions,
         array $audience,
         public int $serviceTokenId,
         public array $writeableSchoolIds,
@@ -21,7 +20,6 @@ readonly class ServiceTokenData extends AbstractTokenData
         parent::__construct(
             $issuedAt,
             $expiresAt,
-            $permissions,
             $audience
         );
     }

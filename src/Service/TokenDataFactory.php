@@ -63,10 +63,6 @@ readonly class TokenDataFactory
             array_key_exists('refreshLimit', $data)
                 ? (int)$data['refreshLimit']
                 : AbstractTokenData::DEFAULT_REFRESH_LIMIT;
-        $permissions =
-            array_key_exists('permissions', $data)
-                ? (string)$data['permissions']
-                : AbstractTokenData::DEFAULT_PERMISSIONS;
         $audience = $this->getAudience($data);
 
         // process user token data.
@@ -75,7 +71,6 @@ readonly class TokenDataFactory
             return new UserTokenData(
                 $issuedAt,
                 $expiresAt,
-                $permissions,
                 $audience,
                 $userId,
                 $isRoot,
@@ -95,7 +90,6 @@ readonly class TokenDataFactory
         return new ServiceTokenData(
             $issuedAt,
             $expiresAt,
-            $permissions,
             $audience,
             $serviceTokenId,
             $writeableSchoolIds,
