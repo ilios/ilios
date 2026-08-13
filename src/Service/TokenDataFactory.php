@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\AbstractTokenData;
-use App\Classes\TokenData;
+use App\Classes\ServiceTokenData;
+use App\Classes\UserTokenData;
 use DateTimeImmutable;
+use Exception;
 
 /**
  * A factory that creates token data objects.
@@ -17,19 +19,29 @@ readonly class TokenDataFactory
     {
     }
 
-    public function createFromJwt(string $jwt): TokenData
+    /**
+     * @throws Exception
+     */
+    public function createFromJwt(string $jwt): UserTokenData|ServiceTokenData
     {
         $data = $this->codec->decode($jwt);
 
         return $this->createFromArray($data);
     }
 
-    public function createFromArray(array $data): TokenData
+    /**
+     * @throws Exception
+     */
+    public function createFromArray(array $data): UserTokenData|ServiceTokenData
     {
-        $userId = (int)$data['user_id'];
-        $serviceTokenId = (int)$data['token_id'];
+        // figure out what kind of token data it is.
         $isUserToken = array_key_exists('user_id', $data);
         $isServiceToken = array_key_exists('token_id', $data);
+        if (!$isUserToken && !$isServiceToken) {
+            throw new Exception('Unable to determine token data type.');
+        }
+
+        // process common token data attributes.
         $issuedAt = DateTimeImmutable::createFromFormat('U', (string)$data['iat']);
         assert($issuedAt instanceof DateTimeImmutable);
         $expiresAt = DateTimeImmutable::createFromFormat('U', (string)$data['exp']);
@@ -55,28 +67,37 @@ readonly class TokenDataFactory
             array_key_exists('permissions', $data)
                 ? (string)$data['permissions']
                 : AbstractTokenData::DEFAULT_PERMISSIONS;
-        $writeableSchoolIds = $isServiceToken ? $this->getWriteableSchoolIds($data) : [];
-        $canCreateUserTokensFromToken =
-            $isServiceToken
-            && array_key_exists('can_generate_user_tokens', $data)
-            && $data['can_generate_user_tokens'];
-        $audience = $isServiceToken ? $this->getAudience($data) : [];
+        $audience = $this->getAudience($data);
 
-        return new TokenData(
+        // process user token data.
+        if ($isUserToken) {
+            $userId = (int) $data['user_id'];
+            return new UserTokenData(
+                $issuedAt,
+                $expiresAt,
+                $permissions,
+                $audience,
+                $userId,
+                $isRoot,
+                $performsNonLearnerFunction,
+                $issuedWith,
+                $firstCreatedAt,
+                $refreshCount,
+                $refreshLimit,
+            );
+        }
+
+        // otherwise, process service token data.
+        $serviceTokenId = (int) $data['token_id'];
+        $writeableSchoolIds = $this->getWriteableSchoolIds($data);
+        $canCreateUserTokensFromToken =
+            array_key_exists('can_generate_user_tokens', $data) && $data['can_generate_user_tokens'];
+        return new ServiceTokenData(
             $issuedAt,
             $expiresAt,
-            $isRoot,
-            $performsNonLearnerFunction,
-            $issuedWith,
-            $firstCreatedAt,
-            $refreshCount,
-            $refreshLimit,
             $permissions,
             $audience,
-            $userId,
             $serviceTokenId,
-            $isUserToken,
-            $isServiceToken,
             $writeableSchoolIds,
             $canCreateOrUpdateUserInAnySchool,
             $canCreateUserTokensFromToken,
