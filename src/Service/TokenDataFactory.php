@@ -41,6 +41,17 @@ readonly class TokenDataFactory
         }
 
         // process common token data attributes.
+        $missing = [];
+        foreach (['iat', 'exp', 'aud'] as $key) {
+            if (!array_key_exists($key, $data)) {
+                $missing[] = $key;
+            }
+        }
+        if (!empty($missing)) {
+            throw new Exception(
+                sprintf('Token data is missing the mandatory attributes "%s".', implode(', ', $missing))
+            );
+        }
         $issuedAt = DateTimeImmutable::createFromFormat('U', (string)$data['iat']);
         assert($issuedAt instanceof DateTimeImmutable);
         $expiresAt = DateTimeImmutable::createFromFormat('U', (string)$data['exp']);
@@ -110,9 +121,6 @@ readonly class TokenDataFactory
 
     protected function getAudience(array $data): array
     {
-        if (!array_key_exists('aud', $data)) {
-            return [];
-        }
         $aud = $data['aud'];
 
         if (is_string($aud)) {
