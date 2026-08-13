@@ -118,7 +118,7 @@ final class SendChangeAlertsCommandTest extends KernelTestCase
             ->andReturn($offering);
         $this->auditLogRepository
             ->shouldReceive('findBy')
-            ->with([ 'objectId' => $alert->getId(), 'objectClass' => Alert::class], [ 'createdAt' => 'desc' ])
+            ->with([ 'objectId' => $alert->getId(), 'objectClass' => Alert::class], [ 'createdAt' => 'desc' ], 5)
             ->andReturn($auditLogs);
 
         $this->commandTester->execute([
@@ -201,7 +201,7 @@ final class SendChangeAlertsCommandTest extends KernelTestCase
             ->andReturn($offering);
         $this->auditLogRepository
             ->shouldReceive('findBy')
-            ->with([ 'objectId' => $alert->getId(), 'objectClass' => Alert::class ], [ 'createdAt' => 'desc' ])
+            ->with([ 'objectId' => $alert->getId(), 'objectClass' => Alert::class ], [ 'createdAt' => 'desc' ], 5)
             ->andReturn($auditLogs);
         $this->mailer->shouldReceive('send')->once();
         $this->commandTester->execute([]);
