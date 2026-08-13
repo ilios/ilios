@@ -6,7 +6,7 @@ namespace App\Classes;
 
 use DateTimeImmutable;
 
-readonly class UserTokenData extends AbstractTokenData
+readonly class UserTokenData extends TokenData
 {
     public function __construct(
         DateTimeImmutable $issuedAt,

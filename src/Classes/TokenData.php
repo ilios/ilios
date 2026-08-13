@@ -6,7 +6,7 @@ namespace App\Classes;
 
 use DateTimeImmutable;
 
-abstract readonly class AbstractTokenData
+abstract readonly class TokenData
 {
     public const int DEFAULT_REFRESH_LIMIT = 12;
 
