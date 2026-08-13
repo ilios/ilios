@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Classes\ServiceTokenData;
 use App\Classes\UserTokenData;
 use DateTimeImmutable;
-use Exception;
+use DomainException;
 
 /**
  * A factory that creates token data objects.
@@ -19,7 +19,7 @@ readonly class TokenDataFactory
     }
 
     /**
-     * @throws Exception
+     * @throws DomainException
      */
     public function createFromJwt(string $jwt): UserTokenData|ServiceTokenData
     {
@@ -29,7 +29,7 @@ readonly class TokenDataFactory
     }
 
     /**
-     * @throws Exception
+     * @throws DomainException
      */
     public function createFromArray(array $data): UserTokenData|ServiceTokenData
     {
@@ -37,7 +37,7 @@ readonly class TokenDataFactory
         $isUserToken = array_key_exists('user_id', $data);
         $isServiceToken = array_key_exists('token_id', $data);
         if (!$isUserToken && !$isServiceToken) {
-            throw new Exception('Unable to determine token data type.');
+            throw new DomainException('Unable to determine token data type.');
         }
 
         // process common token data attributes.
@@ -48,7 +48,7 @@ readonly class TokenDataFactory
             }
         }
         if (!empty($missing)) {
-            throw new Exception(
+            throw new DomainException(
                 sprintf('Token data is missing the mandatory attributes "%s".', implode(', ', $missing))
             );
         }
