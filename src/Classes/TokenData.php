@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
-use App\Service\TokenCodec;
 use DateTimeImmutable;
 
 /**
@@ -37,47 +36,46 @@ readonly class TokenData
     public bool $canCreateUserTokensFromToken;
     public array $audience;
 
-    public function __construct(protected TokenCodec $codec, protected string $jwt)
+    public function __construct(array $data)
     {
-        $arr = $this->codec->decode($this->jwt);
-        $this->userId = (int)$arr['user_id'];
-        $this->serviceTokenId = (int)$arr['token_id'];
-        $this->isUserToken = array_key_exists('user_id', $arr);
-        $this->isServiceToken = array_key_exists('token_id', $arr);
-        $issuedAt = DateTimeImmutable::createFromFormat('U', (string)$arr['iat']);
+        $this->userId = (int)$data['user_id'];
+        $this->serviceTokenId = (int)$data['token_id'];
+        $this->isUserToken = array_key_exists('user_id', $data);
+        $this->isServiceToken = array_key_exists('token_id', $data);
+        $issuedAt = DateTimeImmutable::createFromFormat('U', (string)$data['iat']);
         assert($issuedAt instanceof DateTimeImmutable);
         $this->issuedAt = $issuedAt;
-        $expiresAt = DateTimeImmutable::createFromFormat('U', (string)$arr['exp']);
+        $expiresAt = DateTimeImmutable::createFromFormat('U', (string)$data['exp']);
         assert($expiresAt instanceof DateTimeImmutable);
         $this->expiresAt = $expiresAt;
-        $this->isRoot = array_key_exists('is_root', $arr) && $arr['is_root'];
+        $this->isRoot = array_key_exists('is_root', $data) && $data['is_root'];
         $this->performsNonLearnerFunction =
-            array_key_exists('performs_non_learner_function', $arr) && $arr['performs_non_learner_function'];
+            array_key_exists('performs_non_learner_function', $data) && $data['performs_non_learner_function'];
         $this->canCreateOrUpdateUserInAnySchool =
-            array_key_exists('can_create_or_update_user_in_any_school', $arr)
-            && $arr['can_create_or_update_user_in_any_school'];
-        $this->issuedWith = array_key_exists('issued_with', $arr) ? (int) $arr['issued_with'] : null;
+            array_key_exists('can_create_or_update_user_in_any_school', $data)
+            && $data['can_create_or_update_user_in_any_school'];
+        $this->issuedWith = array_key_exists('issued_with', $data) ? (int) $data['issued_with'] : null;
         $firstCreatedAt =
-            array_key_exists('firstCreatedAt', $arr)
-                ? DateTimeImmutable::createFromFormat('U', (string)$arr['firstCreatedAt'])
+            array_key_exists('firstCreatedAt', $data)
+                ? DateTimeImmutable::createFromFormat('U', (string)$data['firstCreatedAt'])
                 : $this->issuedAt;
         assert($firstCreatedAt instanceof DateTimeImmutable);
         $this->firstCreatedAt = $firstCreatedAt;
-        $this->refreshCount = array_key_exists('refreshCount', $arr) ? (int)$arr['refreshCount'] : 0;
+        $this->refreshCount = array_key_exists('refreshCount', $data) ? (int)$data['refreshCount'] : 0;
         $this->refreshLimit =
-            array_key_exists('refreshLimit', $arr)
-                ? (int)$arr['refreshLimit']
+            array_key_exists('refreshLimit', $data)
+                ? (int)$data['refreshLimit']
                 : self::DEFAULT_REFRESH_LIMIT;
         $this->permissions =
-            array_key_exists('permissions', $arr)
-                ? (string) $arr['permissions']
+            array_key_exists('permissions', $data)
+                ? (string) $data['permissions']
                 : self::DEFAULT_PERMISSIONS;
-        $this->writeableSchoolIds = $this->isServiceToken ? $this->getWriteableSchoolIds($arr) : [];
+        $this->writeableSchoolIds = $this->isServiceToken ? $this->getWriteableSchoolIds($data) : [];
         $this->canCreateUserTokensFromToken =
             $this->isServiceToken
-            && array_key_exists('can_generate_user_tokens', $arr)
-            && $arr['can_generate_user_tokens'];
-        $this->audience = $this->isServiceToken ? $this->getAudience($arr) : [];
+            && array_key_exists('can_generate_user_tokens', $data)
+            && $data['can_generate_user_tokens'];
+        $this->audience = $this->isServiceToken ? $this->getAudience($data) : [];
     }
 
     protected function getWriteableSchoolIds(array $data): array
