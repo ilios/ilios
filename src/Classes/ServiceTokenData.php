@@ -12,6 +12,7 @@ readonly class ServiceTokenData extends TokenData
         DateTimeImmutable $issuedAt,
         DateTimeImmutable $expiresAt,
         array $audience,
+        string $issuer,
         public int $serviceTokenId,
         public array $writeableSchoolIds,
         public bool $canCreateOrUpdateUserInAnySchool,
@@ -20,7 +21,8 @@ readonly class ServiceTokenData extends TokenData
         parent::__construct(
             $issuedAt,
             $expiresAt,
-            $audience
+            $audience,
+            $issuer
         );
     }
 

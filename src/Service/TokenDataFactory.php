@@ -42,7 +42,7 @@ readonly class TokenDataFactory
 
         // process common token data attributes.
         $missing = [];
-        foreach (['iat', 'exp', 'aud'] as $key) {
+        foreach (['iat', 'exp', 'aud', 'iss'] as $key) {
             if (!array_key_exists($key, $data)) {
                 $missing[] = $key;
             }
@@ -56,6 +56,7 @@ readonly class TokenDataFactory
         assert($issuedAt instanceof DateTimeImmutable);
         $expiresAt = DateTimeImmutable::createFromFormat('U', (string)$data['exp']);
         assert($expiresAt instanceof DateTimeImmutable);
+        $issuer = (string)$data['iss'];
         $audience = $this->getAudience($data);
 
         // process user token data.
@@ -79,6 +80,7 @@ readonly class TokenDataFactory
                 $issuedAt,
                 $expiresAt,
                 $audience,
+                $issuer,
                 $userId,
                 $isRoot,
                 $performsNonLearnerFunction,
@@ -101,6 +103,7 @@ readonly class TokenDataFactory
             $issuedAt,
             $expiresAt,
             $audience,
+            $issuer,
             $serviceTokenId,
             $writeableSchoolIds,
             $canCreateOrUpdateUserInAnySchool,

@@ -12,6 +12,7 @@ readonly class UserTokenData extends TokenData
         DateTimeImmutable $issuedAt,
         DateTimeImmutable $expiresAt,
         array $audience,
+        string $issuer,
         public int $userId,
         public bool $isRoot,
         public bool $performsNonLearnerFunction,
@@ -23,7 +24,8 @@ readonly class UserTokenData extends TokenData
         parent::__construct(
             $issuedAt,
             $expiresAt,
-            $audience
+            $audience,
+            $issuer
         );
     }
 

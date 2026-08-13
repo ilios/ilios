@@ -12,6 +12,7 @@ abstract readonly class TokenData
         public DateTimeImmutable $issuedAt,
         public DateTimeImmutable $expiresAt,
         public array $audience,
+        public string $issuer,
     ) {
     }
 
@@ -21,6 +22,7 @@ abstract readonly class TokenData
             'iat' => $this->issuedAt->format('U'),
             'exp' => $this->expiresAt->format('U'),
             'aud' => $this->audience,
+            'iss' => $this->issuer,
         ];
     }
 }
