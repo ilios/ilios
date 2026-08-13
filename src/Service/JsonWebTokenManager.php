@@ -47,60 +47,90 @@ class JsonWebTokenManager
     ) {
     }
 
+    /**
+     * @deprecated
+     */
     public function getUserIdFromToken(string $jwt): int
     {
         $arr = $this->codec->decode($jwt);
         return (int) $arr[self::USER_ID_KEY];
     }
 
+    /**
+     * @deprecated
+     */
     public function getServiceTokenIdFromToken(string $jwt): int
     {
         $arr = $this->codec->decode($jwt);
         return (int) $arr[self::TOKEN_ID_KEY];
     }
 
+    /**
+     * @deprecated
+     */
     public function isUserToken(string $jwt): bool
     {
         $arr = $this->codec->decode($jwt);
         return array_key_exists(self::USER_ID_KEY, $arr);
     }
 
+    /**
+     * @deprecated
+     */
     public function isServiceToken(string $jwt): bool
     {
         $arr = $this->codec->decode($jwt);
         return array_key_exists(self::TOKEN_ID_KEY, $arr);
     }
 
+    /**
+     * @deprecated
+     */
     public function getIssuedAtFromToken(string $jwt): DateTimeImmutable
     {
         $arr = $this->codec->decode($jwt);
         return DateTimeImmutable::createFromFormat('U', (string) $arr['iat']);
     }
 
+    /**
+     * @deprecated
+     */
     public function getExpiresAtFromToken(string $jwt): DateTimeImmutable
     {
         $arr = $this->codec->decode($jwt);
         return DateTimeImmutable::createFromFormat('U', (string) $arr['exp']);
     }
 
+    /**
+     * @deprecated
+     */
     public function getIsRootFromToken(string $jwt): bool
     {
         $arr = $this->codec->decode($jwt);
         return $arr['is_root'];
     }
 
+    /**
+     * @deprecated
+     */
     public function getPerformsNonLearnerFunctionFromToken(string $jwt): bool
     {
         $arr = $this->codec->decode($jwt);
         return $arr['performs_non_learner_function'];
     }
 
+    /**
+     * @deprecated
+     */
     public function getCanCreateOrUpdateUserInAnySchoolFromToken(string $jwt): bool
     {
         $arr = $this->codec->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
     }
 
+    /**
+     * @deprecated
+     */
     public function getIssuedWithFromToken(string $jwt): ?int
     {
         $arr = $this->codec->decode($jwt);
@@ -110,6 +140,9 @@ class JsonWebTokenManager
         return null;
     }
 
+    /**
+     * @deprecated
+     */
     public function getFirstCreatedAt(string $jwt): DateTimeImmutable
     {
         $arr = $this->codec->decode($jwt);
@@ -121,24 +154,36 @@ class JsonWebTokenManager
         return $rhett;
     }
 
+    /**
+     * @deprecated
+     */
     public function getRefreshCount(string $jwt): int
     {
         $arr = $this->codec->decode($jwt);
         return $arr['refreshCount'] ?? 0;
     }
 
+    /**
+     * @deprecated
+     */
     public function getRefreshLimit(string $jwt): int
     {
         $arr = $this->codec->decode($jwt);
         return $arr['refreshLimit'] ?? self::DEFAULT_REFRESH_LIMIT;
     }
 
+    /**
+     * @deprecated
+     */
     public function getPermissionsFromToken(string $jwt): string
     {
         $arr = $this->codec->decode($jwt);
         return $arr['permissions'] ?? 'user';
     }
 
+    /**
+     * @deprecated
+     */
     public function getWriteableSchoolIdsFromToken(string $jwt): array
     {
         if (!$this->isServiceToken($jwt)) {
@@ -154,6 +199,9 @@ class JsonWebTokenManager
         return $arr[self::WRITEABLE_SCHOOLS_KEY];
     }
 
+    /**
+     * @deprecated
+     */
     public function getCanCreateUserTokensFromToken(string $jwt): bool
     {
         if (!$this->isServiceToken($jwt)) {
@@ -166,6 +214,9 @@ class JsonWebTokenManager
         return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
     }
 
+    /**
+     * @deprecated
+     */
     public function getAudienceClaimsFromToken(string $jwt): array
     {
         $arr = $this->codec->decode($jwt);
