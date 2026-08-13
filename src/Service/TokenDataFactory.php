@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Classes\AbstractTokenData;
 use App\Classes\TokenData;
 use DateTimeImmutable;
 
@@ -49,11 +50,11 @@ readonly class TokenDataFactory
         $refreshLimit =
             array_key_exists('refreshLimit', $data)
                 ? (int)$data['refreshLimit']
-                : TokenData::DEFAULT_REFRESH_LIMIT;
+                : AbstractTokenData::DEFAULT_REFRESH_LIMIT;
         $permissions =
             array_key_exists('permissions', $data)
                 ? (string)$data['permissions']
-                : TokenData::DEFAULT_PERMISSIONS;
+                : AbstractTokenData::DEFAULT_PERMISSIONS;
         $writeableSchoolIds = $isServiceToken ? $this->getWriteableSchoolIds($data) : [];
         $canCreateUserTokensFromToken =
             $isServiceToken
@@ -62,23 +63,23 @@ readonly class TokenDataFactory
         $audience = $isServiceToken ? $this->getAudience($data) : [];
 
         return new TokenData(
-            $userId,
-            $serviceTokenId,
-            $isUserToken,
-            $isServiceToken,
             $issuedAt,
             $expiresAt,
             $isRoot,
             $performsNonLearnerFunction,
-            $canCreateOrUpdateUserInAnySchool,
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
             $refreshLimit,
             $permissions,
+            $audience,
+            $userId,
+            $serviceTokenId,
+            $isUserToken,
+            $isServiceToken,
             $writeableSchoolIds,
+            $canCreateOrUpdateUserInAnySchool,
             $canCreateUserTokensFromToken,
-            $audience
         );
     }
 
