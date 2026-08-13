@@ -111,7 +111,7 @@ class SendChangeAlertsCommand extends Command
             $history = $this->auditLogRepository->findBy([
                 'objectId' => $alert->getId(),
                 'objectClass' => Alert::class,
-            ], [ 'createdAt' => 'asc' ]);
+            ], [ 'createdAt' => 'desc' ]);
 
             $subject = $offering->getSession()->getCourse()->getExternalId() . ' - '
                 . $offering->getStartDate()->format('m/d/Y');
