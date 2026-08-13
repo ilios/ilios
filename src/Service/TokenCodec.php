@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Classes\ServiceTokenData;
+use App\Classes\UserTokenData;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
@@ -42,8 +44,11 @@ class TokenCodec
         }
     }
 
-    public function encode(array $data): string
+    public function encode(array|UserTokenData|ServiceTokenData $data): string
     {
+        if ($data instanceof UserTokenData || $data instanceof ServiceTokenData) {
+            $data = $data->toArray();
+        }
         return JWT::encode($data, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 }
