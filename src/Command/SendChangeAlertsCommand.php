@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\Alert;
 use App\Entity\AlertInterface;
 use App\Entity\SchoolInterface;
 use App\Repository\AlertRepository;
@@ -109,8 +110,8 @@ class SendChangeAlertsCommand extends Command
             // get change alert history from audit logs
             $history = $this->auditLogRepository->findBy([
                 'objectId' => $alert->getId(),
-                'objectClass' => 'alert',
-            ], [ 'createdAt' => 'asc' ]);
+                'objectClass' => Alert::class,
+            ], [ 'createdAt' => 'desc' ], 5);
 
             $subject = $offering->getSession()->getCourse()->getExternalId() . ' - '
                 . $offering->getStartDate()->format('m/d/Y');

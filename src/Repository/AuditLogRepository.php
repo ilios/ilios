@@ -125,7 +125,7 @@ class AuditLogRepository extends BaseRepository
         ?int $limit,
         ?int $offset
     ): void {
-        //empty as DTOs aren't implemented here
+        $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
     protected function hydrateDTOsFromIds(array $ids): array
