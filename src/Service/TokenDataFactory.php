@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Classes\TokenData;
 use App\Classes\ServiceTokenData;
 use App\Classes\UserTokenData;
 use DateTimeImmutable;
@@ -62,7 +61,7 @@ readonly class TokenDataFactory
         $refreshLimit =
             array_key_exists('refreshLimit', $data)
                 ? (int)$data['refreshLimit']
-                : TokenData::DEFAULT_REFRESH_LIMIT;
+                : 0;
         $audience = $this->getAudience($data);
 
         // process user token data.

@@ -8,8 +8,6 @@ use DateTimeImmutable;
 
 abstract readonly class TokenData
 {
-    public const int DEFAULT_REFRESH_LIMIT = 12;
-
     public function __construct(
         public DateTimeImmutable $issuedAt,
         public DateTimeImmutable $expiresAt,
