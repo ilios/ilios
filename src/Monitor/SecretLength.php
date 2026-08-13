@@ -17,7 +17,7 @@ class SecretLength implements CheckInterface
     /**
      * Minimum length based on
      * https://github.com/firebase/php-jwt/blob/66f3decac70559c394b286e73bb133989f2859e1/src/JWT.php#L704-L711
-     * 256 - (JsonWebTokenManager::PREPEND_KEY_LENGTH * 8)
+     * 256 - (TokenCodec::PREPEND_KEY.length * 8)
      */
     public const int MINIMUM_LENGTH = 18;
 
