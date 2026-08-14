@@ -46,7 +46,7 @@ readonly class UserToken extends Token
             ],
         );
         if (!is_null($this->issuedWith)) {
-            $rhett['issuedWith'] = $this->issuedWith;
+            $rhett['issued_with'] = $this->issuedWith;
         }
         return $rhett;
     }

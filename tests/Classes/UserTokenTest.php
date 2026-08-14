@@ -93,7 +93,7 @@ final class UserTokenTest extends TestCase
         $this->assertSame($token->refreshCount, $arr['refreshCount']);
         $this->assertSame($token->refreshLimit, $arr['refreshLimit']);
         if ($issuedWithIncluded) {
-            $this->assertSame($token->issuedWith, $arr['issuedWith']);
+            $this->assertSame($token->issuedWith, $arr['issued_with']);
         }
     }
 

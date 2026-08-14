@@ -113,7 +113,7 @@ final class TokenCodecTest extends TestCase
         $this->assertSame($decodedData['iss'], $issuer);
         $this->assertSame($decodedData['is_root'], $isRoot);
         $this->assertSame($decodedData['performs_non_learner_function'], $performsNonLearnerFunction);
-        $this->assertSame($decodedData['issuedWith'], $issuedWith);
+        $this->assertSame($decodedData['issued_with'], $issuedWith);
         $this->assertSame($decodedData['firstCreatedAt'], $firstCreatedAt->format('U'));
         $this->assertSame($decodedData['refreshCount'], $refreshCount);
         $this->assertSame($decodedData['refreshLimit'], $refreshLimit);
