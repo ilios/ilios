@@ -10,9 +10,9 @@ use DateTimeImmutable;
 use DomainException;
 
 /**
- * A factory that creates token data objects.
+ * A factory that creates token objects.
  */
-readonly class TokenDataFactory
+readonly class TokenFactory
 {
     public function __construct(protected TokenCodec $codec)
     {
@@ -37,7 +37,7 @@ readonly class TokenDataFactory
         $isUserToken = array_key_exists('user_id', $data);
         $isServiceToken = array_key_exists('token_id', $data);
         if (!$isUserToken && !$isServiceToken) {
-            throw new DomainException('Unable to determine token data type.');
+            throw new DomainException('Unable to determine token type.');
         }
 
         // process common token data attributes.
@@ -49,7 +49,7 @@ readonly class TokenDataFactory
         }
         if (!empty($missing)) {
             throw new DomainException(
-                sprintf('Token data is missing the mandatory attributes "%s".', implode(', ', $missing))
+                sprintf('Token is missing the mandatory attributes "%s".', implode(', ', $missing))
             );
         }
         $issuedAt = DateTimeImmutable::createFromFormat('U', (string)$data['iat']);
