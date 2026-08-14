@@ -6,7 +6,10 @@ namespace App\Classes;
 
 use DateTimeImmutable;
 
-abstract readonly class TokenData
+/**
+ * Base class for object representations of decoded JWT tokens.
+ */
+abstract readonly class Token
 {
     public function __construct(
         public DateTimeImmutable $issuedAt,

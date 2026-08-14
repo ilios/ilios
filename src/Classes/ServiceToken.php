@@ -6,7 +6,10 @@ namespace App\Classes;
 
 use DateTimeImmutable;
 
-readonly class ServiceTokenData extends TokenData
+/**
+ * An immutable object representation of a decoded JWT service token.
+ */
+readonly class ServiceToken extends Token
 {
     public function __construct(
         DateTimeImmutable $issuedAt,

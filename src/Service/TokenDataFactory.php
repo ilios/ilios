@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Classes\ServiceTokenData;
-use App\Classes\UserTokenData;
+use App\Classes\ServiceToken;
+use App\Classes\UserToken;
 use DateTimeImmutable;
 use DomainException;
 
@@ -21,7 +21,7 @@ readonly class TokenDataFactory
     /**
      * @throws DomainException
      */
-    public function createFromJwt(string $jwt): UserTokenData|ServiceTokenData
+    public function createFromJwt(string $jwt): UserToken|ServiceToken
     {
         $data = $this->codec->decode($jwt);
 
@@ -31,7 +31,7 @@ readonly class TokenDataFactory
     /**
      * @throws DomainException
      */
-    public function createFromArray(array $data): UserTokenData|ServiceTokenData
+    public function createFromArray(array $data): UserToken|ServiceToken
     {
         // figure out what kind of token data it is.
         $isUserToken = array_key_exists('user_id', $data);
@@ -76,7 +76,7 @@ readonly class TokenDataFactory
                 array_key_exists('refreshLimit', $data)
                     ? (int)$data['refreshLimit']
                     : 0;
-            return new UserTokenData(
+            return new UserToken(
                 $issuedAt,
                 $expiresAt,
                 $audience,
@@ -99,7 +99,7 @@ readonly class TokenDataFactory
             && $data['can_create_or_update_user_in_any_school'];
         $canCreateUserTokensFromToken =
             array_key_exists('can_generate_user_tokens', $data) && $data['can_generate_user_tokens'];
-        return new ServiceTokenData(
+        return new ServiceToken(
             $issuedAt,
             $expiresAt,
             $audience,
