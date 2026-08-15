@@ -17,6 +17,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use function array_key_exists;
 
+/**
+ * @deprecated
+ */
 class JsonWebTokenManager
 {
     public const string PREPEND_KEY = 'ilios.jwt.key.';
