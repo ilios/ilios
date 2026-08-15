@@ -10,6 +10,9 @@ use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Entity\UserInterface;
 use DateInterval;
 use DateTimeImmutable;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Firebase\JWT\SignatureInvalidException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use function array_key_exists;
@@ -17,7 +20,7 @@ use function array_key_exists;
 class JsonWebTokenManager
 {
     public const string PREPEND_KEY = 'ilios.jwt.key.';
-    public const string TOKEN_ISS = 'ilios';
+    private const string TOKEN_ISS = 'ilios';
     public const string TOKEN_AUD = 'ilios';
 
     public const string TOKEN_AUD_LTI_DASHBOARD = 'lti-dashboard';
@@ -39,113 +42,84 @@ class JsonWebTokenManager
 
     public const string CAN_GENERATE_USER_TOKENS_KEY = 'can_generate_user_tokens';
 
+    protected string $jwtKey;
+
     public function __construct(
-        protected readonly TokenCodec $codec,
         protected SessionUserPermissionChecker $permissionChecker,
         protected SessionUserProvider $sessionUserProvider,
         protected ServiceTokenUserProvider $serviceAccountUserProvider,
+        protected SecretManager $secretManager,
     ) {
+        $this->jwtKey = self::PREPEND_KEY . $this->secretManager->getSecret();
+        JWT::$leeway = 5;
     }
 
-    /**
-     * @deprecated
-     */
     public function getUserIdFromToken(string $jwt): int
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return (int) $arr[self::USER_ID_KEY];
     }
 
-    /**
-     * @deprecated
-     */
     public function getServiceTokenIdFromToken(string $jwt): int
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return (int) $arr[self::TOKEN_ID_KEY];
     }
 
-    /**
-     * @deprecated
-     */
     public function isUserToken(string $jwt): bool
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return array_key_exists(self::USER_ID_KEY, $arr);
     }
 
-    /**
-     * @deprecated
-     */
     public function isServiceToken(string $jwt): bool
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return array_key_exists(self::TOKEN_ID_KEY, $arr);
     }
 
-    /**
-     * @deprecated
-     */
     public function getIssuedAtFromToken(string $jwt): DateTimeImmutable
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return DateTimeImmutable::createFromFormat('U', (string) $arr['iat']);
     }
 
-    /**
-     * @deprecated
-     */
     public function getExpiresAtFromToken(string $jwt): DateTimeImmutable
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return DateTimeImmutable::createFromFormat('U', (string) $arr['exp']);
     }
 
-    /**
-     * @deprecated
-     */
     public function getIsRootFromToken(string $jwt): bool
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return $arr['is_root'];
     }
 
-    /**
-     * @deprecated
-     */
     public function getPerformsNonLearnerFunctionFromToken(string $jwt): bool
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return $arr['performs_non_learner_function'];
     }
 
-    /**
-     * @deprecated
-     */
     public function getCanCreateOrUpdateUserInAnySchoolFromToken(string $jwt): bool
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return $arr['can_create_or_update_user_in_any_school'];
     }
 
-    /**
-     * @deprecated
-     */
     public function getIssuedWithFromToken(string $jwt): ?int
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         if (array_key_exists(self::ISSUED_WITH_KEY, $arr)) {
             return $arr[self::ISSUED_WITH_KEY];
         }
         return null;
     }
 
-    /**
-     * @deprecated
-     */
     public function getFirstCreatedAt(string $jwt): DateTimeImmutable
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         if (array_key_exists('firstCreatedAt', $arr)) {
             $rhett = DateTimeImmutable::createFromFormat('U', (string) $arr['firstCreatedAt']);
         } else {
@@ -154,42 +128,30 @@ class JsonWebTokenManager
         return $rhett;
     }
 
-    /**
-     * @deprecated
-     */
     public function getRefreshCount(string $jwt): int
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return $arr['refreshCount'] ?? 0;
     }
 
-    /**
-     * @deprecated
-     */
     public function getRefreshLimit(string $jwt): int
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return $arr['refreshLimit'] ?? self::DEFAULT_REFRESH_LIMIT;
     }
 
-    /**
-     * @deprecated
-     */
     public function getPermissionsFromToken(string $jwt): string
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         return $arr['permissions'] ?? 'user';
     }
 
-    /**
-     * @deprecated
-     */
     public function getWriteableSchoolIdsFromToken(string $jwt): array
     {
         if (!$this->isServiceToken($jwt)) {
             return [];
         }
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         if (!array_key_exists(self::WRITEABLE_SCHOOLS_KEY, $arr)) {
             return [];
         }
@@ -199,27 +161,21 @@ class JsonWebTokenManager
         return $arr[self::WRITEABLE_SCHOOLS_KEY];
     }
 
-    /**
-     * @deprecated
-     */
     public function getCanCreateUserTokensFromToken(string $jwt): bool
     {
         if (!$this->isServiceToken($jwt)) {
             return false;
         }
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         if (!array_key_exists(self::CAN_GENERATE_USER_TOKENS_KEY, $arr)) {
             return false;
         }
         return $arr[self::CAN_GENERATE_USER_TOKENS_KEY];
     }
 
-    /**
-     * @deprecated
-     */
     public function getAudienceClaimsFromToken(string $jwt): array
     {
-        $arr = $this->codec->decode($jwt);
+        $arr = $this->decode($jwt);
         if (!array_key_exists('aud', $arr)) {
             return [];
         }
@@ -240,6 +196,22 @@ class JsonWebTokenManager
         return [];
     }
 
+    protected function decode(string $jwt): array
+    {
+        try {
+            $decoded = JWT::decode($jwt, new Key($this->jwtKey, self::SIGNING_ALGORITHM));
+            return (array) $decoded;
+        } catch (SignatureInvalidException $e) {
+            $transitionalSecret = $this->secretManager->getTransitionalSecret();
+            if ($transitionalSecret) {
+                $transitionalKey = self::PREPEND_KEY . $transitionalSecret;
+                $decoded = JWT::decode($jwt, new Key($transitionalKey, self::SIGNING_ALGORITHM));
+                return (array) $decoded;
+            }
+            throw $e;
+        }
+    }
+
     /**
      * Build a token from a user
      *
@@ -251,7 +223,7 @@ class JsonWebTokenManager
         string $timeToLive = self::USER_TOKEN_DEFAULT_TTL,
     ): string {
         $arr = $this->getUserTokenDetails($sessionUser, $timeToLive);
-        return $this->codec->encode($arr);
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**
@@ -269,7 +241,7 @@ class JsonWebTokenManager
             $canGenerateUserTokens,
             $grantLtiDashboardAudienceClaim ? self::TOKEN_AUD_LTI_DASHBOARD : self::TOKEN_AUD
         );
-        return $this->codec->encode($arr);
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**
@@ -303,7 +275,7 @@ class JsonWebTokenManager
         $userId = $this->getUserIdFromToken($token);
         $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
         $arr = $this->getUserTokenDetails($sessionUser, $timeToLive, refreshToken: $token);
-        return $this->codec->encode($arr);
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     /**
@@ -355,7 +327,7 @@ class JsonWebTokenManager
 
         // bolt on the issued-with data point.
         $arr[self::ISSUED_WITH_KEY] = $tokenId;
-        return $this->codec->encode($arr);
+        return JWT::encode($arr, $this->jwtKey, self::SIGNING_ALGORITHM);
     }
 
     public function getUserTokenDetails(
