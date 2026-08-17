@@ -25,7 +25,6 @@ final class UserTokenTest extends TestCase
         ?int $issuedWith,
         DateTimeImmutable $firstCreatedAt,
         int $refreshCount,
-        int $refreshLimit
     ): void {
         $token = new UserToken(
             $iat,
@@ -38,7 +37,6 @@ final class UserTokenTest extends TestCase
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
-            $refreshLimit
         );
         $this->assertSame($iat->format('U'), $token->issuedAt->format('U'));
         $this->assertSame($exp->format('U'), $token->expiresAt->format('U'));
@@ -49,7 +47,6 @@ final class UserTokenTest extends TestCase
         $this->assertSame($issuedWith, $token->issuedWith);
         $this->assertSame($firstCreatedAt, $token->firstCreatedAt);
         $this->assertSame($refreshCount, $token->refreshCount);
-        $this->assertSame($refreshLimit, $token->refreshLimit);
     }
 
     #[DataProvider('dataProvider')]
@@ -64,7 +61,6 @@ final class UserTokenTest extends TestCase
         ?int $issuedWith,
         DateTimeImmutable $firstCreatedAt,
         int $refreshCount,
-        int $refreshLimit
     ): void {
         $token = new UserToken(
             $iat,
@@ -77,11 +73,10 @@ final class UserTokenTest extends TestCase
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
-            $refreshLimit
         );
         $arr = $token->toArray();
         $issuedWithIncluded = !is_null($issuedWith);
-        $this->assertCount($issuedWithIncluded ? 11 : 10, $arr);
+        $this->assertCount($issuedWithIncluded ? 10 : 9, $arr);
         $this->assertSame($token->issuedAt->format('U'), $arr['iat']);
         $this->assertSame($token->expiresAt->format('U'), $arr['exp']);
         $this->assertSame($token->audience, $arr['aud']);
@@ -91,7 +86,6 @@ final class UserTokenTest extends TestCase
         $this->assertSame($token->performsNonLearnerFunction, $arr['performs_non_learner_function']);
         $this->assertSame($token->firstCreatedAt->format('U'), $arr['firstCreatedAt']);
         $this->assertSame($token->refreshCount, $arr['refreshCount']);
-        $this->assertSame($token->refreshLimit, $arr['refreshLimit']);
         if ($issuedWithIncluded) {
             $this->assertSame($token->issuedWith, $arr['issued_with']);
         }
@@ -111,7 +105,6 @@ final class UserTokenTest extends TestCase
                 123,
                 new DateTimeImmutable(),
                 10,
-                20,
             ],
             [
                 new DateTimeImmutable(),
@@ -124,7 +117,6 @@ final class UserTokenTest extends TestCase
                 null,
                 new DateTimeImmutable(),
                 30,
-                40,
             ],
         ];
     }

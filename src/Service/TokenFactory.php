@@ -58,10 +58,6 @@ readonly class TokenFactory
                     : $issuedAt;
             assert($firstCreatedAt instanceof DateTimeImmutable);
             $refreshCount = array_key_exists('refreshCount', $data) ? (int)$data['refreshCount'] : 0;
-            $refreshLimit =
-                array_key_exists('refreshLimit', $data)
-                    ? (int)$data['refreshLimit']
-                    : 0;
             return new UserToken(
                 $issuedAt,
                 $expiresAt,
@@ -73,7 +69,6 @@ readonly class TokenFactory
                 $issuedWith,
                 $firstCreatedAt,
                 $refreshCount,
-                $refreshLimit,
             );
         }
 

@@ -117,7 +117,7 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $jwt = $this->getJwtFromOutput($output);
         $data = $this->tokenCodec->decode($jwt);
-        $this->assertCount(10, $data);
+        $this->assertCount(9, $data);
         $iat = DateTimeImmutable::createFromFormat('U', $data['iat']);
         $exp = DateTimeImmutable::createFromFormat('U', $data['exp']);
         $firstCreatedAt = DateTimeImmutable::createFromFormat('U', $data['firstCreatedAt']);
@@ -132,7 +132,6 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         $this->assertSame($isRoot, $data['is_root']);
         $this->assertSame($performsNonLearnerFunction, $data['performs_non_learner_function']);
         $this->assertSame(0, $data['refreshCount']);
-        $this->assertSame(0, $data['refreshLimit']);
     }
 
     public static function newDefaultTokenProvider(): array

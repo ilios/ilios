@@ -22,7 +22,6 @@ readonly class UserToken extends Token
         public ?int $issuedWith,
         public DateTimeImmutable $firstCreatedAt,
         public int $refreshCount,
-        public int $refreshLimit,
     ) {
         parent::__construct(
             $issuedAt,
@@ -42,7 +41,6 @@ readonly class UserToken extends Token
                 'performs_non_learner_function' => $this->performsNonLearnerFunction,
                 'firstCreatedAt' => $this->firstCreatedAt->format('U'),
                 'refreshCount' => $this->refreshCount,
-                'refreshLimit' => $this->refreshLimit,
             ],
         );
         if (!is_null($this->issuedWith)) {

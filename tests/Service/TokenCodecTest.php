@@ -91,7 +91,6 @@ final class TokenCodecTest extends TestCase
         $issuedWith = 10;
         $firstCreatedAt =  new DateTimeImmutable();
         $refreshCount = 20;
-        $refreshLimit = 30;
         $userToken = new UserToken(
             $issuedAt,
             $expiresAt,
@@ -103,7 +102,6 @@ final class TokenCodecTest extends TestCase
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
-            $refreshLimit
         );
         $jwt = $this->codec->encode($userToken);
         $decodedData = $this->codec->decode($jwt);
@@ -116,7 +114,6 @@ final class TokenCodecTest extends TestCase
         $this->assertSame($decodedData['issued_with'], $issuedWith);
         $this->assertSame($decodedData['firstCreatedAt'], $firstCreatedAt->format('U'));
         $this->assertSame($decodedData['refreshCount'], $refreshCount);
-        $this->assertSame($decodedData['refreshLimit'], $refreshLimit);
     }
 
     public function testEncodeServiceToken(): void

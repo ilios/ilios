@@ -98,7 +98,6 @@ final class TokenFactoryTest extends TestCase
                     null,
                     $issuedAt,
                     0,
-                    0,
                 ),
             ],
             [
@@ -113,7 +112,6 @@ final class TokenFactoryTest extends TestCase
                     'issued_with' => 123,
                     'firstCreatedAt' => $firstIssuedAt->format('U'),
                     'refreshCount' => 10,
-                    'refreshLimit' => 20,
                 ],
                 new UserToken(
                     $issuedAt,
@@ -126,7 +124,6 @@ final class TokenFactoryTest extends TestCase
                     123,
                     $firstIssuedAt,
                     10,
-                    20,
                 ),
             ],
             [
@@ -141,7 +138,6 @@ final class TokenFactoryTest extends TestCase
                     'issued_with' => 234,
                     'firstCreatedAt' => $firstIssuedAt->format('U'),
                     'refreshCount' => 11,
-                    'refreshLimit' => 21,
                 ],
                 new UserToken(
                     $issuedAt,
@@ -154,7 +150,6 @@ final class TokenFactoryTest extends TestCase
                     234,
                     $firstIssuedAt,
                     11,
-                    21,
                 ),
             ],
         ];
@@ -269,7 +264,6 @@ final class TokenFactoryTest extends TestCase
         $this->assertSame($expectedToken->issuedWith, $token->issuedWith);
         $this->assertSame($expectedToken->firstCreatedAt->format('U'), $token->firstCreatedAt->format('U'));
         $this->assertSame($expectedToken->refreshCount, $token->refreshCount);
-        $this->assertSame($expectedToken->refreshLimit, $token->refreshLimit);
     }
 
     protected function assertServiceTokenEquals(ServiceToken $expectedToken, ServiceToken $token): void

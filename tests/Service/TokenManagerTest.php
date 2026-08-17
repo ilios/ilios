@@ -110,7 +110,6 @@ final class TokenManagerTest extends TestCase
         $this->assertSame($token->firstCreatedAt->getTimestamp(), $token->issuedAt->getTimestamp());
         $this->assertSame($isRoot, $token->isRoot);
         $this->assertSame($performsNonLearnerFunction, $token->performsNonLearnerFunction);
-        $this->assertSame(0, $token->refreshLimit);
         $this->assertSame(0, $token->refreshCount);
     }
 
