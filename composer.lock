@@ -3899,16 +3899,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v5.11.0",
+            "version": "v5.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "8241953a59f424f4e21d0ee605b2f6cb1bef01ff"
+                "reference": "86d8ca816c0951f542c0095ac3680cab172c7920"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/8241953a59f424f4e21d0ee605b2f6cb1bef01ff",
-                "reference": "8241953a59f424f4e21d0ee605b2f6cb1bef01ff",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/86d8ca816c0951f542c0095ac3680cab172c7920",
+                "reference": "86d8ca816c0951f542c0095ac3680cab172c7920",
                 "shasum": ""
             },
             "require": {
@@ -4009,7 +4009,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v5.11.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v5.11.1"
             },
             "funding": [
                 {
@@ -4017,7 +4017,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-03T14:14:53+00:00"
+            "time": "2026-08-12T10:26:23+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -11694,16 +11694,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "6.5.2",
+            "version": "6.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "cec9ec9157513ba27f15513d4983acbe03ce10b8"
+                "reference": "d0a5edd84dd5e116643c79e53d46814c5a5e4c04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/cec9ec9157513ba27f15513d4983acbe03ce10b8",
-                "reference": "cec9ec9157513ba27f15513d4983acbe03ce10b8",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/d0a5edd84dd5e116643c79e53d46814c5a5e4c04",
+                "reference": "d0a5edd84dd5e116643c79e53d46814c5a5e4c04",
                 "shasum": ""
             },
             "require": {
@@ -11771,7 +11771,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/6.5.2"
+                "source": "https://github.com/zircote/swagger-php/tree/6.5.3"
             },
             "funding": [
                 {
@@ -11779,7 +11779,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-05T02:31:32+00:00"
+            "time": "2026-08-12T04:26:57+00:00"
         }
     ],
     "packages-dev": [
