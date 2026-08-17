@@ -6,11 +6,15 @@ namespace App\Controller;
 
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Classes\UserToken;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
 use App\Entity\UserInterface;
+use App\Service\TokenCodec;
+use App\Service\TokenFactory;
+use App\Service\TokenManager;
 use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,7 +62,9 @@ class AuthController extends AbstractController
     public function token(
         Request $request,
         TokenStorageInterface $tokenStorage,
-        JsonWebTokenManager $jwtManager
+        TokenCodec $tokenCodec,
+        TokenFactory $tokenFactory,
+        TokenManager $tokenManager
     ): JsonResponse {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
@@ -66,9 +72,12 @@ class AuthController extends AbstractController
             throw new Exception('Attempted to access token with no valid user');
         }
 
-        $ttl = $request->query->get('ttl') ?: JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL;
-        $jwt = $jwtManager->refreshToken($token->getAttribute('jwt'), $ttl);
-
+        $ttl = $request->query->get('ttl') ?: TokenManager::USER_TOKEN_DEFAULT_TTL;
+        $data = $tokenCodec->decode($token->getAttribute('jwt'));
+        $userToken = $tokenFactory->create($data);
+        assert($userToken instanceof UserToken);
+        $refreshedToken = $tokenManager->refreshUserToken($sessionUser, $userToken, $ttl);
+        $jwt = $tokenCodec->encode($refreshedToken);
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 
