@@ -51,6 +51,9 @@ readonly class TokenFactory
             $isRoot = array_key_exists('is_root', $data) && $data['is_root'];
             $performsNonLearnerFunction =
                 array_key_exists('performs_non_learner_function', $data) && $data['performs_non_learner_function'];
+            $canCreateOrUpdateUserInAnySchool =
+                array_key_exists('can_create_or_update_user_in_any_school', $data)
+                && $data['can_create_or_update_user_in_any_school'];
             $issuedWith = array_key_exists('issued_with', $data) ? (int)$data['issued_with'] : null;
             $firstCreatedAt =
                 array_key_exists('firstCreatedAt', $data)
@@ -66,6 +69,7 @@ readonly class TokenFactory
                 $userId,
                 $isRoot,
                 $performsNonLearnerFunction,
+                $canCreateOrUpdateUserInAnySchool,
                 $issuedWith,
                 $firstCreatedAt,
                 $refreshCount,
@@ -75,9 +79,6 @@ readonly class TokenFactory
         // otherwise, process service token data.
         $serviceTokenId = (int) $data['token_id'];
         $writeableSchoolIds = $this->getWriteableSchoolIds($data);
-        $canCreateOrUpdateUserInAnySchool =
-            array_key_exists('can_create_or_update_user_in_any_school', $data)
-            && $data['can_create_or_update_user_in_any_school'];
         $canCreateUserTokensFromToken =
             array_key_exists('can_generate_user_tokens', $data) && $data['can_generate_user_tokens'];
         return new ServiceToken(
@@ -87,7 +88,6 @@ readonly class TokenFactory
             $issuer,
             $serviceTokenId,
             $writeableSchoolIds,
-            $canCreateOrUpdateUserInAnySchool,
             $canCreateUserTokensFromToken,
         );
     }

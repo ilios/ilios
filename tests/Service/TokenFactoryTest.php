@@ -95,6 +95,7 @@ final class TokenFactoryTest extends TestCase
                     1,
                     false,
                     false,
+                    false,
                     null,
                     $issuedAt,
                     0,
@@ -109,6 +110,7 @@ final class TokenFactoryTest extends TestCase
                     'user_id' => 2,
                     'is_root' => true,
                     'performs_non_learner_function' => false,
+                    'can_create_or_update_user_in_any_school' => true,
                     'issued_with' => 123,
                     'firstCreatedAt' => $firstIssuedAt->format('U'),
                     'refreshCount' => 10,
@@ -121,6 +123,7 @@ final class TokenFactoryTest extends TestCase
                     2,
                     true,
                     false,
+                    true,
                     123,
                     $firstIssuedAt,
                     10,
@@ -135,6 +138,7 @@ final class TokenFactoryTest extends TestCase
                     'user_id' => 3,
                     'is_root' => false,
                     'performs_non_learner_function' => true,
+                    'can_create_or_update_user_in_any_school' => false,
                     'issued_with' => 234,
                     'firstCreatedAt' => $firstIssuedAt->format('U'),
                     'refreshCount' => 11,
@@ -147,6 +151,7 @@ final class TokenFactoryTest extends TestCase
                     3,
                     false,
                     true,
+                    false,
                     234,
                     $firstIssuedAt,
                     11,
@@ -176,7 +181,6 @@ final class TokenFactoryTest extends TestCase
                     1,
                     [],
                     false,
-                    false,
                 ),
             ],
             [
@@ -187,7 +191,6 @@ final class TokenFactoryTest extends TestCase
                     'iss' => 'fizz',
                     'token_id' => 2,
                     'writeable_schools' => [1, 2, 3],
-                    'can_create_or_update_user_in_any_school' => true,
                     'can_generate_user_tokens' => false,
                 ],
                 new ServiceToken(
@@ -197,7 +200,6 @@ final class TokenFactoryTest extends TestCase
                     'fizz',
                     2,
                     [1, 2, 3],
-                    true,
                     false,
                 ),
             ],
@@ -209,7 +211,6 @@ final class TokenFactoryTest extends TestCase
                     'iss' => 'fizz',
                     'token_id' => 3,
                     'writeable_schools' => [],
-                    'can_create_or_update_user_in_any_school' => false,
                     'can_generate_user_tokens' => true,
                 ],
                 new ServiceToken(
@@ -219,7 +220,6 @@ final class TokenFactoryTest extends TestCase
                     'fizz',
                     3,
                     [],
-                    false,
                     true,
                 ),
             ],
@@ -261,6 +261,7 @@ final class TokenFactoryTest extends TestCase
         $this->assertSame($expectedToken->userId, $token->userId);
         $this->assertSame($expectedToken->isRoot, $token->isRoot);
         $this->assertSame($expectedToken->performsNonLearnerFunction, $token->performsNonLearnerFunction);
+        $this->assertSame($expectedToken->canCreateOrUpdateUserInAnySchool, $token->canCreateOrUpdateUserInAnySchool);
         $this->assertSame($expectedToken->issuedWith, $token->issuedWith);
         $this->assertSame($expectedToken->firstCreatedAt->format('U'), $token->firstCreatedAt->format('U'));
         $this->assertSame($expectedToken->refreshCount, $token->refreshCount);
@@ -274,7 +275,6 @@ final class TokenFactoryTest extends TestCase
         $this->assertSame($expectedToken->issuer, $token->issuer);
         $this->assertSame($expectedToken->serviceTokenId, $token->serviceTokenId);
         $this->assertSame($expectedToken->writeableSchoolIds, $token->writeableSchoolIds);
-        $this->assertSame($expectedToken->canCreateOrUpdateUserInAnySchool, $token->canCreateOrUpdateUserInAnySchool);
         $this->assertSame($expectedToken->canCreateUserTokensFromToken, $token->canCreateUserTokensFromToken);
     }
 }

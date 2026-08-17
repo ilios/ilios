@@ -22,6 +22,7 @@ final class UserTokenTest extends TestCase
         int $userId,
         bool $isRoot,
         bool $performsNonLearnerFunction,
+        bool $canCreateOrUpdateUserInAnySchool,
         ?int $issuedWith,
         DateTimeImmutable $firstCreatedAt,
         int $refreshCount,
@@ -34,6 +35,7 @@ final class UserTokenTest extends TestCase
             $userId,
             $isRoot,
             $performsNonLearnerFunction,
+            $canCreateOrUpdateUserInAnySchool,
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
@@ -44,6 +46,7 @@ final class UserTokenTest extends TestCase
         $this->assertSame($iss, $token->issuer);
         $this->assertSame($isRoot, $token->isRoot);
         $this->assertSame($performsNonLearnerFunction, $token->performsNonLearnerFunction);
+        $this->assertSame($canCreateOrUpdateUserInAnySchool, $token->canCreateOrUpdateUserInAnySchool);
         $this->assertSame($issuedWith, $token->issuedWith);
         $this->assertSame($firstCreatedAt, $token->firstCreatedAt);
         $this->assertSame($refreshCount, $token->refreshCount);
@@ -58,6 +61,7 @@ final class UserTokenTest extends TestCase
         int $userId,
         bool $isRoot,
         bool $performsNonLearnerFunction,
+        bool $canCreateOrUpdateUserInAnySchool,
         ?int $issuedWith,
         DateTimeImmutable $firstCreatedAt,
         int $refreshCount,
@@ -70,13 +74,14 @@ final class UserTokenTest extends TestCase
             $userId,
             $isRoot,
             $performsNonLearnerFunction,
+            $canCreateOrUpdateUserInAnySchool,
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
         );
         $arr = $token->toArray();
         $issuedWithIncluded = !is_null($issuedWith);
-        $this->assertCount($issuedWithIncluded ? 10 : 9, $arr);
+        $this->assertCount($issuedWithIncluded ? 11 : 10, $arr);
         $this->assertSame($token->issuedAt->format('U'), $arr['iat']);
         $this->assertSame($token->expiresAt->format('U'), $arr['exp']);
         $this->assertSame($token->audience, $arr['aud']);
@@ -84,6 +89,7 @@ final class UserTokenTest extends TestCase
         $this->assertSame($token->userId, $arr['user_id']);
         $this->assertSame($token->isRoot, $arr['is_root']);
         $this->assertSame($token->performsNonLearnerFunction, $arr['performs_non_learner_function']);
+        $this->assertSame($token->canCreateOrUpdateUserInAnySchool, $arr['can_create_or_update_user_in_any_school']);
         $this->assertSame($token->firstCreatedAt->format('U'), $arr['firstCreatedAt']);
         $this->assertSame($token->refreshCount, $arr['refreshCount']);
         if ($issuedWithIncluded) {
@@ -102,6 +108,7 @@ final class UserTokenTest extends TestCase
                 123,
                 true,
                 false,
+                true,
                 123,
                 new DateTimeImmutable(),
                 10,
@@ -114,6 +121,7 @@ final class UserTokenTest extends TestCase
                 234,
                 false,
                 true,
+                false,
                 null,
                 new DateTimeImmutable(),
                 30,

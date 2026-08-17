@@ -88,6 +88,7 @@ final class TokenCodecTest extends TestCase
         $userId = 123;
         $isRoot = true;
         $performsNonLearnerFunction = true;
+        $canCreateOrUpdateUserInAnySchool = true;
         $issuedWith = 10;
         $firstCreatedAt =  new DateTimeImmutable();
         $refreshCount = 20;
@@ -99,6 +100,7 @@ final class TokenCodecTest extends TestCase
             $userId,
             $isRoot,
             $performsNonLearnerFunction,
+            $canCreateOrUpdateUserInAnySchool,
             $issuedWith,
             $firstCreatedAt,
             $refreshCount,
@@ -111,6 +113,7 @@ final class TokenCodecTest extends TestCase
         $this->assertSame($decodedData['iss'], $issuer);
         $this->assertSame($decodedData['is_root'], $isRoot);
         $this->assertSame($decodedData['performs_non_learner_function'], $performsNonLearnerFunction);
+        $this->assertSame($decodedData['can_create_or_update_user_in_any_school'], $canCreateOrUpdateUserInAnySchool);
         $this->assertSame($decodedData['issued_with'], $issuedWith);
         $this->assertSame($decodedData['firstCreatedAt'], $firstCreatedAt->format('U'));
         $this->assertSame($decodedData['refreshCount'], $refreshCount);
@@ -124,7 +127,6 @@ final class TokenCodecTest extends TestCase
         $issuer = 'lorem';
         $serviceTokenId = 5;
         $writeableSchoolIds = [1, 2 ,3];
-        $canCreateOrUpdateUserInAnySchool = true;
         $canCreateUserTokensFromToken = true;
         $userToken = new ServiceToken(
             $issuedAt,
@@ -133,7 +135,6 @@ final class TokenCodecTest extends TestCase
             $issuer,
             $serviceTokenId,
             $writeableSchoolIds,
-            $canCreateOrUpdateUserInAnySchool,
             $canCreateUserTokensFromToken
         );
         $jwt = $this->codec->encode($userToken);
@@ -144,7 +145,6 @@ final class TokenCodecTest extends TestCase
         $this->assertSame($decodedData['iss'], $issuer);
         $this->assertSame($decodedData['token_id'], $serviceTokenId);
         $this->assertSame($decodedData['writeable_schools'], $writeableSchoolIds);
-        $this->assertSame($decodedData['can_create_or_update_user_in_any_school'], $canCreateOrUpdateUserInAnySchool);
         $this->assertSame($decodedData['can_generate_user_tokens'], $canCreateUserTokensFromToken);
     }
 }

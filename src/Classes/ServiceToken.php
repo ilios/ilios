@@ -18,7 +18,6 @@ readonly class ServiceToken extends Token
         string $issuer,
         public int $serviceTokenId,
         public array $writeableSchoolIds,
-        public bool $canCreateOrUpdateUserInAnySchool,
         public bool $canCreateUserTokensFromToken,
     ) {
         parent::__construct(
@@ -35,7 +34,6 @@ readonly class ServiceToken extends Token
             parent::toArray(),
             [
                 'token_id' => $this->serviceTokenId,
-                'can_create_or_update_user_in_any_school' => $this->canCreateOrUpdateUserInAnySchool,
                 'writeable_schools' => $this->writeableSchoolIds,
                 'can_generate_user_tokens' => $this->canCreateUserTokensFromToken,
             ],

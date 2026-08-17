@@ -93,8 +93,12 @@ final class CreateUserTokenCommandTest extends KernelTestCase
     }
 
     #[DataProvider('newDefaultTokenProvider')]
-    public function testNewDefaultToken(int $userId, bool $isRoot, bool $performsNonLearnerFunction): void
-    {
+    public function testNewDefaultToken(
+        int $userId,
+        bool $isRoot,
+        bool $performsNonLearnerFunction,
+        bool $canCreateOrUpdateUserInAnySchool,
+    ): void {
         $user = m::mock(UserInterface::class)->shouldReceive('getId')->andReturn($userId)->getMock();
         $this->userRepository->shouldReceive('findOneBy')->with(['id' => $userId])->andReturn($user);
         $sessionUserMock = m::mock(SessionUserInterface::class);
@@ -104,7 +108,7 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         $this->sessionUserPermissionChecker
             ->shouldReceive('canCreateOrUpdateUsersInAnySchool')
             ->with($sessionUserMock)
-            ->andReturn(true);
+            ->andReturn($canCreateOrUpdateUserInAnySchool);
         $this->sessionUserProvider
             ->shouldReceive('createSessionUserFromUserId')
             ->with($userId)
@@ -117,7 +121,7 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         $output = $this->commandTester->getDisplay();
         $jwt = $this->getJwtFromOutput($output);
         $data = $this->tokenCodec->decode($jwt);
-        $this->assertCount(9, $data);
+        $this->assertCount(10, $data);
         $iat = DateTimeImmutable::createFromFormat('U', $data['iat']);
         $exp = DateTimeImmutable::createFromFormat('U', $data['exp']);
         $firstCreatedAt = DateTimeImmutable::createFromFormat('U', $data['firstCreatedAt']);
@@ -131,14 +135,15 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         $this->assertSame($firstCreatedAt->getTimestamp(), $iat->getTimestamp());
         $this->assertSame($isRoot, $data['is_root']);
         $this->assertSame($performsNonLearnerFunction, $data['performs_non_learner_function']);
+        $this->assertSame($canCreateOrUpdateUserInAnySchool, $data['can_create_or_update_user_in_any_school']);
         $this->assertSame(0, $data['refreshCount']);
     }
 
     public static function newDefaultTokenProvider(): array
     {
         return [
-            [10, false, true],
-            [20, true, false],
+            [10, false, true, false],
+            [20, true, false, true],
         ];
     }
 
