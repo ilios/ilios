@@ -31,7 +31,7 @@ final class TokenFactoryTest extends TestCase
             'BeerDrinkersAndHellRaisers',
         );
         $this->codec = new TokenCodec($secretManager);
-        $this->factory = new TokenFactory($this->codec);
+        $this->factory = new TokenFactory();
     }
 
     protected function tearDown(): void
@@ -41,33 +41,19 @@ final class TokenFactoryTest extends TestCase
         parent::tearDown();
     }
 
+
     #[DataProvider('createUserTokenProvider')]
-    public function testCreateUserTokenFromJwt(array $input, UserToken $expectedToken): void
+    public function testCreateUserToken(array $input, UserToken $expectedToken): void
     {
-        $jwt = $this->codec->encode($input);
-        $token = $this->factory->createFromJwt($jwt);
+        $token = $this->factory->create($input);
         $this->assertUserTokenEquals($expectedToken, $token);
     }
 
-    #[DataProvider('createUserTokenProvider')]
-    public function testCreateUserTokenFromArray(array $input, UserToken $expectedToken): void
-    {
-        $token = $this->factory->createFromArray($input);
-        $this->assertUserTokenEquals($expectedToken, $token);
-    }
 
     #[DataProvider('createServiceTokenProvider')]
-    public function testCreateServiceTokenFromJwt(array $input, ServiceToken $expectedToken): void
+    public function testCreateServiceToken(array $input, ServiceToken $expectedToken): void
     {
-        $jwt = $this->codec->encode($input);
-        $token = $this->factory->createFromJwt($jwt);
-        $this->assertServiceTokenEquals($expectedToken, $token);
-    }
-
-    #[DataProvider('createServiceTokenProvider')]
-    public function testCreateServiceTokenFromArray(array $input, ServiceToken $expectedToken): void
-    {
-        $token = $this->factory->createFromArray($input);
+        $token = $this->factory->create($input);
         $this->assertServiceTokenEquals($expectedToken, $token);
     }
 
@@ -76,7 +62,7 @@ final class TokenFactoryTest extends TestCase
         $input = [];
         $this->expectException(DomainException::class);
         $this->expectExceptionMessageIsOrContains('Unable to determine token type.');
-        $this->factory->createFromArray($input);
+        $this->factory->create($input);
     }
 
     #[DataProvider('tokenCreationFailsOnMissingAttributesProvider')]
@@ -84,7 +70,7 @@ final class TokenFactoryTest extends TestCase
     {
         $this->expectException(DomainException::class);
         $this->expectExceptionMessageIsOrContains($expectedErrorMessage);
-        $this->factory->createFromArray($input);
+        $this->factory->create($input);
     }
 
     public static function createUserTokenProvider(): array

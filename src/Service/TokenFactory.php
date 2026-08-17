@@ -14,24 +14,10 @@ use DomainException;
  */
 readonly class TokenFactory
 {
-    public function __construct(protected TokenCodec $codec)
-    {
-    }
-
     /**
      * @throws DomainException
      */
-    public function createFromJwt(string $jwt): UserToken|ServiceToken
-    {
-        $data = $this->codec->decode($jwt);
-
-        return $this->createFromArray($data);
-    }
-
-    /**
-     * @throws DomainException
-     */
-    public function createFromArray(array $data): UserToken|ServiceToken
+    public function create(array $data): UserToken|ServiceToken
     {
         // figure out what kind of token data it is.
         $isUserToken = array_key_exists('user_id', $data);
