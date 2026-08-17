@@ -50,8 +50,6 @@ readonly class TokenManager
 
     /**
      * Extracts and returns data from a given JSON Web Token (JWT).
-     * @param string $jwt The encoded token.
-     * @return UserToken|ServiceToken The object representation of the given tokne.
      */
     public function extractJwt(string $jwt): UserToken|ServiceToken
     {
@@ -84,6 +82,9 @@ readonly class TokenManager
         return $this->factory->create($data);
     }
 
+    /**
+     * Creates a fresh replacement for the given user and token, with a given time-to-live.
+     */
     public function refreshUserToken(
         SessionUserInterface $sessionUser,
         UserToken $token,
