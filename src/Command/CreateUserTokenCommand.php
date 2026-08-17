@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\UserRepository;
+use App\Service\SessionUserProvider;
+use App\Service\TokenCodec;
+use App\Service\TokenManager;
 use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Service\JsonWebTokenManager;
 
 /**
  * Create a new token for a user
@@ -27,7 +29,9 @@ class CreateUserTokenCommand extends Command
 {
     public function __construct(
         protected UserRepository $userRepository,
-        protected JsonWebTokenManager $jwtManager
+        protected TokenManager $tokenManager,
+        protected TokenCodec $tokenCodec,
+        protected SessionUserProvider $sessionUserProvider,
     ) {
         parent::__construct();
     }
@@ -36,7 +40,7 @@ class CreateUserTokenCommand extends Command
         OutputInterface $output,
         #[Argument(description: 'A valid user id.', name: 'userId')] int $userId,
         #[Option(description: 'What is the interval before the token expires?')]
-        string $ttl = JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL
+        string $ttl = TokenManager::USER_TOKEN_DEFAULT_TTL
     ): int {
         $user = $this->userRepository->findOneBy(['id' => $userId]);
         if (!$user) {
@@ -44,10 +48,11 @@ class CreateUserTokenCommand extends Command
                 "No user with id #{$userId} was found."
             );
         }
-        $jwt = $this->jwtManager->createJwtFromUserId($user->getId(), $ttl);
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
+        $jwt = $this->tokenManager->createUserTokenForSessionUser($sessionUser, $ttl);
 
         $output->writeln('Success!');
-        $output->writeln('Token ' . $jwt);
+        $output->writeln('Token ' . $this->tokenCodec->encode($jwt));
 
         return Command::SUCCESS;
     }
