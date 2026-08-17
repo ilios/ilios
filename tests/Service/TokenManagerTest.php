@@ -142,4 +142,56 @@ final class TokenManagerTest extends TestCase
             $token->issuedAt->add($maxTtlInterval)->getTimestamp()
         );
     }
+
+    public function testRefreshUserToken(): void
+    {
+        $iat = new DateTimeImmutable();
+        $exp = $iat->add(new DateInterval('PT30M'));
+        $firstCreatedAt = $iat->sub(new DateInterval('PT20M'));
+        $userId = 10;
+        $iss = 'foo';
+        $aud = ['biff', 'bob'];
+        $refreshCount = 0;
+        $oldToken = $this->factory->create(
+            [
+                'iat' => $iat->format('U'),
+                'exp' => $exp->format('U'),
+                'iss' => $iss,
+                'aud' => $aud,
+                'user_id' => $userId,
+                'is_root' => false,
+                'performs_non_learner_function' => false,
+                'can_create_or_update_user_in_any_school' => false,
+                'firstCreatedAt' => $firstCreatedAt->format('U'),
+                'refreshCount' => $refreshCount,
+            ]
+        );
+        assert($oldToken instanceof UserToken);
+        $this->assertFalse($oldToken->isRoot);
+        $this->assertFalse($oldToken->performsNonLearnerFunction);
+        $this->assertFalse($oldToken->canCreateOrUpdateUserInAnySchool);
+
+        $newTtl = 'PT45M';
+        $sessionUserMock = m::mock(SessionUserInterface::class);
+        $sessionUserMock->shouldReceive('getId')->andReturn($userId);
+        $sessionUserMock->shouldReceive('performsNonLearnerFunction')->andReturn(true);
+        $sessionUserMock->shouldReceive('isRoot')->andReturn(true);
+        $this->sessionUserPermissionChecker
+            ->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUserMock)
+            ->andReturn(true);
+        $newToken = $this->manager->refreshUserToken($sessionUserMock, $oldToken, $newTtl);
+        $this->assertSame(
+            $newToken->expiresAt->getTimestamp(),
+            $newToken->issuedAt->add(new DateInterval($newTtl))->getTimestamp(),
+        );
+        $this->assertSame($newToken->issuer, $oldToken->issuer);
+        $this->assertSame($newToken->audience, $newToken->audience);
+        $this->assertSame($newToken->userId, $userId);
+        $this->assertTrue($newToken->isRoot);
+        $this->assertTrue($newToken->performsNonLearnerFunction);
+        $this->assertTrue($newToken->canCreateOrUpdateUserInAnySchool);
+        $this->assertSame($newToken->firstCreatedAt->getTimestamp(), $oldToken->firstCreatedAt->getTimestamp());
+        $this->assertSame($newToken->refreshCount, $oldToken->refreshCount + 1);
+    }
 }

@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Classes\ServiceToken;
 use App\Classes\SessionUserInterface;
 use App\Classes\UserToken;
+use App\Exception\InvalidInputWithSafeUserMessageException;
 use DateInterval;
 use DateTimeImmutable;
 
@@ -21,6 +22,10 @@ readonly class TokenManager
     public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
 
     /**
+     * The limit on how many times a user token can be refreshed.
+     */
+    public const int USER_TOKEN_REFRESH_LIMIT = 12;
+    /**
      * The maximum time-to-live for any generated token.
      */
     public const string TOKEN_MAX_TTL = 'P90D';
@@ -34,6 +39,7 @@ readonly class TokenManager
      * The default token audience claim.
      */
     public const string TOKEN_AUDIENCE = 'ilios';
+
 
     public function __construct(
         protected TokenCodec $codec,
@@ -74,6 +80,47 @@ readonly class TokenManager
                 $this->sessionUserPermissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser),
             'firstCreatedAt' => $issuedAt->format('U'),
             'refreshCount' => 0,
+        ];
+        return $this->factory->create($data);
+    }
+
+    public function refreshUserToken(
+        SessionUserInterface $sessionUser,
+        UserToken $token,
+        string $ttl = self::USER_TOKEN_DEFAULT_TTL
+    ): UserToken {
+        if ($token->refreshCount >= self::USER_TOKEN_REFRESH_LIMIT) {
+            throw new InvalidInputWithSafeUserMessageException(
+                sprintf('Refresh limit %s exceeded', self::USER_TOKEN_REFRESH_LIMIT)
+            );
+        }
+
+        $maximumAge = new DateTimeImmutable()->sub(new DateInterval(self::TOKEN_MAX_TTL));
+        if ($token->issuedAt <= $maximumAge || $token->firstCreatedAt <= $maximumAge) {
+            throw new InvalidInputWithSafeUserMessageException("Token is too old to refresh");
+        }
+
+        $iat = new DateTimeImmutable();
+        $exp = $iat->add(new DateInterval($ttl));
+        $maximumExp = $token->firstCreatedAt->add(new DateInterval(self::TOKEN_MAX_TTL));
+        if ($maximumExp < $exp) {
+            throw new InvalidInputWithSafeUserMessageException(
+                "Invalid TTL value, maximum expiration date is \n{$maximumExp->format('c')}"
+            );
+        }
+
+        $data = [
+            'iat' => $iat->format('U'),
+            'exp' => $exp->format('U'),
+            'iss' => $token->issuer,
+            'aud' => $token->audience,
+            'user_id' => $sessionUser->getId(),
+            'is_root' => $sessionUser->isRoot(),
+            'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
+            'can_create_or_update_user_in_any_school' =>
+                $this->sessionUserPermissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser),
+            'firstCreatedAt' => $token->firstCreatedAt->format('U'),
+            'refreshCount' => $token->refreshCount + 1,
         ];
         return $this->factory->create($data);
     }
