@@ -24,7 +24,7 @@ abstract readonly class Token
         return [
             'iat' => $this->issuedAt->format('U'),
             'exp' => $this->expiresAt->format('U'),
-            'aud' => $this->audience,
+            'aud' => 1 === count($this->audience) ? $this->audience[0] : $this->audience,
             'iss' => $this->issuer,
         ];
     }

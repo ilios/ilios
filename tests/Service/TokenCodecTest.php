@@ -83,7 +83,7 @@ final class TokenCodecTest extends TestCase
     {
         $issuedAt = new DateTimeImmutable();
         $expiresAt = new DateTimeImmutable();
-        $audience = ['foo'];
+        $audience = ['foo', 'bar'];
         $issuer = 'lorem';
         $userId = 123;
         $isRoot = true;
@@ -123,7 +123,7 @@ final class TokenCodecTest extends TestCase
     {
         $issuedAt = new DateTimeImmutable();
         $expiresAt = new DateTimeImmutable();
-        $audience = ['foo'];
+        $audience = ['foo', 'bar'];
         $issuer = 'lorem';
         $serviceTokenId = 5;
         $writeableSchoolIds = [1, 2 ,3];

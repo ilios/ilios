@@ -6,6 +6,7 @@ namespace App\Tests\Classes;
 
 use App\Classes\ServiceToken;
 use App\Tests\TestCase;
+use DateInterval;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -71,10 +72,26 @@ final class ServiceTokenTest extends TestCase
         $this->assertSame($token->canCreateUserTokensFromToken, $arr['can_generate_user_tokens']);
     }
 
+    public function testToArrayWithSingleItemAudienceArray(): void
+    {
+        $aud = 'just_this';
+        $token = new ServiceToken(
+            new DateTimeImmutable(),
+            new DateTimeImmutable()->add(new DateInterval('PT5M')),
+            [$aud],
+            'foo',
+            1,
+            [],
+            false,
+        );
+        $arr = $token->toArray();
+        $this->assertSame($aud, $arr['aud']);
+    }
+
     public static function dataProvider(): array
     {
         return [
-            [new DateTimeImmutable(), new DateTimeImmutable(), ['foo'], 'bar', 123, [1, 2, 3], true],
+            [new DateTimeImmutable(), new DateTimeImmutable(), ['foo', 'bar'], 'bar', 123, [1, 2, 3], true],
             [new DateTimeImmutable(), new DateTimeImmutable(), [], 'baz', 234, [], false],
         ];
     }

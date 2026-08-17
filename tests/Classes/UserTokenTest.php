@@ -6,6 +6,7 @@ namespace App\Tests\Classes;
 
 use App\Classes\UserToken;
 use App\Tests\TestCase;
+use DateInterval;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -97,13 +98,33 @@ final class UserTokenTest extends TestCase
         }
     }
 
+    public function testToArrayWithSingleItemAudienceArray(): void
+    {
+        $aud = 'just_this';
+        $token = new UserToken(
+            new DateTimeImmutable(),
+            new DateTimeImmutable()->add(new DateInterval('PT5M')),
+            [$aud],
+            'foo',
+            1,
+            false,
+            false,
+            false,
+            null,
+            new DateTimeImmutable(),
+            0,
+        );
+        $arr = $token->toArray();
+        $this->assertSame($aud, $arr['aud']);
+    }
+
     public static function dataProvider(): array
     {
         return [
             [
                 new DateTimeImmutable(),
                 new DateTimeImmutable(),
-                ['foo'],
+                ['foo', 'bar'],
                 'bar',
                 123,
                 true,
