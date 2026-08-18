@@ -25,6 +25,7 @@ final class LoggerQueueTest extends TestCase
         $logger->shouldReceive('log')
             ->times(1)
             ->with($action, '12', 'IliosTestSchoolEntity', $changes, false);
+        $logger->shouldReceive('flush')->once();
         $queue = new LoggerQueue($logger);
         $queue->add($action, $school, 'IliosTestSchoolEntity', $changes);
         $queue->flush();
