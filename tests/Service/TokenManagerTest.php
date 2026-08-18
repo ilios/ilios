@@ -194,4 +194,54 @@ final class TokenManagerTest extends TestCase
         $this->assertSame($newToken->firstCreatedAt->getTimestamp(), $oldToken->firstCreatedAt->getTimestamp());
         $this->assertSame($newToken->refreshCount, $oldToken->refreshCount + 1);
     }
+
+    #[DataProvider('createUserTokenFromServiceTokenProvider')]
+    public function testCreateUserTokenFromServiceToken(
+        int $userId,
+        bool $isRoot,
+        bool $performsNonLearnerFunction,
+        bool $canCreateOrUpdateUsersInAnySchool,
+        int $serviceTokenId,
+        array $serviceTokenAudience,
+    ): void {
+        $sessionUser = m::mock(SessionUserInterface::class);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+        $sessionUser->shouldReceive('isRoot')->andReturn($isRoot);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn($performsNonLearnerFunction);
+        $this->sessionUserPermissionChecker
+            ->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->with($sessionUser)
+            ->andReturn($canCreateOrUpdateUsersInAnySchool);
+        $serviceToken = new ServiceToken(
+            new DateTimeImmutable(),
+            new DateTimeImmutable()->add(new DateInterval('PT5M')),
+            $serviceTokenAudience,
+            'doesnotmatter',
+            $serviceTokenId,
+            [],
+            true,
+        );
+
+        $userToken = $this->manager->createUserTokenFromServiceToken($sessionUser, $serviceToken);
+        $this->assertSame(
+            $userToken->issuedAt->add(new DateInterval(TokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp(),
+            $userToken->expiresAt->getTimestamp()
+        );
+        $this->assertSame(TokenManager::TOKEN_ISSUER, $userToken->issuer);
+        $this->assertSame($serviceTokenAudience, $userToken->audience);
+        $this->assertSame($isRoot, $userToken->isRoot);
+        $this->assertSame($performsNonLearnerFunction, $userToken->performsNonLearnerFunction);
+        $this->assertSame($canCreateOrUpdateUsersInAnySchool, $userToken->canCreateOrUpdateUserInAnySchool);
+        $this->assertSame($userToken->issuedAt->getTimestamp(), $userToken->firstCreatedAt->getTimestamp());
+        $this->assertSame(0, $userToken->refreshCount);
+        $this->assertSame($serviceTokenId, $userToken->issuedWith);
+    }
+
+    public static function createUserTokenFromServiceTokenProvider(): array
+    {
+        return [
+            [10, true, false, true, 5, []],
+            [20, false, true, false, 10, ['ilios', 'fizz']],
+        ];
+    }
 }

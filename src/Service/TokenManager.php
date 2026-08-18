@@ -22,6 +22,11 @@ readonly class TokenManager
     public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
 
     /**
+     * The TTL for short-lived user tokens.
+     */
+    public const string USER_TOKEN_SHORT_TTL = 'PT30S';
+
+    /**
      * The limit on how many times a user token can be refreshed.
      */
     public const int USER_TOKEN_REFRESH_LIMIT = 12;
@@ -123,6 +128,34 @@ readonly class TokenManager
             'firstCreatedAt' => $token->firstCreatedAt->format('U'),
             'refreshCount' => $token->refreshCount + 1,
         ];
+        return $this->factory->create($data);
+    }
+
+    /**
+     * Creates a new user token for the given user with a given service token.
+     */
+    public function createUserTokenFromServiceToken(
+        SessionUserInterface $sessionUser,
+        ServiceToken $serviceToken,
+    ): UserToken {
+        $iat = new DateTimeImmutable();
+        $exp = $iat->add(new DateInterval(self::USER_TOKEN_SHORT_TTL));
+
+        $data = [
+            'iat' => $iat->format('U'),
+            'exp' => $exp->format('U'),
+            'iss' => self::TOKEN_ISSUER,
+            'aud' => $serviceToken->audience,
+            'user_id' => $sessionUser->getId(),
+            'is_root' => $sessionUser->isRoot(),
+            'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
+            'can_create_or_update_user_in_any_school' =>
+                $this->sessionUserPermissionChecker->canCreateOrUpdateUsersInAnySchool($sessionUser),
+            'firstCreatedAt' => $iat->format('U'),
+            'refreshCount' => 0,
+            'issued_with' => $serviceToken->serviceTokenId,
+        ];
+
         return $this->factory->create($data);
     }
 
