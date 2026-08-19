@@ -27,6 +27,12 @@ readonly class TokenManager
     public const string USER_TOKEN_SHORT_TTL = 'PT30S';
 
     /**
+     * The max TTL for service tokens.
+     */
+    public const string SERVICE_TOKEN_MAX_TTL = 'P180D';
+
+
+    /**
      * The limit on how many times a user token can be refreshed.
      */
     public const int USER_TOKEN_REFRESH_LIMIT = 12;

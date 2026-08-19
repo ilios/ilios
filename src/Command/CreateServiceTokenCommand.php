@@ -30,8 +30,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class CreateServiceTokenCommand extends Command
 {
-    public const string TTL_MAX_VALUE = 'P180D'; // roughly six months
-
     public function __construct(
         protected ServiceTokenRepository $tokenRepository,
         protected ServiceTokenUserProvider $userProvider,
@@ -61,7 +59,12 @@ class CreateServiceTokenCommand extends Command
             return Command::INVALID;
         }
         if ($this->ttlExceedsMaximumTtl($ttl)) {
-            $output->writeln('The given time-to-live exceeds the maximum allowed value (' . self::TTL_MAX_VALUE . ').');
+            $output->writeln(
+                sprintf(
+                    'The given time-to-live exceeds the maximum allowed value (%s).',
+                    TokenManager::SERVICE_TOKEN_MAX_TTL
+                )
+            );
             return Command::INVALID;
         }
 
@@ -101,7 +104,7 @@ class CreateServiceTokenCommand extends Command
 
     protected function ttlExceedsMaximumTtl(DateInterval $ttl): bool
     {
-        $maxTtl = new DateInterval(self::TTL_MAX_VALUE);
+        $maxTtl = new DateInterval(TokenManager::SERVICE_TOKEN_MAX_TTL);
         $now = new DateTimeImmutable();
         $ttlDate = $now->add($ttl);
         $maxTtlDate = $now->add($maxTtl);
