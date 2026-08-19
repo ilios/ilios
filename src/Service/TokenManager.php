@@ -45,6 +45,11 @@ readonly class TokenManager
      */
     public const string TOKEN_AUDIENCE = 'ilios';
 
+    /**
+     * Audience claim for our Dashboard LTI frontend.
+     */
+    public const string TOKEN_LTI_DASHBOARD_AUDIENCE = 'lti-dashboard';
+
 
     public function __construct(
         protected TokenCodec $codec,

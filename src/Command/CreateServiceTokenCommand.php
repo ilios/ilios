@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Classes\ServiceToken;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
 use App\Service\ServiceTokenUserProvider;
+use App\Service\TokenCodec;
+use App\Service\TokenFactory;
+use App\Service\TokenManager;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
@@ -16,7 +20,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Service\JsonWebTokenManager;
 
 /**
  * Create a new service account token.
@@ -32,7 +35,8 @@ class CreateServiceTokenCommand extends Command
     public function __construct(
         protected ServiceTokenRepository $tokenRepository,
         protected ServiceTokenUserProvider $userProvider,
-        protected JsonWebTokenManager $jwtManager
+        protected TokenFactory $tokenFactory,
+        protected TokenCodec $tokenCodec,
     ) {
         parent::__construct();
     }
@@ -52,7 +56,7 @@ class CreateServiceTokenCommand extends Command
     ): int {
         try {
             $ttl = new DateInterval($ttl);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $output->writeln('Unable to parse given TTL value.');
             return Command::INVALID;
         }
@@ -73,14 +77,22 @@ class CreateServiceTokenCommand extends Command
 
         $schoolIds = $this->getSchoolIdsFromInput($writeableSchools);
 
-        $serviceTokenUser = $this->userProvider->loadUserByIdentifier((string) $token->getId());
+        $data = [
+            'iat' => $token->getCreatedAt()->format('U'),
+            'exp' => $token->getExpiresAt()->format('U'),
+            'aud' => $grantLtiDashboardAudienceClaim
+                ? TokenManager::TOKEN_LTI_DASHBOARD_AUDIENCE
+                : TokenManager::TOKEN_AUDIENCE,
+            'iss' => TokenManager::TOKEN_ISSUER,
+            'token_id' => $token->getId(),
+            'writeable_schools' => $schoolIds,
+            'can_generate_user_tokens' => $allowUserTokenGeneration,
+        ];
 
-        $jwt = $this->jwtManager->createJwtFromServiceTokenUser(
-            $serviceTokenUser,
-            $schoolIds,
-            $allowUserTokenGeneration,
-            $grantLtiDashboardAudienceClaim
-        );
+        $serviceToken = $this->tokenFactory->create($data);
+        assert($serviceToken instanceof ServiceToken);
+
+        $jwt = $this->tokenCodec->encode($serviceToken);
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
 
