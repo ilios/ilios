@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Classes\ServiceToken;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Classes\UserToken;
@@ -12,6 +13,7 @@ use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\JsonWebTokenManager;
 use App\Entity\UserInterface;
+use App\Service\SessionUserProvider;
 use App\Service\TokenCodec;
 use App\Service\TokenFactory;
 use App\Service\TokenManager;
@@ -96,7 +98,10 @@ class AuthController extends AbstractController
         int $userId,
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
-        JsonWebTokenManager $jwtManager
+        SessionUserProvider $sessionUserProvider,
+        TokenManager $tokenManager,
+        TokenFactory $tokenFactory,
+        TokenCodec $tokenCodec,
     ): JsonResponse {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
@@ -105,8 +110,12 @@ class AuthController extends AbstractController
         if (!$sessionUser instanceof ServiceTokenUserInterface) {
             throw $this->createAccessDeniedException('Cannot create user token without a service token.');
         }
+        // todo: change this upstream to have the security token return an already decoded token object.
+        $serviceToken = $tokenFactory->create($tokenCodec->decode($token->getAttribute('jwt')));
+        assert($serviceToken instanceof ServiceToken);
+
         // authorization
-        if (!$token->getAttribute(JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY)) {
+        if (!$serviceToken->canCreateUserTokensFromToken) {
             throw $this->createAccessDeniedException('Insufficient permissions for creating user tokens.');
         }
 
@@ -116,7 +125,11 @@ class AuthController extends AbstractController
             // let's keep this error message somewhat ambiguous on purpose, for security reasons.
             throw $this->createNotFoundException('Could not find the requested user.');
         }
-        $jwt = $jwtManager->createUserTokenFromServiceToken($user, $token);
+
+        $sessionUser = $sessionUserProvider->createSessionUserFromUserId($user->getId());
+        $userToken = $tokenManager->createUserTokenFromServiceToken($sessionUser, $serviceToken);
+        $jwt = $tokenCodec->encode($userToken);
+
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 

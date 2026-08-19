@@ -376,7 +376,7 @@ final class AuthControllerTest extends WebTestCase
         $this->assertArrayHasKey('jwt', $data);
         $jwt = $this->decode($data['jwt']);
         $this->assertEquals('ilios', $jwt['iss']);
-        $this->assertEquals([JsonWebTokenManager::TOKEN_AUD_LTI_DASHBOARD], $jwt['aud']);
+        $this->assertEquals(JsonWebTokenManager::TOKEN_AUD_LTI_DASHBOARD, $jwt['aud']);
         $this->assertEquals(
             (int) $jwt['exp'],
             DateTime::createFromTimestamp((int) $jwt['iat'])
@@ -384,7 +384,6 @@ final class AuthControllerTest extends WebTestCase
         );
         $this->assertEquals($jwt['firstCreatedAt'], $jwt['iat']);
         $this->assertEquals(0, $jwt['refreshCount']);
-        $this->assertEquals('user', $jwt['permissions']);
         $this->assertEquals($user['id'], $jwt['user_id']);
         $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt[JsonWebTokenManager::ISSUED_WITH_KEY]);
     }
