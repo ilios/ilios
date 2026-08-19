@@ -17,31 +17,6 @@ use DateTimeImmutable;
 readonly class TokenManager
 {
     /**
-     * The default time-to-live (TTL) for generated user tokens.
-     */
-    public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
-
-    /**
-     * The TTL for short-lived user tokens.
-     */
-    public const string USER_TOKEN_SHORT_TTL = 'PT30S';
-
-    /**
-     * The maximum TTL for generated service tokens.
-     */
-    public const string SERVICE_TOKEN_MAX_TTL = 'P180D';
-
-    /**
-     * The maximum TTL for generated user token.
-     */
-    public const string USER_TOKEN_MAX_TTL = 'P90D';
-
-    /**
-     * The limit on how many times a user token can be refreshed.
-     */
-    public const int USER_TOKEN_REFRESH_LIMIT = 12;
-
-    /**
      * The default token issuer claim.
      */
     public const string TOKEN_ISSUER = 'ilios';
@@ -56,6 +31,30 @@ readonly class TokenManager
      */
     public const string TOKEN_LTI_DASHBOARD_AUDIENCE = 'lti-dashboard';
 
+    /**
+     * The limit on how many times a user token can be refreshed.
+     */
+    public const int USER_TOKEN_REFRESH_LIMIT = 12;
+
+    /**
+     * The default time-to-live (TTL) for generated user tokens.
+     */
+    public const string USER_TOKEN_DEFAULT_TTL = 'PT8H';
+
+    /**
+     * The maximum TTL for generated user token.
+     */
+    public const string USER_TOKEN_MAX_TTL = 'P90D';
+
+    /**
+     * The TTL for short-lived user tokens.
+     */
+    public const string USER_TOKEN_SHORT_TTL = 'PT30S';
+
+    /**
+     * The maximum TTL for generated service tokens.
+     */
+    public const string SERVICE_TOKEN_MAX_TTL = 'P180D';
 
     public function __construct(
         protected TokenCodec $codec,
