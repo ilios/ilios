@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ServiceTokenVoter;
 
-use App\Service\JsonWebTokenManager;
+use App\Classes\ServiceToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -31,16 +31,10 @@ abstract class AbstractReadWriteEntityVoter extends Voter
         return $subject instanceof $this->supportedType && $this->supportsAttribute($attribute);
     }
 
-    protected function getWriteableSchoolIdsFromToken(TokenInterface $token): array
+    protected function getWriteableSchoolIdsFromToken(TokenInterface $securityToken): array
     {
-        if (!$token->hasAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY)) {
-            return [];
-        }
-        $schoolIds = $token->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY);
-        if (!is_array($schoolIds)) {
-            return [];
-        }
-        return $schoolIds;
+        $token = $securityToken->getAttribute('token');
+        return ($token instanceof ServiceToken) ? $token->writeableSchoolIds : [];
     }
 
     protected function hasWriteAccessToSchool(TokenInterface $token, int $schoolId): bool
