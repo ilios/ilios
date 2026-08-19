@@ -131,7 +131,7 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         );
         $this->assertSame($userId, $data['user_id']);
         $this->assertSame('ilios', $data['iss']);
-        $this->assertSame(['ilios'], $data['aud']);
+        $this->assertSame('ilios', $data['aud']);
         $this->assertSame($firstCreatedAt->getTimestamp(), $iat->getTimestamp());
         $this->assertSame($isRoot, $data['is_root']);
         $this->assertSame($performsNonLearnerFunction, $data['performs_non_learner_function']);
