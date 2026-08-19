@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Security;
 
+use App\Classes\ServiceToken;
+use App\Classes\UserToken;
+use App\Service\SecretManager;
+use App\Service\TokenCodec;
+use App\Service\TokenFactory;
+use DateInterval;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUserInterface;
 use App\Security\JsonWebTokenAuthenticator;
-use App\Service\JsonWebTokenManager;
 use App\Service\ServiceTokenUserProvider;
 use App\Tests\TestCase;
 use Mockery as m;
@@ -19,24 +25,31 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use UnexpectedValueException;
 
 #[CoversClass(JsonWebTokenAuthenticator::class)]
 final class JsonWebTokenAuthenticatorTest extends TestCase
 {
     protected m\MockInterface $routerMock;
-    protected m\MockInterface $jsonWebTokenManagerMock;
     protected m\MockInterface $serviceTokenUserProviderMock;
+    protected TokenCodec $tokenCodec;
+    protected TokenFactory $tokenFactory;
     protected JsonWebTokenAuthenticator $authenticator;
 
     public function setUp(): void
     {
         parent::setUp();
+        $this->tokenCodec = new TokenCodec(
+            new SecretManager(
+                'sadfadsfASDFASFASDGF ADSFG adsfASDF',
+                'sdfasdATR AGADS FGadsf ASDRFARDA ',
+            )
+        );
+        $this->tokenFactory = new TokenFactory();
         $this->routerMock = m::mock(RouterInterface::class);
-        $this->jsonWebTokenManagerMock = m::mock(JsonWebTokenManager::class);
         $this->serviceTokenUserProviderMock = m::mock(ServiceTokenUserProvider::class);
         $this->authenticator = new JsonWebTokenAuthenticator(
-            $this->jsonWebTokenManagerMock,
+            $this->tokenCodec,
+            $this->tokenFactory,
             $this->routerMock,
             $this->serviceTokenUserProviderMock
         );
@@ -44,11 +57,12 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
 
     public function tearDown(): void
     {
-        unset($this->authenticator);
+        unset($this->tokenCodec);
+        unset($this->tokenFactory);
         unset($this->routerMock);
-        unset($this->jsonWebTokenManagerMock);
         unset($this->serviceTokenUserProviderMock);
-        parent::setUp();
+        unset($this->authenticator);
+        parent::tearDown();
     }
 
     public function testSupports(): void
@@ -94,41 +108,46 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
 
     public function testAuthenticateWithUserToken(): void
     {
-        $jwt = 'abcde';
+        $jwt = $this->tokenCodec->encode([
+                'iat' => new DateTimeImmutable()->format('U'),
+                'exp' => new DateTimeImmutable()->add(new DateInterval('PT40M'))->format('U'),
+                'iss' => 'whoever',
+                'aud' => 'lorem ipsum',
+                'user_id' => 1,
+        ]);
         $request = new Request();
         $request->headers->add(['X-JWT-Authorization' => "Token {$jwt}"]);
-        $this->jsonWebTokenManagerMock->shouldReceive('isUserToken')->with($jwt)->andReturnTrue();
-        $this->jsonWebTokenManagerMock->shouldReceive('getUserIdFromToken')->andReturn(1);
         $passport = $this->authenticator->authenticate($request);
-        $this->assertEquals($jwt, $passport->getAttribute('jwt'));
-        $this->assertNull($passport->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
+        $token = $passport->getAttribute('token');
+        $this->assertInstanceOf(UserToken::class, $token);
     }
 
     public function testAuthenticateWithServiceToken(): void
     {
-        $jwt = 'abcde';
-        $schoolIds = [1, 3, 4];
+        $jwt = $this->tokenCodec->encode([
+            'iat' => new DateTimeImmutable()->format('U'),
+            'exp' => new DateTimeImmutable()->add(new DateInterval('PT40M'))->format('U'),
+            'iss' => 'whoever',
+            'aud' => 'lorem ipsum',
+            'token_id' => 1,
+        ]);
         $request = new Request();
         $request->headers->add(['X-JWT-Authorization' => "Token {$jwt}"]);
-        $this->jsonWebTokenManagerMock->shouldReceive('isUserToken')->andReturnFalse();
-        $this->jsonWebTokenManagerMock->shouldReceive('isServiceToken')->andReturnTrue();
-        $this->jsonWebTokenManagerMock->shouldReceive('getServiceTokenIdFromToken')->andReturn(1);
-        $this->jsonWebTokenManagerMock
-            ->shouldReceive('getWriteableSchoolIdsFromToken')
-            ->with($jwt)
-            ->andReturn($schoolIds);
         $passport = $this->authenticator->authenticate($request);
-        $this->assertEquals($jwt, $passport->getAttribute('jwt'));
-        $this->assertEquals($schoolIds, $passport->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
+        $token = $passport->getAttribute('token');
+        $this->assertInstanceOf(ServiceToken::class, $token);
     }
 
     public function testAuthenticateFailsWithoutIdentity(): void
     {
-        $jwt = 'abcde';
+        $jwt = $this->tokenCodec->encode([
+            'iat' => new DateTimeImmutable()->format('U'),
+            'exp' => new DateTimeImmutable()->add(new DateInterval('PT40M'))->format('U'),
+            'iss' => 'whoever',
+            'aud' => 'lorem ipsum',
+        ]);
         $request = new Request();
         $request->headers->add(['X-JWT-Authorization' => "Token {$jwt}"]);
-        $this->jsonWebTokenManagerMock->shouldReceive('isUserToken')->andReturnFalse();
-        $this->jsonWebTokenManagerMock->shouldReceive('isServiceToken')->andReturnFalse();
         $this->expectException(CustomUserMessageAuthenticationException::class);
         $this->expectExceptionMessage('Invalid JSON Web Token');
         $this->authenticator->authenticate($request);
@@ -136,67 +155,62 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
 
     public function testAuthenticateFailsWithCorruptedJwt(): void
     {
-        $jwt = 'abcde';
+        $codec = new TokenCodec(
+            new SecretManager('a different secret to encode this token with', '')
+        );
+        $jwt = $codec->encode([
+            'iat' => new DateTimeImmutable()->format('U'),
+            'exp' => new DateTimeImmutable()->add(new DateInterval('PT40M'))->format('U'),
+            'iss' => 'whoever',
+            'aud' => 'lorem ipsum',
+        ]);
         $request = new Request();
         $request->headers->add(['X-JWT-Authorization' => "Token {$jwt}"]);
-        $this->jsonWebTokenManagerMock->shouldReceive('isUserToken')->andReturnTrue();
-        $this->jsonWebTokenManagerMock
-            ->shouldReceive('getUserIdFromToken')
-            ->andThrow(new UnexpectedValueException('something went wrong'));
         $this->expectException(CustomUserMessageAuthenticationException::class);
-        $this->expectExceptionMessage('Invalid JSON Web Token: something went wrong');
+        $this->expectExceptionMessage('Invalid JSON Web Token: Signature verification failed');
         $this->authenticator->authenticate($request);
     }
 
-    public function testCreateTokenForUser(): void
+    public function testCreateUserToken(): void
     {
-        $jwt = 'abcde';
+        $token = $this->tokenFactory->create([
+            'iat' => new DateTimeImmutable()->format('U'),
+            'exp' => new DateTimeImmutable()->add(new DateInterval('PT40M'))->format('U'),
+            'iss' => 'whoever',
+            'aud' => 'lorem ipsum',
+            'user_id' => 100,
+        ]);
         $userMock = m::mock(SessionUserInterface::class);
         $userMock->shouldReceive('getRoles')->andReturn([]);
         $passportMock = m::mock(Passport::class);
-        $passportMock->shouldReceive('getAttribute')->with('jwt')->andReturn($jwt);
+        $passportMock->shouldReceive('getAttribute')->with('token')->andReturn($token);
         $passportMock->shouldReceive('getUser')->andReturn($userMock);
-        $this->jsonWebTokenManagerMock->shouldReceive('isServiceToken')->andReturn(false);
 
-        $token = $this->authenticator->createToken($passportMock, 'main');
+        $securityToken = $this->authenticator->createToken($passportMock, 'main');
 
-        $this->assertEquals($jwt, $token->getAttribute('jwt'));
-        $this->assertEquals($userMock, $token->getUser());
+        $this->assertSame($token, $securityToken->getAttribute('token'));
+        $this->assertSame($userMock, $securityToken->getUser());
     }
 
     public function testCreateTokenForServiceToken(): void
     {
-        $jwt = 'abcde';
-        $schoolIds = [1, 2, 3];
-        $applicationScope = ['lti-micro-manager'];
-        $canCreateUsers = true;
+        $token = $this->tokenFactory->create([
+            'iat' => new DateTimeImmutable()->format('U'),
+            'exp' => new DateTimeImmutable()->add(new DateInterval('PT40M'))->format('U'),
+            'iss' => 'whoever',
+            'aud' => 'lorem ipsum',
+            'user_id' => 100,
+        ]);
         $userMock = m::mock(ServiceTokenUser::class);
+        $userMock = m::mock(SessionUserInterface::class);
         $userMock->shouldReceive('getRoles')->andReturn([]);
         $passportMock = m::mock(Passport::class);
-        $passportMock->shouldReceive('getAttribute')->with('jwt')->andReturn($jwt);
+        $passportMock->shouldReceive('getAttribute')->with('token')->andReturn($token);
         $passportMock->shouldReceive('getUser')->andReturn($userMock);
-        $this->jsonWebTokenManagerMock->shouldReceive('isServiceToken')->andReturn(true);
-        $this->jsonWebTokenManagerMock
-            ->shouldReceive('getWriteableSchoolIdsFromToken')
-            ->with($jwt)
-            ->andReturn($schoolIds);
-        $this->jsonWebTokenManagerMock
-            ->shouldReceive('getCanCreateUserTokensFromToken')
-            ->with($jwt)
-            ->andReturn($canCreateUsers);
-        $this->jsonWebTokenManagerMock
-            ->shouldReceive('getAudienceClaimsFromToken')
-            ->with($jwt)
-            ->andReturn($applicationScope);
-        $token = $this->authenticator->createToken($passportMock, 'main');
 
-        $this->assertEquals($jwt, $token->getAttribute('jwt'));
-        $this->assertEquals($schoolIds, $token->getAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY));
-        $this->assertEquals($canCreateUsers, $token->getAttribute(JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY));
-        $this->assertEquals($userMock, $token->getUser());
-        $this->assertEquals(
-            $applicationScope,
-            $token->getAttribute('aud')
-        );
+        $securityToken = $this->authenticator->createToken($passportMock, 'main');
+
+        $this->assertSame($token, $securityToken->getAttribute('token'));
+        $this->assertSame($userMock, $securityToken->getUser());
     }
 }
