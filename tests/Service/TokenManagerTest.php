@@ -227,7 +227,7 @@ final class TokenManagerTest extends TestCase
             $userToken->issuedAt->add(new DateInterval(TokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp(),
             $userToken->expiresAt->getTimestamp()
         );
-        $this->assertSame(TokenManager::TOKEN_ISSUER, $userToken->issuer);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $userToken->issuer);
         $this->assertSame($serviceTokenAudience, $userToken->audience);
         $this->assertSame($isRoot, $userToken->isRoot);
         $this->assertSame($performsNonLearnerFunction, $userToken->performsNonLearnerFunction);

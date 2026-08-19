@@ -85,8 +85,8 @@ class CreateServiceTokenCommand extends Command
             'exp' => $token->getExpiresAt()->format('U'),
             'aud' => $grantLtiDashboardAudienceClaim
                 ? TokenManager::TOKEN_LTI_DASHBOARD_AUDIENCE
-                : TokenManager::TOKEN_AUDIENCE,
-            'iss' => TokenManager::TOKEN_ISSUER,
+                : TokenManager::TOKEN_DEFAULT_AUDIENCE,
+            'iss' => TokenManager::TOKEN_DEFAULT_ISSUER,
             'token_id' => $token->getId(),
             'writeable_schools' => $schoolIds,
             'can_generate_user_tokens' => $allowUserTokenGeneration,

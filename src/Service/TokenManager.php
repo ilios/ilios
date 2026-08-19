@@ -19,12 +19,12 @@ readonly class TokenManager
     /**
      * The default token issuer claim.
      */
-    public const string TOKEN_ISSUER = 'ilios';
+    public const string TOKEN_DEFAULT_ISSUER = 'ilios';
 
     /**
      * The default token audience claim.
      */
-    public const string TOKEN_AUDIENCE = 'ilios';
+    public const string TOKEN_DEFAULT_AUDIENCE = 'ilios';
 
     /**
      * Audience claim for our Dashboard LTI frontend.
@@ -84,8 +84,8 @@ readonly class TokenManager
         $data = [
             'iat' => $issuedAt->format('U'),
             'exp' => $expiresAt->format('U'),
-            'iss' => self::TOKEN_ISSUER,
-            'aud' => self::TOKEN_AUDIENCE,
+            'iss' => self::TOKEN_DEFAULT_ISSUER,
+            'aud' => self::TOKEN_DEFAULT_AUDIENCE,
             'user_id' => $sessionUser->getId(),
             'is_root' => $sessionUser->isRoot(),
             'performs_non_learner_function' => $sessionUser->performsNonLearnerFunction(),
@@ -154,7 +154,7 @@ readonly class TokenManager
         $data = [
             'iat' => $iat->format('U'),
             'exp' => $exp->format('U'),
-            'iss' => self::TOKEN_ISSUER,
+            'iss' => self::TOKEN_DEFAULT_ISSUER,
             'aud' => $serviceToken->audience,
             'user_id' => $sessionUser->getId(),
             'is_root' => $sessionUser->isRoot(),

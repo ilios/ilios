@@ -108,8 +108,8 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
             DateTimeImmutable::createFromFormat('U', $data['iat'])->add(new DateInterval($ttl))->getTimestamp(),
             DateTimeImmutable::createFromFormat('U', $data['exp'])->getTimestamp()
         );
-        $this->assertSame(TokenManager::TOKEN_AUDIENCE, $data['aud']);
-        $this->assertSame(TokenManager::TOKEN_ISSUER, $data['iss']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $data['aud']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $data['iss']);
         $this->assertSame($serviceTokenId, $data['token_id']);
         $this->assertSame([], $data['writeable_schools']);
         $this->assertFalse($data['can_generate_user_tokens']);
