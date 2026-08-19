@@ -107,16 +107,16 @@ final class TokenCodecTest extends TestCase
         );
         $jwt = $this->codec->encode($userToken);
         $decodedData = $this->codec->decode($jwt);
-        $this->assertSame($decodedData['iat'], $issuedAt->format('U'));
-        $this->assertSame($decodedData['exp'], $expiresAt->format('U'));
-        $this->assertSame($decodedData['aud'], $audience);
-        $this->assertSame($decodedData['iss'], $issuer);
-        $this->assertSame($decodedData['is_root'], $isRoot);
-        $this->assertSame($decodedData['performs_non_learner_function'], $performsNonLearnerFunction);
-        $this->assertSame($decodedData['can_create_or_update_user_in_any_school'], $canCreateOrUpdateUserInAnySchool);
-        $this->assertSame($decodedData['issued_with'], $issuedWith);
-        $this->assertSame($decodedData['firstCreatedAt'], $firstCreatedAt->format('U'));
-        $this->assertSame($decodedData['refreshCount'], $refreshCount);
+        $this->assertSame($issuedAt->format('U'), $decodedData['iat']);
+        $this->assertSame($expiresAt->format('U'), $decodedData['exp']);
+        $this->assertSame($audience, $decodedData['aud']);
+        $this->assertSame($issuer, $decodedData['iss']);
+        $this->assertSame($isRoot, $decodedData['is_root']);
+        $this->assertSame($performsNonLearnerFunction, $decodedData['performs_non_learner_function']);
+        $this->assertSame($canCreateOrUpdateUserInAnySchool, $decodedData['can_create_or_update_user_in_any_school']);
+        $this->assertSame($issuedWith, $decodedData['issued_with']);
+        $this->assertSame($firstCreatedAt->format('U'), $decodedData['firstCreatedAt']);
+        $this->assertSame($refreshCount, $decodedData['refreshCount']);
     }
 
     public function testEncodeServiceToken(): void
@@ -139,12 +139,12 @@ final class TokenCodecTest extends TestCase
         );
         $jwt = $this->codec->encode($userToken);
         $decodedData = $this->codec->decode($jwt);
-        $this->assertSame($decodedData['iat'], $issuedAt->format('U'));
-        $this->assertSame($decodedData['exp'], $expiresAt->format('U'));
-        $this->assertSame($decodedData['aud'], $audience);
-        $this->assertSame($decodedData['iss'], $issuer);
-        $this->assertSame($decodedData['token_id'], $serviceTokenId);
-        $this->assertSame($decodedData['writeable_schools'], $writeableSchoolIds);
-        $this->assertSame($decodedData['can_generate_user_tokens'], $canCreateUserTokensFromToken);
+        $this->assertSame($issuedAt->format('U'), $decodedData['iat']);
+        $this->assertSame($expiresAt->format('U'), $decodedData['exp']);
+        $this->assertSame($audience, $decodedData['aud']);
+        $this->assertSame($issuer, $decodedData['iss']);
+        $this->assertSame($serviceTokenId, $decodedData['token_id']);
+        $this->assertSame($writeableSchoolIds, $decodedData['writeable_schools']);
+        $this->assertSame($canCreateUserTokensFromToken, $decodedData['can_generate_user_tokens']);
     }
 }

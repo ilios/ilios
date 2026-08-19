@@ -185,14 +185,14 @@ final class TokenManagerTest extends TestCase
             $newToken->expiresAt->getTimestamp(),
             $newToken->issuedAt->add(new DateInterval($newTtl))->getTimestamp(),
         );
-        $this->assertSame($newToken->issuer, $oldToken->issuer);
-        $this->assertSame($newToken->audience, $newToken->audience);
-        $this->assertSame($newToken->userId, $userId);
+        $this->assertSame($oldToken->issuer, $newToken->issuer);
+        $this->assertSame($oldToken->audience, $newToken->audience);
+        $this->assertSame($userId, $newToken->userId);
         $this->assertTrue($newToken->isRoot);
         $this->assertTrue($newToken->performsNonLearnerFunction);
         $this->assertTrue($newToken->canCreateOrUpdateUserInAnySchool);
-        $this->assertSame($newToken->firstCreatedAt->getTimestamp(), $oldToken->firstCreatedAt->getTimestamp());
-        $this->assertSame($newToken->refreshCount, $oldToken->refreshCount + 1);
+        $this->assertSame($oldToken->firstCreatedAt->getTimestamp(), $newToken->firstCreatedAt->getTimestamp());
+        $this->assertSame($oldToken->refreshCount + 1, $newToken->refreshCount);
     }
 
     #[DataProvider('createUserTokenFromServiceTokenProvider')]
