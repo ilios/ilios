@@ -125,7 +125,7 @@ final class TokenManagerTest extends TestCase
     {
         $ttl = 'P91D';
         $ttlInterval = new DateInterval($ttl);
-        $maxTtlInterval = new DateInterval(TokenManager::TOKEN_MAX_TTL);
+        $maxTtlInterval = new DateInterval(TokenManager::USER_TOKEN_MAX_TTL);
         assert($maxTtlInterval > $ttlInterval);
         $sessionUserMock = m::mock(SessionUserInterface::class);
         $sessionUserMock->shouldReceive('getId')->andReturn(1);

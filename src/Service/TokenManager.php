@@ -27,19 +27,19 @@ readonly class TokenManager
     public const string USER_TOKEN_SHORT_TTL = 'PT30S';
 
     /**
-     * The max TTL for service tokens.
+     * The maximum TTL for generated service tokens.
      */
     public const string SERVICE_TOKEN_MAX_TTL = 'P180D';
 
+    /**
+     * The maximum TTL for generated user token.
+     */
+    public const string USER_TOKEN_MAX_TTL = 'P90D';
 
     /**
      * The limit on how many times a user token can be refreshed.
      */
     public const int USER_TOKEN_REFRESH_LIMIT = 12;
-    /**
-     * The maximum time-to-live for any generated token.
-     */
-    public const string TOKEN_MAX_TTL = 'P90D';
 
     /**
      * The default token issuer claim.
@@ -81,7 +81,7 @@ readonly class TokenManager
         string $ttl = self::USER_TOKEN_DEFAULT_TTL
     ): UserToken {
         $issuedAt  = new DateTimeImmutable();
-        $expiresAt = $this->getTokenExpirationDate($issuedAt, $ttl, self::TOKEN_MAX_TTL);
+        $expiresAt = $this->getTokenExpirationDate($issuedAt, $ttl, self::USER_TOKEN_MAX_TTL);
         $data = [
             'iat' => $issuedAt->format('U'),
             'exp' => $expiresAt->format('U'),
@@ -112,14 +112,14 @@ readonly class TokenManager
             );
         }
 
-        $maximumAge = new DateTimeImmutable()->sub(new DateInterval(self::TOKEN_MAX_TTL));
+        $maximumAge = new DateTimeImmutable()->sub(new DateInterval(self::USER_TOKEN_MAX_TTL));
         if ($token->issuedAt <= $maximumAge || $token->firstCreatedAt <= $maximumAge) {
             throw new InvalidInputWithSafeUserMessageException("Token is too old to refresh");
         }
 
         $iat = new DateTimeImmutable();
         $exp = $iat->add(new DateInterval($ttl));
-        $maximumExp = $token->firstCreatedAt->add(new DateInterval(self::TOKEN_MAX_TTL));
+        $maximumExp = $token->firstCreatedAt->add(new DateInterval(self::USER_TOKEN_MAX_TTL));
         if ($maximumExp < $exp) {
             throw new InvalidInputWithSafeUserMessageException(
                 "Invalid TTL value, maximum expiration date is \n{$maximumExp->format('c')}"
