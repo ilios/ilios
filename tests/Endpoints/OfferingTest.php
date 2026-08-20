@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
+use App\Classes\UserToken;
+use App\Service\TokenCodec;
+use App\Service\TokenFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\Alert;
 use App\Entity\AlertChangeTypeInterface;
-use App\Service\JsonWebTokenManager;
 use App\Tests\DataLoader\InstructorGroupData;
 use App\Tests\DataLoader\LearnerGroupData;
 use App\Tests\DataLoader\ServiceTokenData;
@@ -30,8 +32,8 @@ final class OfferingTest extends AbstractReadWriteEndpoint
 {
     protected string $testName =  'offerings';
     protected bool $skipDates = false;
-
-    protected JsonWebTokenManager $jsonWebTokenManager;
+    protected TokenCodec $tokenCodec;
+    protected TokenFactory $tokenFactory;
 
     /**
      * Reset date skipping for each test
@@ -40,14 +42,16 @@ final class OfferingTest extends AbstractReadWriteEndpoint
     {
         parent::setUp();
         $this->skipDates = false;
-        /** @var JsonWebTokenManager $jsonWebTokenManager */
-        $jsonWebTokenManager = $this->kernelBrowser->getContainer()->get(JsonWebTokenManager::class);
-        $this->jsonWebTokenManager = $jsonWebTokenManager;
+        $container = $this->kernelBrowser->getContainer();
+        $this->tokenCodec = $container->get(TokenCodec::class);
+        $this->tokenFactory = $container->get(TokenFactory::class);
     }
 
     public function tearDown(): void
     {
-        unset($this->jsonWebTokenManager);
+        unset($this->skipDates);
+        unset($this->tokenCodec);
+        unset($this->tokenFactory);
         parent::tearDown();
     }
 
@@ -353,8 +357,9 @@ final class OfferingTest extends AbstractReadWriteEndpoint
     protected function postTest(array $data, array $postData, string $jwt): array
     {
         $responseData = parent::postTest($data, $postData, $jwt);
+        $token = $this->tokenFactory->create($this->tokenCodec->decode($jwt));
         //Instigator and school values are hard coded in test fixture data
-        if ($this->jsonWebTokenManager->isUserToken($jwt)) {
+        if ($token instanceof UserToken) {
             $this->checkAlertChange(
                 $responseData['id'],
                 AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
@@ -381,8 +386,9 @@ final class OfferingTest extends AbstractReadWriteEndpoint
     protected function postJsonApiTest(object $postData, array $data, string $jwt): array
     {
         $responseData = parent::postJsonApiTest($postData, $data, $jwt);
+        $token = $this->tokenFactory->create($this->tokenCodec->decode($jwt));
         //Instigator and school values are hard coded in test fixture data
-        if ($this->jsonWebTokenManager->isUserToken($jwt)) {
+        if ($token instanceof UserToken) {
             $this->checkAlertChange(
                 $responseData['id'],
                 AlertChangeTypeInterface::CHANGE_TYPE_NEW_OFFERING,
