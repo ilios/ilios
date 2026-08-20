@@ -57,12 +57,20 @@ final class TokenFactoryTest extends TestCase
         $this->assertServiceTokenEquals($expectedToken, $token);
     }
 
-    public function testTokenCreationFailsIfTypeCannotBeDetermined(): void
+    #[DataProvider('tokenCreationFailsIfTypeCannotBeDeterminedProvider')]
+    public function testTokenCreationFailsIfTypeCannotBeDetermined(array $data): void
     {
-        $input = [];
         $this->expectException(DomainException::class);
         $this->expectExceptionMessageIsOrContains('Unable to determine token type.');
-        $this->factory->create($input);
+        $this->factory->create($data);
+    }
+
+    public static function tokenCreationFailsIfTypeCannotBeDeterminedProvider(): array
+    {
+        return [
+            [[]],
+            [['user_id' => 1, 'token_id' => 2]],
+        ];
     }
 
     #[DataProvider('tokenCreationFailsOnMissingAttributesProvider')]

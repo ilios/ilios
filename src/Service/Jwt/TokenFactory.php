@@ -22,7 +22,7 @@ readonly class TokenFactory
         // figure out what kind of token data it is.
         $isUserToken = array_key_exists('user_id', $data);
         $isServiceToken = array_key_exists('token_id', $data);
-        if (!$isUserToken && !$isServiceToken) {
+        if ((!$isUserToken && !$isServiceToken) || ($isUserToken && $isServiceToken)) {
             throw new DomainException('Unable to determine token type.');
         }
 
