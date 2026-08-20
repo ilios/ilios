@@ -142,8 +142,8 @@ final class ShibbolethAuthenticationTest extends TestCase
 
         $content = $result->getContent();
         $data = json_decode($content);
-        $this->assertSame($data->status, 'noAccountExists');
-        $this->assertSame($data->userId, 'userid1');
+        $this->assertSame('noAccountExists', $data->status);
+        $this->assertSame('userid1', $data->userId);
     }
 
     #[DataProvider('successProvider')]
