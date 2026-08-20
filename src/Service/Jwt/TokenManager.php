@@ -96,6 +96,8 @@ readonly class TokenManager
         UserToken $token,
         string $ttl = self::USER_TOKEN_DEFAULT_TTL
     ): UserToken {
+        assert($sessionUser->getId() === $token->userId);
+
         if ($token->refreshCount >= self::USER_TOKEN_REFRESH_LIMIT) {
             throw new InvalidInputWithSafeUserMessageException(
                 sprintf('Refresh limit %s exceeded', self::USER_TOKEN_REFRESH_LIMIT)
@@ -115,7 +117,6 @@ readonly class TokenManager
                 "Invalid TTL value, maximum expiration date is \n{$maximumExp->format('c')}"
             );
         }
-
         $data = [
             'iat' => $iat->format('U'),
             'exp' => $exp->format('U'),
