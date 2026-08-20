@@ -14,7 +14,6 @@ use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\AuthController;
-use App\Service\JsonWebTokenManager;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
@@ -406,16 +405,16 @@ final class AuthControllerTest extends WebTestCase
         $this->assertArrayHasKey('jwt', $data);
         $jwt = $this->decode($data['jwt']);
         $this->assertEquals('ilios', $jwt['iss']);
-        $this->assertEquals(JsonWebTokenManager::TOKEN_AUD_LTI_DASHBOARD, $jwt['aud']);
+        $this->assertEquals(TokenManager::TOKEN_LTI_DASHBOARD_AUDIENCE, $jwt['aud']);
         $this->assertEquals(
             (int) $jwt['exp'],
             DateTime::createFromTimestamp((int) $jwt['iat'])
-            ->add(new DateInterval(JsonWebTokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp()
+            ->add(new DateInterval(TokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp()
         );
         $this->assertEquals($jwt['firstCreatedAt'], $jwt['iat']);
         $this->assertEquals(0, $jwt['refreshCount']);
         $this->assertEquals($user['id'], $jwt['user_id']);
-        $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt[JsonWebTokenManager::ISSUED_WITH_KEY]);
+        $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt['issued_with']);
     }
 
     public function testCreateUserTokenWithServiceTokenFailsIfServiceTokenIsNotAServiceToken(): void
