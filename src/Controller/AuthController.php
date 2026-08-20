@@ -11,8 +11,8 @@ use App\Classes\UserToken;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
-use App\Service\JsonWebTokenManager;
 use App\Entity\UserInterface;
+use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
 use App\Service\TokenCodec;
 use App\Service\TokenFactory;
@@ -75,8 +75,7 @@ class AuthController extends AbstractController
         }
 
         $ttl = $request->query->get('ttl') ?: TokenManager::USER_TOKEN_DEFAULT_TTL;
-        $data = $tokenCodec->decode($token->getAttribute('jwt'));
-        $userToken = $tokenFactory->create($data);
+        $userToken = $token->getAttribute('token');
         assert($userToken instanceof UserToken);
         $refreshedToken = $tokenManager->refreshUserToken($sessionUser, $userToken, $ttl);
         $jwt = $tokenCodec->encode($refreshedToken);
@@ -100,7 +99,6 @@ class AuthController extends AbstractController
         UserRepository $userRepository,
         SessionUserProvider $sessionUserProvider,
         TokenManager $tokenManager,
-        TokenFactory $tokenFactory,
         TokenCodec $tokenCodec,
     ): JsonResponse {
         $token = $tokenStorage->getToken();
@@ -110,8 +108,7 @@ class AuthController extends AbstractController
         if (!$sessionUser instanceof ServiceTokenUserInterface) {
             throw $this->createAccessDeniedException('Cannot create user token without a service token.');
         }
-        // todo: change this upstream to have the security token return an already decoded token object.
-        $serviceToken = $tokenFactory->create($tokenCodec->decode($token->getAttribute('jwt')));
+        $serviceToken = $token->getAttribute('token');
         assert($serviceToken instanceof ServiceToken);
 
         // authorization
