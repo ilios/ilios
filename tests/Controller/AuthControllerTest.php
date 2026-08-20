@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Service\SessionUserProvider;
+use App\Service\TokenCodec;
 use App\Service\TokenManager;
 use App\Tests\DataLoader\ServiceTokenData;
 use App\Tests\DataLoader\UserData;
@@ -18,8 +20,6 @@ use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
 use App\Tests\Traits\TestableJsonController;
 use DateTime;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -37,31 +37,42 @@ final class AuthControllerTest extends WebTestCase
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';
-    protected string $jwtKey;
     protected KernelBrowser $kernelBrowser;
+    protected SessionUserProvider $sessionUserProvider;
+    protected TokenCodec $tokenCodec;
+    protected TokenManager $tokenManager;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
+        $container = $this->kernelBrowser->getContainer();
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
         $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
             LoadServiceTokenData::class,
         ]);
-        $secret = $this->kernelBrowser->getContainer()->getParameter('kernel.secret');
-        $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $secret;
+        $this->tokenCodec = $container->get(TokenCodec::class);
+        $this->tokenManager = $container->get(TokenManager::class);
+        $this->sessionUserProvider = $container->get(SessionUserProvider::class);
     }
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        unset($this->sessionUserProvider);
+        unset($this->tokenManager);
+        unset($this->tokenCodec);
         unset($this->kernelBrowser);
+        parent::tearDown();
     }
 
     public function testMissingValues(): void
     {
         $this->kernelBrowser->request('POST', '/auth/login');
+        $container = $this->kernelBrowser->getContainer();
+        $this->sessionUserProvider = $container->get(SessionUserProvider::class);
+        $this->tokenManager = $container->get(TokenManager::class);
+        $this->tokenCodec = $container->get(TokenCodec::class);
 
         $response = $this->kernelBrowser->getResponse();
 
@@ -500,17 +511,14 @@ final class AuthControllerTest extends WebTestCase
 
     protected function getExpiredToken(int $userId): string
     {
-        $container = $this->kernelBrowser->getContainer();
-        /** @var JsonWebTokenManager $jwtManager */
-        $jwtManager = $container->get(JsonWebTokenManager::class);
-        $jwt = $jwtManager->createJwtFromUserId($userId, 'PT0S');
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
+        $token = $this->tokenManager->createUserTokenForSessionUser($sessionUser, 'PT0S');
         sleep(6); //wait for 5 second leeway to pass
-        return $jwt;
+        return $this->tokenCodec->encode($token);
     }
 
     protected function decode(string $jwt): array
     {
-        $decoded = JWT::decode($jwt, new Key($this->jwtKey, JsonWebTokenManager::SIGNING_ALGORITHM));
-        return (array) $decoded;
+        return $this->tokenCodec->decode($jwt);
     }
 }
