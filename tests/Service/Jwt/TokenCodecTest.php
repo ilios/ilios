@@ -22,10 +22,7 @@ final class TokenCodecTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->secretManager = new SecretManager(
-            'VomEiseBefreitSindStromUndBaeche',
-            'AbandonHopeAllYeWhoEnterHere',
-        );
+        $this->secretManager = new SecretManager(str_repeat('A', 20), str_repeat('B', 20));
         $this->codec = new TokenCodec($this->secretManager);
     }
 
@@ -49,7 +46,7 @@ final class TokenCodecTest extends TestCase
         $data = ['foo' => 'bar'];
         $transitionalSecret = $this->secretManager->getTransitionalSecret();
         $otherCodec = new TokenCodec(
-            new SecretManager($transitionalSecret, 'loremipsum')
+            new SecretManager($transitionalSecret, '')
         );
         $jwt = $otherCodec->encode($data);
         $decodedData = $this->codec->decode($jwt);
@@ -59,12 +56,7 @@ final class TokenCodecTest extends TestCase
     public function testDecodeFailsWithInvalidSignature(): void
     {
         $data = ['foo', 'bar'];
-        $otherCodec = new TokenCodec(
-            new SecretManager(
-                $this->secretManager->getSecret() . '2',
-                'loremipsum'
-            )
-        );
+        $otherCodec = new TokenCodec(new SecretManager($this->secretManager->getSecret() . '2', ''));
         $jwt = $otherCodec->encode($data);
 
         $this->expectException(SignatureInvalidException::class);

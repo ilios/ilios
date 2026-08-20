@@ -55,10 +55,7 @@ final class CreateUserTokenCommandTest extends KernelTestCase
         parent::setUp();
         $this->userRepository = m::mock(UserRepository::class);
         $this->sessionUserPermissionChecker = m::mock(SessionUserPermissionChecker::class);
-        $this->tokenCodec = new TokenCodec(new SecretManager(
-            'FFFFFFFFFFFAAAAAAAADDDDDDDDDDDDDDDDDFFFFFFFFFF',
-            'GGGGGRRRRRRRRRRRRRSSSSSSSSSAAAAAAAA'
-        ));
+        $this->tokenCodec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
         $this->tokenManager = new TokenManager(
             new TokenFactory(),
             $this->sessionUserPermissionChecker,

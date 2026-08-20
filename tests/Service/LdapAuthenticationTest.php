@@ -37,7 +37,7 @@ final class LdapAuthenticationTest extends TestCase
     {
         parent::setUp();
         $this->authRepository = m::mock(AuthenticationRepository::class);
-        $this->tokenCodec = new TokenCodec(new SecretManager('FFFFFFFFDDDDDDDDDDAAAAAAB', ''));
+        $this->tokenCodec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
         $this->sessionUserPermissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->tokenManager = new TokenManager(
             new TokenFactory(),

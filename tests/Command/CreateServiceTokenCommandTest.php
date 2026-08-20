@@ -46,12 +46,7 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
         parent::setUp();
         $this->tokenProvider = m::mock(ServiceTokenUserProvider::class);
         $this->serviceTokenRepository = m::mock(ServiceTokenRepository::class);
-        $this->tokenCodec = new TokenCodec(
-            new SecretManager(
-                'FFFFFFFFFFFFBBBBBBBBBBAAAAAAAADDDD',
-                'SDFSFSSSSSSSSSSSSSSDDDDDDDDWED'
-            )
-        );
+        $this->tokenCodec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
         $this->tokenFactory = new TokenFactory();
         $command = new CreateServiceTokenCommand(
             $this->serviceTokenRepository,

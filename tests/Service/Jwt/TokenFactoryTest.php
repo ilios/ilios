@@ -26,11 +26,7 @@ final class TokenFactoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $secretManager = new SecretManager(
-            'TheMoreYouIgnoreMeTheCloserIGet',
-            'BeerDrinkersAndHellRaisers',
-        );
-        $this->codec = new TokenCodec($secretManager);
+        $this->codec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
         $this->factory = new TokenFactory();
     }
 

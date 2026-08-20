@@ -44,7 +44,7 @@ final class ShibbolethAuthenticationTest extends TestCase
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->logger = m::mock(LoggerInterface::class);
         $this->config = m::mock(Config::class);
-        $this->tokenCodec = new TokenCodec(new SecretManager('FFFFFFFFDDDDDDDDDDAAAAAAB', ''));
+        $this->tokenCodec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
         $this->sessionUserPermissionChecker = m::mock(SessionUserPermissionChecker::class);
         $this->tokenManager = new TokenManager(
             new TokenFactory(),
