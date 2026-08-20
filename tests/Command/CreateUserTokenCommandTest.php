@@ -60,7 +60,6 @@ final class CreateUserTokenCommandTest extends KernelTestCase
             'GGGGGRRRRRRRRRRRRRSSSSSSSSSAAAAAAAA'
         ));
         $this->tokenManager = new TokenManager(
-            $this->tokenCodec,
             new TokenFactory(),
             $this->sessionUserPermissionChecker,
         );

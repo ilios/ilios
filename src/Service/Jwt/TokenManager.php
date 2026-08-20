@@ -58,19 +58,9 @@ readonly class TokenManager
     public const string SERVICE_TOKEN_MAX_TTL = 'P180D';
 
     public function __construct(
-        protected TokenCodec $codec,
         protected TokenFactory $factory,
         protected SessionUserPermissionChecker $sessionUserPermissionChecker,
     ) {
-    }
-
-    /**
-     * Extracts and returns data from a given JSON Web Token (JWT).
-     */
-    public function extractJwt(string $jwt): UserToken|ServiceToken
-    {
-        $data = $this->codec->decode($jwt);
-        return $this->factory->create($data);
     }
 
     /**
