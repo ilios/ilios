@@ -6,7 +6,6 @@ namespace App\Controller\API;
 
 use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventoryReport;
-use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
 use App\Exception\InvalidInputWithSafeUserMessageException;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
@@ -16,8 +15,6 @@ use App\Repository\ProgramRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
 use App\Service\CurriculumInventory\ReportRollover;
-use App\Service\CurriculumInventory\VerificationPreviewBuilder;
-use Exception;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -479,65 +476,6 @@ class CurriculumInventoryReports extends AbstractApiController
             $dtos,
             Response::HTTP_CREATED,
             $request
-        );
-    }
-
-    /**
-     * Build and send the verification preview tables for CI
-     * @throws Exception
-     */
-    #[Route(
-        '/{id}/verificationpreview',
-        methods: ['GET']
-    )]
-    #[OA\Get(
-        deprecated: true,
-        path: '/api/{version}/curriculuminventoryreports/{id}/verificationpreview',
-        summary: 'Fetch verification preview data for a given report.',
-        parameters: [
-            new OA\Parameter(name: 'version', description: 'API Version', in: 'path'),
-            new OA\Parameter(name: 'id', description: 'id', in: 'path'),
-        ],
-        responses: [
-            new OA\Response(
-                response: '200',
-                description: 'The verification preview data.',
-                content: new OA\JsonContent(
-                    properties: [
-                        new OA\Property(
-                            'preview',
-                            type: 'object',
-                        ),
-                    ],
-                    type: 'object'
-                )
-            ),
-            new OA\Response(response: '403', description: 'Access Denied.'),
-        ]
-    )]
-    public function verificationPreview(
-        string $version,
-        int $id,
-        AuthorizationCheckerInterface $authorizationChecker,
-        VerificationPreviewBuilder $previewBuilder
-    ): Response {
-        /** @var ?CurriculumInventoryReportInterface $report */
-        $report = $this->repository->findOneBy(['id' => $id]);
-
-        if (! $report) {
-            throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
-        }
-
-        if (! $authorizationChecker->isGranted(VoterPermissions::VIEW, $report)) {
-            throw new AccessDeniedException('Unauthorized access!');
-        }
-
-        $tables = $previewBuilder->build($report);
-
-        return new Response(
-            json_encode(['preview' => $tables]),
-            Response::HTTP_OK,
-            ['Content-type' => 'application/json']
         );
     }
 }
