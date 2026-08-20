@@ -6,29 +6,44 @@ namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
 use App\Repository\AuthenticationRepository;
-use App\Service\JsonWebTokenManager;
+use App\Service\SecretManager;
+use App\Service\SessionUserPermissionChecker;
 use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
 use App\Service\Config;
+use App\Service\TokenCodec;
+use App\Service\TokenFactory;
+use App\Service\TokenManager;
 use App\Tests\TestCase;
+use DateInterval;
+use DateTimeImmutable;
 use Mockery as m;
 use App\Service\LdapAuthentication;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Request;
 
 final class LdapAuthenticationTest extends TestCase
 {
     protected m\MockInterface $authRepository;
-    protected m\MockInterface $jwtManager;
     protected m\MockInterface $sessionUserProvider;
+    protected m\MockInterface $sessionUserPermissionChecker;
     protected m\MockInterface $config;
+    protected TokenCodec $tokenCodec;
+    protected TokenManager $tokenManager;
     protected LdapAuthentication $obj;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->authRepository = m::mock(AuthenticationRepository::class);
-        $this->jwtManager = m::mock(JsonWebTokenManager::class);
+        $this->tokenCodec = new TokenCodec(new SecretManager('FFFFFFFFDDDDDDDDDDAAAAAAB', ''));
+        $this->sessionUserPermissionChecker = m::mock(SessionUserPermissionChecker::class);
+        $this->tokenManager = new TokenManager(
+            $this->tokenCodec,
+            new TokenFactory(),
+            $this->sessionUserPermissionChecker
+        );
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->config = m::mock(Config::class);
         $this->config->shouldReceive('get')->with('ldap_authentication_host')->andReturn('host');
@@ -36,7 +51,8 @@ final class LdapAuthenticationTest extends TestCase
         $this->config->shouldReceive('get')->with('ldap_authentication_bind_template')->andReturn('bindTemplate');
         $this->obj = new LdapAuthentication(
             $this->authRepository,
-            $this->jwtManager,
+            $this->tokenCodec,
+            $this->tokenManager,
             $this->config,
             $this->sessionUserProvider
         );
@@ -47,7 +63,9 @@ final class LdapAuthenticationTest extends TestCase
         parent::tearDown();
         unset($this->obj);
         unset($this->authRepository);
-        unset($this->jwtManager);
+        unset($this->tokenManager);
+        unset($this->tokenCodec);
+        unset($this->sessionUserPermissionChecker);
         unset($this->sessionUserProvider);
         unset($this->config);
     }
@@ -96,7 +114,8 @@ final class LdapAuthenticationTest extends TestCase
             LdapAuthentication::class . '[checkLdapPassword]',
             [
                 $this->authRepository,
-                $this->jwtManager,
+                $this->tokenCodec,
+                $this->tokenManager,
                 $this->config,
                 $this->sessionUserProvider,
             ]
@@ -155,7 +174,8 @@ final class LdapAuthenticationTest extends TestCase
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
 
-    public function testSuccess(): void
+    #[DataProvider('successProvider')]
+    public function testSuccess(int $userId, bool $isRoot, bool $performsNonLearnerFunction, bool $canCreateUsers): void
     {
         //partially mock so we can override checkLdapPassword
         //and not deal with php global ldap functions
@@ -163,7 +183,8 @@ final class LdapAuthenticationTest extends TestCase
             LdapAuthentication::class . '[checkLdapPassword]',
             [
                 $this->authRepository,
-                $this->jwtManager,
+                $this->tokenCodec,
+                $this->tokenManager,
                 $this->config,
                 $this->sessionUserProvider,
             ]
@@ -180,18 +201,49 @@ final class LdapAuthenticationTest extends TestCase
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isEnabled')->andReturn(true);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+        $sessionUser->shouldReceive('isRoot')->andReturn($isRoot);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn($performsNonLearnerFunction);
+        $this->sessionUserPermissionChecker
+            ->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->andReturn($canCreateUsers);
         $authenticationEntity = m::mock(AuthenticationInterface::class);
         $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->authRepository->shouldReceive('findOneByUsername')
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
-        $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
         $result = $obj->login($request);
 
         $content = $result->getContent();
         $data = json_decode($content);
+
         $this->assertSame($data->status, 'success');
-        $this->assertSame($data->jwt, 'jwt123Test');
+
+        $tokenData = $this->tokenCodec->decode($data->jwt);
+
+        $this->assertCount(10, $tokenData);
+        $this->assertSame(
+            DateTimeImmutable::createFromFormat('U', $tokenData['iat'])
+                ->add(new DateInterval(TokenManager::USER_TOKEN_DEFAULT_TTL))
+                ->getTimestamp(),
+            DateTimeImmutable::createFromFormat('U', $tokenData['exp'])->getTimestamp()
+        );
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $tokenData['iss']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $tokenData['aud']);
+        $this->assertSame($userId, $tokenData['user_id']);
+        $this->assertSame($isRoot, $tokenData['is_root']);
+        $this->assertSame($performsNonLearnerFunction, $tokenData['performs_non_learner_function']);
+        $this->assertSame($canCreateUsers, $tokenData['can_create_or_update_user_in_any_school']);
+        $this->assertSame($tokenData['firstCreatedAt'], $tokenData['iat']);
+        $this->assertSame(0, $tokenData['refreshCount']);
+    }
+
+    public static function successProvider(): array
+    {
+        return [
+            [10, true, false, true],
+            [20, false, true, false],
+        ];
     }
 }

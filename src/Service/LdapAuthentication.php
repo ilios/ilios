@@ -23,7 +23,8 @@ class LdapAuthentication implements AuthenticationInterface
 
     public function __construct(
         protected AuthenticationRepository $authRepository,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         Config $config,
         protected SessionUserProvider $sessionUserProvider
     ) {
@@ -68,8 +69,8 @@ class LdapAuthentication implements AuthenticationInterface
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->checkLdapPassword($username, $password);
                     if ($passwordValid) {
-                        $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
-
+                        $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                        $jwt = $this->tokenCodec->encode($userToken);
                         return $this->createSuccessResponseFromJWT($jwt);
                     }
                 }

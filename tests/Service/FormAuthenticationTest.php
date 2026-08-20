@@ -8,15 +8,22 @@ use App\Classes\SessionUserInterface;
 use App\Entity\AuthenticationInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
-use App\Service\JsonWebTokenManager;
+use App\Service\SecretManager;
+use App\Service\SessionUserPermissionChecker;
 use App\Service\SessionUserProvider;
 use App\Entity\UserInterface;
+use App\Service\TokenCodec;
+use App\Service\TokenFactory;
+use App\Service\TokenManager;
 use App\Tests\TestCase;
 use Mockery as m;
 use App\Service\FormAuthentication;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use DateTimeImmutable;
+use DateInterval;
 
 final class FormAuthenticationTest extends TestCase
 {
@@ -24,8 +31,10 @@ final class FormAuthenticationTest extends TestCase
     protected m\MockInterface $userRepository;
     protected m\MockInterface $hasher;
     protected m\MockInterface $tokenStorage;
-    protected m\MockInterface $jwtManager;
+    protected m\MockInterface $sessionUserPermissionChecker;
     protected m\MockInterface $sessionUserProvider;
+    protected TokenCodec $tokenCodec;
+    protected TokenManager $tokenManager;
     protected FormAuthentication $obj;
 
     protected function setUp(): void
@@ -34,7 +43,13 @@ final class FormAuthenticationTest extends TestCase
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
         $this->hasher = m::mock(UserPasswordHasherInterface::class);
         $this->tokenStorage = m::mock(TokenStorageInterface::class);
-        $this->jwtManager = m::mock(JsonWebTokenManager::class);
+        $this->tokenCodec = new TokenCodec(new SecretManager('FFFFFFFFDDDDDDDDDDAAAAAAB', ''));
+        $this->sessionUserPermissionChecker = m::mock(SessionUserPermissionChecker::class);
+        $this->tokenManager = new TokenManager(
+            $this->tokenCodec,
+            new TokenFactory(),
+            $this->sessionUserPermissionChecker
+        );
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->userRepository = m::mock(UserRepository::class);
         $this->obj = new FormAuthentication(
@@ -42,7 +57,8 @@ final class FormAuthenticationTest extends TestCase
             $this->userRepository,
             $this->hasher,
             $this->tokenStorage,
-            $this->jwtManager,
+            $this->tokenCodec,
+            $this->tokenManager,
             $this->sessionUserProvider
         );
     }
@@ -53,7 +69,9 @@ final class FormAuthenticationTest extends TestCase
         unset($this->userRepository);
         unset($this->hasher);
         unset($this->tokenStorage);
-        unset($this->jwtManager);
+        unset($this->tokenManager);
+        unset($this->tokenCodec);
+        unset($this->sessionUserPermissionChecker);
         unset($this->sessionUserProvider);
         unset($this->obj);
     }
@@ -148,7 +166,8 @@ final class FormAuthenticationTest extends TestCase
         $this->assertTrue(in_array('badCredentials', $data->errors));
     }
 
-    public function testSuccess(): void
+    #[DataProvider('successProvider')]
+    public function testSuccess(int $userId, bool $isRoot, bool $performsNonLearnerFunction, bool $canCreateUsers): void
     {
         $arr = [
             'username' => 'abc',
@@ -161,6 +180,9 @@ final class FormAuthenticationTest extends TestCase
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isEnabled')->andReturn(true);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+        $sessionUser->shouldReceive('isRoot')->andReturn($isRoot);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn($performsNonLearnerFunction);
         $authenticationEntity = m::mock(AuthenticationInterface::class);
         $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->hasher->shouldReceive('needsRehash')->with($sessionUser)->andReturn(false);
@@ -168,13 +190,41 @@ final class FormAuthenticationTest extends TestCase
             ->with('abc')->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
         $this->hasher->shouldReceive('isPasswordValid')->with($sessionUser, '123')->andReturn(true);
-        $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
+        $this->sessionUserPermissionChecker
+            ->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->andReturn($canCreateUsers);
 
         $result = $this->obj->login($request);
 
         $content = $result->getContent();
         $data = json_decode($content);
+
         $this->assertSame($data->status, 'success');
-        $this->assertSame($data->jwt, 'jwt123Test');
+
+        $tokenData = $this->tokenCodec->decode($data->jwt);
+
+        $this->assertCount(10, $tokenData);
+        $this->assertSame(
+            DateTimeImmutable::createFromFormat('U', $tokenData['iat'])
+                ->add(new DateInterval(TokenManager::USER_TOKEN_DEFAULT_TTL))
+                ->getTimestamp(),
+            DateTimeImmutable::createFromFormat('U', $tokenData['exp'])->getTimestamp()
+        );
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $tokenData['iss']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $tokenData['aud']);
+        $this->assertSame($userId, $tokenData['user_id']);
+        $this->assertSame($isRoot, $tokenData['is_root']);
+        $this->assertSame($performsNonLearnerFunction, $tokenData['performs_non_learner_function']);
+        $this->assertSame($canCreateUsers, $tokenData['can_create_or_update_user_in_any_school']);
+        $this->assertSame($tokenData['firstCreatedAt'], $tokenData['iat']);
+        $this->assertSame(0, $tokenData['refreshCount']);
+    }
+
+    public static function successProvider(): array
+    {
+        return [
+            [10, true, false, true],
+            [20, false, true, false],
+        ];
     }
 }

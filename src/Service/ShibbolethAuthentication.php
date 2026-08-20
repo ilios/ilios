@@ -32,7 +32,8 @@ class ShibbolethAuthentication implements AuthenticationInterface
      */
     public function __construct(
         protected AuthenticationRepository $authenticationRepository,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         protected LoggerInterface $logger,
         Config $config,
         protected SessionUserProvider $sessionUserProvider
@@ -92,8 +93,8 @@ class ShibbolethAuthentication implements AuthenticationInterface
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
-                $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
-
+                $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                $jwt = $this->tokenCodec->encode($userToken);
                 return $this->createSuccessResponseFromJWT($jwt);
             }
         }

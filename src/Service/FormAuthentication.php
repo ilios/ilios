@@ -24,7 +24,8 @@ class FormAuthentication implements AuthenticationInterface
         protected UserRepository $userRepository,
         protected UserPasswordHasherInterface $hasher,
         protected TokenStorageInterface $tokenStorage,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         protected SessionUserProvider $sessionUserProvider
     ) {
     }
@@ -65,8 +66,8 @@ class FormAuthentication implements AuthenticationInterface
                     $passwordValid = $this->hasher->isPasswordValid($sessionUser, $password);
                     if ($passwordValid) {
                         $this->updatePassword($authEntity, $sessionUser, $password);
-                        $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
-
+                        $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                        $jwt = $this->tokenCodec->encode($userToken);
                         return $this->createSuccessResponseFromJWT($jwt);
                     }
                 }
