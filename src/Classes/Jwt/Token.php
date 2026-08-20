@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Classes\Jwt;
+
+use DateTimeImmutable;
+
+/**
+ * Base class for object representations of decoded JWT tokens.
+ */
+abstract readonly class Token
+{
+    public function __construct(
+        public DateTimeImmutable $issuedAt,
+        public DateTimeImmutable $expiresAt,
+        public array $audience,
+        public string $issuer,
+    ) {
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'iat' => $this->issuedAt->format('U'),
+            'exp' => $this->expiresAt->format('U'),
+            'aud' => 1 === count($this->audience) ? $this->audience[0] : $this->audience,
+            'iss' => $this->issuer,
+        ];
+    }
+}

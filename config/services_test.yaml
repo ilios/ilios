@@ -15,10 +15,6 @@ services:
   App\Tests\Fixture\:
     resource: "%kernel.project_dir%/tests/Fixture"
 
-  # public in tests only for JsonControllerTest access
-  App\Service\JsonWebTokenManager:
-    public: true
-
   App\Repository\ApplicationConfigRepository:
     arguments:
       $cacheEnabled: false

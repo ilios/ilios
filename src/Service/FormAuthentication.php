@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\SessionUserInterface;
+use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Traits\AuthenticationService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
-use App\Traits\AuthenticationService;
 
 class FormAuthentication implements AuthenticationInterface
 {
@@ -24,7 +26,8 @@ class FormAuthentication implements AuthenticationInterface
         protected UserRepository $userRepository,
         protected UserPasswordHasherInterface $hasher,
         protected TokenStorageInterface $tokenStorage,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         protected SessionUserProvider $sessionUserProvider
     ) {
     }
@@ -65,8 +68,8 @@ class FormAuthentication implements AuthenticationInterface
                     $passwordValid = $this->hasher->isPasswordValid($sessionUser, $password);
                     if ($passwordValid) {
                         $this->updatePassword($authEntity, $sessionUser, $password);
-                        $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
-
+                        $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                        $jwt = $this->tokenCodec->encode($userToken);
                         return $this->createSuccessResponseFromJWT($jwt);
                     }
                 }

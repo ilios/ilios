@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Monitor;
 
 use App\Monitor\SecretLength;
-use App\Service\JsonWebTokenManager;
+use App\Service\Jwt\TokenCodec;
 use App\Tests\TestCase;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
@@ -37,11 +37,11 @@ final class SecretLengthTest extends TestCase
          * This test ensures that if we update the key signing algorithm we will
          * also update the required length of the secret.
          */
-        $minimumKeyLength = (256 - (strlen(JsonWebTokenManager::PREPEND_KEY) * 8)) / 8;
+        $minimumKeyLength = (256 - (strlen(TokenCodec::PREPEND_KEY) * 8)) / 8;
         $this->assertGreaterThanOrEqual($minimumKeyLength, SecretLength::MINIMUM_LENGTH);
         $this->assertEquals(18, SecretLength::MINIMUM_LENGTH);
-        $this->assertEquals('HS256', JsonWebTokenManager::SIGNING_ALGORITHM);
-        $this->assertEquals('ilios.jwt.key.', JsonWebTokenManager::PREPEND_KEY);
+        $this->assertEquals('HS256', TokenCodec::SIGNING_ALGORITHM);
+        $this->assertEquals('ilios.jwt.key.', TokenCodec::PREPEND_KEY);
     }
 
     public function testCheckNotSet(): void

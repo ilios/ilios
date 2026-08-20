@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
-use App\Service\JsonWebTokenManager;
-use App\Entity\UserInterface;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Service\SessionUserProvider;
 use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -58,7 +62,8 @@ class AuthController extends AbstractController
     public function token(
         Request $request,
         TokenStorageInterface $tokenStorage,
-        JsonWebTokenManager $jwtManager
+        TokenCodec $tokenCodec,
+        TokenManager $tokenManager
     ): JsonResponse {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
@@ -66,9 +71,11 @@ class AuthController extends AbstractController
             throw new Exception('Attempted to access token with no valid user');
         }
 
-        $ttl = $request->query->get('ttl') ?: JsonWebTokenManager::USER_TOKEN_DEFAULT_TTL;
-        $jwt = $jwtManager->refreshToken($token->getAttribute('jwt'), $ttl);
-
+        $ttl = $request->query->get('ttl') ?: TokenManager::USER_TOKEN_DEFAULT_TTL;
+        $userToken = $token->getAttribute('token');
+        assert($userToken instanceof UserToken);
+        $refreshedToken = $tokenManager->refreshUserToken($sessionUser, $userToken, $ttl);
+        $jwt = $tokenCodec->encode($refreshedToken);
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 
@@ -87,7 +94,9 @@ class AuthController extends AbstractController
         int $userId,
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
-        JsonWebTokenManager $jwtManager
+        SessionUserProvider $sessionUserProvider,
+        TokenManager $tokenManager,
+        TokenCodec $tokenCodec,
     ): JsonResponse {
         $token = $tokenStorage->getToken();
         $sessionUser = $token?->getUser();
@@ -96,8 +105,11 @@ class AuthController extends AbstractController
         if (!$sessionUser instanceof ServiceTokenUserInterface) {
             throw $this->createAccessDeniedException('Cannot create user token without a service token.');
         }
+        $serviceToken = $token->getAttribute('token');
+        assert($serviceToken instanceof ServiceToken);
+
         // authorization
-        if (!$token->getAttribute(JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY)) {
+        if (!$serviceToken->canCreateUserTokensFromToken) {
             throw $this->createAccessDeniedException('Insufficient permissions for creating user tokens.');
         }
 
@@ -107,7 +119,11 @@ class AuthController extends AbstractController
             // let's keep this error message somewhat ambiguous on purpose, for security reasons.
             throw $this->createNotFoundException('Could not find the requested user.');
         }
-        $jwt = $jwtManager->createUserTokenFromServiceToken($user, $token);
+
+        $sessionUser = $sessionUserProvider->createSessionUserFromUserId($user->getId());
+        $userToken = $tokenManager->createUserTokenFromServiceToken($sessionUser, $serviceToken);
+        $jwt = $tokenCodec->encode($userToken);
+
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 
@@ -133,7 +149,8 @@ class AuthController extends AbstractController
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
         AuthenticationRepository $authenticationRepository,
-        JsonWebTokenManager $jwtManager
+        TokenCodec $tokenCodec,
+        TokenManager $tokenManager,
     ): JsonResponse {
         $now = new DateTime();
         $token = $tokenStorage->getToken();
@@ -154,8 +171,9 @@ class AuthController extends AbstractController
         $authenticationRepository->update($authentication);
 
         sleep(1);
-        $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
 
+        $token = $tokenManager->createUserTokenForSessionUser($sessionUser);
+        $jwt = $tokenCodec->encode($token);
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 }

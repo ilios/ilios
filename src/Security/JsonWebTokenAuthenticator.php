@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
-use App\Service\JsonWebTokenManager;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
 use App\Service\ServiceTokenUserProvider;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +28,8 @@ use UnexpectedValueException;
 class JsonWebTokenAuthenticator extends AbstractAuthenticator
 {
     public function __construct(
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenFactory $tokenFactory,
         protected RouterInterface $router,
         protected ServiceTokenUserProvider $tokenUserProvider,
     ) {
@@ -45,11 +49,13 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
         preg_match('/^Token (\S+)$/', $authorizationHeader, $matches);
-        $token = $matches[1];
+        $jwt = $matches[1];
         try {
-            if ($this->jwtManager->isUserToken($token)) {
+            $data = $this->tokenCodec->decode($jwt);
+            $token = $this->tokenFactory->create($data);
+            if ($token instanceof UserToken) {
                 return $this->getPassportForUser($token);
-            } elseif ($this->jwtManager->isServiceToken($token)) {
+            } elseif ($token instanceof ServiceToken) {
                 return $this->getPassportForServiceToken($token);
             } else {
                 throw new Exception('Cannot establish identity.');
@@ -74,36 +80,21 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
 
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        $token = parent::createToken($passport, $firewallName);
-        $jwt = $passport->getAttribute('jwt');
-        $token->setAttribute('jwt', $jwt);
-        if ($this->jwtManager->isServiceToken($jwt)) {
-            $token->setAttribute(
-                JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY,
-                $this->jwtManager->getWriteableSchoolIdsFromToken($jwt)
-            );
-            $token->setAttribute(
-                JsonWebTokenManager::CAN_GENERATE_USER_TOKENS_KEY,
-                $this->jwtManager->getCanCreateUserTokensFromToken($jwt)
-            );
-            $token->setAttribute(
-                'aud',
-                $this->jwtManager->getAudienceClaimsFromToken($jwt)
-            );
-        }
-        return $token;
+        $securityToken = parent::createToken($passport, $firewallName);
+        $token = $passport->getAttribute('token');
+        $securityToken->setAttribute('token', $token);
+        return $securityToken;
     }
 
     /**
      * @throws CustomUserMessageAuthenticationException
      */
-    protected function getPassportForUser(string $jwt): Passport
+    protected function getPassportForUser(UserToken $token): Passport
     {
-        $userId = $this->jwtManager->getUserIdFromToken($jwt);
         $passport = new Passport(
-            new UserBadge((string) $userId),
+            new UserBadge((string) $token->userId),
             new CustomCredentials(
-                function ($token, UserInterface $user): bool {
+                function (UserToken $token, UserInterface $user): bool {
                     assert($user instanceof SessionUserInterface);
                     if (!$user->isEnabled()) {
                         throw new CustomUserMessageAuthenticationException(
@@ -111,36 +102,31 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                         );
                     }
                     $tokenNotValidBefore = $user->tokenNotValidBefore();
-                    $issuedAt = $this->jwtManager->getIssuedAtFromToken($token);
-                    if ($tokenNotValidBefore) {
-                        if ($tokenNotValidBefore > $issuedAt) {
-                            throw new CustomUserMessageAuthenticationException(
-                                'Invalid JSON Web Token: Not issued after ' .
-                                $tokenNotValidBefore->format('c') .
-                                ' issued on ' . $issuedAt->format('c')
-                            );
-                        }
+                    if ($tokenNotValidBefore && $tokenNotValidBefore > $token->issuedAt) {
+                        throw new CustomUserMessageAuthenticationException(
+                            'Invalid JSON Web Token: Not issued after ' .
+                            $tokenNotValidBefore->format('c') .
+                            ' issued on ' . $token->issuedAt->format('c')
+                        );
                     }
                     return true;
                 },
-                $jwt
+                $token
             )
         );
-        $passport->setAttribute('jwt', $jwt);
+        $passport->setAttribute('token', $token);
         return $passport;
     }
 
-    protected function getPassportForServiceToken(string $jwt): Passport
+    protected function getPassportForServiceToken(ServiceToken $token): Passport
     {
-        $tokenId = $this->jwtManager->getServiceTokenIdFromToken($jwt);
-        $schoolIds = $this->jwtManager->getWriteableSchoolIdsFromToken($jwt);
         $passport = new Passport(
             new UserBadge(
-                (string) $tokenId,
+                (string) $token->serviceTokenId,
                 fn(string $identifier) => $this->tokenUserProvider->loadUserByIdentifier($identifier)
             ),
             new CustomCredentials(
-                function ($token, UserInterface $user): bool {
+                function (ServiceToken $token, UserInterface $user): bool {
                     assert($user instanceof ServiceTokenUserInterface);
                     if (!$user->isEnabled()) {
                         throw new CustomUserMessageAuthenticationException(
@@ -149,11 +135,10 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                     }
                     return true;
                 },
-                $jwt
+                $token
             )
         );
-        $passport->setAttribute('jwt', $jwt);
-        $passport->setAttribute(JsonWebTokenManager::WRITEABLE_SCHOOLS_KEY, $schoolIds);
+        $passport->setAttribute('token', $token);
         return $passport;
     }
 }

@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
+use App\Classes\Jwt\ServiceToken;
 use App\Entity\School;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Service\SessionUserProvider;
 use App\Tests\DataLoader\ServiceTokenData;
 use App\Tests\DataLoader\UserData;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\JsonWebTokenManager;
 
 use function json_decode;
 use function substr;
@@ -242,23 +247,26 @@ trait TestableJsonController
     protected function createJwtFromUserId(KernelBrowser $browser, int $userId): string
     {
         $container = $browser->getContainer();
-        /** @var JsonWebTokenManager $jwtManager */
-        $jwtManager = $container->get(JsonWebTokenManager::class);
-        return $jwtManager->createJwtFromUserId($userId);
+        $tokenCodec = $container->get(TokenCodec::class);
+        $tokenManager = $container->get(TokenManager::class);
+        $sessionUserProvider = $container->get(SessionUserProvider::class);
+        $sessionUser = $sessionUserProvider->createSessionUserFromUserId($userId);
+        $token = $tokenManager->createUserTokenForSessionUser($sessionUser);
+        return $tokenCodec->encode($token);
     }
 
     /**
      * Creates a service-token based JWT for an active, un-expired service token,
      * optionally with write permissions to given schools.
      *
-     * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
+     * @param array $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
      * @param bool $grantLtiDashboardAudienceClaim TRUE if the service token is granted the LTI-dashboard audience claim
      * @return string the generated JWT
      */
     protected function createJwtForEnabledServiceToken(
         KernelBrowser $browser,
-        ?array $writeableSchoolIds = [],
+        array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
         bool $grantLtiDashboardAudienceClaim = false,
     ): string {
@@ -275,7 +283,7 @@ trait TestableJsonController
      * Creates a service-token based JWT for a given service token, optionally with write permissions to given schools.
      *
      * @param int $serviceTokenId the service token id
-     * @param array|null $writeableSchoolIds The IDs of schools that this token has write-permissions to.
+     * @param array $writeableSchoolIds The IDs of schools that this token has write-permissions to.
      * @param bool $canCreateUserTokens TRUE if the service token can be used to create user tokens.
      * @param bool $grantLtiDashboardAudienceClaim TRUE if the service token is granted the LTI-dashboard audience claim
      * @return string the generated JWT
@@ -283,19 +291,27 @@ trait TestableJsonController
     protected function createJwtFromServiceTokenId(
         KernelBrowser $browser,
         int $serviceTokenId,
-        ?array $writeableSchoolIds = [],
+        array $writeableSchoolIds = [],
         bool $canCreateUserTokens = false,
         bool $grantLtiDashboardAudienceClaim = false,
     ): string {
         $container = $browser->getContainer();
-        /** @var JsonWebTokenManager $jwtManager */
-        $jwtManager = $container->get(JsonWebTokenManager::class);
-        return $jwtManager->createJwtFromServiceTokenId(
+        $tokenCodec = $container->get(TokenCodec::class);
+        $iat = new DateTimeImmutable();
+        $exp = $iat->add(new DateInterval(TokenManager::SERVICE_TOKEN_MAX_TTL));
+        $aud = $grantLtiDashboardAudienceClaim
+            ? TokenManager::TOKEN_LTI_DASHBOARD_AUDIENCE
+            : TokenManager::TOKEN_DEFAULT_AUDIENCE;
+        $serviceToken = new ServiceToken(
+            $iat,
+            $exp,
+            [$aud],
+            TokenManager::TOKEN_DEFAULT_ISSUER,
             $serviceTokenId,
             $writeableSchoolIds,
-            $canCreateUserTokens,
-            $grantLtiDashboardAudienceClaim
+            $canCreateUserTokens
         );
+        return $tokenCodec->encode($serviceToken);
     }
 
     /**

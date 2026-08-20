@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Command\CreateServiceTokenCommand;
 use App\Entity\ServiceToken;
 use App\Repository\ServiceTokenRepository;
-use App\Service\JsonWebTokenManager;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
+use App\Service\SecretManager;
 use App\Service\ServiceTokenUserProvider;
 use DateInterval;
+use DateTimeImmutable;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * @package App\Tests\Command
@@ -30,21 +34,25 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
 
+    protected TokenFactory $tokenFactory;
+    protected TokenCodec $tokenCodec;
     protected CommandTester $commandTester;
-    protected m\MockInterface $jwtManager;
     protected m\MockInterface $tokenProvider;
     protected m\MockInterface $serviceTokenRepository;
+
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->tokenProvider = m::mock(ServiceTokenUserProvider::class);
         $this->serviceTokenRepository = m::mock(ServiceTokenRepository::class);
+        $this->tokenCodec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
+        $this->tokenFactory = new TokenFactory();
         $command = new CreateServiceTokenCommand(
             $this->serviceTokenRepository,
             $this->tokenProvider,
-            $this->jwtManager
+            $this->tokenFactory,
+            $this->tokenCodec
         );
         $kernel = self::bootKernel();
         $application = new Application($kernel);
@@ -53,54 +61,53 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
         $this->commandTester = new CommandTester($commandInApp);
     }
 
-    /**
-     * Remove all mock objects
-     */
     public function tearDown(): void
     {
         parent::tearDown();
         unset($this->commandTester);
         unset($this->serviceTokenRepository);
         unset($this->tokenProvider);
-        unset($this->jwtManager);
+        unset($this->tokenCodec);
+        unset($this->tokenFactory);
     }
 
     public function testNewDefaultToken(): void
     {
+        $serviceTokenId = 10;
+        $ttl = 'P30D';
+        $description = 'lorem ipsum';
         $serviceToken = new ServiceToken();
-        $serviceToken->setId(1);
+        $serviceToken->setId($serviceTokenId);
         $this->serviceTokenRepository->shouldReceive('create')
             ->andReturn($serviceToken);
         $this->serviceTokenRepository->shouldReceive('update')->with($serviceToken);
-        $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
-            new ServiceTokenUser($serviceToken)
-        );
-        $this->jwtManager
-            ->shouldReceive('createJwtFromServiceTokenUser')
-            ->withArgs(function (ServiceTokenUser $tokenUser, array $schoolIds) {
-                $this->assertEquals(1, $tokenUser->getId());
-                $this->assertEquals(
-                    $tokenUser
-                        ->getCreatedAt()
-                        ->add(new DateInterval(CreateServiceTokenCommand::TTL_MAX_VALUE))
-                        ->getTimestamp(),
-                    $tokenUser->getExpiresAt()->getTimestamp(),
-                );
-                $this->assertEquals([], $schoolIds);
-                return true;
-            })->andReturn('abcde');
 
         $this->commandTester->execute([
-            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
-            'description' => 'lorem ipsum',
+            'ttl' => $ttl,
+            'description' => $description,
         ]);
-        $this->assertEquals('lorem ipsum', $serviceToken->getDescription());
+
+        $this->assertEquals($description, $serviceToken->getDescription());
+        $this->assertTrue($serviceToken->isEnabled());
+        $this->assertSame(
+            $serviceToken->getCreatedAt()->add(new DateInterval($ttl))->getTimestamp(),
+            $serviceToken->getExpiresAt()->getTimestamp()
+        );
 
         $output = $this->commandTester->getDisplay();
-        $this->assertMatchesRegularExpression(
-            '/Token abcde/',
-            $output
+        $jwt = $this->getJwtFromOutput($output);
+        $data = $this->tokenCodec->decode($jwt);
+
+        $this->assertCount(7, $data);
+        $this->assertSame(
+            DateTimeImmutable::createFromFormat('U', $data['iat'])->add(new DateInterval($ttl))->getTimestamp(),
+            DateTimeImmutable::createFromFormat('U', $data['exp'])->getTimestamp()
         );
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $data['aud']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $data['iss']);
+        $this->assertSame($serviceTokenId, $data['token_id']);
+        $this->assertSame([], $data['writeable_schools']);
+        $this->assertFalse($data['can_generate_user_tokens']);
     }
 
     public static function createTokenWithWriteableSchoolsProvider(): array
@@ -123,29 +130,18 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('create')
             ->andReturn($serviceToken);
         $this->serviceTokenRepository->shouldReceive('update')->with($serviceToken);
-        $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
-            new ServiceTokenUser($serviceToken)
-        );
-        $this->jwtManager
-            ->shouldReceive('createJwtFromServiceTokenUser')
-            ->withArgs(function (ServiceTokenUser $tokenUser, array $schoolIds) use ($expectedSchoolIdsInToken) {
-                $this->assertEquals(1, $tokenUser->getId());
-                $this->assertEquals(
-                    $tokenUser
-                        ->getCreatedAt()
-                        ->add(new DateInterval(CreateServiceTokenCommand::TTL_MAX_VALUE))
-                        ->getTimestamp(),
-                    $tokenUser->getExpiresAt()->getTimestamp(),
-                );
-                $this->assertEquals($schoolIds, $expectedSchoolIdsInToken);
-                return true;
-            })->andReturn('abcde');
 
         $this->commandTester->execute([
-            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'ttl' => 'PT30M',
             'description' => 'lorem ipsum',
             '--writeable-schools' => $schoolIdsInput,
-            ]);
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $jwt = $this->getJwtFromOutput($output);
+        $data = $this->tokenCodec->decode($jwt);
+
+        $this->assertSame($expectedSchoolIdsInToken, $data['writeable_schools']);
     }
 
     public static function createServiceTokenToCreateUserTokensProvider(): array
@@ -164,33 +160,29 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
         $this->serviceTokenRepository->shouldReceive('create')
             ->andReturn($serviceToken);
         $this->serviceTokenRepository->shouldReceive('update')->with($serviceToken);
-        $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
-            new ServiceTokenUser($serviceToken)
-        );
-        $this->jwtManager
-            ->shouldReceive('createJwtFromServiceTokenUser')
-            ->withArgs(
-                function (
-                    ServiceTokenUser $tokenUser,
-                    array $schoolIds,
-                    bool $canCreateUserTokens
-                ) use ($allowUserTokenGeneration) {
-                    $this->assertEquals($canCreateUserTokens, $allowUserTokenGeneration);
-                    return true;
-                }
-            )->andReturn('abcde');
 
-        $opts = [
-            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+        $this->commandTester->execute([
+            'ttl' => 'PT30M',
             'description' => 'lorem ipsum',
+           '--allow-user-token-generation' => $allowUserTokenGeneration,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+        $jwt = $this->getJwtFromOutput($output);
+        $data = $this->tokenCodec->decode($jwt);
+
+        $this->assertSame($allowUserTokenGeneration, $data['can_generate_user_tokens']);
+    }
+    public static function createServiceTokenWithLtiDashboardClaimProvider(): array
+    {
+        return [
+            [true, 'lti-dashboard'],
+            [false, 'ilios'],
         ];
-        if ($allowUserTokenGeneration) {
-            $opts['--allow-user-token-generation'] = true;
-        }
-
-        $this->commandTester->execute($opts);
     }
-    public function testCreateServiceTokenWithUserTokensApplicationScope(): void
+
+    #[DataProvider('createServiceTokenWithLtiDashboardClaimProvider')]
+    public function testCreateServiceTokenWithLtiDashboardClaim(bool $hasClaim, string $expectedAud): void
     {
         $serviceToken = new ServiceToken();
         $serviceToken->setId(1);
@@ -200,65 +192,25 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
         $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
             new ServiceTokenUser($serviceToken)
         );
-        $this->jwtManager
-            ->shouldReceive('createJwtFromServiceTokenUser')
-            ->withArgs(
-                function (
-                    ServiceTokenUser $tokenUser,
-                    array $schoolIds,
-                    bool $canCreateUserTokens,
-                    bool $grantLtiDashboardAudienceClaim
-                ) {
-                    $this->assertTrue($grantLtiDashboardAudienceClaim);
-                    return true;
-                }
-            )->andReturn('abcde');
 
         $this->commandTester->execute([
-            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'ttl' => 'P30D',
             'description' => 'lorem ipsum',
-            '--grant-lti-dashboard-audience-claim' => true,
+            '--grant-lti-dashboard-audience-claim' => $hasClaim,
         ]);
-    }
-    public function testCreateTokenWithCustomTtl(): void
-    {
-        $ttl = 'P90D';
-        $this->assertNotEquals(CreateServiceTokenCommand::TTL_MAX_VALUE, $ttl);
 
-        $serviceToken = new ServiceToken();
-        $serviceToken->setId(1);
-        $this->serviceTokenRepository->shouldReceive('create')
-            ->andReturn($serviceToken);
-        $this->serviceTokenRepository->shouldReceive('update')->with($serviceToken);
-        $this->tokenProvider->shouldReceive('loadUserByIdentifier')->andReturn(
-            new ServiceTokenUser($serviceToken)
-        );
-        $this->jwtManager
-            ->shouldReceive('createJwtFromServiceTokenUser')
-            ->withArgs(function (ServiceTokenUser $tokenUser, array $schoolIds) use ($ttl) {
-                $this->assertEquals(1, $tokenUser->getId());
-                $this->assertEquals(
-                    $tokenUser
-                        ->getCreatedAt()
-                        ->add(new DateInterval($ttl))
-                        ->getTimestamp(),
-                    $tokenUser->getExpiresAt()->getTimestamp(),
-                );
-                return true;
-            })->andReturn('abcde');
+        $output = $this->commandTester->getDisplay();
+        $jwt = $this->getJwtFromOutput($output);
+        $data = $this->tokenCodec->decode($jwt);
 
-        $this->commandTester->execute([
-            'ttl' => $ttl,
-            'description' => 'lorem ipsum',
-        ]);
-        $this->assertEquals(Command::SUCCESS, $this->commandTester->getStatusCode());
+        $this->assertSame($expectedAud, $data['aud']);
     }
 
     public function testDescriptionRequired(): void
     {
         $this->expectExceptionMessage('Not enough arguments (missing: "description").');
         $this->commandTester->execute([
-            'ttl' => CreateServiceTokenCommand::TTL_MAX_VALUE,
+            'ttl' => 'P30D',
         ]);
         $this->assertEquals(Command::INVALID, $this->commandTester->getStatusCode());
     }
@@ -296,5 +248,12 @@ final class CreateServiceTokenCommandTest extends KernelTestCase
             'Unable to parse given TTL value.',
             $this->commandTester->getDisplay()
         );
+    }
+
+    protected function getJwtFromOutput(string $output): string
+    {
+        $re = '/Token (.*)/';
+        preg_match($re, $output, $matches);
+        return $matches[1];
     }
 }

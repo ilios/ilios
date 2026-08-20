@@ -5,16 +5,23 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
-use App\Repository\AuthenticationRepository;
-use App\Service\JsonWebTokenManager;
-use App\Service\SessionUserProvider;
 use App\Entity\AuthenticationInterface;
 use App\Entity\UserInterface;
+use App\Repository\AuthenticationRepository;
 use App\Service\Config;
-use App\Tests\TestCase;
-use Psr\Log\LoggerInterface;
-use Mockery as m;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
+use App\Service\SecretManager;
+use App\Service\SessionUserPermissionChecker;
+use App\Service\SessionUserProvider;
 use App\Service\ShibbolethAuthentication;
+use App\Tests\TestCase;
+use DateInterval;
+use DateTimeImmutable;
+use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,16 +32,24 @@ final class ShibbolethAuthenticationTest extends TestCase
     protected m\MockInterface $jwtManager;
     protected m\MockInterface $logger;
     protected m\MockInterface $config;
-    protected ShibbolethAuthentication $obj;
+    protected m\MockInterface $sessionUserPermissionChecker;
     protected m\MockInterface $sessionUserProvider;
+    protected TokenCodec $tokenCodec;
+    protected TokenManager $tokenManager;
+    protected ShibbolethAuthentication $obj;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->authenticationRepository = m::mock(AuthenticationRepository::class);
-        $this->jwtManager = m::mock(JsonWebTokenManager::class);
         $this->logger = m::mock(LoggerInterface::class);
         $this->config = m::mock(Config::class);
+        $this->tokenCodec = new TokenCodec(new SecretManager(str_repeat('A', 20), ''));
+        $this->sessionUserPermissionChecker = m::mock(SessionUserPermissionChecker::class);
+        $this->tokenManager = new TokenManager(
+            new TokenFactory(),
+            $this->sessionUserPermissionChecker
+        );
         $this->sessionUserProvider = m::mock(SessionUserProvider::class);
         $this->config->shouldReceive('get')->with('shibboleth_authentication_logout_path')
             ->andReturn('/Shibboleth.sso/Logout');
@@ -43,7 +58,8 @@ final class ShibbolethAuthenticationTest extends TestCase
         $this->config->shouldReceive('get')->with('shibboleth_authentication_user_id_attribute')->andReturn('eppn');
         $this->obj = new ShibbolethAuthentication(
             $this->authenticationRepository,
-            $this->jwtManager,
+            $this->tokenCodec,
+            $this->tokenManager,
             $this->logger,
             $this->config,
             $this->sessionUserProvider
@@ -55,9 +71,11 @@ final class ShibbolethAuthenticationTest extends TestCase
         parent::tearDown();
         unset($this->obj);
         unset($this->authenticationRepository);
-        unset($this->jwtManager);
         unset($this->logger);
         unset($this->config);
+        unset($this->tokenManager);
+        unset($this->tokenCodec);
+        unset($this->sessionUserPermissionChecker);
         unset($this->sessionUserProvider);
     }
 
@@ -112,41 +130,72 @@ final class ShibbolethAuthenticationTest extends TestCase
         $request = new Request(server: ['Shib-Application-ID' => true, 'eppn' => 'userid1']);
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
-        $sessionUser->shouldReceive('isEnabled')->andReturn(true);
+        $sessionUser->shouldReceive('isEnabled')->andReturn(false);
         $authenticationEntity = m::mock(AuthenticationInterface::class);
         $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->authenticationRepository->shouldReceive('findOneBy')
             ->with(['username' => 'userid1'])->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
-        $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
 
         $result = $this->obj->login($request);
 
         $content = $result->getContent();
         $data = json_decode($content);
-        $this->assertSame($data->status, 'success');
-        $this->assertSame($data->jwt, 'jwt123Test');
+        $this->assertSame('noAccountExists', $data->status);
+        $this->assertSame('userid1', $data->userId);
     }
 
-    public function testSuccess(): void
+    #[DataProvider('successProvider')]
+    public function testSuccess(int $userId, bool $isRoot, bool $performsNonLearnerFunction, bool $canCreateUsers): void
     {
         $request = new Request(server: ['Shib-Application-ID' => true, 'eppn' => 'userid1']);
         $user = m::mock(UserInterface::class);
         $sessionUser = m::mock(SessionUserInterface::class);
         $sessionUser->shouldReceive('isEnabled')->andReturn(true);
+        $sessionUser->shouldReceive('getId')->andReturn($userId);
+        $sessionUser->shouldReceive('isRoot')->andReturn($isRoot);
+        $sessionUser->shouldReceive('performsNonLearnerFunction')->andReturn($performsNonLearnerFunction);
         $authenticationEntity = m::mock(AuthenticationInterface::class);
         $authenticationEntity->shouldReceive('getUser')->andReturn($user);
         $this->authenticationRepository->shouldReceive('findOneBy')
             ->with(['username' => 'userid1'])->andReturn($authenticationEntity);
         $this->sessionUserProvider->shouldReceive('createSessionUserFromUser')->with($user)->andReturn($sessionUser);
-        $this->jwtManager->shouldReceive('createJwtFromSessionUser')->with($sessionUser)->andReturn('jwt123Test');
+        $this->sessionUserPermissionChecker
+            ->shouldReceive('canCreateOrUpdateUsersInAnySchool')
+            ->andReturn($canCreateUsers);
 
         $result = $this->obj->login($request);
 
         $content = $result->getContent();
         $data = json_decode($content);
+
         $this->assertSame($data->status, 'success');
-        $this->assertSame($data->jwt, 'jwt123Test');
+
+        $tokenData = $this->tokenCodec->decode($data->jwt);
+
+        $this->assertCount(10, $tokenData);
+        $this->assertSame(
+            DateTimeImmutable::createFromFormat('U', $tokenData['iat'])
+                ->add(new DateInterval(TokenManager::USER_TOKEN_DEFAULT_TTL))
+                ->getTimestamp(),
+            DateTimeImmutable::createFromFormat('U', $tokenData['exp'])->getTimestamp()
+        );
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $tokenData['iss']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $tokenData['aud']);
+        $this->assertSame($userId, $tokenData['user_id']);
+        $this->assertSame($isRoot, $tokenData['is_root']);
+        $this->assertSame($performsNonLearnerFunction, $tokenData['performs_non_learner_function']);
+        $this->assertSame($canCreateUsers, $tokenData['can_create_or_update_user_in_any_school']);
+        $this->assertSame($tokenData['firstCreatedAt'], $tokenData['iat']);
+        $this->assertSame(0, $tokenData['refreshCount']);
+    }
+
+    public static function successProvider(): array
+    {
+        return [
+            [10, true, false, true],
+            [20, false, true, false],
+        ];
     }
 
     public function testCreateAuthenticationResponseAuthenticated(): void

@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Repository\AuthenticationRepository;
 use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
+use App\Repository\AuthenticationRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Traits\AuthenticationService;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
-use Exception;
 use UnexpectedValueException;
 
 /**
@@ -34,7 +36,8 @@ class CasAuthentication implements AuthenticationInterface
      */
     public function __construct(
         protected AuthenticationRepository $authenticationRepository,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         protected LoggerInterface $logger,
         protected RouterInterface $router,
         protected CasManager $casManager,
@@ -57,7 +60,7 @@ class CasAuthentication implements AuthenticationInterface
         if ($request->cookies->has(self::JWT_COOKIE)) {
             $jwt = $request->cookies->get(self::JWT_COOKIE);
             try {
-                $this->jwtManager->getUserIdFromToken($jwt);
+                $this->tokenCodec->decode($jwt);
                 return $this->createSuccessResponseFromJWT($jwt);
             } catch (UnexpectedValueException) {
                 //JWT could not be validated, move on
@@ -90,7 +93,8 @@ class CasAuthentication implements AuthenticationInterface
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
-                $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
+                $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                $jwt = $this->tokenCodec->encode($userToken);
                 $response = $this->createSuccessResponseFromJWT($jwt);
 
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
@@ -112,7 +116,7 @@ class CasAuthentication implements AuthenticationInterface
                     $response->headers->clearCookie(self::REDIRECT_COOKIE);
                 }
 
-                $exp = $this->jwtManager->getExpiresAtFromToken($jwt);
+                $exp = $userToken->expiresAt;
                 $response->headers->setCookie(Cookie::create(
                     self::JWT_COOKIE,
                     $jwt,

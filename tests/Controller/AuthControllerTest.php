@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Controller\AuthController;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Service\SessionUserProvider;
 use App\Tests\DataLoader\ServiceTokenData;
 use App\Tests\DataLoader\UserData;
-use DateInterval;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use App\Controller\AuthController;
-use App\Service\JsonWebTokenManager;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\GetUrlTrait;
 use App\Tests\Traits\TestableJsonController;
+use DateInterval;
 use DateTime;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+use DateTimeImmutable;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,31 +36,42 @@ final class AuthControllerTest extends WebTestCase
     use GetUrlTrait;
 
     protected string $apiVersion = 'v3';
-    protected string $jwtKey;
     protected KernelBrowser $kernelBrowser;
+    protected SessionUserProvider $sessionUserProvider;
+    protected TokenCodec $tokenCodec;
+    protected TokenManager $tokenManager;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->kernelBrowser = self::createClient();
+        $container = $this->kernelBrowser->getContainer();
         $databaseTool = $this->kernelBrowser->getContainer()->get(DatabaseToolCollection::class)->get();
         $databaseTool->loadFixtures([
             LoadAuthenticationData::class,
             LoadServiceTokenData::class,
         ]);
-        $secret = $this->kernelBrowser->getContainer()->getParameter('kernel.secret');
-        $this->jwtKey = JsonWebTokenManager::PREPEND_KEY . $secret;
+        $this->tokenCodec = $container->get(TokenCodec::class);
+        $this->tokenManager = $container->get(TokenManager::class);
+        $this->sessionUserProvider = $container->get(SessionUserProvider::class);
     }
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        unset($this->sessionUserProvider);
+        unset($this->tokenManager);
+        unset($this->tokenCodec);
         unset($this->kernelBrowser);
+        parent::tearDown();
     }
 
     public function testMissingValues(): void
     {
         $this->kernelBrowser->request('POST', '/auth/login');
+        $container = $this->kernelBrowser->getContainer();
+        $this->sessionUserProvider = $container->get(SessionUserProvider::class);
+        $this->tokenManager = $container->get(TokenManager::class);
+        $this->tokenCodec = $container->get(TokenCodec::class);
 
         $response = $this->kernelBrowser->getResponse();
 
@@ -209,7 +221,6 @@ final class AuthControllerTest extends WebTestCase
 
         // test for sameness
         $this->assertSame($token['user_id'], $token2['user_id']);
-        $this->assertSame($token['permissions'], $token2['permissions']);
         $this->assertSame($token['iss'], $token2['iss']);
         $this->assertSame($token['aud'], $token2['aud']);
         $this->assertSame($token['firstCreatedAt'], $token2['firstCreatedAt']);
@@ -219,10 +230,6 @@ final class AuthControllerTest extends WebTestCase
         //refresh should increment counter
         $this->assertEquals(0, $token['refreshCount']);
         $this->assertEquals(1, $token2['refreshCount']);
-
-        //both tokens have user level permissions
-        $this->assertEquals('user', $token['permissions']);
-        $this->assertEquals('user', $token2['permissions']);
     }
 
     public function testGetTokenWithNonDefaultTtl(): void
@@ -285,8 +292,25 @@ final class AuthControllerTest extends WebTestCase
             $jwt
         );
         $response = $this->kernelBrowser->getResponse();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
-
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $content = $response->getContent();
+        $json = json_decode($content);
+        $data = $this->decode($json->jwt);
+        $this->assertCount(10, $data);
+        $this->assertSame(
+            DateTimeImmutable::createFromFormat('U', $data['iat'])
+                ->add(new DateInterval(TokenManager::USER_TOKEN_DEFAULT_TTL))
+                ->getTimestamp(),
+            DateTimeImmutable::createFromFormat('U', $data['exp'])->getTimestamp(),
+        );
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $data['iss']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $data['aud']);
+        $this->assertSame(2, $data['user_id']);
+        $this->assertTrue($data['is_root']);
+        $this->assertTrue($data['performs_non_learner_function']);
+        $this->assertTrue($data['can_create_or_update_user_in_any_school']);
+        $this->assertSame($data['firstCreatedAt'], $data['iat']);
+        $this->assertSame(0, $data['refreshCount']);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'GET',
@@ -381,17 +405,16 @@ final class AuthControllerTest extends WebTestCase
         $this->assertArrayHasKey('jwt', $data);
         $jwt = $this->decode($data['jwt']);
         $this->assertEquals('ilios', $jwt['iss']);
-        $this->assertEquals([JsonWebTokenManager::TOKEN_AUD_LTI_DASHBOARD], $jwt['aud']);
+        $this->assertEquals(TokenManager::TOKEN_LTI_DASHBOARD_AUDIENCE, $jwt['aud']);
         $this->assertEquals(
             (int) $jwt['exp'],
             DateTime::createFromTimestamp((int) $jwt['iat'])
-            ->add(new DateInterval(JsonWebTokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp()
+            ->add(new DateInterval(TokenManager::USER_TOKEN_SHORT_TTL))->getTimestamp()
         );
         $this->assertEquals($jwt['firstCreatedAt'], $jwt['iat']);
         $this->assertEquals(0, $jwt['refreshCount']);
-        $this->assertEquals('user', $jwt['permissions']);
         $this->assertEquals($user['id'], $jwt['user_id']);
-        $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt[JsonWebTokenManager::ISSUED_WITH_KEY]);
+        $this->assertEquals(ServiceTokenData::ENABLED_SERVICE_TOKEN_ID, $jwt['issued_with']);
     }
 
     public function testCreateUserTokenWithServiceTokenFailsIfServiceTokenIsNotAServiceToken(): void
@@ -487,17 +510,14 @@ final class AuthControllerTest extends WebTestCase
 
     protected function getExpiredToken(int $userId): string
     {
-        $container = $this->kernelBrowser->getContainer();
-        /** @var JsonWebTokenManager $jwtManager */
-        $jwtManager = $container->get(JsonWebTokenManager::class);
-        $jwt = $jwtManager->createJwtFromUserId($userId, 'PT0S');
+        $sessionUser = $this->sessionUserProvider->createSessionUserFromUserId($userId);
+        $token = $this->tokenManager->createUserTokenForSessionUser($sessionUser, 'PT0S');
         sleep(6); //wait for 5 second leeway to pass
-        return $jwt;
+        return $this->tokenCodec->encode($token);
     }
 
     protected function decode(string $jwt): array
     {
-        $decoded = JWT::decode($jwt, new Key($this->jwtKey, JsonWebTokenManager::SIGNING_ALGORITHM));
-        return (array) $decoded;
+        return $this->tokenCodec->decode($jwt);
     }
 }

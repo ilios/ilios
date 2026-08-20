@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Repository\AuthenticationRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Traits\AuthenticationService;
 use Exception;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Traits\AuthenticationService;
-use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -32,7 +34,8 @@ class ShibbolethAuthentication implements AuthenticationInterface
      */
     public function __construct(
         protected AuthenticationRepository $authenticationRepository,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         protected LoggerInterface $logger,
         Config $config,
         protected SessionUserProvider $sessionUserProvider
@@ -92,8 +95,8 @@ class ShibbolethAuthentication implements AuthenticationInterface
         if ($authEntity) {
             $sessionUser = $this->sessionUserProvider->createSessionUserFromUser($authEntity->getUser());
             if ($sessionUser->isEnabled()) {
-                $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
-
+                $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                $jwt = $this->tokenCodec->encode($userToken);
                 return $this->createSuccessResponseFromJWT($jwt);
             }
         }

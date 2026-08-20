@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\AuthenticationRepository;
-use App\Service\Config;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
 use App\Traits\AuthenticationService;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LdapAuthentication implements AuthenticationInterface
@@ -23,7 +24,8 @@ class LdapAuthentication implements AuthenticationInterface
 
     public function __construct(
         protected AuthenticationRepository $authRepository,
-        protected JsonWebTokenManager $jwtManager,
+        protected TokenCodec $tokenCodec,
+        protected TokenManager $tokenManager,
         Config $config,
         protected SessionUserProvider $sessionUserProvider
     ) {
@@ -68,8 +70,8 @@ class LdapAuthentication implements AuthenticationInterface
                 if ($sessionUser->isEnabled()) {
                     $passwordValid = $this->checkLdapPassword($username, $password);
                     if ($passwordValid) {
-                        $jwt = $this->jwtManager->createJwtFromSessionUser($sessionUser);
-
+                        $userToken = $this->tokenManager->createUserTokenForSessionUser($sessionUser);
+                        $jwt = $this->tokenCodec->encode($userToken);
                         return $this->createSuccessResponseFromJWT($jwt);
                     }
                 }

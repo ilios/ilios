@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\ServiceTokenVoter;
 
-use PHPUnit\Framework\Attributes\DataProvider;
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
 use App\Tests\TestCase;
+use DateInterval;
+use DateTimeImmutable;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,35 +43,58 @@ abstract class AbstractBase extends TestCase
         $this->assertEquals($this->voter->supportsAttribute($attribute), $isSupported);
     }
 
-    protected function createMockToken(
+    protected function createMockSecurityToken(
         ?UserInterface $tokenUser,
-        ?array $writeableSchoolIds = null,
+        UserToken|ServiceToken|null $token = null,
     ): TokenInterface {
-        $mockToken = m::mock(TokenInterface::class);
-        $mockToken
-            ->shouldReceive('hasAttribute')
-            ->with('writeable_schools')
-            ->andReturn(true);
-        $mockToken
-            ->shouldReceive('getAttribute')
-            ->with('writeable_schools')
-            ->andReturn($writeableSchoolIds);
-        $mockToken->shouldReceive('getUser')->andReturn($tokenUser);
-        return $mockToken;
+        $mockSecurityToken = m::mock(TokenInterface::class);
+        $mockSecurityToken->shouldReceive('getUser')->andReturn($tokenUser);
+        $mockSecurityToken->shouldReceive('getAttribute')->with('token')->andReturn($token);
+        return $mockSecurityToken;
     }
 
-    protected function createMockTokenWithServiceTokenUser(?array $writeableSchoolIds = null): TokenInterface
+    protected function createMockTokenWithServiceTokenUser(array $writeableSchoolIds = []): TokenInterface
     {
-        return $this->createMockToken(m::mock(ServiceTokenUserInterface::class), $writeableSchoolIds);
+        $serviceToken = new ServiceToken(
+            new DateTimeImmutable(),
+            new DateTimeImmutable()->add(new DateInterval('P1D')),
+            ['doesntmatter'],
+            'whocaresnotme',
+            1,
+            $writeableSchoolIds,
+            false,
+        );
+
+        return $this->createMockSecurityToken(
+            m::mock(ServiceTokenUserInterface::class),
+            $serviceToken
+        );
     }
 
-    protected function createMockTokenWithoutServiceTokenUser(?array $writeableSchoolIds = null): TokenInterface
+    protected function createMockTokenWithoutServiceTokenUser(): TokenInterface
     {
-        return $this->createMockToken(null, $writeableSchoolIds);
+        return $this->createMockSecurityToken(null);
     }
 
-    protected function createMockTokenWithSessionUser(?array $writeableSchoolIds = null): TokenInterface
+    protected function createMockTokenWithSessionUser(): TokenInterface
     {
-        return $this->createMockToken(m::mock(SessionUserInterface::class), $writeableSchoolIds);
+        $userToken = new UserToken(
+            new DateTimeImmutable(),
+            new DateTimeImmutable()->add(new DateInterval('P1D')),
+            ['doesntmatter'],
+            'whocaresnotme',
+            1,
+            true,
+            true,
+            true,
+            null,
+            new DateTimeImmutable(),
+            0
+        );
+
+        return $this->createMockSecurityToken(
+            m::mock(SessionUserInterface::class),
+            $userToken
+        );
     }
 }

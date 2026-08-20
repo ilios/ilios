@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Classes\Jwt\ServiceToken;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
 use App\Service\ServiceTokenUserProvider;
 use DateInterval;
 use DateTime;
@@ -16,7 +20,6 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Service\JsonWebTokenManager;
 
 /**
  * Create a new service account token.
@@ -27,12 +30,11 @@ use App\Service\JsonWebTokenManager;
 )]
 class CreateServiceTokenCommand extends Command
 {
-    public const string TTL_MAX_VALUE = 'P180D'; // roughly six months
-
     public function __construct(
         protected ServiceTokenRepository $tokenRepository,
         protected ServiceTokenUserProvider $userProvider,
-        protected JsonWebTokenManager $jwtManager
+        protected TokenFactory $tokenFactory,
+        protected TokenCodec $tokenCodec,
     ) {
         parent::__construct();
     }
@@ -52,12 +54,17 @@ class CreateServiceTokenCommand extends Command
     ): int {
         try {
             $ttl = new DateInterval($ttl);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $output->writeln('Unable to parse given TTL value.');
             return Command::INVALID;
         }
         if ($this->ttlExceedsMaximumTtl($ttl)) {
-            $output->writeln('The given time-to-live exceeds the maximum allowed value (' . self::TTL_MAX_VALUE . ').');
+            $output->writeln(
+                sprintf(
+                    'The given time-to-live exceeds the maximum allowed value (%s).',
+                    TokenManager::SERVICE_TOKEN_MAX_TTL
+                )
+            );
             return Command::INVALID;
         }
 
@@ -73,14 +80,22 @@ class CreateServiceTokenCommand extends Command
 
         $schoolIds = $this->getSchoolIdsFromInput($writeableSchools);
 
-        $serviceTokenUser = $this->userProvider->loadUserByIdentifier((string) $token->getId());
+        $data = [
+            'iat' => $token->getCreatedAt()->format('U'),
+            'exp' => $token->getExpiresAt()->format('U'),
+            'aud' => $grantLtiDashboardAudienceClaim
+                ? TokenManager::TOKEN_LTI_DASHBOARD_AUDIENCE
+                : TokenManager::TOKEN_DEFAULT_AUDIENCE,
+            'iss' => TokenManager::TOKEN_DEFAULT_ISSUER,
+            'token_id' => $token->getId(),
+            'writeable_schools' => $schoolIds,
+            'can_generate_user_tokens' => $allowUserTokenGeneration,
+        ];
 
-        $jwt = $this->jwtManager->createJwtFromServiceTokenUser(
-            $serviceTokenUser,
-            $schoolIds,
-            $allowUserTokenGeneration,
-            $grantLtiDashboardAudienceClaim
-        );
+        $serviceToken = $this->tokenFactory->create($data);
+        assert($serviceToken instanceof ServiceToken);
+
+        $jwt = $this->tokenCodec->encode($serviceToken);
         $output->writeln('Success!');
         $output->writeln('Token ' . $jwt);
 
@@ -89,7 +104,7 @@ class CreateServiceTokenCommand extends Command
 
     protected function ttlExceedsMaximumTtl(DateInterval $ttl): bool
     {
-        $maxTtl = new DateInterval(self::TTL_MAX_VALUE);
+        $maxTtl = new DateInterval(TokenManager::SERVICE_TOKEN_MAX_TTL);
         $now = new DateTimeImmutable();
         $ttlDate = $now->add($ttl);
         $maxTtlDate = $now->add($maxTtl);
