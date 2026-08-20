@@ -13,7 +13,6 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Service\Jwt\TokenCodec;
-use App\Service\Jwt\TokenFactory;
 use App\Service\Jwt\TokenManager;
 use App\Service\SessionUserProvider;
 use DateTime;
@@ -64,7 +63,6 @@ class AuthController extends AbstractController
         Request $request,
         TokenStorageInterface $tokenStorage,
         TokenCodec $tokenCodec,
-        TokenFactory $tokenFactory,
         TokenManager $tokenManager
     ): JsonResponse {
         $token = $tokenStorage->getToken();
