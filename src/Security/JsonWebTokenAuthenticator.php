@@ -102,14 +102,12 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
                         );
                     }
                     $tokenNotValidBefore = $user->tokenNotValidBefore();
-                    if ($tokenNotValidBefore) {
-                        if ($tokenNotValidBefore > $token->issuedAt) {
-                            throw new CustomUserMessageAuthenticationException(
-                                'Invalid JSON Web Token: Not issued after ' .
-                                $tokenNotValidBefore->format('c') .
-                                ' issued on ' . $token->issuedAt->format('c')
-                            );
-                        }
+                    if ($tokenNotValidBefore && $tokenNotValidBefore > $token->issuedAt) {
+                        throw new CustomUserMessageAuthenticationException(
+                            'Invalid JSON Web Token: Not issued after ' .
+                            $tokenNotValidBefore->format('c') .
+                            ' issued on ' . $token->issuedAt->format('c')
+                        );
                     }
                     return true;
                 },
