@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use App\Service\SecretManager;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
-use App\Service\TokenManager;
-use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Command\CreateServiceTokenCommand;
 use App\Entity\ServiceToken;
 use App\Repository\ServiceTokenRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
+use App\Service\SecretManager;
 use App\Service\ServiceTokenUserProvider;
 use DateInterval;
+use DateTimeImmutable;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * @package App\Tests\Command

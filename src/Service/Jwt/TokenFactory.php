@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Service\Jwt;
 
-use App\Classes\ServiceToken;
-use App\Classes\UserToken;
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
 use DateTimeImmutable;
 use DomainException;
 

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Classes\ServiceToken;
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
-use App\Classes\UserToken;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
 use App\Service\ServiceTokenUserProvider;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

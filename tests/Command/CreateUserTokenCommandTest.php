@@ -5,27 +5,27 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Classes\SessionUserInterface;
-use App\Service\SecretManager;
-use App\Service\SessionUserPermissionChecker;
-use App\Service\SessionUserProvider;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
-use App\Service\TokenManager;
-use DateInterval;
-use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use App\Command\CreateUserTokenCommand;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
+use App\Service\SecretManager;
+use App\Service\SessionUserPermissionChecker;
+use App\Service\SessionUserProvider;
+use DateInterval;
+use DateTimeImmutable;
 use Exception;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * Class CreateUserTokenCommandTest

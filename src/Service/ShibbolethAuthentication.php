@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use App\Repository\AuthenticationRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
+use App\Traits\AuthenticationService;
 use Exception;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Traits\AuthenticationService;
-use App\Entity\AuthenticationInterface as AuthenticationEntityInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

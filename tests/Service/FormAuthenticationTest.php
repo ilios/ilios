@@ -6,24 +6,24 @@ namespace App\Tests\Service;
 
 use App\Classes\SessionUserInterface;
 use App\Entity\AuthenticationInterface;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use App\Service\FormAuthentication;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
 use App\Service\SecretManager;
 use App\Service\SessionUserPermissionChecker;
 use App\Service\SessionUserProvider;
-use App\Entity\UserInterface;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
-use App\Service\TokenManager;
 use App\Tests\TestCase;
+use DateInterval;
+use DateTimeImmutable;
 use Mockery as m;
-use App\Service\FormAuthentication;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use DateTimeImmutable;
-use DateInterval;
 
 final class FormAuthenticationTest extends TestCase
 {

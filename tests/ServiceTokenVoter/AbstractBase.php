@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\ServiceTokenVoter;
 
-use App\Classes\ServiceToken;
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
+use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
-use App\Classes\UserToken;
+use App\Tests\TestCase;
 use DateInterval;
 use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\DataProvider;
-use App\Classes\ServiceTokenUserInterface;
-use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;

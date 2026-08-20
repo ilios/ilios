@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use App\Classes\UserToken;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\DataProvider;
+use App\Classes\Jwt\UserToken;
 use App\Entity\Alert;
 use App\Entity\AlertChangeTypeInterface;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
 use App\Tests\DataLoader\InstructorGroupData;
 use App\Tests\DataLoader\LearnerGroupData;
 use App\Tests\DataLoader\ServiceTokenData;
@@ -23,6 +21,8 @@ use App\Tests\Fixture\LoadOfferingData;
 use DateTime;
 use DateTimeZone;
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Offering API endpoint Test.

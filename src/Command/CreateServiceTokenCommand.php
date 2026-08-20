@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Classes\ServiceToken;
+use App\Classes\Jwt\ServiceToken;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\Jwt\TokenManager;
 use App\Service\ServiceTokenUserProvider;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
-use App\Service\TokenManager;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;

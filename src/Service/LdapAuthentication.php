@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\AuthenticationRepository;
-use App\Service\Config;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
 use App\Traits\AuthenticationService;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class LdapAuthentication implements AuthenticationInterface

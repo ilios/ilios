@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ServiceTokenVoter;
 
-use App\Classes\ServiceToken;
+use App\Classes\Jwt\ServiceToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 

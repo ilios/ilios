@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Traits;
 
-use App\Classes\ServiceToken;
+use App\Classes\Jwt\ServiceToken;
 use App\Entity\School;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
 use App\Service\SessionUserProvider;
-use App\Service\TokenCodec;
-use App\Service\TokenManager;
 use App\Tests\DataLoader\ServiceTokenData;
 use App\Tests\DataLoader\UserData;
 use DateInterval;

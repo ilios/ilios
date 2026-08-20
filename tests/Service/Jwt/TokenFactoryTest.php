@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\Jwt;
 
-use App\Classes\ServiceToken;
-use App\Classes\UserToken;
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
 use App\Service\SecretManager;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
 use App\Tests\TestCase;
 use DateInterval;
 use DateTimeImmutable;

@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Security;
 
-use App\Classes\ServiceToken;
-use App\Classes\UserToken;
-use App\Service\SecretManager;
-use App\Service\TokenCodec;
-use App\Service\TokenFactory;
-use DateInterval;
-use DateTimeImmutable;
-use PHPUnit\Framework\Attributes\CoversClass;
+use App\Classes\Jwt\ServiceToken;
+use App\Classes\Jwt\UserToken;
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUserInterface;
 use App\Security\JsonWebTokenAuthenticator;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenFactory;
+use App\Service\SecretManager;
 use App\Service\ServiceTokenUserProvider;
 use App\Tests\TestCase;
+use DateInterval;
+use DateTimeImmutable;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;

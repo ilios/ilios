@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Monitor;
 
 use App\Monitor\SecretLength;
-use App\Service\TokenCodec;
+use App\Service\Jwt\TokenCodec;
 use App\Tests\TestCase;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;

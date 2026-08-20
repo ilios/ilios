@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Classes;
+namespace App\Classes\Jwt;
 
 use DateTimeImmutable;
 

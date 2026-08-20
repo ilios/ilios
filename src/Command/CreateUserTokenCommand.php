@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\UserRepository;
+use App\Service\Jwt\TokenCodec;
+use App\Service\Jwt\TokenManager;
 use App\Service\SessionUserProvider;
-use App\Service\TokenCodec;
-use App\Service\TokenManager;
 use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;

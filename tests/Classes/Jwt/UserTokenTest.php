@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Classes;
+namespace App\Tests\Classes\Jwt;
 
-use App\Classes\UserToken;
+use App\Classes\Jwt\UserToken;
 use App\Tests\TestCase;
 use DateInterval;
 use DateTimeImmutable;
