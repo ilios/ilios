@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Service\TokenManager;
 use App\Tests\DataLoader\ServiceTokenData;
 use App\Tests\DataLoader\UserData;
 use DateInterval;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\AuthController;
@@ -280,8 +282,25 @@ final class AuthControllerTest extends WebTestCase
             $jwt
         );
         $response = $this->kernelBrowser->getResponse();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode(), $response->getContent());
-
+        $this->assertJsonResponse($response, Response::HTTP_OK);
+        $content = $response->getContent();
+        $json = json_decode($content);
+        $data = $this->decode($json->jwt);
+        $this->assertCount(10, $data);
+        $this->assertSame(
+            DateTimeImmutable::createFromFormat('U', $data['iat'])
+                ->add(new DateInterval(TokenManager::USER_TOKEN_DEFAULT_TTL))
+                ->getTimestamp(),
+            DateTimeImmutable::createFromFormat('U', $data['exp'])->getTimestamp(),
+        );
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_ISSUER, $data['iss']);
+        $this->assertSame(TokenManager::TOKEN_DEFAULT_AUDIENCE, $data['aud']);
+        $this->assertSame(2, $data['user_id']);
+        $this->assertTrue($data['is_root']);
+        $this->assertTrue($data['performs_non_learner_function']);
+        $this->assertTrue($data['can_create_or_update_user_in_any_school']);
+        $this->assertSame($data['firstCreatedAt'], $data['iat']);
+        $this->assertSame(0, $data['refreshCount']);
         $this->makeJsonRequest(
             $this->kernelBrowser,
             'GET',

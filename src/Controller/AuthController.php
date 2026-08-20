@@ -12,7 +12,6 @@ use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Entity\UserInterface;
-use App\Service\JsonWebTokenManager;
 use App\Service\SessionUserProvider;
 use App\Service\TokenCodec;
 use App\Service\TokenFactory;
@@ -152,7 +151,8 @@ class AuthController extends AbstractController
         TokenStorageInterface $tokenStorage,
         UserRepository $userRepository,
         AuthenticationRepository $authenticationRepository,
-        JsonWebTokenManager $jwtManager
+        TokenCodec $tokenCodec,
+        TokenManager $tokenManager,
     ): JsonResponse {
         $now = new DateTime();
         $token = $tokenStorage->getToken();
@@ -173,8 +173,9 @@ class AuthController extends AbstractController
         $authenticationRepository->update($authentication);
 
         sleep(1);
-        $jwt = $jwtManager->createJwtFromSessionUser($sessionUser);
 
+        $token = $tokenManager->createUserTokenForSessionUser($sessionUser);
+        $jwt = $tokenCodec->encode($token);
         return new JsonResponse(['jwt' => $jwt], Response::HTTP_OK);
     }
 }
