@@ -7919,16 +7919,16 @@
         },
         {
             "name": "symfony/lock",
-            "version": "v8.1.4",
+            "version": "v8.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/lock.git",
-                "reference": "8a60d8d5a30c27706269d126af16a1089586b80d"
+                "reference": "8265aa10ed6d443bf9126052d4ccc737aaf48d1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/lock/zipball/8a60d8d5a30c27706269d126af16a1089586b80d",
-                "reference": "8a60d8d5a30c27706269d126af16a1089586b80d",
+                "url": "https://api.github.com/repos/symfony/lock/zipball/8265aa10ed6d443bf9126052d4ccc737aaf48d1c",
+                "reference": "8265aa10ed6d443bf9126052d4ccc737aaf48d1c",
                 "shasum": ""
             },
             "require": {
@@ -7977,7 +7977,7 @@
                 "semaphore"
             ],
             "support": {
-                "source": "https://github.com/symfony/lock/tree/v8.1.4"
+                "source": "https://github.com/symfony/lock/tree/v8.1.5"
             },
             "funding": [
                 {
@@ -7997,7 +7997,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-08-06T09:53:08+00:00"
+            "time": "2026-08-14T13:18:47+00:00"
         },
         {
             "name": "symfony/mailchimp-mailer",
@@ -15754,7 +15754,6 @@
         "symfony/framework-bundle": 0,
         "symfony/http-client": 0,
         "symfony/ldap": 0,
-        "symfony/lock": 0,
         "symfony/mailchimp-mailer": 0,
         "symfony/mailer": 0,
         "symfony/mailgun-mailer": 0,
