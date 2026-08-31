@@ -19,6 +19,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: 'offering')]
 #[ORM\Index(columns: ['session_id'], name: 'session_id_k')]
@@ -244,5 +245,21 @@ class Offering implements OfferingInterface
     public function getSchool(): SchoolInterface
     {
         return $this->session->getSchool();
+    }
+
+    #[Assert\Callback]
+    public function validateDates(ExecutionContextInterface $context): void
+    {
+        if (!isset($this->startDate) || !isset($this->endDate)) {
+            return;
+        }
+
+        $diff = $this->endDate->getTimestamp() - $this->startDate->getTimestamp();
+        if ($diff < 60) {
+            $context
+                ->buildViolation('Offering must have a duration of at least one minute.')
+                ->atPath('endDate')
+                ->addViolation();
+        }
     }
 }

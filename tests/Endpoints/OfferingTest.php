@@ -30,7 +30,7 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('api_1')]
 final class OfferingTest extends AbstractReadWriteEndpoint
 {
-    protected string $testName =  'offerings';
+    protected string $testName = 'offerings';
     protected bool $skipDates = false;
     protected TokenCodec $tokenCodec;
     protected TokenFactory $tokenFactory;
@@ -73,7 +73,7 @@ final class OfferingTest extends AbstractReadWriteEndpoint
             'site' => ['site', 'main campus', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
             'url' => ['url', 'https://lorem.ipsum', AlertChangeTypeInterface::CHANGE_TYPE_LOCATION],
             'startDate' => ['startDate', '1980-12-31T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
-            'endDate' => ['endDate', '1981-05-06T21:12:32+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
+            'endDate' => ['endDate', '2025-06-24T06:24:24+00:00', AlertChangeTypeInterface::CHANGE_TYPE_TIME],
             'learnerGroups' => ['learnerGroups', [1], AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP],
             'instructorGroups' => ['instructorGroups', [2], AlertChangeTypeInterface::CHANGE_TYPE_INSTRUCTOR],
             'learners' => ['learners', [1], AlertChangeTypeInterface::CHANGE_TYPE_LEARNER_GROUP],
@@ -214,10 +214,10 @@ final class OfferingTest extends AbstractReadWriteEndpoint
     {
         $jwt = $this->createJwtForRootUser($this->kernelBrowser);
         $systemTimeZone = new DateTimeZone(date_default_timezone_get());
-        $now = new DateTime('now', $systemTimeZone);
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
-        $data['startDate'] = $now->format('c');
+        $data['startDate'] = new DateTime('now', $systemTimeZone)->format('c');
+        $data['endDate'] = new DateTime('+1 minute', $systemTimeZone)->format('c');
         $postData = $data;
         $this->postTest($data, $postData, $jwt);
     }
@@ -238,6 +238,7 @@ final class OfferingTest extends AbstractReadWriteEndpoint
 
         $dataLoader = $this->getDataLoader();
         $data = $dataLoader->create();
+        $data['endDate'] = new DateTime('+1 week')->format('c');
         $postData = $data;
         $postData['startDate'] = $now->format('c');
         $data['startDate'] = $now->setTimezone($systemTime)->format('c');
