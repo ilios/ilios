@@ -3315,16 +3315,16 @@
         },
         {
             "name": "laminas/laminas-diagnostics",
-            "version": "1.30.1",
+            "version": "1.30.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-diagnostics.git",
-                "reference": "27516020f6d0df11f28ffac6b69b1c37a401b373"
+                "reference": "5710be9f8920691c4e74a703a5e5c161e3368a60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/27516020f6d0df11f28ffac6b69b1c37a401b373",
-                "reference": "27516020f6d0df11f28ffac6b69b1c37a401b373",
+                "url": "https://api.github.com/repos/laminas/laminas-diagnostics/zipball/5710be9f8920691c4e74a703a5e5c161e3368a60",
+                "reference": "5710be9f8920691c4e74a703a5e5c161e3368a60",
                 "shasum": ""
             },
             "require": {
@@ -3396,11 +3396,11 @@
             },
             "funding": [
                 {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
+                    "url": "https://crowdfunding.linuxfoundation.org/initiatives/laminas-project",
+                    "type": "custom"
                 }
             ],
-            "time": "2026-03-03T11:08:27+00:00"
+            "time": "2026-08-27T22:54:52+00:00"
         },
         {
             "name": "league/flysystem",
