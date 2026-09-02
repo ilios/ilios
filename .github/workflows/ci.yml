@@ -64,6 +64,32 @@ jobs:
         run: |
           bin/console cache:warmup --env=test
           vendor/bin/phpstan analyse --no-progress
+  security:
+    # see https://github.com/marketplace/actions/psalm-static-analysis-for-php
+    name: Psalm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use PHP ${{ env.minimum_php_version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ env.minimum_php_version }}
+          extensions: apcu
+      - name: install dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: Security Analysis
+        uses: docker://ghcr.io/psalm/psalm-github-actions@latest
+        with:
+          composer_require_dev: true
+          composer_ignore_platform_reqs: true
+          security_analysis: true
+          report_file: results.sarif
+      - name: Upload Security Analysis results to GitHub
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+
   tests:
     name: PHPUnit Tests
     needs: code_style
