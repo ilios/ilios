@@ -57,7 +57,7 @@ final class TokenFactoryTest extends TestCase
     public function testTokenCreationFailsIfTypeCannotBeDetermined(array $data): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessageIsOrContains('Unable to determine token type.');
+        $this->expectExceptionMessage('Unable to determine token type.');
         $this->factory->create($data);
     }
 
@@ -73,7 +73,7 @@ final class TokenFactoryTest extends TestCase
     public function testTokenCreationFailsOnMissingAttributes(array $input, string $expectedErrorMessage): void
     {
         $this->expectException(DomainException::class);
-        $this->expectExceptionMessageIsOrContains($expectedErrorMessage);
+        $this->expectExceptionMessage($expectedErrorMessage);
         $this->factory->create($input);
     }
 
@@ -106,8 +106,8 @@ final class TokenFactoryTest extends TestCase
                 ),
             ],
             [
-             [
-                 'iat' => $issuedAt->format('U'),
+                [
+                    'iat' => $issuedAt->format('U'),
                     'exp' => $expiresAt->format('U'),
                     'aud' => ['foo'],
                     'iss' => 'bar',

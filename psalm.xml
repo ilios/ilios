@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<psalm errorLevel="3" resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="false"
+    findUnusedCode="false"
+>
+    <projectFiles>
+        <directory name="src"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <ArgumentTypeCoercion errorLevel="suppress"/>
+        <ClassMustBeFinal errorLevel="suppress"/>
+        <FalsableReturnStatement errorLevel="suppress"/>
+        <InvalidArgument errorLevel="suppress"/>
+        <InvalidArrayOffset errorLevel="suppress"/>
+        <InvalidCast errorLevel="suppress"/>
+        <InvalidFalsableReturnType errorLevel="suppress"/>
+        <InvalidNullableReturnType errorLevel="suppress"/>
+        <InvalidOperand errorLevel="suppress"/>
+        <InvalidReturnStatement errorLevel="suppress"/>
+        <InvalidReturnType errorLevel="suppress"/>
+        <InvalidScalarArgument errorLevel="suppress"/>
+        <LessSpecificReturnStatement errorLevel="suppress"/>
+        <MissingClosureReturnType errorLevel="suppress"/>
+        <MissingConstructor errorLevel="suppress"/>
+        <MissingOverrideAttribute errorLevel="suppress"/>
+        <MissingParamType errorLevel="suppress"/>
+        <MissingTemplateParam errorLevel="suppress"/>
+        <MixedArgument errorLevel="suppress"/>
+        <MixedArrayAccess errorLevel="suppress"/>
+        <MixedArrayOffset errorLevel="suppress"/>
+        <MixedAssignment errorLevel="suppress"/>
+        <MixedPropertyFetch errorLevel="suppress"/>
+        <NamedArgumentNotAllowed errorLevel="suppress"/>
+        <NullableReturnStatement errorLevel="suppress"/>
+        <ParamNameMismatch errorLevel="suppress"/>
+        <PluginIssue name="ContainerDependency" errorLevel="suppress" />
+        <PluginIssue name="QueryBuilderSetParameter" errorLevel="suppress" />
+        <PossiblyFalseArgument errorLevel="suppress"/>
+        <PossiblyFalseOperand errorLevel="suppress"/>
+        <PossiblyInvalidArgument errorLevel="suppress"/>
+        <PossiblyInvalidMethodCall errorLevel="suppress"/>
+        <PossiblyInvalidOperand errorLevel="suppress"/>
+        <PossiblyInvalidPropertyAssignmentValue errorLevel="suppress"/>
+        <PossiblyNullArgument errorLevel="suppress"/>
+        <PossiblyNullArrayAccess errorLevel="suppress"/>
+        <PossiblyNullArrayOffset errorLevel="suppress"/>
+        <PossiblyNullIterator errorLevel="suppress"/>
+        <PossiblyNullPropertyAssignmentValue errorLevel="suppress"/>
+        <PossiblyNullPropertyFetch errorLevel="suppress"/>
+        <PossiblyNullReference errorLevel="suppress"/>
+        <PossiblyUndefinedArrayOffset errorLevel="suppress"/>
+        <PossiblyUndefinedVariable errorLevel="suppress"/>
+        <RedundantCast errorLevel="suppress"/>
+        <RedundantCondition errorLevel="suppress"/>
+        <RedundantFunctionCall errorLevel="suppress"/>
+        <RedundantPropertyInitializationCheck errorLevel="suppress"/>
+        <TypeDoesNotContainType errorLevel="suppress"/>
+        <UndefinedClass errorLevel="suppress"/>
+        <UndefinedInterfaceMethod errorLevel="suppress"/>
+        <UndefinedThisPropertyFetch errorLevel="suppress"/>
+    </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+        <pluginClass class="Psalm\MockeryPlugin\Plugin"/>
+        <pluginClass class="Weirdan\DoctrinePsalmPlugin\Plugin"/>
+    </plugins>
+</psalm>
