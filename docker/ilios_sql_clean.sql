@@ -2512,7 +2512,14 @@ INSERT INTO `school_config` VALUES
 (26,7,'showSessionAttendanceRequired','true'),
 (27,7,'showSessionSupplemental','false'),
 (28,7,'showSessionSpecialEquipmentRequired','false'),
-(29,3,'allowMultipleCourseObjectiveParents','true');
+(29,3,'allowMultipleCourseObjectiveParents','true'),
+(30,1,'showMeSH','true'),
+(31,2,'showMeSH','true'),
+(32,3,'showMeSH','true'),
+(33,4,'showMeSH','true'),
+(34,5,'showMeSH','true'),
+(35,6,'showMeSH','true'),
+(36,7,'showMeSH','true');
 /*!40000 ALTER TABLE `school_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
