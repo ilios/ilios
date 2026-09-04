@@ -78,14 +78,19 @@
     "phpstan/phpstan": "^2.0",
     "phpstan/phpstan-mockery": "^2.0",
     "phpstan/phpstan-symfony": "^2.0",
-    "phpunit/phpunit": "^13.2",
+    "phpunit/phpunit": "~13.1.14",
+    "psalm/plugin-mockery": "@stable",
+    "psalm/plugin-phpunit": "@stable",
+    "psalm/plugin-symfony": "@stable",
     "slevomat/coding-standard": "~8.0",
     "squizlabs/php_codesniffer": "@stable",
     "symfony/browser-kit": "@stable",
     "symfony/css-selector": "@stable",
     "symfony/debug-bundle": "@stable",
     "symfony/stopwatch": "@stable",
-    "symfony/web-profiler-bundle": "@stable"
+    "symfony/web-profiler-bundle": "@stable",
+    "vimeo/psalm": "@stable",
+    "weirdan/doctrine-psalm-plugin": "@stable"
   },
   "config": {
     "policy": {
