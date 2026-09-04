@@ -64,6 +64,9 @@ jobs:
         run: |
           bin/console cache:warmup --env=test
           vendor/bin/phpstan analyse --no-progress
+      - name: psalm
+        run: |
+          vendor/bin/psalm --long-progress
   tests:
     name: PHPUnit Tests
     needs: code_style
