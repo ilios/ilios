@@ -20,6 +20,8 @@ final class InstallPreCommitHook
             "{$vendorDir}/bin/phpcs",
             'echo "Running phpstan..."',
             "{$vendorDir}/bin/phpstan --no-progress --memory-limit=1G",
+            'echo "Running psalm..."',
+            "{$vendorDir}/bin/psalm --no-progress --monochrome",
         ];
         $gitPath = $projectRoot . '/.git';
         if (is_dir($gitPath)) {
