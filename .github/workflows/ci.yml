@@ -2,6 +2,7 @@ name: Continuous Integration
 
 permissions:
   contents: read
+  security-events: write
 
 on:
   push:
@@ -394,6 +395,28 @@ jobs:
         run: composer install --no-interaction --prefer-dist
       - name: Run Update Frontend
         run: bin/console ilios:update-frontend
+
+  code_security:
+    name: Code Security
+    runs-on: ubuntu-latest
+    needs: code_style
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use PHP ${{ env.minimum_php_version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: none
+          php-version: ${{ env.minimum_php_version }}
+          extensions: apcu
+      - name: install dependencies
+        run: composer install --no-interaction --prefer-dist
+      - name: Psalm
+        run: |
+          vendor/bin/psalm --long-progress --taint-analysis --report=report.sarif
+      - name: Upload Psalm SARIF to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: report.sarif
 
   sonarqube_scan:
     name: Scan with UCSF SonarQube
