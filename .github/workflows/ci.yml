@@ -9,7 +9,11 @@ on:
       - master
   pull_request:
   schedule:
-    - cron: '33 2 * * 1' # weekly, on Monday morning
+    - cron: "33 2 * * 1" # weekly, on Monday morning
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 env:
   MAILER_DSN: null://null
@@ -72,7 +76,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ 8.5 ]
+        php-version: [8.5]
 
     steps:
       - uses: actions/checkout@v7
@@ -126,7 +130,7 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [ 8.5 ]
+        php-version: [8.5]
 
     steps:
       - uses: actions/checkout@v7
@@ -358,7 +362,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ 8.5 ]
+        php-version: [8.5]
 
     steps:
       - uses: actions/checkout@v7
@@ -377,7 +381,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: [ 8.5 ]
+        php-version: [8.5]
 
     steps:
       - uses: actions/checkout@v7
@@ -400,7 +404,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          fetch-depth: 0  # disable shallow clone for full access to code
+          fetch-depth: 0 # disable shallow clone for full access to code
       - uses: actions/download-artifact@v8
         with:
           name: coverage-output
