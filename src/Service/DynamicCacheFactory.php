@@ -33,6 +33,9 @@ class DynamicCacheFactory
         }
 
         if ($redisUrl) {
+            /**
+             * @psalm-suppress UndefinedClass
+             */
             $client = RedisAdapter::createConnection($redisUrl);
             return new RedisTagAwareAdapter(
                 $client,
