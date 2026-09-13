@@ -21,9 +21,9 @@ class CurriculumInventoryInstitutionRepository extends BaseRepository implements
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, CurriculumInventoryInstitution::class);
+        parent::__construct($registry, CurriculumInventoryInstitution::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

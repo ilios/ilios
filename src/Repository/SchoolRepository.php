@@ -29,10 +29,10 @@ class SchoolRepository extends BaseRepository implements DataImportRepositoryInt
 
     public function __construct(
         ManagerRegistry $registry,
+        DTOCacheManager $cacheManager,
         protected UserMaterialFactory $userMaterialFactory,
-        protected DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, School::class);
+        parent::__construct($registry, School::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

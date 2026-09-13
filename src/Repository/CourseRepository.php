@@ -23,9 +23,9 @@ class CourseRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, Course::class);
+        parent::__construct($registry, Course::class, $cacheManager);
     }
 
     protected function findIdsBy(

@@ -19,9 +19,9 @@ class MeshPreviousIndexingRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, MeshPreviousIndexing::class);
+        parent::__construct($registry, MeshPreviousIndexing::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

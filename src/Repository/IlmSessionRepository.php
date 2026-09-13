@@ -18,9 +18,9 @@ class IlmSessionRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, IlmSession::class);
+        parent::__construct($registry, IlmSession::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

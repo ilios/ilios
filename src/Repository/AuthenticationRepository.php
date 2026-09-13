@@ -20,9 +20,9 @@ class AuthenticationRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, Authentication::class);
+        parent::__construct($registry, Authentication::class, $cacheManager);
     }
 
     /**

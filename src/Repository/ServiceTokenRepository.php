@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\ServiceToken;
+use App\Service\DTOCacheManager;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
@@ -13,8 +14,9 @@ class ServiceTokenRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, ServiceToken::class);
+        parent::__construct($registry, ServiceToken::class, $cacheManager);
     }
 
     /**

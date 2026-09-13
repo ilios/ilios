@@ -18,9 +18,9 @@ class ProgramRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, Program::class);
+        parent::__construct($registry, Program::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

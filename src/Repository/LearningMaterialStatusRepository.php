@@ -18,9 +18,9 @@ class LearningMaterialStatusRepository extends BaseRepository implements DataImp
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, LearningMaterialStatus::class);
+        parent::__construct($registry, LearningMaterialStatus::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

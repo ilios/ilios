@@ -24,9 +24,9 @@ class TermRepository extends BaseRepository implements DataImportRepositoryInter
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, Term::class);
+        parent::__construct($registry, Term::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

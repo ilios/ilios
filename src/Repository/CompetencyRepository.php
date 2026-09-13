@@ -23,9 +23,9 @@ class CompetencyRepository extends BaseRepository implements DataImportRepositor
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, Competency::class);
+        parent::__construct($registry, Competency::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

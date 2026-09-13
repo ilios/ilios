@@ -18,9 +18,9 @@ class LearnerGroupRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, LearnerGroup::class);
+        parent::__construct($registry, LearnerGroup::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array
