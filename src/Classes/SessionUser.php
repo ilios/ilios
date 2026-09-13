@@ -814,7 +814,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getAdministeredCurriculumInventoryReportAndSchoolIds(): array
     {
-        if (!isset($this->administeredCurriculumInventoryReportSchoolIds)) {
+        if (!isset($this->administeredCurriculumInventoryReportAndSchoolIds)) {
             $this->administeredCurriculumInventoryReportAndSchoolIds =
                 $this->userRepository->getAdministeredCurriculumInventoryReportAndSchoolIds($this->getId());
         }
