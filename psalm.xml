@@ -62,7 +62,6 @@
         <RedundantFunctionCall errorLevel="suppress"/>
         <RedundantPropertyInitializationCheck errorLevel="suppress"/>
         <TypeDoesNotContainType errorLevel="suppress"/>
-        <UndefinedClass errorLevel="suppress"/>
         <UndefinedInterfaceMethod errorLevel="suppress"/>
         <UndefinedThisPropertyFetch errorLevel="suppress"/>
     </issueHandlers>
