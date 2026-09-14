@@ -15,7 +15,6 @@
     </projectFiles>
     <issueHandlers>
         <ArgumentTypeCoercion errorLevel="suppress"/>
-        <ClassMustBeFinal errorLevel="suppress"/>
         <FalsableReturnStatement errorLevel="suppress"/>
         <InvalidArgument errorLevel="suppress"/>
         <InvalidArrayOffset errorLevel="suppress"/>
