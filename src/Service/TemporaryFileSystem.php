@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use RuntimeException;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 
@@ -34,6 +35,9 @@ class TemporaryFileSystem
     public function storeFile(File $file): string
     {
         $hash = md5_file($file->getPathname());
+        if (false === $hash) {
+            throw new RuntimeException(sprintf('Failed to hash contents of file %s.', $file->getPathname()));
+        }
         if (!$this->fileSystem->exists($this->getPath($hash))) {
             $this->fileSystem->rename(
                 $file->getPathname(),
