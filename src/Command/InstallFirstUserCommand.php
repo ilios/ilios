@@ -16,6 +16,7 @@ use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -81,7 +82,7 @@ class InstallFirstUserCommand extends Command
             foreach ($schools as $schoolEntity) {
                 $schoolTitles[$schoolEntity->getTitle()] = $schoolEntity->getId();
             }
-            $helper = $this->getHelper('question');
+            $helper = new QuestionHelper();
             $question = new ChoiceQuestion(
                 "What is this user's primary school?",
                 array_keys($schoolTitles)
@@ -108,7 +109,8 @@ class InstallFirstUserCommand extends Command
                 }
                 return $answer;
             });
-            $email = $this->getHelper('question')->ask($input, $output, $question);
+            $helper = new QuestionHelper();
+            $email = $helper->ask($input, $output, $question);
         }
 
         /** @var UserInterface $user */

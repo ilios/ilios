@@ -61,7 +61,6 @@
         <RedundantFunctionCall errorLevel="suppress"/>
         <RedundantPropertyInitializationCheck errorLevel="suppress"/>
         <TypeDoesNotContainType errorLevel="suppress"/>
-        <UndefinedInterfaceMethod errorLevel="suppress"/>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>

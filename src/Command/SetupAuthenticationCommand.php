@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Repository\ApplicationConfigRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -32,7 +33,7 @@ class SetupAuthenticationCommand extends Command
 
     public function __invoke(InputInterface $input, OutputInterface $output): int
     {
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
         $question = new ChoiceQuestion(
             'How will your users authentication to Ilios (defaults to form)?: ',
             ['form', 'cas', 'ldap', 'shibboleth'],
@@ -85,7 +86,7 @@ class SetupAuthenticationCommand extends Command
         $parameters = [
             'authentication_type' => 'cas',
         ];
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
         $question = new Question('What is the url for you CAS server?: ');
         $parameters['cas_authentication_server'] = $helper->ask($input, $output, $question);
 
@@ -110,7 +111,7 @@ class SetupAuthenticationCommand extends Command
         $parameters = [
             'authentication_type' => 'ldap',
         ];
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
         $question = new Question('What is the url for you LDAP server? ');
         $parameters['ldap_authentication_host'] = $helper->ask($input, $output, $question);
 
@@ -131,7 +132,7 @@ class SetupAuthenticationCommand extends Command
         $parameters = [
             'authentication_type' => 'shibboleth',
         ];
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
         $question = new Question(
             'What is the login path for the service provider? (defaults to /Shibboleth.sso/Login): ',
             '/Shibboleth.sso/Login'

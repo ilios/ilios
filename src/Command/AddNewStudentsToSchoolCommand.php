@@ -12,6 +12,7 @@ use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -91,7 +92,7 @@ class AddNewStudentsToSchoolCommand extends Command
         $table->setHeaders(['Campus ID', 'First', 'Last', 'Email'])->setRows($rows);
         $table->render();
 
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
         $output->writeln('');
         $question = new ConfirmationQuestion(
             '<question>Do you wish to add these students to ' . $school->getTitle() . '? </question>' . "\n",

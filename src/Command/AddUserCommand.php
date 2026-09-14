@@ -14,6 +14,7 @@ use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -65,7 +66,7 @@ class AddUserCommand extends Command
             foreach ($this->schoolRepository->findBy([], ['title' => 'ASC']) as $school) {
                 $schoolTitles[$school->getTitle()] = $school->getId();
             }
-            $helper = $this->getHelper('question');
+            $helper = new QuestionHelper();
             $question = new ChoiceQuestion(
                 "What is this user's primary school?",
                 array_keys($schoolTitles)
@@ -128,7 +129,7 @@ class AddUserCommand extends Command
         ;
         $table->render();
 
-        $helper = $this->getHelper('question');
+        $helper = new QuestionHelper();
         $output->writeln('');
         $question = new ConfirmationQuestion(
             "<question>Do you wish to add this user to Ilios in {$school->getTitle()}?</question>\n",
@@ -189,6 +190,7 @@ class AddUserCommand extends Command
             $userRecord['username'] = $this->askForString('Username', 1, 100, $input, $output);
         }
         if (empty($userRecord['password'])) {
+            $helper = new QuestionHelper();
             $question = new Question("What is the user's password? ");
             $question->setValidator(function ($answer) {
                 if (strlen($answer) < 7) {
@@ -200,9 +202,10 @@ class AddUserCommand extends Command
                 return $answer;
             });
             $question->setHidden(true);
-            $userRecord['password'] = $this->getHelper('question')->ask($input, $output, $question);
+            $userRecord['password'] = $helper->ask($input, $output, $question);
         }
         if (empty($userRecord['email'])) {
+            $helper = new QuestionHelper();
             $question = new Question("What is the user's Email Address? ");
             $question->setValidator(function ($answer) {
                 if (!filter_var($answer, FILTER_VALIDATE_EMAIL)) {
@@ -212,12 +215,13 @@ class AddUserCommand extends Command
                 }
                 return $answer;
             });
-            $userRecord['email'] = $this->getHelper('question')->ask($input, $output, $question);
+            $userRecord['email'] = $helper->ask($input, $output, $question);
         }
 
         if (null === $userRecord['isRoot']) {
+            $helper = new QuestionHelper();
             $question = new ConfirmationQuestion("Grant root privileges to new user?", false);
-            $userRecord['isRoot'] = $this->getHelper('question')->ask($input, $output, $question);
+            $userRecord['isRoot'] = $helper->ask($input, $output, $question);
         }
 
 
@@ -245,6 +249,8 @@ class AddUserCommand extends Command
             }
             return $answer;
         });
-        return $this->getHelper('question')->ask($input, $output, $question);
+
+        $helper = new QuestionHelper();
+        return $helper->ask($input, $output, $question);
     }
 }
