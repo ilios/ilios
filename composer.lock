@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a24eb134f400dd9aac0454c2db98063",
+    "content-hash": "809f26675228e03722434969d59d3372",
     "packages": [
         {
             "name": "async-aws/core",
@@ -17636,6 +17636,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "mockery/mockery": 0,
+        "phpunit/phpunit": 0,
         "psalm/plugin-mockery": 0,
         "psalm/plugin-phpunit": 0,
         "psalm/plugin-symfony": 0,
