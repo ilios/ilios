@@ -64,7 +64,6 @@
         <TypeDoesNotContainType errorLevel="suppress"/>
         <UndefinedClass errorLevel="suppress"/>
         <UndefinedInterfaceMethod errorLevel="suppress"/>
-        <UndefinedThisPropertyFetch errorLevel="suppress"/>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>

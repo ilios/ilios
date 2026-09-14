@@ -19,9 +19,9 @@ class SchoolConfigRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, SchoolConfig::class);
+        parent::__construct($registry, SchoolConfig::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

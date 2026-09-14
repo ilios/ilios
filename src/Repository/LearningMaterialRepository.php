@@ -17,9 +17,9 @@ class LearningMaterialRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, LearningMaterial::class);
+        parent::__construct($registry, LearningMaterial::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

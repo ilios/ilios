@@ -23,9 +23,9 @@ class OfferingRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, Offering::class);
+        parent::__construct($registry, Offering::class, $cacheManager);
     }
 
     protected function findIdsBy(

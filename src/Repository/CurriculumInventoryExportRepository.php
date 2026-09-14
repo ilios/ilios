@@ -17,9 +17,9 @@ class CurriculumInventoryExportRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, CurriculumInventoryExport::class);
+        parent::__construct($registry, CurriculumInventoryExport::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

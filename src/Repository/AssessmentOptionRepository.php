@@ -20,9 +20,9 @@ class AssessmentOptionRepository extends BaseRepository implements DataImportRep
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, AssessmentOption::class);
+        parent::__construct($registry, AssessmentOption::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

@@ -17,9 +17,9 @@ class MeshTermRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, MeshTerm::class);
+        parent::__construct($registry, MeshTerm::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

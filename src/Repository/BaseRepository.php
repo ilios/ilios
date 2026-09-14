@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\AssociationMapping;
 use Doctrine\ORM\Mapping\ManyToManyInverseSideMapping;
 use Doctrine\ORM\Mapping\ManyToManyOwningSideMapping;
 use Doctrine\ORM\QueryBuilder;
-use Exception;
+use Doctrine\Persistence\ManagerRegistry;
 use InvalidArgumentException;
 
 /**
@@ -23,6 +23,14 @@ use InvalidArgumentException;
 abstract class BaseRepository extends ServiceEntityRepository implements RepositoryInterface
 {
     abstract protected function hydrateDTOsFromIds(array $ids): array;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        string $entityClass,
+        protected DTOCacheManager $cacheManager
+    ) {
+        parent::__construct($registry, $entityClass);
+    }
 
     public function getClass(): string
     {
@@ -336,10 +344,6 @@ abstract class BaseRepository extends ServiceEntityRepository implements Reposit
 
     protected function getCacheManager(): DTOCacheManager
     {
-        if (!isset($this->cacheManager)) {
-            throw new Exception("The 'cacheManager' property is missing from " . self::class);
-        }
-
         return $this->cacheManager;
     }
 

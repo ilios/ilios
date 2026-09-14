@@ -18,9 +18,9 @@ class AamcPcrsRepository extends BaseRepository implements DataImportRepositoryI
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, AamcPcrs::class);
+        parent::__construct($registry, AamcPcrs::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

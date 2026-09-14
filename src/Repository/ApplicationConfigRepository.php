@@ -18,10 +18,10 @@ class ApplicationConfigRepository extends BaseRepository implements DataImportRe
 
     public function __construct(
         ManagerRegistry $registry,
+        DTOCacheManager $cacheManager,
         protected bool $cacheEnabled,
-        protected DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, ApplicationConfig::class);
+        parent::__construct($registry, ApplicationConfig::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

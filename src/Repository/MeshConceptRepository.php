@@ -17,9 +17,9 @@ class MeshConceptRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, MeshConcept::class);
+        parent::__construct($registry, MeshConcept::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

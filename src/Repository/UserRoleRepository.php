@@ -18,9 +18,9 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, UserRole::class);
+        parent::__construct($registry, UserRole::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

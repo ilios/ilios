@@ -20,9 +20,9 @@ class ProgramYearObjectiveRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, ProgramYearObjective::class);
+        parent::__construct($registry, ProgramYearObjective::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

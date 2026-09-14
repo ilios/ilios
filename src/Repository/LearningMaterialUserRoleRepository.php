@@ -18,9 +18,9 @@ class LearningMaterialUserRoleRepository extends BaseRepository implements DataI
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, LearningMaterialUserRole::class);
+        parent::__construct($registry, LearningMaterialUserRole::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

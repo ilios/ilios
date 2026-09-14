@@ -33,10 +33,10 @@ class MeshDescriptorRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
+        DTOCacheManager $cacheManager,
         protected MeshDescriptorSetTransmogrifier $transmogrifier,
-        protected DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, MeshDescriptor::class);
+        parent::__construct($registry, MeshDescriptor::class, $cacheManager);
     }
 
     /**

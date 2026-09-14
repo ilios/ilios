@@ -15,9 +15,9 @@ class AuditLogRepository extends BaseRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, AuditLog::class);
+        parent::__construct($registry, AuditLog::class, $cacheManager);
     }
 
     public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array

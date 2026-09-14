@@ -35,10 +35,10 @@ class UserRepository extends BaseRepository
 
     public function __construct(
         ManagerRegistry $registry,
+        DTOCacheManager $cacheManager,
         protected UserMaterialFactory $factory,
-        protected DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, User::class);
+        parent::__construct($registry, User::class, $cacheManager);
     }
 
     /**

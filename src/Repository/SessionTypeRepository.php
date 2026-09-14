@@ -23,9 +23,9 @@ class SessionTypeRepository extends BaseRepository implements DataImportReposito
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, SessionType::class);
+        parent::__construct($registry, SessionType::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

@@ -20,9 +20,9 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, AamcResourceType::class);
+        parent::__construct($registry, AamcResourceType::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array

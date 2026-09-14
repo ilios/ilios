@@ -20,9 +20,9 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
 
     public function __construct(
         ManagerRegistry $registry,
-        protected DTOCacheManager $cacheManager,
+        DTOCacheManager $cacheManager,
     ) {
-        parent::__construct($registry, CourseClerkshipType::class);
+        parent::__construct($registry, CourseClerkshipType::class, $cacheManager);
     }
 
     public function hydrateDTOsFromIds(array $ids): array
