@@ -98,21 +98,7 @@ class CasAuthentication implements AuthenticationInterface
                 $response = $this->createSuccessResponseFromJWT($jwt);
 
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
-                    $value = $request->cookies->get(self::REDIRECT_COOKIE);
-                    [$providedHash, $redirectUrl] = json_decode($value, associative: true, depth: 2);
-                    if (is_string($providedHash) && filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
-                        $signature = $this->generateSignature($redirectUrl);
-                        //validate the signature to ensure the redirect hasn't been tampered with
-                        if (hash_equals($signature, $providedHash)) {
-                            $response = new RedirectResponse($redirectUrl);
-                        } else {
-                            $this->logger->error(
-                                "Invalid signature in redirect cookie. " .
-                                "This is shady and may indicate someone is attempting " .
-                                "to use our redirect cookie for something nefarious. "
-                            );
-                        }
-                    }
+                    $response = new RedirectResponse($request->cookies->get(self::REDIRECT_COOKIE));
                     $response->headers->clearCookie(self::REDIRECT_COOKIE);
                 }
 
@@ -126,15 +112,13 @@ class CasAuthentication implements AuthenticationInterface
                 return $response;
             }
         }
+        if ($request->cookies->has(self::REDIRECT_COOKIE)) {
+            $url = $request->cookies->get(self::REDIRECT_COOKIE);
+        } else {
+            $url = $this->getRootUrl();
+        }
 
-        $response = new RedirectResponse($this->getRootUrl());
-        $response->headers->setCookie(Cookie::create(
-            self::NO_ACCOUNT_EXISTS_COOKIE,
-            $username,
-            strtotime('now + 45 seconds')
-        ));
-        //just in case the redirect cookie hasn't expired, we should trash it
-        $response->headers->removeCookie(self::REDIRECT_COOKIE);
+        $response = new RedirectResponse($url);
 
         return $response;
     }
@@ -175,15 +159,7 @@ class CasAuthentication implements AuthenticationInterface
 
         if (!$request->cookies->has(self::REDIRECT_COOKIE)) {
             $redirectUrl = $this->getAllowedRedirectUrl($request);
-
-            $signature = $this->generateSignature($redirectUrl);
-            //store the redirect along with a signature to ensure it hasn't been tampered with
-            $value = json_encode([$signature, $redirectUrl]);
-            $response->headers->setCookie(Cookie::create(
-                name: self::REDIRECT_COOKIE,
-                value: $value,
-                expire: strtotime('+2 minutes'),
-            ));
+            $response->headers->setCookie(Cookie::create(self::REDIRECT_COOKIE, $redirectUrl));
         }
 
         return $response;
@@ -250,24 +226,5 @@ class CasAuthentication implements AuthenticationInterface
         } else {
             return $this->getRootUrl();
         }
-    }
-
-    /**
-     * Build a HMAC signature for a value
-     * We use a combination of the secret and a string to build a key and then hash the value,
-     * the result is binary, so we have to pass it through the sodium_bin2hex function to get a string.
-     * This results in a signature that is unique for the value and cannot be duplicated without the secret.
-     */
-    protected function generateSignature(string $value): string
-    {
-        //Create a key that will fit within SODIUM_CRYPTO_GENERICHASH_KEYBYTES_MAX
-        $key = sodium_crypto_generichash(
-            $this->kernelSecret . self::REDIRECT_COOKIE,
-            '',
-            SODIUM_CRYPTO_GENERICHASH_KEYBYTES_MAX
-        );
-        return sodium_bin2hex(
-            sodium_crypto_generichash($value, $key)
-        );
     }
 }
