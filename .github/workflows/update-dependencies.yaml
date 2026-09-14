@@ -16,7 +16,7 @@ jobs:
   update:
     permissions:
       pull-requests: write
-    name: Tests
+    name: Update
     runs-on: ubuntu-latest
 
     steps:
