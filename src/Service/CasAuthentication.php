@@ -99,7 +99,7 @@ class CasAuthentication implements AuthenticationInterface
 
                 if ($request->cookies->has(self::REDIRECT_COOKIE)) {
                     $value = $request->cookies->get(self::REDIRECT_COOKIE);
-                    [$providedHash, $redirectUrl] = json_decode($value, associative: true, depth: 2);
+                    [$providedHash, $redirectUrl] = unserialize($value);
                     if (is_string($providedHash) && filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
                         $signature = $this->generateSignature($redirectUrl);
                         //validate the signature to ensure the redirect hasn't been tampered with
@@ -178,7 +178,7 @@ class CasAuthentication implements AuthenticationInterface
 
             $signature = $this->generateSignature($redirectUrl);
             //store the redirect along with a signature to ensure it hasn't been tampered with
-            $value = json_encode([$signature, $redirectUrl]);
+            $value = serialize([$signature, $redirectUrl]);
             $response->headers->setCookie(Cookie::create(
                 name: self::REDIRECT_COOKIE,
                 value: $value,
