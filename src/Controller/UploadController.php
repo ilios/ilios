@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Classes\VoterPermissions;
+use App\Exception\IliosFilesystemException;
 use App\Service\IliosFileSystem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class UploadController extends AbstractController
         IliosFileSystem $iliosFileSystem,
         AuthorizationCheckerInterface $authorizationChecker
     ): JsonResponse {
-        if (! $authorizationChecker->isGranted(VoterPermissions::CREATE_TEMPORARY_FILE, $iliosFileSystem)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::CREATE_TEMPORARY_FILE, $iliosFileSystem)) {
             throw $this->createAccessDeniedException('Unauthorized access!');
         }
 
@@ -32,13 +33,20 @@ class UploadController extends AbstractController
         if (is_null($uploadedFile)) {
             return new JsonResponse([
                 'errors' => 'Unable to find file in the request. ' .
-                            'The uploaded file may have exceeded the maximum allowed size',
+                    'The uploaded file may have exceeded the maximum allowed size',
             ], Response::HTTP_BAD_REQUEST);
         }
         if (!$uploadedFile->isValid()) {
             return new JsonResponse(['errors' => 'File failed to upload'], JsonResponse::HTTP_BAD_REQUEST);
         }
-        $hash = $iliosFileSystem->storeUploadedTemporaryFile($uploadedFile);
+        try {
+            $hash = $iliosFileSystem->storeUploadedTemporaryFile($uploadedFile);
+        } catch (IliosFilesystemException) {
+            return new JsonResponse(
+                ['errors' => 'Failed to store uploaded file.'],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
         $response = [
             'filename' => $uploadedFile->getClientOriginalName(),
             'fileHash' => $hash,

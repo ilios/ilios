@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Exception\IliosFilesystemException;
+use App\Service\IliosFileSystem;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\UploadController;
@@ -16,12 +19,14 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use App\Tests\Traits\TestableJsonController;
+use Mockery as m;
 
 #[Group('controller')]
 #[CoversClass(UploadController::class)]
 final class UploadControllerTest extends WebTestCase
 {
     use TestableJsonController;
+    use MockeryPHPUnitIntegration;
 
     protected KernelBrowser $kernelBrowser;
     protected string $fakeTestFileDir;
@@ -127,5 +132,29 @@ final class UploadControllerTest extends WebTestCase
 
         $response = $this->kernelBrowser->getResponse();
         $this->assertJsonResponse($response, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testUploadFailsOnFileSystemError(): void
+    {
+        $fakeIliosFileSystem = m::mock(IliosFileSystem::class);
+        $fakeIliosFileSystem->shouldReceive('storeUploadedTemporaryFile')->andThrow(IliosFilesystemException::class);
+        $this->kernelBrowser->getContainer()->set(IliosFileSystem::class, $fakeIliosFileSystem);
+        $this->makeJsonRequest(
+            $this->kernelBrowser,
+            'POST',
+            '/upload',
+            null,
+            $this->createJwtForRootUser($this->kernelBrowser),
+            ['file' => $this->fakeTestFile]
+        );
+
+        $response = $this->kernelBrowser->getResponse();
+        $this->assertJsonResponse($response, Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        $data = json_decode($response->getContent(), true);
+        $this->assertSame(
+            $data['errors'],
+            'Failed to store uploaded file.'
+        );
     }
 }

@@ -255,6 +255,9 @@ class IliosFileSystem
     public function storeUploadedTemporaryFile(UploadedFile $file): string
     {
         $hash = md5_file($file->getPathname());
+        if (false === $hash) {
+            throw new IliosFilesystemException(sprintf('Failed to hash contents of file %s.', $file->getPathname()));
+        }
         $relativePath = $this->getTemporaryFilePath($hash);
         $stream = fopen($file->getPathname(), 'r+');
         $this->fileSystem->writeStream($relativePath, $stream);
