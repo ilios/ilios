@@ -44,7 +44,9 @@ class JsonApiEncoder implements EncoderInterface, DecoderInterface
             $shaped['data'] = $shaped['data'][0] ?? null;
         }
 
-        return json_encode($shaped);
+        $rhett = json_encode($shaped);
+        assert(is_string($rhett));
+        return $rhett;
     }
 
     public function supportsEncoding(string $format, array $context = []): bool
