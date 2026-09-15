@@ -54,5 +54,7 @@ jobs:
           git commit -a -m "Bump Ilios version to ${{ env.new_tag }}"
       - name: Tag Version
         run: git tag v${{ env.new_tag }} -m "Tagging the ${{ env.new_tag }} ${{ github.event.inputs.releaseType }} release"
-      - name: Push Changes
-        run: git push --follow-tags
+      - name: Push Changes Tag Commit
+        run: |
+          git push
+          git push origin v${{env.new_tag}}
