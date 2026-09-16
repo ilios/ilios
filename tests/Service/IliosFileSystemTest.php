@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Entity\LearningMaterialInterface;
+use App\Exception\IliosFilesystemException;
 use League\Flysystem\Filesystem;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Service\IliosFileSystem;
@@ -193,6 +195,22 @@ final class IliosFileSystemTest extends TestCase
         $this->iliosFileSystem->storeUploadedTemporaryFile($file);
     }
 
+    #[WithoutErrorHandler]
+    public function testStoreUploadedTemporaryFileFailsIfFileCannotBeHashed(): void
+    {
+
+        $prev = error_reporting();
+        error_reporting($prev & ~E_WARNING);
+
+        $path = 'not/a/real/path';
+        $file = m::mock(UploadedFile::class);
+        $file->shouldReceive('getPathName')->andReturn($path);
+        $this->expectException(IliosFilesystemException::class);
+        $this->expectExceptionMessageIsOrContains("Failed to hash contents of file {$path}.");
+        $this->iliosFileSystem->storeUploadedTemporaryFile($file);
+
+        error_reporting($prev);
+    }
     public function testGetUploadedTemporaryFileContents(): void
     {
         $hash = md5_file(__FILE__);

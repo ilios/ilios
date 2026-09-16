@@ -9,6 +9,7 @@ use App\Service\FilesystemFactory;
 use App\Service\IliosFileSystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
+use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,8 +38,12 @@ class CleanupS3FilesystemCacheCommand extends Command
     public function __invoke(OutputInterface $output): int
     {
         $output->writeln('<info>Checking for available disk space.</info>');
-        $percentageFree = $this->getFreeSpace();
-
+        try {
+            $percentageFree = $this->getFreeSpace();
+        } catch (RuntimeException $e) {
+            $output->writeln("<error>{$e->getMessage()}</error>");
+            return Command::FAILURE;
+        }
         if ($percentageFree > 30) {
             $output->writeln("<info>{$percentageFree}% free space. Not cleaning up any files.</info>");
             return Command::SUCCESS;
@@ -56,7 +61,12 @@ class CleanupS3FilesystemCacheCommand extends Command
         }
 
         $output->writeln("<info>{$deletedFiles} file(s) cleaned up!</info>");
-        $percentageFree = $this->getFreeSpace();
+        try {
+            $percentageFree = $this->getFreeSpace();
+        } catch (RuntimeException $e) {
+            $output->writeln("<error>{$e->getMessage()}</error>");
+            return Command::FAILURE;
+        }
         $output->writeln("<info>{$percentageFree}% free space now.</info>");
 
         return Command::SUCCESS;

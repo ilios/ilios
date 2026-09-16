@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use App\Classes\DiskSpace;
 use App\Command\CleanupS3FilesystemCacheCommand;
@@ -13,8 +14,10 @@ use League\Flysystem\DirectoryListing;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
 
@@ -23,6 +26,7 @@ use Mockery as m;
  * @package App\Tests\Command
  */
 #[Group('cli')]
+#[CoversClass(CleanupS3FilesystemCacheCommand::class)]
 final class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
 {
     use MockeryPHPUnitIntegration;
@@ -89,7 +93,6 @@ final class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
         $attr2->shouldReceive('type')->andReturn(StorageAttributes::TYPE_DIRECTORY);
         $attr2->shouldNotReceive('path');
         $attr2->shouldReceive('lastModified')->andReturn(strtotime('1 year ago'));
-
         $attr3 = m::mock(StorageAttributes::class);
         $attr3->shouldReceive('type')->andReturn(StorageAttributes::TYPE_FILE);
         $attr3->shouldNotReceive('path');
@@ -128,5 +131,29 @@ final class CleanupS3FilesystemCacheCommandTest extends KernelTestCase
             '/2 file\(s\) cleaned up/',
             $output
         );
+    }
+
+    public function testExecuteFailsIfFreeSpaceCalculationFails(): void
+    {
+        $this->diskSpace->shouldReceive('freeSpace')
+            ->with(self::CACHE_DIR)
+            ->andThrow(RuntimeException::class, 'lorem ipsum');
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+        $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
+        // the error message itself doesn't matter here, we're just making sure it's in the output.
+        $this->assertStringContainsString('lorem ipsum', $output);
+    }
+
+    public function testExecuteFailsIfTotalSpaceCalculationFails(): void
+    {
+        $this->diskSpace->shouldReceive('freeSpace')->with(self::CACHE_DIR)->andReturn(12.2);
+        $this->diskSpace->shouldReceive('totalSpace')
+            ->with(self::CACHE_DIR)
+            ->andThrow(RuntimeException::class, 'lorem ipsum');
+        $this->commandTester->execute([]);
+        $output = $this->commandTester->getDisplay();
+        $this->assertEquals(Command::FAILURE, $this->commandTester->getStatusCode());
+        $this->assertStringContainsString('lorem ipsum', $output);
     }
 }

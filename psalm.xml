@@ -15,7 +15,6 @@
     </projectFiles>
     <issueHandlers>
         <ArgumentTypeCoercion errorLevel="suppress"/>
-        <FalsableReturnStatement errorLevel="suppress"/>
         <InvalidArgument errorLevel="suppress"/>
         <InvalidArrayOffset errorLevel="suppress"/>
         <InvalidCast errorLevel="suppress"/>

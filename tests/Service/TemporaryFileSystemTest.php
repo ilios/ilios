@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
+use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use App\Service\TemporaryFileSystem;
 use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
+#[CoversClass(TemporaryFileSystem::class)]
 final class TemporaryFileSystemTest extends TestCase
 {
     private TemporaryFileSystem $tempFileSystem;
@@ -59,6 +63,23 @@ final class TemporaryFileSystemTest extends TestCase
         $this->mockFileSystem->shouldReceive('rename')
             ->with($path, $this->uploadDirectory . '/' . $hash);
         $this->tempFileSystem->storeFile($file);
+    }
+
+    #[WithoutErrorHandler]
+    public function testStoreFileFailsIfFileCannotBeHashed(): void
+    {
+
+        $prev = error_reporting();
+        error_reporting($prev & ~E_WARNING);
+
+        $path = 'not/a/real/path';
+        $file = m::mock(File::class);
+        $file->shouldReceive('getPathName')->andReturn($path);
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains("Failed to hash contents of file {$path}.");
+        $this->tempFileSystem->storeFile($file);
+
+        error_reporting($prev);
     }
 
     public function testRemoveFile(): void
