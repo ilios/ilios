@@ -55,7 +55,7 @@ class IndexController extends AbstractController
             $crawlerDetect = new CrawlerDetect();
             if (
                 $crawlerDetect->isCrawler($request->headers->get('User-Agent')) ||
-                $request->getPathInfo() === '/lti-login'
+                str_starts_with($request->getPathInfo(), '/lti-login')
             ) {
                 // Create a new response, instead of keeping the redirect which we're ignoring
                 $response = new Response();

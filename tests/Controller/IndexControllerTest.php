@@ -180,7 +180,7 @@ final class IndexControllerTest extends WebTestCase
     {
         $this->setupTestFile($this->jsonPath, self::JSON, false);
         $this->mockAuthenticationResponse(new RedirectResponse('/auth/login'));
-        $this->makeRequest('/lti-login', ['HTTP_USER_AGENT' => self::BROWSER_USER_AGENT]);
+        $this->makeRequest('/lti-login/TOKEN', ['HTTP_USER_AGENT' => self::BROWSER_USER_AGENT]);
 
         $response = $this->kernelBrowser->getResponse();
 
