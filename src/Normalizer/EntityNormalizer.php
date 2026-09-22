@@ -30,11 +30,11 @@ class EntityNormalizer implements NormalizerInterface
     }
 
     public function normalize(
-        mixed $object,
+        mixed $data,
         ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
-        $reflection = new ReflectionClass($object);
+        $reflection = new ReflectionClass($data);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
@@ -42,7 +42,7 @@ class EntityNormalizer implements NormalizerInterface
         /** @var ReflectionProperty $property */
         foreach ($exposedProperties as $property) {
             $name = $property->getName();
-            $value = $propertyAccessor->getValue($object, $name);
+            $value = $propertyAccessor->getValue($data, $name);
             if (!is_null($value)) {
                 $rhett[$name] = $this->convertValueByType($property, $value);
             }
