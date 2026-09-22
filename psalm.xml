@@ -29,7 +29,6 @@
         <MoreSpecificReturnType errorLevel="suppress"/>
         <NamedArgumentNotAllowed errorLevel="suppress"/>
         <NullableReturnStatement errorLevel="suppress"/>
-        <ParamNameMismatch errorLevel="suppress"/>
         <PluginIssue name="ContainerDependency" errorLevel="suppress"/>
         <PluginIssue name="QueryBuilderSetParameter" errorLevel="suppress"/>
         <PossiblyFalseArgument errorLevel="suppress"/>
