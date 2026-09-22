@@ -21,18 +21,18 @@ class DTONormalizer implements NormalizerInterface
     }
 
     public function normalize(
-        mixed $object,
+        mixed $data,
         ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
-        $reflection = new ReflectionClass($object);
+        $reflection = new ReflectionClass($data);
         $exposedProperties = $this->entityMetadata->extractExposedProperties($reflection);
 
         $rhett = [];
         /** @var ReflectionProperty $property */
         foreach ($exposedProperties as $property) {
             $name = $property->getName();
-            $value = $this->convertValueByType($property, $object->$name);
+            $value = $this->convertValueByType($property, $data->$name);
             if (!is_null($value)) {
                 $rhett[$name] = $value;
             }
