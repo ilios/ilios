@@ -119,16 +119,19 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         $this->position = 0;
     }
 
+    #[\Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
+    #[\Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
+    #[\Override]
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];

@@ -43,46 +43,55 @@ class Authentication implements AuthenticationInterface
     #[Assert\Type(DateTimeInterface::class)]
     protected ?DateTime $invalidateTokenIssuedBefore = null;
 
+    #[\Override]
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
+    #[\Override]
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
+    #[\Override]
     public function setPasswordHash(string $passwordHash): void
     {
         $this->passwordHash = $passwordHash;
     }
 
+    #[\Override]
     public function getPasswordHash(): ?string
     {
         return $this->passwordHash;
     }
 
+    #[\Override]
     public function getPassword(): ?string
     {
         return $this->getPasswordHash();
     }
 
+    #[\Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[\Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
+    #[\Override]
     public function setInvalidateTokenIssuedBefore(?DateTime $invalidateTokenIssuedBefore = null): void
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }
 
+    #[\Override]
     public function getInvalidateTokenIssuedBefore(): ?DateTime
     {
         return $this->invalidateTokenIssuedBefore;

@@ -35,6 +35,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): ?bool
     {
         if (!$request->headers->has('X-JWT-Authorization')) {
@@ -45,6 +46,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         return (bool) preg_match('/^Token \S+$/', $authorizationHeader);
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
@@ -67,17 +69,20 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         }
     }
 
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new Response("Authentication Failed. " . $exception->getMessage(), 401);
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // do nothing - continue with an authenticated user
         return null;
     }
 
+    #[\Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         $securityToken = parent::createToken($passport, $firewallName);

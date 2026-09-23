@@ -17,6 +17,7 @@ class DatabaseConnection implements CheckInterface
     {
     }
 
+    #[\Override]
     public function check(): ResultInterface
     {
         // inspired by https://github.com/liip/LiipMonitorBundle/blob/2.x/Check/DoctrineDbal.php
@@ -29,6 +30,7 @@ class DatabaseConnection implements CheckInterface
         }
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'Database connection';

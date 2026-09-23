@@ -23,6 +23,7 @@ class CohortRepository extends BaseRepository
         parent::__construct($registry, Cohort::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Cohort::class, 'x');
@@ -65,6 +66,7 @@ class CohortRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

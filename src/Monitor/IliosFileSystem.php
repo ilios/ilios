@@ -19,6 +19,7 @@ class IliosFileSystem implements CheckInterface
     {
     }
 
+    #[\Override]
     public function check(): ResultInterface
     {
         $path = $this->config->get('file_system_storage_path');
@@ -46,6 +47,7 @@ class IliosFileSystem implements CheckInterface
         return new Success('is writable and has enough free space');
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'Ilios File System';

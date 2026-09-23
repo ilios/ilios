@@ -30,6 +30,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
     ) {
     }
 
+    #[\Override]
     public function normalize(
         mixed $object,
         ?string $format = null,
@@ -51,6 +52,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
      * Since we call upon the normalizer chain here we have to avoid recursion by examining
      * the context to avoid calling ourselves again.
      */
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if (isset($context[self::ALREADY_CALLED])) {
@@ -74,6 +76,7 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
      * For the most part we cannot cache normalization of any types because we rely on the $context
      * in our supportsNormalization method. However, when the $format isn't supported we can cache that.
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

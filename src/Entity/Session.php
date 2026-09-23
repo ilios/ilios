@@ -242,87 +242,104 @@ class Session implements SessionInterface
         $this->updatedAt = new DateTime();
     }
 
+    #[\Override]
     public function setAttireRequired(?bool $attireRequired): void
     {
         $this->attireRequired = $attireRequired;
     }
 
+    #[\Override]
     public function isAttireRequired(): ?bool
     {
         return $this->attireRequired;
     }
 
+    #[\Override]
     public function setEquipmentRequired(?bool $equipmentRequired): void
     {
         $this->equipmentRequired = $equipmentRequired;
     }
 
+    #[\Override]
     public function isEquipmentRequired(): ?bool
     {
         return $this->equipmentRequired;
     }
 
+    #[\Override]
     public function setSupplemental(?bool $supplemental): void
     {
         $this->supplemental = $supplemental;
     }
 
+    #[\Override]
     public function isSupplemental(): ?bool
     {
         return $this->supplemental;
     }
 
+    #[\Override]
     public function setAttendanceRequired(?bool $attendanceRequired): void
     {
         $this->attendanceRequired = $attendanceRequired;
     }
 
+    #[\Override]
     public function isAttendanceRequired(): ?bool
     {
         return $this->attendanceRequired;
     }
 
+    #[\Override]
     public function getInstructionalNotes(): ?string
     {
         return $this->instructionalNotes;
     }
 
+    #[\Override]
     public function setInstructionalNotes(?string $instructionalNotes = null): void
     {
         $this->instructionalNotes = $instructionalNotes;
     }
 
+    #[\Override]
     public function setSessionType(SessionTypeInterface $sessionType): void
     {
         $this->sessionType = $sessionType;
     }
 
+    #[\Override]
     public function getSessionType(): SessionTypeInterface
     {
         return $this->sessionType;
     }
 
+    #[\Override]
     public function setCourse(CourseInterface $course): void
     {
         $this->course = $course;
     }
 
+    #[\Override]
     public function getCourse(): CourseInterface
     {
         return $this->course;
     }
 
+    #[\Override]
     public function setIlmSession(?IlmSessionInterface $ilmSession = null): void
     {
         $this->ilmSession = $ilmSession;
         $ilmSession?->setSession($this);
     }
 
+    #[\Override]
     public function getIlmSession(): ?IlmSessionInterface
     {
         return $this->ilmSession;
     }
 
+    #[\Override]
     public function setLearningMaterials(?Collection $learningMaterials = null): void
     {
         $this->learningMaterials = new ArrayCollection();
@@ -335,6 +352,7 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function addLearningMaterial(SessionLearningMaterialInterface $learningMaterial): void
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
@@ -342,21 +360,25 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function removeLearningMaterial(SessionLearningMaterialInterface $learningMaterial): void
     {
         $this->learningMaterials->removeElement($learningMaterial);
     }
 
+    #[\Override]
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
     }
 
+    #[\Override]
     public function getSchool(): SchoolInterface
     {
         return $this->course->getSchool();
     }
 
+    #[\Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -365,6 +387,7 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
@@ -372,6 +395,7 @@ class Session implements SessionInterface
             $administrator->removeAdministeredSession($this);
         }
     }
+    #[\Override]
     public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if (!$this->studentAdvisors->contains($studentAdvisor)) {
@@ -379,6 +403,7 @@ class Session implements SessionInterface
             $studentAdvisor->addStudentAdvisedSession($this);
         }
     }
+    #[\Override]
     public function removeStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if ($this->studentAdvisors->contains($studentAdvisor)) {
@@ -387,6 +412,7 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function setExcludedSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->sequenceBlocks = new ArrayCollection();
@@ -396,6 +422,7 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function addExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         if (!$this->excludedSequenceBlocks->contains($sequenceBlock)) {
@@ -403,26 +430,31 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function removeExcludedSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         $this->excludedSequenceBlocks->removeElement($sequenceBlock);
     }
 
+    #[\Override]
     public function getExcludedSequenceBlocks(): Collection
     {
         return $this->excludedSequenceBlocks;
     }
 
+    #[\Override]
     public function setPostrequisite(?SessionInterface $postrequisite = null): void
     {
         $this->postrequisite = $postrequisite;
     }
 
+    #[\Override]
     public function getPostrequisite(): ?SessionInterface
     {
         return $this->postrequisite;
     }
 
+    #[\Override]
     public function setPrerequisites(Collection $prerequisites): void
     {
         $this->prerequisites = new ArrayCollection();
@@ -432,6 +464,7 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function addPrerequisite(SessionInterface $prerequisite): void
     {
         if (!$this->prerequisites->contains($prerequisite)) {
@@ -440,16 +473,19 @@ class Session implements SessionInterface
         }
     }
 
+    #[\Override]
     public function removePrerequisite(SessionInterface $prerequisite): void
     {
         $this->prerequisites->removeElement($prerequisite);
     }
 
+    #[\Override]
     public function getPrerequisites(): Collection
     {
         return $this->prerequisites;
     }
 
+    #[\Override]
     public function getIndexableCourses(): array
     {
         return [$this->course];

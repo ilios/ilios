@@ -72,6 +72,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     /**
      * Cast ID to a string to meet doctrine bigint requirements
      */
+    #[\Override]
     public function setId(int $id): void
     {
         $this->id = (string) $id;
@@ -80,36 +81,43 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     /**
      * Cast the ID to an int as doctrine stores a string
      */
+    #[\Override]
     public function getId(): int
     {
         return (int) $this->id;
     }
 
+    #[\Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[\Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
+    #[\Override]
     public function setMaterial(SessionLearningMaterialInterface $material): void
     {
         $this->material = $material;
     }
 
+    #[\Override]
     public function getMaterial(): SessionLearningMaterialInterface
     {
         return $this->material;
     }
 
+    #[\Override]
     public function setStatus(int $status): void
     {
         $this->status = $status;
     }
 
+    #[\Override]
     public function getStatus(): int
     {
         return $this->status;

@@ -138,66 +138,79 @@ class Offering implements OfferingInterface
         $this->instructors = new ArrayCollection();
     }
 
+    #[\Override]
     public function setRoom(?string $room): void
     {
         $this->room = $room;
     }
 
+    #[\Override]
     public function getRoom(): ?string
     {
         return $this->room;
     }
 
+    #[\Override]
     public function setSite(?string $site): void
     {
         $this->site = $site;
     }
 
+    #[\Override]
     public function getSite(): ?string
     {
         return $this->site;
     }
 
+    #[\Override]
     public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
+    #[\Override]
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
+    #[\Override]
     public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
 
+    #[\Override]
     public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
+    #[\Override]
     public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
 
+    #[\Override]
     public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
+    #[\Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
+    #[\Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
+    #[\Override]
     public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
@@ -208,6 +221,7 @@ class Offering implements OfferingInterface
         return new ArrayCollection($instructors);
     }
 
+    #[\Override]
     public function getAlertProperties(): array
     {
         $instructorIds = $this->getInstructors()->map(fn(UserInterface $entity) => $entity->getId())->toArray();
@@ -241,6 +255,7 @@ class Offering implements OfferingInterface
         ];
     }
 
+    #[\Override]
     public function getSchool(): SchoolInterface
     {
         return $this->session->getSchool();

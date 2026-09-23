@@ -35,6 +35,7 @@ class FormAuthentication implements AuthenticationInterface
     /**
      * Login a user using a username and password
      */
+    #[\Override]
     public function login(Request $request): JsonResponse
     {
         $username = null;
@@ -88,6 +89,7 @@ class FormAuthentication implements AuthenticationInterface
     /**
      * Logout a user
      */
+    #[\Override]
     public function logout(Request $request): JsonResponse
     {
         return new JsonResponse([
@@ -110,6 +112,7 @@ class FormAuthentication implements AuthenticationInterface
         }
     }
 
+    #[\Override]
     public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
@@ -118,6 +121,7 @@ class FormAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
+    #[\Override]
     public function createAuthenticationResponse(Request $request): Response
     {
         return new Response();

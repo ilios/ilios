@@ -23,6 +23,7 @@ class IlmSessionRepository extends BaseRepository
         parent::__construct($registry, IlmSession::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -68,6 +69,7 @@ class IlmSessionRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

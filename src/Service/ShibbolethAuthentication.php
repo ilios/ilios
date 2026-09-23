@@ -54,6 +54,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
      *
      * @throws Exception when the shibboleth attributes do not contain a value for the configured user id attribute
      */
+    #[\Override]
     public function login(Request $request): JsonResponse
     {
         $applicationId = $request->server->get('Shib-Application-ID');
@@ -112,6 +113,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
     /**
      * Logout a user
      */
+    #[\Override]
     public function logout(Request $request): JsonResponse
     {
         $url = $request->getSchemeAndHttpHost();
@@ -126,6 +128,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         ], JsonResponse::HTTP_OK);
     }
 
+    #[\Override]
     public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
@@ -136,6 +139,7 @@ class ShibbolethAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
+    #[\Override]
     public function createAuthenticationResponse(Request $request): Response
     {
         $applicationId = $request->server->get('Shib-Application-ID');

@@ -15,6 +15,7 @@ class PhpExtension implements CheckInterface
     {
     }
 
+    #[\Override]
     public function check(): ResultInterface
     {
         $missingExtensions = [];
@@ -31,6 +32,7 @@ class PhpExtension implements CheckInterface
         return new Failure(implode(', ', $missingExtensions) . ' PHP extensions not loaded.');
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'PHP extensions';

@@ -32,27 +32,32 @@ abstract class BaseRepository extends ServiceEntityRepository implements Reposit
         parent::__construct($registry, $entityClass);
     }
 
+    #[\Override]
     public function getClass(): string
     {
         return $this->getEntityName();
     }
 
+    #[\Override]
     public function flushAndClear(): void
     {
         $this->getEntityManager()->flush();
         $this->getEntityManager()->clear();
     }
 
+    #[\Override]
     public function flush(): void
     {
         $this->getEntityManager()->flush();
     }
 
+    #[\Override]
     public function findOneById(string|int $id): ?object
     {
         return $this->find($id);
     }
 
+    #[\Override]
     public function findDTOBy(array $criteria): ?object
     {
         $results = $this->findDTOsBy($criteria, null, 1);
@@ -65,6 +70,7 @@ abstract class BaseRepository extends ServiceEntityRepository implements Reposit
      *
      * Return the results sorted by the original criteria
      */
+    #[\Override]
     public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         $ids = $this->findIdsBy($criteria, $orderBy, $limit, $offset);
@@ -145,6 +151,7 @@ abstract class BaseRepository extends ServiceEntityRepository implements Reposit
         return array_column($results, $idField);
     }
 
+    #[\Override]
     public function update(object $entity, bool $andFlush = true, bool $forceId = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -159,24 +166,28 @@ abstract class BaseRepository extends ServiceEntityRepository implements Reposit
         }
     }
 
+    #[\Override]
     public function delete(object $entity): void
     {
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
     }
 
+    #[\Override]
     public function create(): object
     {
         $class = $this->getEntityName();
         return new $class();
     }
 
+    #[\Override]
     public function getIdField(): string
     {
         $meta = $this->getEntityManager()->getClassMetadata($this->getEntityName());
         return $meta->getSingleIdentifierFieldName();
     }
 
+    #[\Override]
     public function isEntityPersisted(object $entity): bool
     {
         return $this->getEntityManager()->contains($entity);
@@ -186,6 +197,7 @@ abstract class BaseRepository extends ServiceEntityRepository implements Reposit
      * @throws ConnectionException
      */
     //phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint
+    #[\Override]
     public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder();

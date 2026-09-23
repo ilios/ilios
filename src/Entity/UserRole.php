@@ -54,6 +54,7 @@ class UserRole implements UserRoleInterface
         $this->users = new ArrayCollection();
     }
 
+    #[\Override]
     public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
@@ -62,6 +63,7 @@ class UserRole implements UserRoleInterface
         }
     }
 
+    #[\Override]
     public function removeUser(UserInterface $user): void
     {
         if ($this->users->contains($user)) {

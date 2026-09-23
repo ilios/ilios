@@ -17,6 +17,7 @@ class NoDefaultSecret implements CheckInterface
     /**
      * Ensure ILIOS_SECRET isn't set to a default value
      */
+    #[\Override]
     public function check(): ResultInterface
     {
         $secret = getenv(self::NAME);
@@ -47,6 +48,7 @@ class NoDefaultSecret implements CheckInterface
     /**
      * Describe this test
      */
+    #[\Override]
     public function getLabel(): string
     {
         return 'No Default Secret';

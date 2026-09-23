@@ -24,6 +24,7 @@ class PendingUserUpdate extends AbstractReadWriteEntityVoter
         );
     }
 
+    #[\Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

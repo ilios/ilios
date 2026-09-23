@@ -27,6 +27,7 @@ class CourseClerkshipType extends AbstractVoter
         );
     }
 
+    #[\Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

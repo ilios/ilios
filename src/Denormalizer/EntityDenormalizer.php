@@ -34,6 +34,7 @@ class EntityDenormalizer implements DenormalizerInterface
     ) {
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (array_key_exists('object_to_populate', $context)) {
@@ -173,6 +174,7 @@ class EntityDenormalizer implements DenormalizerInterface
         return $value;
     }
 
+    #[\Override]
     public function supportsDenormalization(
         mixed $data,
         string $type,
@@ -186,6 +188,7 @@ class EntityDenormalizer implements DenormalizerInterface
      * The only things we denormalize are entities, for anything else *[null] tells
      * symfony to not even bother.
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         $types = [

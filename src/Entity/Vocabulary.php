@@ -76,6 +76,7 @@ class Vocabulary implements VocabularyInterface
         $this->active = true;
     }
 
+    #[\Override]
     public function getIndexableCourses(): array
     {
         $termCourses = $this->terms->map(fn(TermInterface $term) => $term->getIndexableCourses());

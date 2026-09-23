@@ -22,6 +22,7 @@ class MeshConceptRepository extends BaseRepository
         parent::__construct($registry, MeshConcept::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -54,6 +55,7 @@ class MeshConceptRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

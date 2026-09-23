@@ -25,6 +25,7 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
         parent::__construct($registry, AamcResourceType::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -51,6 +52,7 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -71,6 +73,7 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `resource_type_id`,`title`,`description`

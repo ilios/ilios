@@ -148,6 +148,7 @@ class Term implements TermInterface
         $this->active = true;
     }
 
+    #[\Override]
     public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
@@ -156,6 +157,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
@@ -164,6 +166,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function addProgramYear(ProgramYearInterface $programYear): void
     {
         if (!$this->programYears->contains($programYear)) {
@@ -172,6 +175,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function removeProgramYear(ProgramYearInterface $programYear): void
     {
         if ($this->programYears->contains($programYear)) {
@@ -180,6 +184,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
@@ -188,6 +193,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function removeSession(SessionInterface $session): void
     {
         if ($this->sessions->contains($session)) {
@@ -196,31 +202,37 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function getVocabulary(): VocabularyInterface
     {
         return $this->vocabulary;
     }
 
+    #[\Override]
     public function setVocabulary(VocabularyInterface $vocabulary): void
     {
         $this->vocabulary = $vocabulary;
     }
 
+    #[\Override]
     public function getParent(): ?TermInterface
     {
         return $this->parent;
     }
 
+    #[\Override]
     public function setParent(?TermInterface $parent = null): void
     {
         $this->parent = $parent;
     }
 
+    #[\Override]
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
+    #[\Override]
     public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
@@ -230,6 +242,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function addChild(TermInterface $child): void
     {
         if (!$this->children->contains($child)) {
@@ -237,16 +250,19 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function removeChild(TermInterface $child): void
     {
         $this->children->removeElement($child);
     }
 
+    #[\Override]
     public function hasChildren(): bool
     {
         return !$this->children->isEmpty();
     }
 
+    #[\Override]
     public function setAamcResourceTypes(Collection $aamcResourceTypes): void
     {
         $this->aamcResourceTypes = new ArrayCollection();
@@ -256,6 +272,7 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function addAamcResourceType(AamcResourceTypeInterface $aamcResourceType): void
     {
         if (!$this->aamcResourceTypes->contains($aamcResourceType)) {
@@ -263,16 +280,19 @@ class Term implements TermInterface
         }
     }
 
+    #[\Override]
     public function removeAamcResourceType(AamcResourceTypeInterface $aamcResourceType): void
     {
         $this->aamcResourceTypes->removeElement($aamcResourceType);
     }
 
+    #[\Override]
     public function getAamcResourceTypes(): Collection
     {
         return $this->aamcResourceTypes;
     }
 
+    #[\Override]
     public function getIndexableCourses(): array
     {
         $sessionCourses = $this->sessions->map(fn(SessionInterface $session) => $session->getCourse());

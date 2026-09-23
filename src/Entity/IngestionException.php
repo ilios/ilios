@@ -48,21 +48,25 @@ class IngestionException implements IngestionExceptionInterface
     #[IA\Type('entity')]
     protected UserInterface $user;
 
+    #[\Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[\Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
+    #[\Override]
     public function setUid(string $uid): void
     {
         $this->uid = $uid;
     }
 
+    #[\Override]
     public function getUid(): string
     {
         return $this->uid;

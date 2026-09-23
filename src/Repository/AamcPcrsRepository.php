@@ -23,6 +23,7 @@ class AamcPcrsRepository extends BaseRepository implements DataImportRepositoryI
         parent::__construct($registry, AamcPcrs::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(AamcPcrs::class, 'x');
@@ -43,6 +44,7 @@ class AamcPcrsRepository extends BaseRepository implements DataImportRepositoryI
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -63,6 +65,7 @@ class AamcPcrsRepository extends BaseRepository implements DataImportRepositoryI
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `pcrs_id`,`description`

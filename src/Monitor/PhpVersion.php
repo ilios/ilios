@@ -26,6 +26,7 @@ class PhpVersion implements CheckInterface
     {
     }
 
+    #[\Override]
     public function check(): ResultInterface
     {
         $contents = @file_get_contents($this->composerFilePath);
@@ -55,6 +56,7 @@ class PhpVersion implements CheckInterface
         );
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'PHP version';

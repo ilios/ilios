@@ -104,46 +104,55 @@ class Alert implements AlertInterface
         $this->dispatched = false;
     }
 
+    #[\Override]
     public function setTableRowId(int $tableRowId): void
     {
         $this->tableRowId = $tableRowId;
     }
 
+    #[\Override]
     public function getTableRowId(): int
     {
         return $this->tableRowId;
     }
 
+    #[\Override]
     public function setTableName(string $tableName): void
     {
         $this->tableName = $tableName;
     }
 
+    #[\Override]
     public function getTableName(): string
     {
         return $this->tableName;
     }
 
+    #[\Override]
     public function setAdditionalText(?string $additionalText): void
     {
         $this->additionalText = $additionalText;
     }
 
+    #[\Override]
     public function getAdditionalText(): ?string
     {
         return $this->additionalText;
     }
 
+    #[\Override]
     public function setDispatched(bool $dispatched): void
     {
         $this->dispatched = $dispatched;
     }
 
+    #[\Override]
     public function isDispatched(): bool
     {
         return $this->dispatched;
     }
 
+    #[\Override]
     public function setChangeTypes(Collection $changeTypes): void
     {
         $this->changeTypes = new ArrayCollection();
@@ -153,6 +162,7 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function addChangeType(AlertChangeTypeInterface $changeType): void
     {
         if (!$this->changeTypes->contains($changeType)) {
@@ -160,16 +170,19 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function removeChangeType(AlertChangeTypeInterface $changeType): void
     {
         $this->changeTypes->removeElement($changeType);
     }
 
+    #[\Override]
     public function getChangeTypes(): Collection
     {
         return $this->changeTypes;
     }
 
+    #[\Override]
     public function setInstigators(Collection $instigators): void
     {
         $this->instigators = new ArrayCollection();
@@ -179,6 +192,7 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function addInstigator(UserInterface $instigator): void
     {
         if (!$this->instigators->contains($instigator)) {
@@ -186,16 +200,19 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function removeInstigator(UserInterface $instigator): void
     {
         $this->instigators->removeElement($instigator);
     }
 
+    #[\Override]
     public function getInstigators(): Collection
     {
         return $this->instigators;
     }
 
+    #[\Override]
     public function setRecipients(Collection $recipients): void
     {
         $this->recipients = new ArrayCollection();
@@ -205,6 +222,7 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function addRecipient(SchoolInterface $recipient): void
     {
         if (!$this->recipients->contains($recipient)) {
@@ -212,16 +230,19 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function removeRecipient(SchoolInterface $recipient): void
     {
         $this->recipients->removeElement($recipient);
     }
 
+    #[\Override]
     public function getRecipients(): Collection
     {
         return $this->recipients;
     }
 
+    #[\Override]
     public function setServiceTokenInstigators(Collection $instigators): void
     {
         $this->serviceTokenInstigators = new ArrayCollection();
@@ -231,6 +252,7 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function addServiceTokenInstigator(ServiceTokenInterface $instigator): void
     {
         if (!$this->serviceTokenInstigators->contains($instigator)) {
@@ -238,11 +260,13 @@ class Alert implements AlertInterface
         }
     }
 
+    #[\Override]
     public function removeServiceTokenInstigator(ServiceTokenInterface $instigator): void
     {
         $this->serviceTokenInstigators->removeElement($instigator);
     }
 
+    #[\Override]
     public function getServiceTokenInstigators(): Collection
     {
         return $this->serviceTokenInstigators;

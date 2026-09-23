@@ -22,6 +22,7 @@ class ServiceTokenRepository extends BaseRepository
     /**
      * @throws Exception
      */
+    #[\Override]
     public function findDTOBy(array $criteria): ?object
     {
         throw new Exception("not implemented");
@@ -30,6 +31,7 @@ class ServiceTokenRepository extends BaseRepository
     /**
      * @throws Exception
      */
+    #[\Override]
     public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         throw new Exception("not implemented");
@@ -38,11 +40,13 @@ class ServiceTokenRepository extends BaseRepository
     /**
      * @throws Exception
      */
+    #[\Override]
     protected function hydrateDTOsFromIds(array $ids): array
     {
         throw new Exception("not implemented");
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

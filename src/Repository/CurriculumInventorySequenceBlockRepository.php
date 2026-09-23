@@ -23,6 +23,7 @@ class CurriculumInventorySequenceBlockRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventorySequenceBlock::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -90,6 +91,7 @@ class CurriculumInventorySequenceBlockRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

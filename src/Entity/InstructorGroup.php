@@ -92,6 +92,7 @@ class InstructorGroup implements InstructorGroupInterface
         $this->offerings = new ArrayCollection();
     }
 
+    #[\Override]
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
@@ -100,6 +101,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
+    #[\Override]
     public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if ($this->learnerGroups->contains($learnerGroup)) {
@@ -108,6 +110,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
+    #[\Override]
     public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
@@ -116,6 +119,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
+    #[\Override]
     public function removeIlmSession(IlmSessionInterface $ilmSession): void
     {
         if ($this->ilmSessions->contains($ilmSession)) {

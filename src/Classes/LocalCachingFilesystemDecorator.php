@@ -78,21 +78,25 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         }
     }
 
+    #[\Override]
     public function fileExists(string $location): bool
     {
         return $this->remoteFileSystem->fileExists($location);
     }
 
+    #[\Override]
     public function directoryExists(string $location): bool
     {
         return $this->remoteFileSystem->directoryExists($location);
     }
 
+    #[\Override]
     public function has(string $location): bool
     {
         return $this->remoteFileSystem->has($location);
     }
 
+    #[\Override]
     public function read(string $location): string
     {
         if ($this->cacheEnabled && $this->cacheFileSystem->fileExists($location)) {
@@ -104,6 +108,7 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         return $result;
     }
 
+    #[\Override]
     public function readStream(string $location): mixed
     {
         if ($this->cacheEnabled && $this->cacheFileSystem->fileExists($location)) {
@@ -115,31 +120,37 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         return $result;
     }
 
+    #[\Override]
     public function listContents(string $location, bool $deep = self::LIST_SHALLOW): DirectoryListing
     {
         return $this->remoteFileSystem->listContents($location, $deep);
     }
 
+    #[\Override]
     public function lastModified(string $path): int
     {
         return $this->remoteFileSystem->lastModified($path);
     }
 
+    #[\Override]
     public function fileSize(string $path): int
     {
         return $this->remoteFileSystem->fileSize($path);
     }
 
+    #[\Override]
     public function mimeType(string $path): string
     {
         return $this->remoteFileSystem->mimeType($path);
     }
 
+    #[\Override]
     public function visibility(string $path): string
     {
         return $this->remoteFileSystem->visibility($path);
     }
 
+    #[\Override]
     public function write(string $location, string $contents, array $config = []): void
     {
         $this->remoteFileSystem->write($location, $contents, $config);
@@ -148,6 +159,7 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         }
     }
 
+    #[\Override]
     public function writeStream(string $location, mixed $contents, array $config = []): void
     {
         $this->remoteFileSystem->writeStream($location, $contents, $config);
@@ -156,34 +168,40 @@ class LocalCachingFilesystemDecorator implements FilesystemOperator
         }
     }
 
+    #[\Override]
     public function setVisibility(string $path, string $visibility): void
     {
         $this->remoteFileSystem->setVisibility($path, $visibility);
     }
 
+    #[\Override]
     public function delete(string $location): void
     {
         $this->deleteFromCache($location);
         $this->remoteFileSystem->delete($location);
     }
 
+    #[\Override]
     public function deleteDirectory(string $location): void
     {
         $this->deleteDirectoryFromCache($location);
         $this->remoteFileSystem->deleteDirectory($location);
     }
 
+    #[\Override]
     public function createDirectory(string $location, array $config = []): void
     {
         $this->remoteFileSystem->createDirectory($location, $config);
     }
 
+    #[\Override]
     public function move(string $source, string $destination, array $config = []): void
     {
         $this->deleteFromCache($source);
         $this->remoteFileSystem->move($source, $destination, $config);
     }
 
+    #[\Override]
     public function copy(string $source, string $destination, array $config = []): void
     {
         $this->remoteFileSystem->copy($source, $destination, $config);

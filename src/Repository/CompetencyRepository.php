@@ -28,6 +28,7 @@ class CompetencyRepository extends BaseRepository implements DataImportRepositor
         parent::__construct($registry, Competency::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Competency::class, 'x');
@@ -67,6 +68,7 @@ class CompetencyRepository extends BaseRepository implements DataImportRepositor
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -198,6 +200,7 @@ class CompetencyRepository extends BaseRepository implements DataImportRepositor
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {

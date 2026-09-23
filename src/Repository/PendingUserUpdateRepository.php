@@ -22,6 +22,7 @@ class PendingUserUpdateRepository extends BaseRepository
         parent::__construct($registry, PendingUserUpdate::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -56,6 +57,7 @@ class PendingUserUpdateRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

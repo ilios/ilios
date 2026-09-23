@@ -88,56 +88,67 @@ class Report implements ReportInterface
         $this->createdAt = new DateTime();
     }
 
+    #[\Override]
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
+    #[\Override]
     public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
 
+    #[\Override]
     public function getSubject(): string
     {
         return $this->subject;
     }
 
+    #[\Override]
     public function setPrepositionalObject(?string $prepositionalObject): void
     {
         $this->prepositionalObject = $prepositionalObject;
     }
 
+    #[\Override]
     public function getPrepositionalObject(): ?string
     {
         return $this->prepositionalObject;
     }
 
+    #[\Override]
     public function setPrepositionalObjectTableRowId(?string $prepositionalObjectTableRowId): void
     {
         $this->prepositionalObjectTableRowId = $prepositionalObjectTableRowId;
     }
 
+    #[\Override]
     public function getPrepositionalObjectTableRowId(): ?string
     {
         return $this->prepositionalObjectTableRowId;
     }
 
+    #[\Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[\Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
+    #[\Override]
     public function getSchool(): ?SchoolInterface
     {
         return $this->school;
     }
 
+    #[\Override]
     public function setSchool(?SchoolInterface $school = null): void
     {
         $this->school = $school;

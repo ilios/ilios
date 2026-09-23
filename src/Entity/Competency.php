@@ -104,16 +104,19 @@ class Competency implements CompetencyInterface
         $this->active = true;
     }
 
+    #[\Override]
     public function setParent(?CompetencyInterface $parent = null): void
     {
         $this->parent = $parent;
     }
 
+    #[\Override]
     public function getParent(): ?CompetencyInterface
     {
         return $this->parent;
     }
 
+    #[\Override]
     public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
@@ -123,6 +126,7 @@ class Competency implements CompetencyInterface
         }
     }
 
+    #[\Override]
     public function addChild(CompetencyInterface $child): void
     {
         if (!$this->children->contains($child)) {
@@ -130,22 +134,26 @@ class Competency implements CompetencyInterface
         }
     }
 
+    #[\Override]
     public function removeChild(CompetencyInterface $child): void
     {
         $this->children->removeElement($child);
         $child->setParent(null);
     }
 
+    #[\Override]
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
+    #[\Override]
     public function hasChildren(): bool
     {
         return !$this->children->isEmpty();
     }
 
+    #[\Override]
     public function setAamcPcrses(Collection $aamcPcrses): void
     {
         $this->aamcPcrses = new ArrayCollection();
@@ -155,6 +163,7 @@ class Competency implements CompetencyInterface
         }
     }
 
+    #[\Override]
     public function addAamcPcrs(AamcPcrsInterface $aamcPcrs): void
     {
         if (!$this->aamcPcrses->contains($aamcPcrs)) {
@@ -163,6 +172,7 @@ class Competency implements CompetencyInterface
         }
     }
 
+    #[\Override]
     public function removeAamcPcrs(AamcPcrsInterface $aamcPcrs): void
     {
         if ($this->aamcPcrses->contains($aamcPcrs)) {
@@ -171,11 +181,13 @@ class Competency implements CompetencyInterface
         }
     }
 
+    #[\Override]
     public function getAamcPcrses(): Collection
     {
         return $this->aamcPcrses;
     }
 
+    #[\Override]
     public function addProgramYear(ProgramYearInterface $programYear): void
     {
         if (!$this->programYears->contains($programYear)) {
@@ -184,6 +196,7 @@ class Competency implements CompetencyInterface
         }
     }
 
+    #[\Override]
     public function removeProgramYear(ProgramYearInterface $programYear): void
     {
         if ($this->programYears->contains($programYear)) {

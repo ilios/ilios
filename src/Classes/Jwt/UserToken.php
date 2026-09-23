@@ -32,6 +32,7 @@ readonly class UserToken extends Token
         );
     }
 
+    #[\Override]
     public function toArray(): array
     {
         $rhett = array_merge(

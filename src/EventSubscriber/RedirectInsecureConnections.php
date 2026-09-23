@@ -19,6 +19,7 @@ class RedirectInsecureConnections implements EventSubscriberInterface
         $this->requireSecureConnection = $config->get('requireSecureConnection');
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         // return the subscribed events, their methods and priorities

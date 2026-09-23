@@ -109,51 +109,61 @@ class MeshTerm implements MeshTermInterface
         $this->concepts = new ArrayCollection();
     }
 
+    #[\Override]
     public function setMeshTermUid(string $meshTermUid): void
     {
         $this->meshTermUid = $meshTermUid;
     }
 
+    #[\Override]
     public function getMeshTermUid(): string
     {
         return $this->meshTermUid;
     }
 
+    #[\Override]
     public function setLexicalTag(?string $lexicalTag): void
     {
         $this->lexicalTag = $lexicalTag;
     }
 
+    #[\Override]
     public function getLexicalTag(): ?string
     {
         return $this->lexicalTag;
     }
 
+    #[\Override]
     public function setConceptPreferred(?bool $conceptPreferred): void
     {
         $this->conceptPreferred = $conceptPreferred;
     }
 
+    #[\Override]
     public function isConceptPreferred(): ?bool
     {
         return $this->conceptPreferred;
     }
 
+    #[\Override]
     public function setRecordPreferred(?bool $recordPreferred): void
     {
         $this->recordPreferred = $recordPreferred;
     }
 
+    #[\Override]
     public function isRecordPreferred(): ?bool
     {
         return $this->recordPreferred;
     }
 
+    #[\Override]
     public function setPermuted(?bool $permuted): void
     {
         $this->permuted = $permuted;
     }
 
+    #[\Override]
     public function isPermuted(): ?bool
     {
         return $this->permuted;
