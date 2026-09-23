@@ -12,11 +12,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\Vocabulary;
 use App\Entity\DTO\VocabularyDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class VocabularyRepository extends BaseRepository implements DataImportRepositoryInterface
 {

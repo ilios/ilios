@@ -10,10 +10,9 @@ use App\Service\DTOCacheManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
+use Override;
 
 use function array_keys;
-
-use Override;
 
 class CurriculumInventoryExportRepository extends BaseRepository
 {

@@ -11,11 +11,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\SchoolConfig;
 use App\Entity\DTO\SchoolConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
-
-use Override;
 
 class SchoolConfigRepository extends BaseRepository
 {

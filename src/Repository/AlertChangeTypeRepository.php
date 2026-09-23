@@ -11,10 +11,9 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertChangeTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
-
-use Override;
 
 class AlertChangeTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {

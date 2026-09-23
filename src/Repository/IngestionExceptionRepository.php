@@ -10,10 +10,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\IngestionException;
 use App\Entity\DTO\IngestionExceptionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
-
-use Override;
 
 class IngestionExceptionRepository extends BaseRepository
 {

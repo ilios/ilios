@@ -10,11 +10,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearnerGroup;
 use App\Entity\DTO\LearnerGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
-
-use Override;
 
 class LearnerGroupRepository extends BaseRepository
 {

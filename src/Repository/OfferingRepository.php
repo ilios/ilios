@@ -13,11 +13,10 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\OfferingDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 /**
  * Class OfferingRepository

@@ -13,11 +13,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CompetencyDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class CompetencyRepository extends BaseRepository implements DataImportRepositoryInterface
 {

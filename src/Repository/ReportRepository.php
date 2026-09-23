@@ -10,10 +10,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\Report;
 use App\Entity\DTO\ReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
-
-use Override;
 
 class ReportRepository extends BaseRepository
 {

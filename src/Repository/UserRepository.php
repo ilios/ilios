@@ -25,11 +25,10 @@ use App\Entity\DTO\UserDTO;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
-
-use Override;
 
 class UserRepository extends BaseRepository
 {

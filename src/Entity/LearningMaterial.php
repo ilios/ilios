@@ -15,10 +15,9 @@ use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use App\Repository\LearningMaterialRepository;
+use Override;
 
 use function array_unique;
-
-use Override;
 
 /**
  * Learning materials are not serialized like other entities.  They are decorated by the controller and

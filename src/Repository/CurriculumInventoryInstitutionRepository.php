@@ -12,10 +12,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventoryInstitution;
 use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
-
-use Override;
 
 class CurriculumInventoryInstitutionRepository extends BaseRepository implements DataImportRepositoryInterface
 {

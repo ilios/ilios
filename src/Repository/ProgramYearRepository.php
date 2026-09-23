@@ -10,11 +10,10 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\ProgramYearDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class ProgramYearRepository extends BaseRepository
 {

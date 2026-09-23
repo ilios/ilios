@@ -12,6 +12,7 @@ use GraphQL\Language\AST\StringValueNode;
 use GraphQL\Type\Definition\CustomScalarType;
 use GraphQL\Utils\Utils;
 use InvalidArgumentException;
+use Override;
 
 use function assert;
 use function checkdate;
@@ -19,8 +20,6 @@ use function is_string;
 use function preg_match;
 use function substr;
 use function strpos;
-
-use Override;
 
 class DateTimeType extends CustomScalarType
 {

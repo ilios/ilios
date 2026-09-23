@@ -10,11 +10,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class CurriculumInventorySequenceBlockRepository extends BaseRepository
 {
