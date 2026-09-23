@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Override;
 
 use function date_default_timezone_set;
 
@@ -27,7 +28,7 @@ class Kernel extends BaseKernel
         parent::__construct($environment, $debug);
     }
 
-    #[\Override]
+    #[Override]
     protected function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new PrefixSeedCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 64);
