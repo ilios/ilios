@@ -28,6 +28,7 @@ readonly class ServiceToken extends Token
         );
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return array_merge(

@@ -62,6 +62,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         $this->terms = new ArrayCollection();
     }
 
+    #[\Override]
     public function addTerm(TermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
@@ -70,6 +71,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         }
     }
 
+    #[\Override]
     public function removeTerm(TermInterface $term): void
     {
         if ($this->terms->contains($term)) {

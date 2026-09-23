@@ -53,11 +53,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 class GreenlightViewDTOVoter extends Voter
 {
+    #[\Override]
     public function supportsAttribute(string $attribute): bool
     {
         return $attribute === VoterPermissions::VIEW;
     }
 
+    #[\Override]
     public function supportsType(string $subjectType): bool
     {
         return (
@@ -100,6 +102,7 @@ class GreenlightViewDTOVoter extends Voter
         );
     }
 
+    #[\Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return (
@@ -144,6 +147,7 @@ class GreenlightViewDTOVoter extends Voter
         );
     }
 
+    #[\Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

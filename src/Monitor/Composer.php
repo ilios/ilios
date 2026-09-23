@@ -12,6 +12,7 @@ use Laminas\Diagnostics\Result\Success;
 
 class Composer implements CheckInterface
 {
+    #[\Override]
     public function check(): ResultInterface
     {
         // get the composer autoloader so we can check it's options
@@ -30,6 +31,7 @@ class Composer implements CheckInterface
         return new Success('is correct');
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'Composer Autoload Setup';

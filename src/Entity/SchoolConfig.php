@@ -56,11 +56,13 @@ class SchoolConfig implements SchoolConfigInterface
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
+    #[\Override]
     public function getValue(): string
     {
         return $this->value;
     }
 
+    #[\Override]
     public function setValue(string $value): void
     {
         $this->value = $value;

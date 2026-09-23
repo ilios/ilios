@@ -23,6 +23,7 @@ class ProgramRepository extends BaseRepository
         parent::__construct($registry, Program::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Program::class, 'x');
@@ -40,6 +41,7 @@ class ProgramRepository extends BaseRepository
         return $this->attachAssociationsToDTOs($programDTOs);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

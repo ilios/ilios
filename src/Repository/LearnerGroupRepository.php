@@ -23,6 +23,7 @@ class LearnerGroupRepository extends BaseRepository
         parent::__construct($registry, LearnerGroup::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(LearnerGroup::class, 'x');
@@ -70,6 +71,7 @@ class LearnerGroupRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

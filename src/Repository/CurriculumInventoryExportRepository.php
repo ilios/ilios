@@ -22,6 +22,7 @@ class CurriculumInventoryExportRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventoryExport::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -56,6 +57,7 @@ class CurriculumInventoryExportRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

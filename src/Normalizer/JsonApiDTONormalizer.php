@@ -17,6 +17,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
     {
     }
 
+    #[\Override]
     public function normalize(
         mixed $object,
         ?string $format = null,
@@ -78,6 +79,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
         return $object->{$property->name};
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $format === 'json-api' && $this->entityMetadata->isAnIliosDto($data);
@@ -87,6 +89,7 @@ class JsonApiDTONormalizer implements NormalizerInterface
      * Send *[null] to indicate we don't support anything by default
      * if it's a json-api request we will cache and support all the DTOs
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         $types = [

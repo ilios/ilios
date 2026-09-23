@@ -19,6 +19,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
         $this->hasMatrixBeenBuilt = false;
     }
 
+    #[\Override]
     public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {
         if (! $this->hasMatrixBeenBuilt) {
@@ -27,6 +28,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
         return parent::hasPermission($schoolId, $capability, $roles);
     }
 
+    #[\Override]
     public function getPermittedRoles(int $schoolId, string $capability): array
     {
         if (! $this->hasMatrixBeenBuilt) {

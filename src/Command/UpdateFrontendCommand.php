@@ -121,6 +121,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
     }
 
+    #[\Override]
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         try {
@@ -153,6 +154,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         return [];
     }
 
+    #[\Override]
     public function isOptional(): bool
     {
         return true;

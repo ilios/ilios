@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class PrefixSeedCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         $seed = $container->getParameterBag()->resolveValue($container->getParameter('cache.prefix.seed'));

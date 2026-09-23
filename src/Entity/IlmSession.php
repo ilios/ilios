@@ -116,27 +116,32 @@ class IlmSession implements IlmSessionInterface
         $this->learners = new ArrayCollection();
     }
 
+    #[\Override]
     public function setHours(float $hours): void
     {
         $this->hours = $hours;
     }
 
+    #[\Override]
     public function getHours(): float
     {
         //we have to type cast float because doctrine returns it as a string for precision
         return (float) $this->hours;
     }
 
+    #[\Override]
     public function setDueDate(?DateTime $dueDate = null): void
     {
         $this->dueDate = $dueDate;
     }
 
+    #[\Override]
     public function getDueDate(): DateTime
     {
         return $this->dueDate;
     }
 
+    #[\Override]
     public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
@@ -147,16 +152,19 @@ class IlmSession implements IlmSessionInterface
         return new ArrayCollection($instructors);
     }
 
+    #[\Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
+    #[\Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
+    #[\Override]
     public function getSchool(): ?SchoolInterface
     {
         return $this->session->getCourse()->getSchool();

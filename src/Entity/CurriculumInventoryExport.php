@@ -63,31 +63,37 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->createdAt = new DateTime();
     }
 
+    #[\Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
+    #[\Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
+    #[\Override]
     public function setDocument(string $document): void
     {
         $this->document = $document;
     }
 
+    #[\Override]
     public function getDocument(): string
     {
         return $this->document;
     }
 
+    #[\Override]
     public function setCreatedBy(UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
 
+    #[\Override]
     public function getCreatedBy(): UserInterface
     {
         return $this->createdBy;

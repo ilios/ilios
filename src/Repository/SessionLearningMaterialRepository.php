@@ -23,6 +23,7 @@ class SessionLearningMaterialRepository extends BaseRepository
         parent::__construct($registry, SessionLearningMaterial::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -79,6 +80,7 @@ class SessionLearningMaterialRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

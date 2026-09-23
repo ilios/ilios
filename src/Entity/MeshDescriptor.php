@@ -161,16 +161,19 @@ class MeshDescriptor implements MeshDescriptorInterface
         $this->deleted = false;
     }
 
+    #[\Override]
     public function setAnnotation(?string $annotation): void
     {
         $this->annotation = $annotation;
     }
 
+    #[\Override]
     public function getAnnotation(): ?string
     {
         return $this->annotation;
     }
 
+    #[\Override]
     public function setSessionLearningMaterials(Collection $sessionLearningMaterials): void
     {
         $this->sessionLearningMaterials = new ArrayCollection();
@@ -180,6 +183,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
@@ -188,6 +192,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         if ($this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
@@ -196,11 +201,13 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function getSessionLearningMaterials(): Collection
     {
         return $this->sessionLearningMaterials;
     }
 
+    #[\Override]
     public function setCourseLearningMaterials(Collection $courseLearningMaterials): void
     {
         $this->courseLearningMaterials = new ArrayCollection();
@@ -210,6 +217,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
@@ -218,6 +226,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         if ($this->courseLearningMaterials->contains($courseLearningMaterial)) {
@@ -226,11 +235,13 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function getCourseLearningMaterials(): Collection
     {
         return $this->courseLearningMaterials;
     }
 
+    #[\Override]
     public function setQualifiers(Collection $qualifiers): void
     {
         $this->qualifiers = new ArrayCollection();
@@ -240,6 +251,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function addQualifier(MeshQualifierInterface $qualifier): void
     {
         if (!$this->qualifiers->contains($qualifier)) {
@@ -248,6 +260,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeQualifier(MeshQualifierInterface $qualifier): void
     {
         if ($this->qualifiers->contains($qualifier)) {
@@ -256,11 +269,13 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function getQualifiers(): Collection
     {
         return $this->qualifiers;
     }
 
+    #[\Override]
     public function setTrees(Collection $trees): void
     {
         $this->trees = new ArrayCollection();
@@ -270,6 +285,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function addTree(MeshTreeInterface $tree): void
     {
         if (!$this->trees->contains($tree)) {
@@ -277,6 +293,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeTree(MeshTreeInterface $tree): void
     {
         if ($this->trees->contains($tree)) {
@@ -284,21 +301,25 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function getTrees(): Collection
     {
         return $this->trees;
     }
 
+    #[\Override]
     public function setPreviousIndexing(?MeshPreviousIndexingInterface $previousIndexing = null): void
     {
         $this->previousIndexing = $previousIndexing;
     }
 
+    #[\Override]
     public function getPreviousIndexing(): MeshPreviousIndexingInterface
     {
         return $this->previousIndexing;
     }
 
+    #[\Override]
     public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
@@ -307,6 +328,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
@@ -315,6 +337,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
@@ -323,6 +346,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeSession(SessionInterface $session): void
     {
         if ($this->sessions->contains($session)) {
@@ -331,6 +355,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function addConcept(MeshConceptInterface $concept): void
     {
         if (!$this->concepts->contains($concept)) {
@@ -339,6 +364,7 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function removeConcept(MeshConceptInterface $concept): void
     {
         if ($this->concepts->contains($concept)) {
@@ -347,16 +373,19 @@ class MeshDescriptor implements MeshDescriptorInterface
         }
     }
 
+    #[\Override]
     public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
+    #[\Override]
     public function setDeleted(bool $deleted): void
     {
         $this->deleted = $deleted;
     }
 
+    #[\Override]
     public function getIndexableCourses(): array
     {
         $courseLmCourses = $this->courseLearningMaterials

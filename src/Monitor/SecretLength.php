@@ -25,6 +25,7 @@ class SecretLength implements CheckInterface
     /**
      * Ensure ILIOS_SECRET is long enough
      */
+    #[\Override]
     public function check(): ResultInterface
     {
         $secret = getenv(self::NAME);
@@ -49,6 +50,7 @@ class SecretLength implements CheckInterface
     /**
      * Describe this test
      */
+    #[\Override]
     public function getLabel(): string
     {
         return 'Secret Length';

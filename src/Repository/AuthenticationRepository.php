@@ -50,6 +50,7 @@ class AuthenticationRepository extends BaseRepository
     /**
      * Special case for Authentication since the ID is the user
      */
+    #[\Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -84,6 +85,7 @@ class AuthenticationRepository extends BaseRepository
         return array_map(fn(array $arr) => $arr['username'], $qb->getQuery()->getScalarResult());
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -105,6 +107,7 @@ class AuthenticationRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

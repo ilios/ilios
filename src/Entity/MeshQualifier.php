@@ -70,6 +70,7 @@ class MeshQualifier implements MeshQualifierInterface
         $this->descriptors = new ArrayCollection();
     }
 
+    #[\Override]
     public function setDescriptors(Collection $descriptors): void
     {
         $this->descriptors = new ArrayCollection();
@@ -79,6 +80,7 @@ class MeshQualifier implements MeshQualifierInterface
         }
     }
 
+    #[\Override]
     public function addDescriptor(MeshDescriptorInterface $descriptor): void
     {
         if (!$this->descriptors->contains($descriptor)) {
@@ -86,11 +88,13 @@ class MeshQualifier implements MeshQualifierInterface
         }
     }
 
+    #[\Override]
     public function removeDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptors->removeElement($descriptor);
     }
 
+    #[\Override]
     public function getDescriptors(): Collection
     {
         return $this->descriptors;

@@ -82,26 +82,31 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         $this->endingSequenceBlocks = new ArrayCollection();
     }
 
+    #[\Override]
     public function setLevel(int $level): void
     {
         $this->level = $level;
     }
 
+    #[\Override]
     public function getLevel(): int
     {
         return $this->level;
     }
 
+    #[\Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
+    #[\Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
+    #[\Override]
     public function setStartingSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->startingSequenceBlocks = new ArrayCollection();
@@ -111,6 +116,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
+    #[\Override]
     public function addStartingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
@@ -119,17 +125,20 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
+    #[\Override]
     public function removeStartingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
         $this->startingSequenceBlocks->removeElement($sequenceBlock);
     }
 
+    #[\Override]
     public function getStartingSequenceBlocks(): Collection
     {
         return $this->startingSequenceBlocks;
     }
 
+    #[\Override]
     public function setEndingSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->startingSequenceBlocks = new ArrayCollection();
@@ -139,6 +148,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
+    #[\Override]
     public function addEndingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
@@ -147,12 +157,14 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
+    #[\Override]
     public function removeEndingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
         $this->endingSequenceBlocks->removeElement($sequenceBlock);
     }
 
+    #[\Override]
     public function getEndingSequenceBlocks(): Collection
     {
         return $this->endingSequenceBlocks;

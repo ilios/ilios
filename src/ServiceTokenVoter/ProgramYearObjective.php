@@ -25,6 +25,7 @@ class ProgramYearObjective extends AbstractReadWriteEntityVoter
         );
     }
 
+    #[\Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

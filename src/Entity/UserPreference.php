@@ -33,21 +33,25 @@ class UserPreference implements UserPreferenceInterface
     #[Assert\NotNull]
     protected UserInterface $user;
 
+    #[\Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[\Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
+    #[\Override]
     public function setJson(string $json): void
     {
         $this->json = $json;
     }
 
+    #[\Override]
     public function getJson(): string
     {
         return $this->json;

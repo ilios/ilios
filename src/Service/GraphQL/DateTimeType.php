@@ -49,6 +49,7 @@ class DateTimeType extends CustomScalarType
         return self::$instance;
     }
 
+    #[\Override]
     public function serialize(mixed $value): string
     {
         if (! $value instanceof DateTimeInterface) {
@@ -60,6 +61,7 @@ class DateTimeType extends CustomScalarType
         return $value->format(DateTimeInterface::ATOM);
     }
 
+    #[\Override]
     public function parseValue(mixed $value): DateTimeImmutable
     {
         if (! is_string($value)) {
@@ -76,6 +78,7 @@ class DateTimeType extends CustomScalarType
         return new DateTimeImmutable($value);
     }
 
+    #[\Override]
     public function parseLiteral(Node $valueNode, ?array $variables = null): ?DateTimeImmutable
     {
         if (! $valueNode instanceof StringValueNode) {

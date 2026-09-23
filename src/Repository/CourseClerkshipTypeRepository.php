@@ -25,6 +25,7 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
         parent::__construct($registry, CourseClerkshipType::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
@@ -51,6 +52,7 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -71,6 +73,7 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `course_clerkship_type_id`,`title`

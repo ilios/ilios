@@ -64,21 +64,25 @@ class AuditLog implements AuditLogInterface
         $this->createdAt = new DateTime();
     }
 
+    #[\Override]
     public function setAction(string $action): void
     {
         $this->action = $action;
     }
 
+    #[\Override]
     public function getAction(): string
     {
         return $this->action;
     }
 
+    #[\Override]
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
+    #[\Override]
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
@@ -88,21 +92,25 @@ class AuditLog implements AuditLogInterface
      * object ID sometimes comes as an int,
      * so we need to cast it back to a string for storage
      */
+    #[\Override]
     public function setObjectId(mixed $objectId): void
     {
         $this->objectId = (string) $objectId;
     }
 
+    #[\Override]
     public function getObjectId(): string
     {
         return $this->objectId;
     }
 
+    #[\Override]
     public function setObjectClass(string $objectClass): void
     {
         $this->objectClass = $objectClass;
     }
 
+    #[\Override]
     public function getObjectClass(): string
     {
         return $this->objectClass;
@@ -118,21 +126,25 @@ class AuditLog implements AuditLogInterface
         return $this->valuesChanged;
     }
 
+    #[\Override]
     public function setUser(?UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[\Override]
     public function getUser(): ?UserInterface
     {
         return $this->user;
     }
 
+    #[\Override]
     public function setServiceToken(?ServiceTokenInterface $serviceToken): void
     {
         $this->serviceToken = $serviceToken;
     }
 
+    #[\Override]
     public function getServiceToken(): ?ServiceTokenInterface
     {
         return $this->serviceToken;

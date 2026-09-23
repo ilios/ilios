@@ -115,16 +115,19 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->position = 0;
     }
 
+    #[\Override]
     public function setCourse(CourseInterface $course): void
     {
         $this->course = $course;
     }
 
+    #[\Override]
     public function getCourse(): CourseInterface
     {
         return $this->course;
     }
 
+    #[\Override]
     public function getIndexableCourses(): array
     {
         return [$this->course];

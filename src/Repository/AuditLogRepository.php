@@ -20,6 +20,7 @@ class AuditLogRepository extends BaseRepository
         parent::__construct($registry, AuditLog::class, $cacheManager);
     }
 
+    #[\Override]
     public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         throw new Exception('DTOs for AuditLogs are not implemented yet');
@@ -118,6 +119,7 @@ class AuditLogRepository extends BaseRepository
         }
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -128,6 +130,7 @@ class AuditLogRepository extends BaseRepository
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     protected function hydrateDTOsFromIds(array $ids): array
     {
         throw new Exception('DTOs for AuditLogs are not implemented yet');

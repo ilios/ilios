@@ -28,6 +28,7 @@ class CourseRepository extends BaseRepository
         parent::__construct($registry, Course::class, $cacheManager);
     }
 
+    #[\Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -90,6 +91,7 @@ class CourseRepository extends BaseRepository
         return $this->createCourseDTOS($qb->getQuery());
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
@@ -397,6 +399,7 @@ EOL;
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

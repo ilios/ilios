@@ -23,6 +23,7 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
         parent::__construct($registry, UserRole::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -42,6 +43,7 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -68,6 +70,7 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `user_role_id`,`title`

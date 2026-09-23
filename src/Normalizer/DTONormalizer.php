@@ -20,6 +20,7 @@ class DTONormalizer implements NormalizerInterface
     {
     }
 
+    #[\Override]
     public function normalize(
         mixed $object,
         ?string $format = null,
@@ -80,6 +81,7 @@ class DTONormalizer implements NormalizerInterface
      * Check to see if we can normalize the object or class
      * {@inheritdoc}
      */
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return $format === 'json' && $this->entityMetadata->isAnIliosDto($data);
@@ -89,6 +91,7 @@ class DTONormalizer implements NormalizerInterface
      * Send *[null] to indicate we don't support anything by default
      * if it's a json request we will cache and support all the DTOs
      */
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         $types = [

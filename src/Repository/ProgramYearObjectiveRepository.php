@@ -25,6 +25,7 @@ class ProgramYearObjectiveRepository extends BaseRepository
         parent::__construct($registry, ProgramYearObjective::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -85,6 +86,7 @@ class ProgramYearObjectiveRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

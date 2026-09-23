@@ -25,6 +25,7 @@ class CourseObjectiveRepository extends BaseRepository
         parent::__construct($registry, CourseObjective::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -86,6 +87,7 @@ class CourseObjectiveRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

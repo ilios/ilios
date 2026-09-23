@@ -23,6 +23,7 @@ class InstructorGroupRepository extends BaseRepository
         parent::__construct($registry, InstructorGroup::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -65,6 +66,7 @@ class InstructorGroupRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

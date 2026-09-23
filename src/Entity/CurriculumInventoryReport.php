@@ -121,75 +121,90 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->administrators = new ArrayCollection();
     }
 
+    #[\Override]
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
+    #[\Override]
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    #[\Override]
     public function setYear(int $year): void
     {
         $this->year = $year;
     }
 
+    #[\Override]
     public function getYear(): int
     {
         return $this->year;
     }
 
+    #[\Override]
     public function setStartDate(DateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
 
+    #[\Override]
     public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
+    #[\Override]
     public function setEndDate(DateTime $endDate): void
     {
         $this->endDate = $endDate;
     }
 
+    #[\Override]
     public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
+    #[\Override]
     public function setExport(?CurriculumInventoryExportInterface $export = null): void
     {
         $this->export = $export;
     }
 
+    #[\Override]
     public function getExport(): ?CurriculumInventoryExportInterface
     {
         return $this->export;
     }
 
+    #[\Override]
     public function setSequence(?CurriculumInventorySequenceInterface $sequence = null): void
     {
         $this->sequence = $sequence;
     }
 
+    #[\Override]
     public function getSequence(): ?CurriculumInventorySequenceInterface
     {
         return $this->sequence;
     }
 
+    #[\Override]
     public function setProgram(?ProgramInterface $program = null): void
     {
         $this->program = $program;
     }
 
+    #[\Override]
     public function getProgram(): ?ProgramInterface
     {
         return $this->program;
     }
 
+    #[\Override]
     public function setAcademicLevels(?Collection $academicLevels = null): void
     {
         $this->academicLevels = new ArrayCollection();
@@ -201,6 +216,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
+    #[\Override]
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel): void
     {
         if (!$this->academicLevels->contains($academicLevel)) {
@@ -208,16 +224,19 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
+    #[\Override]
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel): void
     {
         $this->academicLevels->removeElement($academicLevel);
     }
 
+    #[\Override]
     public function getAcademicLevels(): Collection
     {
         return $this->academicLevels;
     }
 
+    #[\Override]
     public function getSchool(): ?SchoolInterface
     {
         if ($program = $this->getProgram()) {
@@ -226,11 +245,13 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return null;
     }
 
+    #[\Override]
     public function getToken(): string
     {
         return $this->token;
     }
 
+    #[\Override]
     public function generateToken(): void
     {
         $random = random_bytes(128);
@@ -243,6 +264,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->token = hash('sha256', $key);
     }
 
+    #[\Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -251,6 +273,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
+    #[\Override]
     public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {

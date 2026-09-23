@@ -95,26 +95,31 @@ class Program implements ProgramInterface
         $this->directors = new ArrayCollection();
     }
 
+    #[\Override]
     public function setShortTitle(?string $shortTitle): void
     {
         $this->shortTitle = $shortTitle;
     }
 
+    #[\Override]
     public function getShortTitle(): ?string
     {
         return $this->shortTitle;
     }
 
+    #[\Override]
     public function setDuration(int $duration): void
     {
         $this->duration = $duration;
     }
 
+    #[\Override]
     public function getDuration(): int
     {
         return $this->duration;
     }
 
+    #[\Override]
     public function setCurriculumInventoryReports(Collection $reports): void
     {
         $this->curriculumInventoryReports = new ArrayCollection();
@@ -124,6 +129,7 @@ class Program implements ProgramInterface
         }
     }
 
+    #[\Override]
     public function addCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         if (!$this->curriculumInventoryReports->contains($report)) {
@@ -131,6 +137,7 @@ class Program implements ProgramInterface
         }
     }
 
+    #[\Override]
     public function removeCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         if ($this->curriculumInventoryReports->contains($report)) {
@@ -138,11 +145,13 @@ class Program implements ProgramInterface
         }
     }
 
+    #[\Override]
     public function getCurriculumInventoryReports(): Collection
     {
         return $this->curriculumInventoryReports;
     }
 
+    #[\Override]
     public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
@@ -151,6 +160,7 @@ class Program implements ProgramInterface
         }
     }
 
+    #[\Override]
     public function removeDirector(UserInterface $director): void
     {
         if ($this->directors->contains($director)) {

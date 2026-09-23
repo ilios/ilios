@@ -50,6 +50,7 @@ class AamcPcrs implements AamcPcrsInterface
         $this->competencies = new ArrayCollection();
     }
 
+    #[\Override]
     public function addCompetency(CompetencyInterface $competency): void
     {
         if (!$this->competencies->contains($competency)) {
@@ -58,6 +59,7 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
+    #[\Override]
     public function removeCompetency(CompetencyInterface $competency): void
     {
         if ($this->competencies->contains($competency)) {
@@ -66,11 +68,13 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
+    #[\Override]
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
+    #[\Override]
     public function getDescription(): string
     {
         return $this->description;

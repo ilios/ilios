@@ -29,6 +29,7 @@ class TermRepository extends BaseRepository implements DataImportRepositoryInter
         parent::__construct($registry, Term::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Term::class, 'x');
@@ -87,6 +88,7 @@ class TermRepository extends BaseRepository implements DataImportRepositoryInter
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -332,6 +334,7 @@ class TermRepository extends BaseRepository implements DataImportRepositoryInter
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[\Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {

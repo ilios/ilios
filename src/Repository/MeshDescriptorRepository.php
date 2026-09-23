@@ -65,6 +65,7 @@ class MeshDescriptorRepository extends BaseRepository
         return $dtos;
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -169,6 +170,7 @@ class MeshDescriptorRepository extends BaseRepository
         return $query;
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

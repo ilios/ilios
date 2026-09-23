@@ -22,6 +22,7 @@ class IngestionExceptionRepository extends BaseRepository
         parent::__construct($registry, IngestionException::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -53,6 +54,7 @@ class IngestionExceptionRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

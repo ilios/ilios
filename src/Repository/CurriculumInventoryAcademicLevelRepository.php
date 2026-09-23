@@ -23,6 +23,7 @@ class CurriculumInventoryAcademicLevelRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventoryAcademicLevel::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -66,6 +67,7 @@ class CurriculumInventoryAcademicLevelRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

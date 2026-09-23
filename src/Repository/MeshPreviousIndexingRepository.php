@@ -24,6 +24,7 @@ class MeshPreviousIndexingRepository extends BaseRepository
         parent::__construct($registry, MeshPreviousIndexing::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -56,6 +57,7 @@ class MeshPreviousIndexingRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

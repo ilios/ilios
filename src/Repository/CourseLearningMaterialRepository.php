@@ -23,6 +23,7 @@ class CourseLearningMaterialRepository extends BaseRepository
         parent::__construct($registry, CourseLearningMaterial::class, $cacheManager);
     }
 
+    #[\Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -77,6 +78,7 @@ class CourseLearningMaterialRepository extends BaseRepository
     }
 
 
+    #[\Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

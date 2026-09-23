@@ -19,11 +19,13 @@ class ServiceTokenUserProvider implements UserProviderInterface
     {
     }
 
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         return ServiceTokenUser::class === $class;
     }
 
+    #[\Override]
     public function refreshUser(UserInterface $user): ServiceTokenUserInterface
     {
         if (!$user instanceof ServiceTokenUser) {
@@ -35,6 +37,7 @@ class ServiceTokenUserProvider implements UserProviderInterface
         return $this->loadUserByIdentifier($user->getUserIdentifier());
     }
 
+    #[\Override]
     public function loadUserByIdentifier(string $identifier): ServiceTokenUserInterface
     {
         /** @var ?ServiceTokenInterface $token */

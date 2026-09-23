@@ -34,6 +34,7 @@ class SessionUserProvider implements UserProviderInterface
         return new SessionUser($user, $this->userRepository);
     }
 
+    #[\Override]
     public function loadUserByIdentifier(mixed $identifier): SessionUserInterface
     {
         $user = $this->userRepository->findOneBy(['id' => $identifier]);
@@ -47,6 +48,7 @@ class SessionUserProvider implements UserProviderInterface
         );
     }
 
+    #[\Override]
     public function refreshUser(UserInterface $user): SessionUserInterface
     {
         if (!$user instanceof SessionUser) {
@@ -58,6 +60,7 @@ class SessionUserProvider implements UserProviderInterface
         return $this->loadUserByIdentifier($user->getUserIdentifier());
     }
 
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         return SessionUser::class === $class;
