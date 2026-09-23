@@ -24,7 +24,6 @@
         <InvalidReturnType errorLevel="suppress"/>
         <InvalidScalarArgument errorLevel="suppress"/>
         <LessSpecificReturnStatement errorLevel="suppress"/>
-        <MissingOverrideAttribute errorLevel="suppress"/>
         <MissingTemplateParam errorLevel="suppress"/>
         <MoreSpecificReturnType errorLevel="suppress"/>
         <NamedArgumentNotAllowed errorLevel="suppress"/>
