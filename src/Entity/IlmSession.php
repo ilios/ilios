@@ -18,6 +18,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use DateTime;
 use App\Repository\IlmSessionRepository;
+use Override;
 
 #[ORM\Table(name: 'ilm_session_facet')]
 #[ORM\Entity(repositoryClass: IlmSessionRepository::class)]
@@ -116,32 +117,32 @@ class IlmSession implements IlmSessionInterface
         $this->learners = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setHours(float $hours): void
     {
         $this->hours = $hours;
     }
 
-    #[\Override]
+    #[Override]
     public function getHours(): float
     {
         //we have to type cast float because doctrine returns it as a string for precision
         return (float) $this->hours;
     }
 
-    #[\Override]
+    #[Override]
     public function setDueDate(?DateTime $dueDate = null): void
     {
         $this->dueDate = $dueDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getDueDate(): DateTime
     {
         return $this->dueDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
@@ -152,19 +153,19 @@ class IlmSession implements IlmSessionInterface
         return new ArrayCollection($instructors);
     }
 
-    #[\Override]
+    #[Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
-    #[\Override]
+    #[Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
-    #[\Override]
+    #[Override]
     public function getSchool(): ?SchoolInterface
     {
         return $this->session->getCourse()->getSchool();

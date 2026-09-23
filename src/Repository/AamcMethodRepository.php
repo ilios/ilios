@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
+use Override;
+
 class AamcMethodRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use ImportableEntityRepository;
@@ -25,7 +27,7 @@ class AamcMethodRepository extends BaseRepository implements DataImportRepositor
         parent::__construct($registry, AamcMethod::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     protected function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(AamcMethod::class, 'x');
@@ -49,7 +51,7 @@ class AamcMethodRepository extends BaseRepository implements DataImportRepositor
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -70,7 +72,7 @@ class AamcMethodRepository extends BaseRepository implements DataImportRepositor
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `method_id`,`description`,`active`

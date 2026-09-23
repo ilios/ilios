@@ -13,6 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
+use Override;
+
 class MeshTermRepository extends BaseRepository
 {
     public function __construct(
@@ -22,7 +24,7 @@ class MeshTermRepository extends BaseRepository
         parent::__construct($registry, MeshTerm::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -56,7 +58,7 @@ class MeshTermRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

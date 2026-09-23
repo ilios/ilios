@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\ReportRepository;
+use Override;
 
 #[ORM\Table(name: 'report')]
 #[ORM\Entity(repositoryClass: ReportRepository::class)]
@@ -88,67 +89,67 @@ class Report implements ReportInterface
         $this->createdAt = new DateTime();
     }
 
-    #[\Override]
+    #[Override]
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    #[\Override]
+    #[Override]
     public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
 
-    #[\Override]
+    #[Override]
     public function getSubject(): string
     {
         return $this->subject;
     }
 
-    #[\Override]
+    #[Override]
     public function setPrepositionalObject(?string $prepositionalObject): void
     {
         $this->prepositionalObject = $prepositionalObject;
     }
 
-    #[\Override]
+    #[Override]
     public function getPrepositionalObject(): ?string
     {
         return $this->prepositionalObject;
     }
 
-    #[\Override]
+    #[Override]
     public function setPrepositionalObjectTableRowId(?string $prepositionalObjectTableRowId): void
     {
         $this->prepositionalObjectTableRowId = $prepositionalObjectTableRowId;
     }
 
-    #[\Override]
+    #[Override]
     public function getPrepositionalObjectTableRowId(): ?string
     {
         return $this->prepositionalObjectTableRowId;
     }
 
-    #[\Override]
+    #[Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
-    #[\Override]
+    #[Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    #[\Override]
+    #[Override]
     public function getSchool(): ?SchoolInterface
     {
         return $this->school;
     }
 
-    #[\Override]
+    #[Override]
     public function setSchool(?SchoolInterface $school = null): void
     {
         $this->school = $school;

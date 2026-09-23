@@ -9,6 +9,7 @@ use App\Classes\PermissionMatrix;
 use App\Classes\UserRoles;
 use App\Entity\DTO\SchoolDTO;
 use App\Repository\SchoolRepository;
+use Override;
 
 class DefaultPermissionMatrix extends PermissionMatrix
 {
@@ -19,7 +20,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
         $this->hasMatrixBeenBuilt = false;
     }
 
-    #[\Override]
+    #[Override]
     public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {
         if (! $this->hasMatrixBeenBuilt) {
@@ -28,7 +29,7 @@ class DefaultPermissionMatrix extends PermissionMatrix
         return parent::hasPermission($schoolId, $capability, $roles);
     }
 
-    #[\Override]
+    #[Override]
     public function getPermittedRoles(int $schoolId, string $capability): array
     {
         if (! $this->hasMatrixBeenBuilt) {

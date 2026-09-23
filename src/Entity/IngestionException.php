@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\IngestionExceptionRepository;
+use Override;
 
 #[ORM\Entity(repositoryClass: IngestionExceptionRepository::class)]
 #[ORM\Table(name: 'ingestion_exception')]
@@ -48,25 +49,25 @@ class IngestionException implements IngestionExceptionInterface
     #[IA\Type('entity')]
     protected UserInterface $user;
 
-    #[\Override]
+    #[Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
-    #[\Override]
+    #[Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    #[\Override]
+    #[Override]
     public function setUid(string $uid): void
     {
         $this->uid = $uid;
     }
 
-    #[\Override]
+    #[Override]
     public function getUid(): string
     {
         return $this->uid;

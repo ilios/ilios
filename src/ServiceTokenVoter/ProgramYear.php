@@ -9,6 +9,7 @@ use App\Classes\VoterPermissions;
 use App\Entity\ProgramYearInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class ProgramYear extends AbstractReadWriteEntityVoter
 {
@@ -28,7 +29,7 @@ class ProgramYear extends AbstractReadWriteEntityVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

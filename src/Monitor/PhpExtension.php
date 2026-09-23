@@ -8,6 +8,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 class PhpExtension implements CheckInterface
 {
@@ -15,7 +16,7 @@ class PhpExtension implements CheckInterface
     {
     }
 
-    #[\Override]
+    #[Override]
     public function check(): ResultInterface
     {
         $missingExtensions = [];
@@ -32,7 +33,7 @@ class PhpExtension implements CheckInterface
         return new Failure(implode(', ', $missingExtensions) . ' PHP extensions not loaded.');
     }
 
-    #[\Override]
+    #[Override]
     public function getLabel(): string
     {
         return 'PHP extensions';

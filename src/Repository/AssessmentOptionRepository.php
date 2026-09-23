@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
+use Override;
+
 class AssessmentOptionRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use ImportableEntityRepository;
@@ -25,7 +27,7 @@ class AssessmentOptionRepository extends BaseRepository implements DataImportRep
         parent::__construct($registry, AssessmentOption::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -51,7 +53,7 @@ class AssessmentOptionRepository extends BaseRepository implements DataImportRep
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -72,7 +74,7 @@ class AssessmentOptionRepository extends BaseRepository implements DataImportRep
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `assessment_option_id`,`name`

@@ -9,6 +9,7 @@ use App\Classes\VoterPermissions;
 use App\Entity\IlmSessionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class IlmSession extends AbstractReadWriteEntityVoter
 {
@@ -25,7 +26,7 @@ class IlmSession extends AbstractReadWriteEntityVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

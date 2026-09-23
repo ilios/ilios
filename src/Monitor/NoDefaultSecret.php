@@ -9,6 +9,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 class NoDefaultSecret implements CheckInterface
 {
@@ -17,7 +18,7 @@ class NoDefaultSecret implements CheckInterface
     /**
      * Ensure ILIOS_SECRET isn't set to a default value
      */
-    #[\Override]
+    #[Override]
     public function check(): ResultInterface
     {
         $secret = getenv(self::NAME);
@@ -48,7 +49,7 @@ class NoDefaultSecret implements CheckInterface
     /**
      * Describe this test
      */
-    #[\Override]
+    #[Override]
     public function getLabel(): string
     {
         return 'No Default Secret';

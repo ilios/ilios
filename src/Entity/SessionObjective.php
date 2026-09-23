@@ -18,6 +18,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionObjectiveRepository;
+use Override;
 
 #[ORM\Table(name: 'session_x_objective')]
 #[ORM\Index(columns: ['session_id'], name: 'IDX_FA74B40B613FECDF')]
@@ -130,25 +131,25 @@ class SessionObjective implements SessionObjectiveInterface
         $this->descendants = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
-    #[\Override]
+    #[Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
-    #[\Override]
+    #[Override]
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];
     }
 
-    #[\Override]
+    #[Override]
     public function setCourseObjectives(Collection $courseObjectives): void
     {
         $this->courseObjectives = new ArrayCollection();
@@ -158,7 +159,7 @@ class SessionObjective implements SessionObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if (!$this->courseObjectives->contains($courseObjective)) {
@@ -166,31 +167,31 @@ class SessionObjective implements SessionObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         $this->courseObjectives->removeElement($courseObjective);
     }
 
-    #[\Override]
+    #[Override]
     public function getCourseObjectives(): Collection
     {
         return $this->courseObjectives;
     }
 
-    #[\Override]
+    #[Override]
     public function setAncestor(?SessionObjectiveInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestor(): ?SessionObjectiveInterface
     {
         return $this->ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestorOrSelf(): SessionObjectiveInterface
     {
         $ancestor = $this->getAncestor();
@@ -198,7 +199,7 @@ class SessionObjective implements SessionObjectiveInterface
         return $ancestor ?: $this;
     }
 
-    #[\Override]
+    #[Override]
     public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
@@ -208,7 +209,7 @@ class SessionObjective implements SessionObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addDescendant(SessionObjectiveInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
@@ -216,19 +217,19 @@ class SessionObjective implements SessionObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeDescendant(SessionObjectiveInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
 
-    #[\Override]
+    #[Override]
     public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
-    #[\Override]
+    #[Override]
     public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();
@@ -238,7 +239,7 @@ class SessionObjective implements SessionObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
@@ -246,7 +247,7 @@ class SessionObjective implements SessionObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);

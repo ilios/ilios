@@ -11,6 +11,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearningMaterialUserRole;
 use App\Entity\DTO\LearningMaterialUserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 class LearningMaterialUserRoleRepository extends BaseRepository implements DataImportRepositoryInterface
 {
@@ -23,7 +24,7 @@ class LearningMaterialUserRoleRepository extends BaseRepository implements DataI
         parent::__construct($registry, LearningMaterialUserRole::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -44,7 +45,7 @@ class LearningMaterialUserRoleRepository extends BaseRepository implements DataI
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -55,7 +56,7 @@ class LearningMaterialUserRoleRepository extends BaseRepository implements DataI
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `learning_material_user_role_id`,`title`

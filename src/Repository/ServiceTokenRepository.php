@@ -9,6 +9,7 @@ use App\Service\DTOCacheManager;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Override;
 
 class ServiceTokenRepository extends BaseRepository
 {
@@ -22,7 +23,7 @@ class ServiceTokenRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    #[\Override]
+    #[Override]
     public function findDTOBy(array $criteria): ?object
     {
         throw new Exception("not implemented");
@@ -31,7 +32,7 @@ class ServiceTokenRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    #[\Override]
+    #[Override]
     public function findDTOsBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
         throw new Exception("not implemented");
@@ -40,13 +41,13 @@ class ServiceTokenRepository extends BaseRepository
     /**
      * @throws Exception
      */
-    #[\Override]
+    #[Override]
     protected function hydrateDTOsFromIds(array $ids): array
     {
         throw new Exception("not implemented");
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

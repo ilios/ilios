@@ -12,6 +12,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CurriculumInventoryInstitutionRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_institution')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]
@@ -95,73 +96,73 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[\Override]
+    #[Override]
     public function setAamcCode(string $aamcCode): void
     {
         $this->aamcCode = $aamcCode;
     }
 
-    #[\Override]
+    #[Override]
     public function getAamcCode(): string
     {
         return $this->aamcCode;
     }
 
-    #[\Override]
+    #[Override]
     public function setAddressStreet(string $addressStreet): void
     {
         $this->addressStreet = $addressStreet;
     }
 
-    #[\Override]
+    #[Override]
     public function getAddressStreet(): string
     {
         return $this->addressStreet;
     }
 
-    #[\Override]
+    #[Override]
     public function setAddressCity(string $addressCity): void
     {
         $this->addressCity = $addressCity;
     }
 
-    #[\Override]
+    #[Override]
     public function getAddressCity(): string
     {
         return $this->addressCity;
     }
 
-    #[\Override]
+    #[Override]
     public function setAddressStateOrProvince(string $addressStateOrProvince): void
     {
         $this->addressStateOrProvince = $addressStateOrProvince;
     }
 
-    #[\Override]
+    #[Override]
     public function getAddressStateOrProvince(): string
     {
         return $this->addressStateOrProvince;
     }
 
-    #[\Override]
+    #[Override]
     public function setAddressZipCode(string $addressZipcode): void
     {
         $this->addressZipCode = $addressZipcode;
     }
 
-    #[\Override]
+    #[Override]
     public function getAddressZipCode(): string
     {
         return $this->addressZipCode;
     }
 
-    #[\Override]
+    #[Override]
     public function setAddressCountryCode(string $addressCountryCode): void
     {
         $this->addressCountryCode = $addressCountryCode;
     }
 
-    #[\Override]
+    #[Override]
     public function getAddressCountryCode(): string
     {
         return $this->addressCountryCode;

@@ -12,6 +12,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 class IliosFileSystem implements CheckInterface
 {
@@ -19,7 +20,7 @@ class IliosFileSystem implements CheckInterface
     {
     }
 
-    #[\Override]
+    #[Override]
     public function check(): ResultInterface
     {
         $path = $this->config->get('file_system_storage_path');
@@ -47,7 +48,7 @@ class IliosFileSystem implements CheckInterface
         return new Success('is writable and has enough free space');
     }
 
-    #[\Override]
+    #[Override]
     public function getLabel(): string
     {
         return 'Ilios File System';

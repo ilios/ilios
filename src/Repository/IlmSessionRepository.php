@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
+use Override;
+
 class IlmSessionRepository extends BaseRepository
 {
     public function __construct(
@@ -23,7 +25,7 @@ class IlmSessionRepository extends BaseRepository
         parent::__construct($registry, IlmSession::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -69,7 +71,7 @@ class IlmSessionRepository extends BaseRepository
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

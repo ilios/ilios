@@ -13,6 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
+use Override;
+
 class MeshTreeRepository extends BaseRepository
 {
     public function __construct(
@@ -22,7 +24,7 @@ class MeshTreeRepository extends BaseRepository
         parent::__construct($registry, MeshTree::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -55,7 +57,7 @@ class MeshTreeRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

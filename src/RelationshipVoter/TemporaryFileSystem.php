@@ -10,6 +10,7 @@ use App\Service\TemporaryFileSystem as FileSystem;
 use App\Classes\SessionUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class TemporaryFileSystem extends AbstractVoter
 {
@@ -24,7 +25,7 @@ class TemporaryFileSystem extends AbstractVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

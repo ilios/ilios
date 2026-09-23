@@ -13,6 +13,8 @@ use Doctrine\ORM\QueryBuilder;
 
 use function array_keys;
 
+use Override;
+
 class CurriculumInventoryExportRepository extends BaseRepository
 {
     public function __construct(
@@ -22,7 +24,7 @@ class CurriculumInventoryExportRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventoryExport::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -57,7 +59,7 @@ class CurriculumInventoryExportRepository extends BaseRepository
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

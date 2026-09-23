@@ -17,6 +17,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
+use Override;
+
 class SessionRepository extends BaseRepository
 {
     public function __construct(
@@ -85,7 +87,7 @@ class SessionRepository extends BaseRepository
         return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
     }
 
-    #[\Override]
+    #[Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -121,7 +123,7 @@ class SessionRepository extends BaseRepository
         return $this->attachAssociationsToDTOs($dtos);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
@@ -175,7 +177,7 @@ class SessionRepository extends BaseRepository
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

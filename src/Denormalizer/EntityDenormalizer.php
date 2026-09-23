@@ -19,6 +19,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use HTMLPurifier;
 use TypeError;
+use Override;
 
 /**
  * Denormalize Ilios Entities from JSON into Doctrine Entity Objects
@@ -34,7 +35,7 @@ class EntityDenormalizer implements DenormalizerInterface
     ) {
     }
 
-    #[\Override]
+    #[Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (array_key_exists('object_to_populate', $context)) {
@@ -174,7 +175,7 @@ class EntityDenormalizer implements DenormalizerInterface
         return $value;
     }
 
-    #[\Override]
+    #[Override]
     public function supportsDenormalization(
         mixed $data,
         string $type,
@@ -188,7 +189,7 @@ class EntityDenormalizer implements DenormalizerInterface
      * The only things we denormalize are entities, for anything else *[null] tells
      * symfony to not even bother.
      */
-    #[\Override]
+    #[Override]
     public function getSupportedTypes(?string $format): array
     {
         $types = [

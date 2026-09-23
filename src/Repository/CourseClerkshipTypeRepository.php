@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
+use Override;
+
 class CourseClerkshipTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use ImportableEntityRepository;
@@ -25,7 +27,7 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
         parent::__construct($registry, CourseClerkshipType::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
@@ -52,7 +54,7 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -73,7 +75,7 @@ class CourseClerkshipTypeRepository extends BaseRepository implements DataImport
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `course_clerkship_type_id`,`title`

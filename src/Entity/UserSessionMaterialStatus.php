@@ -10,6 +10,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
+use Override;
 
 #[ORM\Table(name: 'user_session_material_status')]
 #[ORM\Entity(repositoryClass: UserSessionMaterialStatusRepository::class)]
@@ -72,7 +73,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     /**
      * Cast ID to a string to meet doctrine bigint requirements
      */
-    #[\Override]
+    #[Override]
     public function setId(int $id): void
     {
         $this->id = (string) $id;
@@ -81,43 +82,43 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     /**
      * Cast the ID to an int as doctrine stores a string
      */
-    #[\Override]
+    #[Override]
     public function getId(): int
     {
         return (int) $this->id;
     }
 
-    #[\Override]
+    #[Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
-    #[\Override]
+    #[Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    #[\Override]
+    #[Override]
     public function setMaterial(SessionLearningMaterialInterface $material): void
     {
         $this->material = $material;
     }
 
-    #[\Override]
+    #[Override]
     public function getMaterial(): SessionLearningMaterialInterface
     {
         return $this->material;
     }
 
-    #[\Override]
+    #[Override]
     public function setStatus(int $status): void
     {
         $this->status = $status;
     }
 
-    #[\Override]
+    #[Override]
     public function getStatus(): int
     {
         return $this->status;

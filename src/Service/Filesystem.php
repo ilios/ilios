@@ -6,6 +6,7 @@ namespace App\Service;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
+use Override;
 
 /**
  * Extends Symfonys built in file system to add methods useful for test mocks that symfony
@@ -16,7 +17,7 @@ class Filesystem extends SymfonyFileSystem
     /**
      * Read the contents of a file and return it as a string
      */
-    #[\Override]
+    #[Override]
     public function readFile(string $filename): string
     {
         $contents = file_get_contents($filename);

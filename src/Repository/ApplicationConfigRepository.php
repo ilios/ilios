@@ -11,6 +11,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\ApplicationConfig;
 use App\Entity\DTO\ApplicationConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 class ApplicationConfigRepository extends BaseRepository implements DataImportRepositoryInterface
 {
@@ -24,7 +25,7 @@ class ApplicationConfigRepository extends BaseRepository implements DataImportRe
         parent::__construct($registry, ApplicationConfig::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -74,7 +75,7 @@ class ApplicationConfigRepository extends BaseRepository implements DataImportRe
         return null;
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -85,7 +86,7 @@ class ApplicationConfigRepository extends BaseRepository implements DataImportRe
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `id`, `name`,`value`

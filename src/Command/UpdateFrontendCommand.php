@@ -22,6 +22,8 @@ use SplFileObject;
 use function filectime;
 use function is_dir;
 
+use Override;
+
 /**
  * Pull down asset archive from AWS and extract it so
  * assets can be served from the API host.
@@ -121,7 +123,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         try {
@@ -154,7 +156,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         return [];
     }
 
-    #[\Override]
+    #[Override]
     public function isOptional(): bool
     {
         return true;

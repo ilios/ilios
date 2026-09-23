@@ -7,6 +7,7 @@ namespace App\DependencyInjection;
 use Composer\InstalledVersions;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Override;
 
 /**
  * Add the contents of our VERSION file to the cache prefix seed
@@ -15,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class PrefixSeedCompilerPass implements CompilerPassInterface
 {
-    #[\Override]
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         $seed = $container->getParameterBag()->resolveValue($container->getParameter('cache.prefix.seed'));

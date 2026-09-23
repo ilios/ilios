@@ -6,6 +6,7 @@ namespace App\RelationshipVoter;
 
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Override;
 
 abstract class AbstractVoter extends Voter
 {
@@ -16,19 +17,19 @@ abstract class AbstractVoter extends Voter
     ) {
     }
 
-    #[\Override]
+    #[Override]
     public function supportsType(string $subjectType): bool
     {
         return is_a($subjectType, $this->supportedType, true);
     }
 
-    #[\Override]
+    #[Override]
     public function supportsAttribute(string $attribute): bool
     {
         return in_array($attribute, $this->supportedAttributes);
     }
 
-    #[\Override]
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return $subject instanceof $this->supportedType && $this->supportsAttribute($attribute);

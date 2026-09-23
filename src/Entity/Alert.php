@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
+use Override;
 
 #[ORM\Table(name: 'alert')]
 #[ORM\Entity(repositoryClass: AlertRepository::class)]
@@ -104,55 +105,55 @@ class Alert implements AlertInterface
         $this->dispatched = false;
     }
 
-    #[\Override]
+    #[Override]
     public function setTableRowId(int $tableRowId): void
     {
         $this->tableRowId = $tableRowId;
     }
 
-    #[\Override]
+    #[Override]
     public function getTableRowId(): int
     {
         return $this->tableRowId;
     }
 
-    #[\Override]
+    #[Override]
     public function setTableName(string $tableName): void
     {
         $this->tableName = $tableName;
     }
 
-    #[\Override]
+    #[Override]
     public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    #[\Override]
+    #[Override]
     public function setAdditionalText(?string $additionalText): void
     {
         $this->additionalText = $additionalText;
     }
 
-    #[\Override]
+    #[Override]
     public function getAdditionalText(): ?string
     {
         return $this->additionalText;
     }
 
-    #[\Override]
+    #[Override]
     public function setDispatched(bool $dispatched): void
     {
         $this->dispatched = $dispatched;
     }
 
-    #[\Override]
+    #[Override]
     public function isDispatched(): bool
     {
         return $this->dispatched;
     }
 
-    #[\Override]
+    #[Override]
     public function setChangeTypes(Collection $changeTypes): void
     {
         $this->changeTypes = new ArrayCollection();
@@ -162,7 +163,7 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addChangeType(AlertChangeTypeInterface $changeType): void
     {
         if (!$this->changeTypes->contains($changeType)) {
@@ -170,19 +171,19 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeChangeType(AlertChangeTypeInterface $changeType): void
     {
         $this->changeTypes->removeElement($changeType);
     }
 
-    #[\Override]
+    #[Override]
     public function getChangeTypes(): Collection
     {
         return $this->changeTypes;
     }
 
-    #[\Override]
+    #[Override]
     public function setInstigators(Collection $instigators): void
     {
         $this->instigators = new ArrayCollection();
@@ -192,7 +193,7 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addInstigator(UserInterface $instigator): void
     {
         if (!$this->instigators->contains($instigator)) {
@@ -200,19 +201,19 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeInstigator(UserInterface $instigator): void
     {
         $this->instigators->removeElement($instigator);
     }
 
-    #[\Override]
+    #[Override]
     public function getInstigators(): Collection
     {
         return $this->instigators;
     }
 
-    #[\Override]
+    #[Override]
     public function setRecipients(Collection $recipients): void
     {
         $this->recipients = new ArrayCollection();
@@ -222,7 +223,7 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addRecipient(SchoolInterface $recipient): void
     {
         if (!$this->recipients->contains($recipient)) {
@@ -230,19 +231,19 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeRecipient(SchoolInterface $recipient): void
     {
         $this->recipients->removeElement($recipient);
     }
 
-    #[\Override]
+    #[Override]
     public function getRecipients(): Collection
     {
         return $this->recipients;
     }
 
-    #[\Override]
+    #[Override]
     public function setServiceTokenInstigators(Collection $instigators): void
     {
         $this->serviceTokenInstigators = new ArrayCollection();
@@ -252,7 +253,7 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addServiceTokenInstigator(ServiceTokenInterface $instigator): void
     {
         if (!$this->serviceTokenInstigators->contains($instigator)) {
@@ -260,13 +261,13 @@ class Alert implements AlertInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeServiceTokenInstigator(ServiceTokenInterface $instigator): void
     {
         $this->serviceTokenInstigators->removeElement($instigator);
     }
 
-    #[\Override]
+    #[Override]
     public function getServiceTokenInstigators(): Collection
     {
         return $this->serviceTokenInstigators;

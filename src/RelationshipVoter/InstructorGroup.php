@@ -10,6 +10,7 @@ use App\Entity\InstructorGroupInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class InstructorGroup extends AbstractVoter
 {
@@ -27,7 +28,7 @@ class InstructorGroup extends AbstractVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

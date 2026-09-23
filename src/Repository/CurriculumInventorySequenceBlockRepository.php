@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class CurriculumInventorySequenceBlockRepository extends BaseRepository
 {
     public function __construct(
@@ -23,7 +25,7 @@ class CurriculumInventorySequenceBlockRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventorySequenceBlock::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -91,7 +93,7 @@ class CurriculumInventorySequenceBlockRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
