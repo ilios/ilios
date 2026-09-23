@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProgramYearObjectiveRepository;
+use Override;
 
 #[ORM\Table(name: 'program_year_x_objective')]
 #[ORM\Index(columns: ['program_year_id'], name: 'IDX_7A16FDD6CB2B0673')]
@@ -135,31 +136,31 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         $this->descendants = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setProgramYear(ProgramYearInterface $programYear): void
     {
         $this->programYear = $programYear;
     }
 
-    #[\Override]
+    #[Override]
     public function getProgramYear(): ProgramYearInterface
     {
         return $this->programYear;
     }
 
-    #[\Override]
+    #[Override]
     public function setCompetency(?CompetencyInterface $competency = null): void
     {
         $this->competency = $competency;
     }
 
-    #[\Override]
+    #[Override]
     public function getCompetency(): ?CompetencyInterface
     {
         return $this->competency;
     }
 
-    #[\Override]
+    #[Override]
     public function setCourseObjectives(Collection $courseObjectives): void
     {
         $this->courseObjectives = new ArrayCollection();
@@ -169,7 +170,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if (!$this->courseObjectives->contains($courseObjective)) {
@@ -178,7 +179,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if ($this->courseObjectives->contains($courseObjective)) {
@@ -187,25 +188,25 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function getCourseObjectives(): Collection
     {
         return $this->courseObjectives;
     }
 
-    #[\Override]
+    #[Override]
     public function setAncestor(?ProgramYearObjectiveInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestor(): ?ProgramYearObjectiveInterface
     {
         return $this->ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestorOrSelf(): ProgramYearObjectiveInterface
     {
         $ancestor = $this->getAncestor();
@@ -213,7 +214,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         return $ancestor ?: $this;
     }
 
-    #[\Override]
+    #[Override]
     public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
@@ -223,7 +224,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addDescendant(ProgramYearObjectiveInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
@@ -231,19 +232,19 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeDescendant(ProgramYearObjectiveInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
 
-    #[\Override]
+    #[Override]
     public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
-    #[\Override]
+    #[Override]
     public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();
@@ -253,7 +254,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
@@ -261,7 +262,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);

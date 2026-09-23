@@ -16,6 +16,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_sequence_block')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceBlockRepository::class)]
@@ -196,139 +197,139 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->duration = 0;
     }
 
-    #[\Override]
+    #[Override]
     public function setRequired(int $required): void
     {
         $this->required = $required;
     }
 
-    #[\Override]
+    #[Override]
     public function getRequired(): int
     {
         return $this->required;
     }
 
-    #[\Override]
+    #[Override]
     public function setChildSequenceOrder(int $childSequenceOrder): void
     {
         $this->childSequenceOrder = $childSequenceOrder;
     }
 
-    #[\Override]
+    #[Override]
     public function getChildSequenceOrder(): int
     {
         return $this->childSequenceOrder;
     }
 
-    #[\Override]
+    #[Override]
     public function setOrderInSequence(int $orderInSequence): void
     {
         $this->orderInSequence = $orderInSequence;
     }
 
-    #[\Override]
+    #[Override]
     public function getOrderInSequence(): int
     {
         return $this->orderInSequence;
     }
 
-    #[\Override]
+    #[Override]
     public function setMinimum(int $minimum): void
     {
         $this->minimum = $minimum;
     }
 
-    #[\Override]
+    #[Override]
     public function getMinimum(): int
     {
         return $this->minimum;
     }
 
-    #[\Override]
+    #[Override]
     public function setMaximum(int $maximum): void
     {
         $this->maximum = $maximum;
     }
 
-    #[\Override]
+    #[Override]
     public function getMaximum(): int
     {
         return $this->maximum;
     }
 
-    #[\Override]
+    #[Override]
     public function setTrack(bool $track): void
     {
         $this->track = $track;
     }
 
-    #[\Override]
+    #[Override]
     public function hasTrack(): bool
     {
         return $this->track;
     }
 
-    #[\Override]
+    #[Override]
     public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setDuration(int $duration): void
     {
         $this->duration = $duration;
     }
 
-    #[\Override]
+    #[Override]
     public function getDuration(): int
     {
         return $this->duration;
     }
 
-    #[\Override]
+    #[Override]
     public function setCourse(?CourseInterface $course = null): void
     {
         $this->course = $course;
     }
 
-    #[\Override]
+    #[Override]
     public function getCourse(): ?CourseInterface
     {
         return $this->course;
     }
 
-    #[\Override]
+    #[Override]
     public function setParent(?CurriculumInventorySequenceBlockInterface $parent = null): void
     {
         $this->parent = $parent;
     }
 
-    #[\Override]
+    #[Override]
     public function getParent(): ?CurriculumInventorySequenceBlockInterface
     {
         return $this->parent;
     }
 
-    #[\Override]
+    #[Override]
     public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
@@ -338,7 +339,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addChild(CurriculumInventorySequenceBlockInterface $child): void
     {
         if (!$this->children->contains($child)) {
@@ -346,31 +347,31 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeChild(CurriculumInventorySequenceBlockInterface $child): void
     {
         $this->children->removeElement($child);
     }
 
-    #[\Override]
+    #[Override]
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    #[\Override]
+    #[Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
-    #[\Override]
+    #[Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
-    #[\Override]
+    #[Override]
     public function getChildrenAsSortedList(): array
     {
         $children = $this->getChildren()->toArray();
@@ -457,7 +458,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return 0;
     }
 
-    #[\Override]
+    #[Override]
     public function setExcludedSessions(Collection $sessions): void
     {
         $this->excludedSessions = new ArrayCollection();
@@ -467,7 +468,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addExcludedSession(SessionInterface $session): void
     {
         if (!$this->excludedSessions->contains($session)) {
@@ -475,37 +476,37 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeExcludedSession(SessionInterface $session): void
     {
         $this->excludedSessions->removeElement($session);
     }
 
-    #[\Override]
+    #[Override]
     public function getExcludedSessions(): Collection
     {
         return $this->excludedSessions;
     }
 
-    #[\Override]
+    #[Override]
     public function setStartingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->startingAcademicLevel = $level;
     }
 
-    #[\Override]
+    #[Override]
     public function setEndingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->endingAcademicLevel = $level;
     }
 
-    #[\Override]
+    #[Override]
     public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->startingAcademicLevel;
     }
 
-    #[\Override]
+    #[Override]
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->endingAcademicLevel;

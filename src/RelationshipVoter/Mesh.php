@@ -15,16 +15,17 @@ use App\Entity\MeshTreeInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Override;
 
 class Mesh extends Voter
 {
-    #[\Override]
+    #[Override]
     public function supportsAttribute(string $attribute): bool
     {
         return $attribute === VoterPermissions::VIEW;
     }
 
-    #[\Override]
+    #[Override]
     public function supportsType(string $subjectType): bool
     {
         return (
@@ -37,7 +38,7 @@ class Mesh extends Voter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return (
@@ -52,7 +53,7 @@ class Mesh extends Voter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

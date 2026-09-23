@@ -15,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
+use Override;
+
 class SchoolConfigRepository extends BaseRepository
 {
     public function __construct(
@@ -24,7 +26,7 @@ class SchoolConfigRepository extends BaseRepository
         parent::__construct($registry, SchoolConfig::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(SchoolConfig::class, 'x');
@@ -71,7 +73,7 @@ class SchoolConfigRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

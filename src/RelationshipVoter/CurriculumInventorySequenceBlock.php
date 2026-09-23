@@ -10,6 +10,7 @@ use App\Entity\CurriculumInventorySequenceBlockInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class CurriculumInventorySequenceBlock extends AbstractVoter
 {
@@ -27,7 +28,7 @@ class CurriculumInventorySequenceBlock extends AbstractVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

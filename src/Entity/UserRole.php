@@ -14,6 +14,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\UserRoleRepository;
+use Override;
 
 #[ORM\Table(name: 'user_role')]
 #[ORM\Entity(repositoryClass: UserRoleRepository::class)]
@@ -54,7 +55,7 @@ class UserRole implements UserRoleInterface
         $this->users = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
@@ -63,7 +64,7 @@ class UserRole implements UserRoleInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeUser(UserInterface $user): void
     {
         if ($this->users->contains($user)) {

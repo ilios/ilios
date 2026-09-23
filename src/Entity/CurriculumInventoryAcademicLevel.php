@@ -14,6 +14,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_academic_level')]
 #[ORM\UniqueConstraint(name: 'report_id_level', columns: ['report_id', 'level'])]
@@ -82,31 +83,31 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         $this->endingSequenceBlocks = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setLevel(int $level): void
     {
         $this->level = $level;
     }
 
-    #[\Override]
+    #[Override]
     public function getLevel(): int
     {
         return $this->level;
     }
 
-    #[\Override]
+    #[Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
-    #[\Override]
+    #[Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
-    #[\Override]
+    #[Override]
     public function setStartingSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->startingSequenceBlocks = new ArrayCollection();
@@ -116,7 +117,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addStartingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
@@ -125,20 +126,20 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeStartingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
         $this->startingSequenceBlocks->removeElement($sequenceBlock);
     }
 
-    #[\Override]
+    #[Override]
     public function getStartingSequenceBlocks(): Collection
     {
         return $this->startingSequenceBlocks;
     }
 
-    #[\Override]
+    #[Override]
     public function setEndingSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->startingSequenceBlocks = new ArrayCollection();
@@ -148,7 +149,7 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addEndingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
@@ -157,14 +158,14 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeEndingSequenceBlock(
         CurriculumInventorySequenceBlockInterface $sequenceBlock
     ): void {
         $this->endingSequenceBlocks->removeElement($sequenceBlock);
     }
 
-    #[\Override]
+    #[Override]
     public function getEndingSequenceBlocks(): Collection
     {
         return $this->endingSequenceBlocks;

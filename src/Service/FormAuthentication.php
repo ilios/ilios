@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Override;
 
 class FormAuthentication implements AuthenticationInterface
 {
@@ -35,7 +36,7 @@ class FormAuthentication implements AuthenticationInterface
     /**
      * Login a user using a username and password
      */
-    #[\Override]
+    #[Override]
     public function login(Request $request): JsonResponse
     {
         $username = null;
@@ -89,7 +90,7 @@ class FormAuthentication implements AuthenticationInterface
     /**
      * Logout a user
      */
-    #[\Override]
+    #[Override]
     public function logout(Request $request): JsonResponse
     {
         return new JsonResponse([
@@ -112,7 +113,7 @@ class FormAuthentication implements AuthenticationInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
@@ -121,7 +122,7 @@ class FormAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
-    #[\Override]
+    #[Override]
     public function createAuthenticationResponse(Request $request): Response
     {
         return new Response();

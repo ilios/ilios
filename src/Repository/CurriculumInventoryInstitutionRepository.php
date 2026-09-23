@@ -15,6 +15,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_keys;
 
+use Override;
+
 class CurriculumInventoryInstitutionRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use ImportableEntityRepository;
@@ -26,7 +28,7 @@ class CurriculumInventoryInstitutionRepository extends BaseRepository implements
         parent::__construct($registry, CurriculumInventoryInstitution::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -65,7 +67,7 @@ class CurriculumInventoryInstitutionRepository extends BaseRepository implements
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -76,7 +78,7 @@ class CurriculumInventoryInstitutionRepository extends BaseRepository implements
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `school_id`,`name`,`aamc_code`,`address_street`,`address_city`,

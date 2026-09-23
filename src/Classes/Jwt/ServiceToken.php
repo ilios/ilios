@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Classes\Jwt;
 
 use DateTimeImmutable;
+use Override;
 
 /**
  * An immutable object representation of a decoded JWT service token.
@@ -28,7 +29,7 @@ readonly class ServiceToken extends Token
         );
     }
 
-    #[\Override]
+    #[Override]
     public function toArray(): array
     {
         return array_merge(

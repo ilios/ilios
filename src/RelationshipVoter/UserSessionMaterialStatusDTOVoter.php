@@ -10,6 +10,7 @@ use App\Entity\DTO\UserSessionMaterialStatusDTO;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class UserSessionMaterialStatusDTOVoter extends AbstractVoter
 {
@@ -24,7 +25,7 @@ class UserSessionMaterialStatusDTOVoter extends AbstractVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

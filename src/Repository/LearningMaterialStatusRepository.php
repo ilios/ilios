@@ -11,6 +11,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearningMaterialStatus;
 use App\Entity\DTO\LearningMaterialStatusDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 class LearningMaterialStatusRepository extends BaseRepository implements DataImportRepositoryInterface
 {
@@ -23,7 +24,7 @@ class LearningMaterialStatusRepository extends BaseRepository implements DataImp
         parent::__construct($registry, LearningMaterialStatus::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -43,7 +44,7 @@ class LearningMaterialStatusRepository extends BaseRepository implements DataImp
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -54,7 +55,7 @@ class LearningMaterialStatusRepository extends BaseRepository implements DataImp
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `learning_material_status_id`,`title`

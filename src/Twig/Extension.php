@@ -6,10 +6,11 @@ namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Override;
 
 class Extension extends AbstractExtension
 {
-    #[\Override]
+    #[Override]
     public function getFilters(): array
     {
         return [

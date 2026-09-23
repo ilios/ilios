@@ -11,6 +11,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\UserRole;
 use App\Entity\DTO\UserRoleDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 class UserRoleRepository extends BaseRepository implements DataImportRepositoryInterface
 {
@@ -23,7 +24,7 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
         parent::__construct($registry, UserRole::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -43,7 +44,7 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -70,7 +71,7 @@ class UserRoleRepository extends BaseRepository implements DataImportRepositoryI
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `user_role_id`,`title`

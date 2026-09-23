@@ -19,6 +19,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
+use Override;
 
 #[ORM\Table(name: 'offering')]
 #[ORM\Index(columns: ['session_id'], name: 'session_id_k')]
@@ -138,79 +139,79 @@ class Offering implements OfferingInterface
         $this->instructors = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setRoom(?string $room): void
     {
         $this->room = $room;
     }
 
-    #[\Override]
+    #[Override]
     public function getRoom(): ?string
     {
         return $this->room;
     }
 
-    #[\Override]
+    #[Override]
     public function setSite(?string $site): void
     {
         $this->site = $site;
     }
 
-    #[\Override]
+    #[Override]
     public function getSite(): ?string
     {
         return $this->site;
     }
 
-    #[\Override]
+    #[Override]
     public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
-    #[\Override]
+    #[Override]
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    #[\Override]
+    #[Override]
     public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
-    #[\Override]
+    #[Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
-    #[\Override]
+    #[Override]
     public function getAllInstructors(): Collection
     {
         $instructors = $this->getInstructors()->toArray();
@@ -221,7 +222,7 @@ class Offering implements OfferingInterface
         return new ArrayCollection($instructors);
     }
 
-    #[\Override]
+    #[Override]
     public function getAlertProperties(): array
     {
         $instructorIds = $this->getInstructors()->map(fn(UserInterface $entity) => $entity->getId())->toArray();
@@ -255,7 +256,7 @@ class Offering implements OfferingInterface
         ];
     }
 
-    #[\Override]
+    #[Override]
     public function getSchool(): SchoolInterface
     {
         return $this->session->getSchool();

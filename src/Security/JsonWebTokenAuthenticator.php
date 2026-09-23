@@ -24,6 +24,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
+use Override;
 
 class JsonWebTokenAuthenticator extends AbstractAuthenticator
 {
@@ -35,7 +36,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     ) {
     }
 
-    #[\Override]
+    #[Override]
     public function supports(Request $request): ?bool
     {
         if (!$request->headers->has('X-JWT-Authorization')) {
@@ -46,7 +47,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         return (bool) preg_match('/^Token \S+$/', $authorizationHeader);
     }
 
-    #[\Override]
+    #[Override]
     public function authenticate(Request $request): Passport
     {
         $authorizationHeader = $request->headers->get('X-JWT-Authorization');
@@ -69,20 +70,20 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
         }
     }
 
-    #[\Override]
+    #[Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new Response("Authentication Failed. " . $exception->getMessage(), 401);
     }
 
-    #[\Override]
+    #[Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // do nothing - continue with an authenticated user
         return null;
     }
 
-    #[\Override]
+    #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         $securityToken = parent::createToken($passport, $firewallName);

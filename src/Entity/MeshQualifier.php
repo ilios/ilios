@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use App\Traits\NameableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshQualifierRepository;
+use Override;
 
 #[ORM\Table(name: 'mesh_qualifier')]
 #[ORM\Entity(repositoryClass: MeshQualifierRepository::class)]
@@ -70,7 +71,7 @@ class MeshQualifier implements MeshQualifierInterface
         $this->descriptors = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setDescriptors(Collection $descriptors): void
     {
         $this->descriptors = new ArrayCollection();
@@ -80,7 +81,7 @@ class MeshQualifier implements MeshQualifierInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addDescriptor(MeshDescriptorInterface $descriptor): void
     {
         if (!$this->descriptors->contains($descriptor)) {
@@ -88,13 +89,13 @@ class MeshQualifier implements MeshQualifierInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptors->removeElement($descriptor);
     }
 
-    #[\Override]
+    #[Override]
     public function getDescriptors(): Collection
     {
         return $this->descriptors;

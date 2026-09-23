@@ -7,6 +7,7 @@ namespace App\ServiceTokenVoter;
 use App\Classes\Jwt\ServiceToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Override;
 
 abstract class AbstractReadWriteEntityVoter extends Voter
 {
@@ -16,19 +17,19 @@ abstract class AbstractReadWriteEntityVoter extends Voter
     ) {
     }
 
-    #[\Override]
+    #[Override]
     public function supportsType(string $subjectType): bool
     {
         return is_a($subjectType, $this->supportedType, true);
     }
 
-    #[\Override]
+    #[Override]
     public function supportsAttribute(string $attribute): bool
     {
         return in_array($attribute, $this->supportedAttributes);
     }
 
-    #[\Override]
+    #[Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return $subject instanceof $this->supportedType && $this->supportsAttribute($attribute);

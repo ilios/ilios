@@ -18,6 +18,8 @@ use App\Repository\LearningMaterialRepository;
 
 use function array_unique;
 
+use Override;
+
 /**
  * Learning materials are not serialized like other entities.  They are decorated by the controller and
  * then sent as plain php objects in order to insert the absolute path to the file
@@ -186,25 +188,25 @@ class LearningMaterial implements LearningMaterialInterface
         $this->courseLearningMaterials = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setOriginalAuthor(?string $originalAuthor): void
     {
         $this->originalAuthor = $originalAuthor;
     }
 
-    #[\Override]
+    #[Override]
     public function getOriginalAuthor(): ?string
     {
         return $this->originalAuthor;
     }
 
-    #[\Override]
+    #[Override]
     public function getToken(): string
     {
         return $this->token;
     }
 
-    #[\Override]
+    #[Override]
     public function generateToken(): void
     {
         $random = random_bytes(128);
@@ -217,49 +219,49 @@ class LearningMaterial implements LearningMaterialInterface
         $this->token = hash('sha256', $key);
     }
 
-    #[\Override]
+    #[Override]
     public function setStatus(LearningMaterialStatusInterface $status): void
     {
         $this->status = $status;
     }
 
-    #[\Override]
+    #[Override]
     public function getStatus(): LearningMaterialStatusInterface
     {
         return $this->status;
     }
 
-    #[\Override]
+    #[Override]
     public function setOwningUser(UserInterface $user): void
     {
         $this->owningUser = $user;
     }
 
-    #[\Override]
+    #[Override]
     public function getOwningUser(): UserInterface
     {
         return $this->owningUser;
     }
 
-    #[\Override]
+    #[Override]
     public function setUserRole(LearningMaterialUserRoleInterface $userRole): void
     {
         $this->userRole = $userRole;
     }
 
-    #[\Override]
+    #[Override]
     public function getUserRole(): LearningMaterialUserRoleInterface
     {
         return $this->userRole;
     }
 
-    #[\Override]
+    #[Override]
     public function getUploadDate(): DateTime
     {
         return $this->uploadDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setCitation(?string $citation): void
     {
         if (!is_null($citation)) {
@@ -268,97 +270,97 @@ class LearningMaterial implements LearningMaterialInterface
         $this->citation = $citation;
     }
 
-    #[\Override]
+    #[Override]
     public function getCitation(): ?string
     {
         return $this->citation;
     }
 
-    #[\Override]
+    #[Override]
     public function setRelativePath(?string $path): void
     {
         $this->relativePath = $path;
     }
 
-    #[\Override]
+    #[Override]
     public function getRelativePath(): ?string
     {
         return $this->relativePath;
     }
 
-    #[\Override]
+    #[Override]
     public function setCopyrightPermission(?bool $copyrightPermission): void
     {
         $this->copyrightPermission = $copyrightPermission;
     }
 
-    #[\Override]
+    #[Override]
     public function hasCopyrightPermission(): ?bool
     {
         return $this->copyrightPermission;
     }
 
-    #[\Override]
+    #[Override]
     public function setCopyrightRationale(?string $copyrightRationale): void
     {
         $this->copyrightRationale = $copyrightRationale;
     }
 
-    #[\Override]
+    #[Override]
     public function getCopyrightRationale(): ?string
     {
         return $this->copyrightRationale;
     }
 
-    #[\Override]
+    #[Override]
     public function setMarkedAccessible(bool $markedAccessible): void
     {
         $this->markedAccessible = $markedAccessible;
     }
 
-    #[\Override]
+    #[Override]
     public function isMarkedAccessible(): bool
     {
         return $this->markedAccessible;
     }
 
-    #[\Override]
+    #[Override]
     public function setFilename(?string $filename): void
     {
         $this->filename = $filename;
     }
 
-    #[\Override]
+    #[Override]
     public function getFilename(): ?string
     {
         return $this->filename;
     }
 
-    #[\Override]
+    #[Override]
     public function setFilesize(?int $filesize): void
     {
         $this->filesize = $filesize;
     }
 
-    #[\Override]
+    #[Override]
     public function getFilesize(): ?int
     {
         return $this->filesize;
     }
 
-    #[\Override]
+    #[Override]
     public function setMimetype(?string $mimetype): void
     {
         $this->mimetype = $mimetype;
     }
 
-    #[\Override]
+    #[Override]
     public function getMimetype(): ?string
     {
         return $this->mimetype;
     }
 
-    #[\Override]
+    #[Override]
     public function setLink(?string $link): void
     {
         if (!is_null($link)) {
@@ -367,13 +369,13 @@ class LearningMaterial implements LearningMaterialInterface
         $this->link = $link;
     }
 
-    #[\Override]
+    #[Override]
     public function getLink(): ?string
     {
         return $this->link;
     }
 
-    #[\Override]
+    #[Override]
     public function setCourseLearningMaterials(?Collection $courseLearningMaterials = null): void
     {
         $this->courseLearningMaterials = new ArrayCollection();
@@ -386,7 +388,7 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         if (!$this->courseLearningMaterials->contains($courseLearningMaterial)) {
@@ -394,19 +396,19 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeCourseLearningMaterial(CourseLearningMaterialInterface $courseLearningMaterial): void
     {
         $this->courseLearningMaterials->removeElement($courseLearningMaterial);
     }
 
-    #[\Override]
+    #[Override]
     public function getCourseLearningMaterials(): Collection
     {
         return $this->courseLearningMaterials;
     }
 
-    #[\Override]
+    #[Override]
     public function setSessionLearningMaterials(?Collection $sessionLearningMaterials = null): void
     {
         $this->sessionLearningMaterials = new ArrayCollection();
@@ -419,7 +421,7 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         if (!$this->sessionLearningMaterials->contains($sessionLearningMaterial)) {
@@ -427,25 +429,25 @@ class LearningMaterial implements LearningMaterialInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeSessionLearningMaterial(SessionLearningMaterialInterface $sessionLearningMaterial): void
     {
         $this->sessionLearningMaterials->removeElement($sessionLearningMaterial);
     }
 
-    #[\Override]
+    #[Override]
     public function getSessionLearningMaterials(): Collection
     {
         return $this->sessionLearningMaterials;
     }
 
-    #[\Override]
+    #[Override]
     public function getOwningSchool(): SchoolInterface
     {
         return $this->owningUser->getSchool();
     }
 
-    #[\Override]
+    #[Override]
     public function getSessions(): Collection
     {
         $sessions = [];
@@ -456,7 +458,7 @@ class LearningMaterial implements LearningMaterialInterface
         return new ArrayCollection(array_unique($sessions));
     }
 
-    #[\Override]
+    #[Override]
     public function getValidationGroups(): array
     {
         if ($this->getCitation() !== null && strlen(trim($this->getCitation())) > 0) {
@@ -468,7 +470,7 @@ class LearningMaterial implements LearningMaterialInterface
         return ['Default', 'file'];
     }
 
-    #[\Override]
+    #[Override]
     public function getIndexableCourses(): array
     {
         $directCourses = $this->courseLearningMaterials

@@ -13,6 +13,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function array_values;
 
+use Override;
+
 class AlertRepository extends BaseRepository
 {
     public function __construct(
@@ -22,7 +24,7 @@ class AlertRepository extends BaseRepository
         parent::__construct($registry, Alert::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Alert::class, 'x');
@@ -52,7 +54,7 @@ class AlertRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

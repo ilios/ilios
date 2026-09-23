@@ -17,6 +17,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshTermRepository;
+use Override;
 
 #[ORM\Table(name: 'mesh_term')]
 #[ORM\UniqueConstraint(name: 'mesh_term_uid_name', columns: ['mesh_term_uid', 'name'])]
@@ -109,61 +110,61 @@ class MeshTerm implements MeshTermInterface
         $this->concepts = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setMeshTermUid(string $meshTermUid): void
     {
         $this->meshTermUid = $meshTermUid;
     }
 
-    #[\Override]
+    #[Override]
     public function getMeshTermUid(): string
     {
         return $this->meshTermUid;
     }
 
-    #[\Override]
+    #[Override]
     public function setLexicalTag(?string $lexicalTag): void
     {
         $this->lexicalTag = $lexicalTag;
     }
 
-    #[\Override]
+    #[Override]
     public function getLexicalTag(): ?string
     {
         return $this->lexicalTag;
     }
 
-    #[\Override]
+    #[Override]
     public function setConceptPreferred(?bool $conceptPreferred): void
     {
         $this->conceptPreferred = $conceptPreferred;
     }
 
-    #[\Override]
+    #[Override]
     public function isConceptPreferred(): ?bool
     {
         return $this->conceptPreferred;
     }
 
-    #[\Override]
+    #[Override]
     public function setRecordPreferred(?bool $recordPreferred): void
     {
         $this->recordPreferred = $recordPreferred;
     }
 
-    #[\Override]
+    #[Override]
     public function isRecordPreferred(): ?bool
     {
         return $this->recordPreferred;
     }
 
-    #[\Override]
+    #[Override]
     public function setPermuted(?bool $permuted): void
     {
         $this->permuted = $permuted;
     }
 
-    #[\Override]
+    #[Override]
     public function isPermuted(): ?bool
     {
         return $this->permuted;

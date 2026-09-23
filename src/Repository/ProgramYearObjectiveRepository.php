@@ -16,6 +16,8 @@ use Doctrine\ORM\AbstractQuery;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class ProgramYearObjectiveRepository extends BaseRepository
 {
     public function __construct(
@@ -25,7 +27,7 @@ class ProgramYearObjectiveRepository extends BaseRepository
         parent::__construct($registry, ProgramYearObjective::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -86,7 +88,7 @@ class ProgramYearObjectiveRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

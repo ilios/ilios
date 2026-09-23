@@ -14,6 +14,7 @@ use App\Traits\TitledEntity;
 use App\Attributes as IA;
 use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Override;
 
 #[ORM\Entity(repositoryClass: AamcResourceTypeRepository::class)]
 #[ORM\Table(name: 'aamc_resource_type')]
@@ -62,7 +63,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         $this->terms = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function addTerm(TermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
@@ -71,7 +72,7 @@ class AamcResourceType implements AamcResourceTypeInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeTerm(TermInterface $term): void
     {
         if ($this->terms->contains($term)) {

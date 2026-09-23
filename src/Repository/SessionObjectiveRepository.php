@@ -16,6 +16,8 @@ use Doctrine\ORM\AbstractQuery;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class SessionObjectiveRepository extends BaseRepository
 {
     public function __construct(
@@ -25,7 +27,7 @@ class SessionObjectiveRepository extends BaseRepository
         parent::__construct($registry, SessionObjective::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -88,7 +90,7 @@ class SessionObjectiveRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

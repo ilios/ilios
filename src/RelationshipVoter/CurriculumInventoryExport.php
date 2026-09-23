@@ -10,6 +10,7 @@ use App\Entity\CurriculumInventoryExportInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class CurriculumInventoryExport extends AbstractVoter
 {
@@ -25,7 +26,7 @@ class CurriculumInventoryExport extends AbstractVoter
         );
     }
 
-    #[\Override]
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

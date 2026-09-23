@@ -10,6 +10,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 class DeprecatedConfigurationOption implements CheckInterface
 {
@@ -28,7 +29,7 @@ class DeprecatedConfigurationOption implements CheckInterface
     private const string INSTRUCTIONS_URL = 'https://github.com/ilios/ilios/blob/master/docs/env_vars_and_config.md';
     private const string UPDATE_URL = 'https://github.com/ilios/ilios/blob/master/docs/update.md';
 
-    #[\Override]
+    #[Override]
     public function check(): ResultInterface
     {
         $deprecatedOptions = [];
@@ -63,7 +64,7 @@ class DeprecatedConfigurationOption implements CheckInterface
         return implode("\n", $warnings) . "\n";
     }
 
-    #[\Override]
+    #[Override]
     public function getLabel(): string
     {
         return 'Configuration Options';

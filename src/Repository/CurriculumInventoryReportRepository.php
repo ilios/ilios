@@ -20,6 +20,8 @@ use App\Entity\CurriculumInventoryReportInterface;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class CurriculumInventoryReportRepository extends BaseRepository
 {
     public function __construct(
@@ -29,7 +31,7 @@ class CurriculumInventoryReportRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventoryReport::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -85,7 +87,7 @@ class CurriculumInventoryReportRepository extends BaseRepository
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

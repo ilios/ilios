@@ -17,6 +17,8 @@ use Exception;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class SessionTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use ImportableEntityRepository;
@@ -28,7 +30,7 @@ class SessionTypeRepository extends BaseRepository implements DataImportReposito
         parent::__construct($registry, SessionType::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
@@ -75,7 +77,7 @@ class SessionTypeRepository extends BaseRepository implements DataImportReposito
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -244,7 +246,7 @@ class SessionTypeRepository extends BaseRepository implements DataImportReposito
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         return match ($type) {

@@ -11,6 +11,7 @@ use App\Traits\AuthenticationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Override;
 
 class LdapAuthentication implements AuthenticationInterface
 {
@@ -38,7 +39,7 @@ class LdapAuthentication implements AuthenticationInterface
      * Login a user using a username and password
      * to bind against an LDAP server
      */
-    #[\Override]
+    #[Override]
     public function login(Request $request): JsonResponse
     {
         $username = null;
@@ -91,7 +92,7 @@ class LdapAuthentication implements AuthenticationInterface
     /**
      * Logout a user
      */
-    #[\Override]
+    #[Override]
     public function logout(Request $request): JsonResponse
     {
         return new JsonResponse([
@@ -116,7 +117,7 @@ class LdapAuthentication implements AuthenticationInterface
         return false;
     }
 
-    #[\Override]
+    #[Override]
     public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
@@ -125,7 +126,7 @@ class LdapAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
-    #[\Override]
+    #[Override]
     public function createAuthenticationResponse(Request $request): Response
     {
         return new Response();

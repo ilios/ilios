@@ -20,6 +20,8 @@ use function preg_match;
 use function substr;
 use function strpos;
 
+use Override;
+
 class DateTimeType extends CustomScalarType
 {
     private const string NAME           = 'DateTime';
@@ -49,7 +51,7 @@ class DateTimeType extends CustomScalarType
         return self::$instance;
     }
 
-    #[\Override]
+    #[Override]
     public function serialize(mixed $value): string
     {
         if (! $value instanceof DateTimeInterface) {
@@ -61,7 +63,7 @@ class DateTimeType extends CustomScalarType
         return $value->format(DateTimeInterface::ATOM);
     }
 
-    #[\Override]
+    #[Override]
     public function parseValue(mixed $value): DateTimeImmutable
     {
         if (! is_string($value)) {
@@ -78,7 +80,7 @@ class DateTimeType extends CustomScalarType
         return new DateTimeImmutable($value);
     }
 
-    #[\Override]
+    #[Override]
     public function parseLiteral(Node $valueNode, ?array $variables = null): ?DateTimeImmutable
     {
         if (! $valueNode instanceof StringValueNode) {

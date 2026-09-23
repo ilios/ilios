@@ -10,6 +10,7 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Override;
 
 #[ORM\Table(name: 'authentication')]
 #[ORM\Entity(repositoryClass: AuthenticationRepository::class)]
@@ -43,55 +44,55 @@ class Authentication implements AuthenticationInterface
     #[Assert\Type(DateTimeInterface::class)]
     protected ?DateTime $invalidateTokenIssuedBefore = null;
 
-    #[\Override]
+    #[Override]
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    #[\Override]
+    #[Override]
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    #[\Override]
+    #[Override]
     public function setPasswordHash(string $passwordHash): void
     {
         $this->passwordHash = $passwordHash;
     }
 
-    #[\Override]
+    #[Override]
     public function getPasswordHash(): ?string
     {
         return $this->passwordHash;
     }
 
-    #[\Override]
+    #[Override]
     public function getPassword(): ?string
     {
         return $this->getPasswordHash();
     }
 
-    #[\Override]
+    #[Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
-    #[\Override]
+    #[Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
-    #[\Override]
+    #[Override]
     public function setInvalidateTokenIssuedBefore(?DateTime $invalidateTokenIssuedBefore = null): void
     {
         $this->invalidateTokenIssuedBefore = $invalidateTokenIssuedBefore;
     }
 
-    #[\Override]
+    #[Override]
     public function getInvalidateTokenIssuedBefore(): ?DateTime
     {
         return $this->invalidateTokenIssuedBefore;

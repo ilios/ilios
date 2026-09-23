@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshConceptRepository;
+use Override;
 
 #[ORM\Table(name: 'mesh_concept')]
 #[ORM\Entity(repositoryClass: MeshConceptRepository::class)]
@@ -99,43 +100,43 @@ class MeshConcept implements MeshConceptInterface
         $this->descriptors = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setPreferred(bool $preferred): void
     {
         $this->preferred = $preferred;
     }
 
-    #[\Override]
+    #[Override]
     public function getPreferred(): bool
     {
         return $this->preferred;
     }
 
-    #[\Override]
+    #[Override]
     public function setScopeNote(?string $scopeNote): void
     {
         $this->scopeNote = $scopeNote;
     }
 
-    #[\Override]
+    #[Override]
     public function getScopeNote(): ?string
     {
         return $this->scopeNote;
     }
 
-    #[\Override]
+    #[Override]
     public function setCasn1Name(?string $casn1Name): void
     {
         $this->casn1Name = $casn1Name;
     }
 
-    #[\Override]
+    #[Override]
     public function getCasn1Name(): ?string
     {
         return $this->casn1Name;
     }
 
-    #[\Override]
+    #[Override]
     public function setTerms(Collection $terms): void
     {
         $this->terms = new ArrayCollection();
@@ -145,7 +146,7 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addTerm(MeshTermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
@@ -154,7 +155,7 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeTerm(MeshTermInterface $term): void
     {
         if ($this->terms->contains($term)) {
@@ -163,13 +164,13 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function getTerms(): Collection
     {
         return $this->terms;
     }
 
-    #[\Override]
+    #[Override]
     public function setDescriptors(Collection $descriptors): void
     {
         $this->descriptors = new ArrayCollection();
@@ -179,7 +180,7 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addDescriptor(MeshDescriptorInterface $descriptor): void
     {
         if (!$this->descriptors->contains($descriptor)) {
@@ -187,13 +188,13 @@ class MeshConcept implements MeshConceptInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptors->removeElement($descriptor);
     }
 
-    #[\Override]
+    #[Override]
     public function getDescriptors(): Collection
     {
         return $this->descriptors;

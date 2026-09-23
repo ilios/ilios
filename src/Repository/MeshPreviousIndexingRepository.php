@@ -15,6 +15,8 @@ use function array_values;
 use function array_key_exists;
 use function array_keys;
 
+use Override;
+
 class MeshPreviousIndexingRepository extends BaseRepository
 {
     public function __construct(
@@ -24,7 +26,7 @@ class MeshPreviousIndexingRepository extends BaseRepository
         parent::__construct($registry, MeshPreviousIndexing::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -57,7 +59,7 @@ class MeshPreviousIndexingRepository extends BaseRepository
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

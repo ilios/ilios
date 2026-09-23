@@ -18,6 +18,7 @@ use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Repository\ProgramYearRepository;
+use Override;
 
 #[ORM\Table(name: 'program_year')]
 #[ORM\Entity(repositoryClass: ProgramYearRepository::class)]
@@ -118,43 +119,43 @@ class ProgramYear implements ProgramYearInterface
         $this->programYearObjectives = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setStartYear(int $startYear): void
     {
         $this->startYear = $startYear;
     }
 
-    #[\Override]
+    #[Override]
     public function getStartYear(): int
     {
         return $this->startYear;
     }
 
-    #[\Override]
+    #[Override]
     public function setProgram(ProgramInterface $program): void
     {
         $this->program = $program;
     }
 
-    #[\Override]
+    #[Override]
     public function getProgram(): ProgramInterface
     {
         return $this->program;
     }
 
-    #[\Override]
+    #[Override]
     public function setCohort(CohortInterface $cohort): void
     {
         $this->cohort = $cohort;
     }
 
-    #[\Override]
+    #[Override]
     public function getCohort(): ?CohortInterface
     {
         return $this->cohort;
     }
 
-    #[\Override]
+    #[Override]
     public function getSchool(): SchoolInterface
     {
         return $this->program->getSchool();

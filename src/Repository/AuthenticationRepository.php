@@ -16,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
 
 use function is_array;
 
+use Override;
+
 class AuthenticationRepository extends BaseRepository
 {
     public function __construct(
@@ -50,7 +52,7 @@ class AuthenticationRepository extends BaseRepository
     /**
      * Special case for Authentication since the ID is the user
      */
-    #[\Override]
+    #[Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -85,7 +87,7 @@ class AuthenticationRepository extends BaseRepository
         return array_map(fn(array $arr) => $arr['username'], $qb->getQuery()->getScalarResult());
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -107,7 +109,7 @@ class AuthenticationRepository extends BaseRepository
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

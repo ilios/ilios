@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Override;
 
 class RedirectInsecureConnections implements EventSubscriberInterface
 {
@@ -19,7 +20,7 @@ class RedirectInsecureConnections implements EventSubscriberInterface
         $this->requireSecureConnection = $config->get('requireSecureConnection');
     }
 
-    #[\Override]
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         // return the subscribed events, their methods and priorities

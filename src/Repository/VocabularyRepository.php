@@ -16,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class VocabularyRepository extends BaseRepository implements DataImportRepositoryInterface
 {
     use ImportableEntityRepository;
@@ -27,7 +29,7 @@ class VocabularyRepository extends BaseRepository implements DataImportRepositor
         parent::__construct($registry, Vocabulary::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -69,7 +71,7 @@ class VocabularyRepository extends BaseRepository implements DataImportRepositor
     }
 
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -96,7 +98,7 @@ class VocabularyRepository extends BaseRepository implements DataImportRepositor
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
-    #[\Override]
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `vocabulary_id`,`title`,`school_id`, `active`

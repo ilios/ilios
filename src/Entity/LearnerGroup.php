@@ -19,6 +19,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
 use App\Repository\LearnerGroupRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Override;
 
 #[ORM\Table(name: '`group`')]
 #[ORM\Entity(repositoryClass: LearnerGroupRepository::class)]
@@ -159,31 +160,31 @@ class LearnerGroup implements LearnerGroupInterface
         $this->needsAccommodation = false;
     }
 
-    #[\Override]
+    #[Override]
     public function setLocation(?string $location): void
     {
         $this->location = $location;
     }
 
-    #[\Override]
+    #[Override]
     public function getLocation(): ?string
     {
         return $this->location;
     }
 
-    #[\Override]
+    #[Override]
     public function setCohort(CohortInterface $cohort): void
     {
         $this->cohort = $cohort;
     }
 
-    #[\Override]
+    #[Override]
     public function getCohort(): CohortInterface
     {
         return $this->cohort;
     }
 
-    #[\Override]
+    #[Override]
     public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
@@ -192,7 +193,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeIlmSession(IlmSessionInterface $ilmSession): void
     {
         if ($this->ilmSessions->contains($ilmSession)) {
@@ -201,25 +202,25 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function setParent(?LearnerGroupInterface $parent = null): void
     {
         $this->parent = $parent;
     }
 
-    #[\Override]
+    #[Override]
     public function getParent(): ?LearnerGroupInterface
     {
         return $this->parent;
     }
 
-    #[\Override]
+    #[Override]
     public function setAncestor(?LearnerGroupInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestor(): ?LearnerGroupInterface
     {
         return $this->ancestor;
@@ -228,7 +229,7 @@ class LearnerGroup implements LearnerGroupInterface
     /**
      * If the group has no ancestor then we need the material itself
      */
-    #[\Override]
+    #[Override]
     public function getAncestorOrSelf(): LearnerGroupInterface
     {
         $ancestor = $this->getAncestor();
@@ -236,7 +237,7 @@ class LearnerGroup implements LearnerGroupInterface
         return $ancestor ?: $this;
     }
 
-    #[\Override]
+    #[Override]
     public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
@@ -246,7 +247,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addDescendant(LearnerGroupInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
@@ -255,19 +256,19 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeDescendant(LearnerGroupInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
 
-    #[\Override]
+    #[Override]
     public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
-    #[\Override]
+    #[Override]
     public function setChildren(?Collection $children = null): void
     {
         $this->children = new ArrayCollection();
@@ -280,7 +281,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addChild(LearnerGroupInterface $child): void
     {
         if (!$this->children->contains($child)) {
@@ -288,19 +289,19 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeChild(LearnerGroupInterface $child): void
     {
         $this->children->removeElement($child);
     }
 
-    #[\Override]
+    #[Override]
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
-    #[\Override]
+    #[Override]
     public function addOffering(OfferingInterface $offering): void
     {
         if (!$this->offerings->contains($offering)) {
@@ -309,7 +310,7 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeOffering(OfferingInterface $offering): void
     {
         if ($this->offerings->contains($offering)) {
@@ -318,43 +319,43 @@ class LearnerGroup implements LearnerGroupInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function getSchool(): ?SchoolInterface
     {
         return $this->cohort->getSchool();
     }
 
-    #[\Override]
+    #[Override]
     public function getProgram(): ?ProgramInterface
     {
         return $this->cohort->getProgram();
     }
 
-    #[\Override]
+    #[Override]
     public function getProgramYear(): ?ProgramYearInterface
     {
         return $this->getCohort()->getProgramYear();
     }
 
-    #[\Override]
+    #[Override]
     public function setNeedsAccommodation(bool $needsAccommodation): void
     {
         $this->needsAccommodation = $needsAccommodation;
     }
 
-    #[\Override]
+    #[Override]
     public function getNeedsAccommodation(): bool
     {
         return $this->needsAccommodation;
     }
 
-    #[\Override]
+    #[Override]
     public function setUrl(?string $url): void
     {
         $this->url = $url;
     }
 
-    #[\Override]
+    #[Override]
     public function getUrl(): ?string
     {
         return $this->url;

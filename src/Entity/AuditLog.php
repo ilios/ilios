@@ -10,6 +10,7 @@ use DateTime;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\AuditLogRepository;
+use Override;
 
 #[ORM\Table(name: 'audit_log')]
 #[ORM\Entity(repositoryClass: AuditLogRepository::class)]
@@ -64,25 +65,25 @@ class AuditLog implements AuditLogInterface
         $this->createdAt = new DateTime();
     }
 
-    #[\Override]
+    #[Override]
     public function setAction(string $action): void
     {
         $this->action = $action;
     }
 
-    #[\Override]
+    #[Override]
     public function getAction(): string
     {
         return $this->action;
     }
 
-    #[\Override]
+    #[Override]
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
 
-    #[\Override]
+    #[Override]
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
@@ -92,25 +93,25 @@ class AuditLog implements AuditLogInterface
      * object ID sometimes comes as an int,
      * so we need to cast it back to a string for storage
      */
-    #[\Override]
+    #[Override]
     public function setObjectId(mixed $objectId): void
     {
         $this->objectId = (string) $objectId;
     }
 
-    #[\Override]
+    #[Override]
     public function getObjectId(): string
     {
         return $this->objectId;
     }
 
-    #[\Override]
+    #[Override]
     public function setObjectClass(string $objectClass): void
     {
         $this->objectClass = $objectClass;
     }
 
-    #[\Override]
+    #[Override]
     public function getObjectClass(): string
     {
         return $this->objectClass;
@@ -126,25 +127,25 @@ class AuditLog implements AuditLogInterface
         return $this->valuesChanged;
     }
 
-    #[\Override]
+    #[Override]
     public function setUser(?UserInterface $user): void
     {
         $this->user = $user;
     }
 
-    #[\Override]
+    #[Override]
     public function getUser(): ?UserInterface
     {
         return $this->user;
     }
 
-    #[\Override]
+    #[Override]
     public function setServiceToken(?ServiceTokenInterface $serviceToken): void
     {
         $this->serviceToken = $serviceToken;
     }
 
-    #[\Override]
+    #[Override]
     public function getServiceToken(): ?ServiceTokenInterface
     {
         return $this->serviceToken;

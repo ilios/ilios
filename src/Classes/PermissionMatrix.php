@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Classes;
 
+use Override;
+
 /**
  * Class PermissionMatrix
  * @package App\Classes
@@ -12,7 +14,7 @@ class PermissionMatrix implements PermissionMatrixInterface
 {
     protected array $matrix = [];
 
-    #[\Override]
+    #[Override]
     public function hasPermission(int $schoolId, string $capability, array $roles): bool
     {
         if (!array_key_exists($schoolId, $this->matrix)) {
@@ -34,7 +36,7 @@ class PermissionMatrix implements PermissionMatrixInterface
         return $hasPermission;
     }
 
-    #[\Override]
+    #[Override]
     public function setPermission(int $schoolId, string $capability, array $roles): void
     {
         if (!array_key_exists($schoolId, $this->matrix)) {
@@ -43,7 +45,7 @@ class PermissionMatrix implements PermissionMatrixInterface
         $this->matrix[$schoolId][$capability] = $roles;
     }
 
-    #[\Override]
+    #[Override]
     public function getPermittedRoles(int $schoolId, string $capability): array
     {
         if (!array_key_exists($schoolId, $this->matrix)) {

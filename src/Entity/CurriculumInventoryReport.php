@@ -16,6 +16,7 @@ use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_report')]
 #[ORM\Index(columns: ['program_id'], name: 'IDX_6E31899E3EB8070A')]
@@ -121,90 +122,90 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->administrators = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setName(?string $name): void
     {
         $this->name = $name;
     }
-    #[\Override]
+    #[Override]
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    #[\Override]
+    #[Override]
     public function setYear(int $year): void
     {
         $this->year = $year;
     }
 
-    #[\Override]
+    #[Override]
     public function getYear(): int
     {
         return $this->year;
     }
 
-    #[\Override]
+    #[Override]
     public function setStartDate(DateTime $startDate): void
     {
         $this->startDate = $startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setEndDate(DateTime $endDate): void
     {
         $this->endDate = $endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setExport(?CurriculumInventoryExportInterface $export = null): void
     {
         $this->export = $export;
     }
 
-    #[\Override]
+    #[Override]
     public function getExport(): ?CurriculumInventoryExportInterface
     {
         return $this->export;
     }
 
-    #[\Override]
+    #[Override]
     public function setSequence(?CurriculumInventorySequenceInterface $sequence = null): void
     {
         $this->sequence = $sequence;
     }
 
-    #[\Override]
+    #[Override]
     public function getSequence(): ?CurriculumInventorySequenceInterface
     {
         return $this->sequence;
     }
 
-    #[\Override]
+    #[Override]
     public function setProgram(?ProgramInterface $program = null): void
     {
         $this->program = $program;
     }
 
-    #[\Override]
+    #[Override]
     public function getProgram(): ?ProgramInterface
     {
         return $this->program;
     }
 
-    #[\Override]
+    #[Override]
     public function setAcademicLevels(?Collection $academicLevels = null): void
     {
         $this->academicLevels = new ArrayCollection();
@@ -216,7 +217,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel): void
     {
         if (!$this->academicLevels->contains($academicLevel)) {
@@ -224,19 +225,19 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeAcademicLevel(CurriculumInventoryAcademicLevelInterface $academicLevel): void
     {
         $this->academicLevels->removeElement($academicLevel);
     }
 
-    #[\Override]
+    #[Override]
     public function getAcademicLevels(): Collection
     {
         return $this->academicLevels;
     }
 
-    #[\Override]
+    #[Override]
     public function getSchool(): ?SchoolInterface
     {
         if ($program = $this->getProgram()) {
@@ -245,13 +246,13 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         return null;
     }
 
-    #[\Override]
+    #[Override]
     public function getToken(): string
     {
         return $this->token;
     }
 
-    #[\Override]
+    #[Override]
     public function generateToken(): void
     {
         $random = random_bytes(128);
@@ -264,7 +265,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         $this->token = hash('sha256', $key);
     }
 
-    #[\Override]
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -273,7 +274,7 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {

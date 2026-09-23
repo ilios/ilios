@@ -29,6 +29,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use function array_keys;
 use function array_values;
 
+use Override;
+
 class UserRepository extends BaseRepository
 {
     use CalendarEventRepository;
@@ -101,7 +103,7 @@ class UserRepository extends BaseRepository
         return $this->createUserDTOs($qb->getQuery());
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(User::class, 'x');
@@ -771,7 +773,7 @@ class UserRepository extends BaseRepository
         return $events;
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

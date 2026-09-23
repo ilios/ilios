@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Override;
 
 #[ORM\Table(name: 'service_token')]
 #[ORM\Entity(repositoryClass: ServiceTokenRepository::class)]
@@ -75,7 +76,7 @@ class ServiceToken implements ServiceTokenInterface
         $this->alerts = new ArrayCollection();
     }
 
-    #[\Override]
+    #[Override]
     public function setAuditLogs(Collection $auditLogs): void
     {
         $this->auditLogs = new ArrayCollection();
@@ -85,7 +86,7 @@ class ServiceToken implements ServiceTokenInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addAuditLog(AuditLogInterface $auditLog): void
     {
         if (!$this->auditLogs->contains($auditLog)) {
@@ -93,31 +94,31 @@ class ServiceToken implements ServiceTokenInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeAuditLog(AuditLogInterface $auditLog): void
     {
         $this->auditLogs->removeElement($auditLog);
     }
 
-    #[\Override]
+    #[Override]
     public function getAuditLogs(): Collection
     {
         return $this->auditLogs;
     }
 
-    #[\Override]
+    #[Override]
     public function setExpiresAt(DateTime $expiresAt): void
     {
         $this->expiresAt = $expiresAt;
     }
 
-    #[\Override]
+    #[Override]
     public function getExpiresAt(): DateTime
     {
         return $this->expiresAt;
     }
 
-    #[\Override]
+    #[Override]
     public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
@@ -126,7 +127,7 @@ class ServiceToken implements ServiceTokenInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeAlert(AlertInterface $alert): void
     {
         if ($this->alerts->contains($alert)) {

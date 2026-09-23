@@ -26,6 +26,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CourseRepository;
+use Override;
 
 #[ORM\Table(name: 'course')]
 #[ORM\Index(columns: ['course_id', 'title'], name: 'title_course_k')]
@@ -255,79 +256,79 @@ class Course implements CourseInterface
         $this->locked = false;
     }
 
-    #[\Override]
+    #[Override]
     public function setLevel(int $level): void
     {
         $this->level = $level;
     }
 
-    #[\Override]
+    #[Override]
     public function getLevel(): int
     {
         return $this->level;
     }
 
-    #[\Override]
+    #[Override]
     public function setYear(int $year): void
     {
         $this->year = $year;
     }
 
-    #[\Override]
+    #[Override]
     public function getYear(): int
     {
         return $this->year;
     }
 
-    #[\Override]
+    #[Override]
     public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getStartDate(): DateTime
     {
         return $this->startDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function getEndDate(): DateTime
     {
         return $this->endDate;
     }
 
-    #[\Override]
+    #[Override]
     public function setExternalId(?string $externalId): void
     {
         $this->externalId = $externalId;
     }
 
-    #[\Override]
+    #[Override]
     public function getExternalId(): ?string
     {
         return $this->externalId;
     }
 
-    #[\Override]
+    #[Override]
     public function setClerkshipType(?CourseClerkshipTypeInterface $clerkshipType = null): void
     {
         $this->clerkshipType = $clerkshipType;
     }
 
-    #[\Override]
+    #[Override]
     public function getClerkshipType(): ?CourseClerkshipTypeInterface
     {
         return $this->clerkshipType;
     }
 
-    #[\Override]
+    #[Override]
     public function setLearningMaterials(?Collection $learningMaterials = null): void
     {
         $this->learningMaterials = new ArrayCollection();
@@ -340,7 +341,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addLearningMaterial(CourseLearningMaterialInterface $learningMaterial): void
     {
         if (!$this->learningMaterials->contains($learningMaterial)) {
@@ -348,7 +349,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeLearningMaterial(CourseLearningMaterialInterface $learningMaterial): void
     {
         if ($this->learningMaterials->contains($learningMaterial)) {
@@ -356,25 +357,25 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
     }
 
-    #[\Override]
+    #[Override]
     public function setAncestor(?CourseInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestor(): ?CourseInterface
     {
         return $this->ancestor;
     }
 
-    #[\Override]
+    #[Override]
     public function getAncestorOrSelf(): CourseInterface
     {
         $ancestor = $this->getAncestor();
@@ -382,7 +383,7 @@ class Course implements CourseInterface
         return $ancestor ?: $this;
     }
 
-    #[\Override]
+    #[Override]
     public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
@@ -392,25 +393,25 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addDescendant(CourseInterface $descendant): void
     {
         $this->descendants->add($descendant);
     }
 
-    #[\Override]
+    #[Override]
     public function removeDescendant(CourseInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
 
-    #[\Override]
+    #[Override]
     public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
-    #[\Override]
+    #[Override]
     public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
@@ -419,7 +420,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeDirector(UserInterface $director): void
     {
         if ($this->directors->contains($director)) {
@@ -428,7 +429,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addCohort(CohortInterface $cohort): void
     {
         if (!$this->cohorts->contains($cohort)) {
@@ -437,7 +438,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeCohort(CohortInterface $cohort): void
     {
         if ($this->cohorts->contains($cohort)) {
@@ -446,7 +447,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addTerm(TermInterface $term): void
     {
         if (!$this->terms->contains($term)) {
@@ -455,7 +456,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeTerm(TermInterface $term): void
     {
         if ($this->terms->contains($term)) {
@@ -464,7 +465,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -473,7 +474,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
@@ -481,7 +482,7 @@ class Course implements CourseInterface
             $administrator->removeAdministeredCourse($this);
         }
     }
-    #[\Override]
+    #[Override]
     public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if (!$this->studentAdvisors->contains($studentAdvisor)) {
@@ -489,7 +490,7 @@ class Course implements CourseInterface
             $studentAdvisor->addStudentAdvisedCourse($this);
         }
     }
-    #[\Override]
+    #[Override]
     public function removeStudentAdvisor(UserInterface $studentAdvisor): void
     {
         if ($this->studentAdvisors->contains($studentAdvisor)) {
@@ -502,7 +503,7 @@ class Course implements CourseInterface
      * When and objective is removed from a course it needs to remove any relationships
      * to children that belong to sessions in that course
      */
-    #[\Override]
+    #[Override]
     public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
     {
         if ($this->courseObjectives->contains($courseObjective)) {
@@ -517,7 +518,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function setSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->sequenceBlocks = new ArrayCollection();
@@ -527,7 +528,7 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function addSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         if (!$this->sequenceBlocks->contains($sequenceBlock)) {
@@ -535,19 +536,19 @@ class Course implements CourseInterface
         }
     }
 
-    #[\Override]
+    #[Override]
     public function removeSequenceBlock(CurriculumInventorySequenceBlockInterface $sequenceBlock): void
     {
         $this->sequenceBlocks->removeElement($sequenceBlock);
     }
 
-    #[\Override]
+    #[Override]
     public function getSequenceBlocks(): Collection
     {
         return $this->sequenceBlocks;
     }
 
-    #[\Override]
+    #[Override]
     public function getIndexableCourses(): array
     {
         return [$this];

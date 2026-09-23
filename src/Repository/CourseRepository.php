@@ -19,6 +19,8 @@ use Exception;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class CourseRepository extends BaseRepository
 {
     public function __construct(
@@ -28,7 +30,7 @@ class CourseRepository extends BaseRepository
         parent::__construct($registry, Course::class, $cacheManager);
     }
 
-    #[\Override]
+    #[Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -91,7 +93,7 @@ class CourseRepository extends BaseRepository
         return $this->createCourseDTOS($qb->getQuery());
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Course::class, 'x');
@@ -399,7 +401,7 @@ EOL;
         return array_values($dtos);
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

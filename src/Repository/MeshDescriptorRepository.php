@@ -29,6 +29,8 @@ use Ilios\MeSH\Model\Term;
 use function array_values;
 use function array_keys;
 
+use Override;
+
 class MeshDescriptorRepository extends BaseRepository
 {
     public function __construct(
@@ -65,7 +67,7 @@ class MeshDescriptorRepository extends BaseRepository
         return $dtos;
     }
 
-    #[\Override]
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -170,7 +172,7 @@ class MeshDescriptorRepository extends BaseRepository
         return $query;
     }
 
-    #[\Override]
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

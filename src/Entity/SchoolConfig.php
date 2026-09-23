@@ -12,6 +12,7 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\SchoolEntity;
 use App\Repository\SchoolConfigRepository;
+use Override;
 
 #[ORM\Table(name: 'school_config')]
 #[ORM\UniqueConstraint(name: 'school_conf_uniq', columns: ['school_id', 'name'])]
@@ -56,13 +57,13 @@ class SchoolConfig implements SchoolConfigInterface
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
-    #[\Override]
+    #[Override]
     public function getValue(): string
     {
         return $this->value;
     }
 
-    #[\Override]
+    #[Override]
     public function setValue(string $value): void
     {
         $this->value = $value;

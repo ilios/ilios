@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryExportRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_export')]
 #[ORM\Index(columns: ['created_by'], name: 'fkey_curriculum_inventory_export_user_id')]
@@ -63,37 +64,37 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
         $this->createdAt = new DateTime();
     }
 
-    #[\Override]
+    #[Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
-    #[\Override]
+    #[Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
-    #[\Override]
+    #[Override]
     public function setDocument(string $document): void
     {
         $this->document = $document;
     }
 
-    #[\Override]
+    #[Override]
     public function getDocument(): string
     {
         return $this->document;
     }
 
-    #[\Override]
+    #[Override]
     public function setCreatedBy(UserInterface $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
 
-    #[\Override]
+    #[Override]
     public function getCreatedBy(): UserInterface
     {
         return $this->createdBy;
