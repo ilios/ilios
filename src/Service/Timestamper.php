@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Traits\TimestampableEntityInterface;
 use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 
@@ -47,7 +48,7 @@ class Timestamper
                         $qb->update($class, 'c')
                             ->set('c.updatedAt', ':timestamp')
                             ->where($qb->expr()->in('c.id', array_unique($ids)))
-                            ->setParameter('timestamp', $dateTime);
+                            ->setParameter('timestamp', $dateTime, Types::DATETIME_MUTABLE);
                         $query = $qb->getQuery();
                         $query->execute();
                     }

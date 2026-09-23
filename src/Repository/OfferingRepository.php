@@ -8,6 +8,7 @@ use App\Entity\Offering;
 use App\Service\DTOCacheManager;
 use DateTime;
 use DateTimeZone;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\OfferingDTO;
@@ -124,8 +125,8 @@ class OfferingRepository extends BaseRepository
             ->andWhere($qb->expr()->in('school.id', ':schools'))
             ->orderBy('offering.id')
             ->setParameter(':schools', $schoolIds)
-            ->setParameter(':startDate', $startDate)
-            ->setParameter(':endDate', $endDate);
+            ->setParameter(':startDate', $startDate, Types::DATETIME_MUTABLE)
+            ->setParameter(':endDate', $endDate, Types::DATETIME_MUTABLE);
 
         return $qb->getQuery()->getResult();
     }
