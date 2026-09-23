@@ -10,10 +10,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\PendingUserUpdate;
 use App\Entity\DTO\PendingUserUpdateDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
-
-use Override;
 
 class PendingUserUpdateRepository extends BaseRepository
 {

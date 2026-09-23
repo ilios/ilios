@@ -11,10 +11,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseClerkshipType;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
-
-use Override;
 
 class CourseClerkshipTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {

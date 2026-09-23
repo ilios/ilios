@@ -16,11 +16,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\CurriculumInventoryReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\CurriculumInventoryReportInterface;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class CurriculumInventoryReportRepository extends BaseRepository
 {

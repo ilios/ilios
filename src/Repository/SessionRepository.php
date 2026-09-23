@@ -13,11 +13,10 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
-
-use Override;
 
 class SessionRepository extends BaseRepository
 {

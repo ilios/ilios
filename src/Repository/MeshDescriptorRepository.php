@@ -25,11 +25,10 @@ use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class MeshDescriptorRepository extends BaseRepository
 {

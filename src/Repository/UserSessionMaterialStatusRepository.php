@@ -11,10 +11,9 @@ use App\Traits\ImportableEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
-
-use Override;
 
 class UserSessionMaterialStatusRepository extends BaseRepository
 {

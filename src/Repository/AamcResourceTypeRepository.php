@@ -11,10 +11,9 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
-
-use Override;
 
 class AamcResourceTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {

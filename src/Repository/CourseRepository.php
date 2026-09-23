@@ -15,11 +15,10 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class CourseRepository extends BaseRepository
 {

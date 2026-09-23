@@ -10,11 +10,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseLearningMaterial;
 use App\Entity\DTO\CourseLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
-
-use Override;
 
 class CourseLearningMaterialRepository extends BaseRepository
 {

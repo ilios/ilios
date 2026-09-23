@@ -10,10 +10,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\MeshConcept;
 use App\Entity\DTO\MeshConceptDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
-
-use Override;
 
 class MeshConceptRepository extends BaseRepository
 {

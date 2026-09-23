@@ -14,11 +14,10 @@ use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\TermInterface;
 use Exception;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class TermRepository extends BaseRepository implements DataImportRepositoryInterface
 {

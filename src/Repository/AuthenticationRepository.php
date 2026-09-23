@@ -13,10 +13,9 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\AuthenticationInterface;
 use App\Entity\DTO\AuthenticationDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function is_array;
-
-use Override;
 
 class AuthenticationRepository extends BaseRepository
 {

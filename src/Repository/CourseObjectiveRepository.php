@@ -12,11 +12,10 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class CourseObjectiveRepository extends BaseRepository
 {

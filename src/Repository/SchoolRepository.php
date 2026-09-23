@@ -18,11 +18,10 @@ use App\Entity\DTO\SchoolDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class SchoolRepository extends BaseRepository implements DataImportRepositoryInterface
 {

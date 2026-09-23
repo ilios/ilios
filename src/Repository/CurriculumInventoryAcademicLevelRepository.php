@@ -10,11 +10,10 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
-
-use Override;
 
 class CurriculumInventoryAcademicLevelRepository extends BaseRepository
 {

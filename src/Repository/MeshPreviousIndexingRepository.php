@@ -10,12 +10,11 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\MeshPreviousIndexing;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_key_exists;
 use function array_keys;
-
-use Override;
 
 class MeshPreviousIndexingRepository extends BaseRepository
 {

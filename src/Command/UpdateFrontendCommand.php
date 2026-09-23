@@ -18,11 +18,10 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
 use Exception;
 use SplFileObject;
+use Override;
 
 use function filectime;
 use function is_dir;
-
-use Override;
 
 /**
  * Pull down asset archive from AWS and extract it so
