@@ -46,7 +46,7 @@ final class OfferingTest extends EntityBase
         $this->validateNotBlanks($notBlank);
 
         $this->object->setStartDate(new DateTime());
-        $this->object->setEndDate(new DateTime());
+        $this->object->setEndDate(new DateTime('+1 minutes'));
         $this->object->setRoom('');
         $this->object->setSite('');
         $this->validate(0);
@@ -63,7 +63,7 @@ final class OfferingTest extends EntityBase
 
         $this->object->setRoom('RCF 112');
         $this->object->setStartDate(new DateTime());
-        $this->object->setEndDate(new DateTime());
+        $this->object->setEndDate(new DateTime('+1 minute'));
 
         $this->validateNotNulls($notNulls);
         $this->object->setSession(m::mock(SessionInterface::class));
@@ -196,6 +196,28 @@ final class OfferingTest extends EntityBase
         $offering = new Offering();
         $offering->setSession($session);
         $this->assertSame($school, $offering->getSchool());
+    }
+
+    public function testStartAndEndDateMustBeSixtySecondsApart(): void
+    {
+        $this->object->setSession(m::mock(SessionInterface::class));
+        $this->object->setStartDate(new DateTime('2005-06-24 18:24:00'));
+
+        // Same minute should fail.
+        $this->object->setEndDate(new DateTime('2005-06-24 18:24:59'));
+        $errors = $this->validate(1);
+
+        $this->assertArrayHasKey('endDate', $errors);
+        $this->assertSame(
+            'Offering must have a duration of at least one minute.',
+            $errors['endDate']
+        );
+
+        // Different minute should pass, even if less than 60 seconds apart.
+        $this->object->setStartDate(new DateTime());
+        $this->object->setEndDate(new DateTime('+60 seconds'));
+
+        $this->validate(0);
     }
 
     protected function getObject(): Offering
