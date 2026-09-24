@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\LearnerGroup;
 use App\Entity\DTO\LearnerGroupDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
@@ -23,6 +24,7 @@ class LearnerGroupRepository extends BaseRepository
         parent::__construct($registry, LearnerGroup::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(LearnerGroup::class, 'x');
@@ -70,6 +72,7 @@ class LearnerGroupRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

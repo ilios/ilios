@@ -13,6 +13,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\DTO\SessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
@@ -85,6 +86,7 @@ class SessionRepository extends BaseRepository
         return array_map(fn(array $arr) => $arr['id'], $qb->getQuery()->getScalarResult());
     }
 
+    #[Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -120,6 +122,7 @@ class SessionRepository extends BaseRepository
         return $this->attachAssociationsToDTOs($dtos);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Session::class, 'x');
@@ -173,6 +176,7 @@ class SessionRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

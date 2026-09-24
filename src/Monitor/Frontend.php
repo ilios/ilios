@@ -9,6 +9,7 @@ use App\Command\UpdateFrontendCommand;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 class Frontend implements CheckInterface
 {
@@ -16,6 +17,7 @@ class Frontend implements CheckInterface
     {
     }
 
+    #[Override]
     public function check(): ResultInterface
     {
         $path = UpdateFrontendCommand::getActiveFrontendIndexPath($this->kernelProjectDir);
@@ -26,6 +28,7 @@ class Frontend implements CheckInterface
         return new Success('has been loaded');
     }
 
+    #[Override]
     public function getLabel(): string
     {
         return 'Ilios Frontend';

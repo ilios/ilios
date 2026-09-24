@@ -12,6 +12,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CurriculumInventoryInstitutionRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_institution')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]
@@ -95,61 +96,73 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     #[Assert\NotNull]
     protected SchoolInterface $school;
 
+    #[Override]
     public function setAamcCode(string $aamcCode): void
     {
         $this->aamcCode = $aamcCode;
     }
 
+    #[Override]
     public function getAamcCode(): string
     {
         return $this->aamcCode;
     }
 
+    #[Override]
     public function setAddressStreet(string $addressStreet): void
     {
         $this->addressStreet = $addressStreet;
     }
 
+    #[Override]
     public function getAddressStreet(): string
     {
         return $this->addressStreet;
     }
 
+    #[Override]
     public function setAddressCity(string $addressCity): void
     {
         $this->addressCity = $addressCity;
     }
 
+    #[Override]
     public function getAddressCity(): string
     {
         return $this->addressCity;
     }
 
+    #[Override]
     public function setAddressStateOrProvince(string $addressStateOrProvince): void
     {
         $this->addressStateOrProvince = $addressStateOrProvince;
     }
 
+    #[Override]
     public function getAddressStateOrProvince(): string
     {
         return $this->addressStateOrProvince;
     }
 
+    #[Override]
     public function setAddressZipCode(string $addressZipcode): void
     {
         $this->addressZipCode = $addressZipcode;
     }
 
+    #[Override]
     public function getAddressZipCode(): string
     {
         return $this->addressZipCode;
     }
 
+    #[Override]
     public function setAddressCountryCode(string $addressCountryCode): void
     {
         $this->addressCountryCode = $addressCountryCode;
     }
 
+    #[Override]
     public function getAddressCountryCode(): string
     {
         return $this->addressCountryCode;

@@ -17,6 +17,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CourseObjectiveRepository;
+use Override;
 
 #[ORM\Table(name: 'course_x_objective')]
 #[ORM\Index(columns: ['course_id'], name: 'IDX_3B37B1AD591CC992')]
@@ -135,21 +136,25 @@ class CourseObjective implements CourseObjectiveInterface
         $this->descendants = new ArrayCollection();
     }
 
+    #[Override]
     public function setCourse(CourseInterface $course): void
     {
         $this->course = $course;
     }
 
+    #[Override]
     public function getCourse(): CourseInterface
     {
         return $this->course;
     }
 
+    #[Override]
     public function getIndexableCourses(): array
     {
         return [$this->getCourse()];
     }
 
+    #[Override]
     public function setProgramYearObjectives(Collection $programYearObjectives): void
     {
         $this->programYearObjectives = new ArrayCollection();
@@ -159,6 +164,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
     {
         if (!$this->programYearObjectives->contains($programYearObjective)) {
@@ -166,16 +172,19 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
     {
         $this->programYearObjectives->removeElement($programYearObjective);
     }
 
+    #[Override]
     public function getProgramYearObjectives(): Collection
     {
         return $this->programYearObjectives;
     }
 
+    #[Override]
     public function setSessionObjectives(Collection $sessionObjectives): void
     {
         $this->sessionObjectives = new ArrayCollection();
@@ -185,6 +194,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
     {
         if (!$this->sessionObjectives->contains($sessionObjective)) {
@@ -193,6 +203,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
     {
         if ($this->sessionObjectives->contains($sessionObjective)) {
@@ -201,21 +212,25 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function getSessionObjectives(): Collection
     {
         return $this->sessionObjectives;
     }
 
+    #[Override]
     public function setAncestor(?CourseObjectiveInterface $ancestor = null): void
     {
         $this->ancestor = $ancestor;
     }
 
+    #[Override]
     public function getAncestor(): ?CourseObjectiveInterface
     {
         return $this->ancestor;
     }
 
+    #[Override]
     public function getAncestorOrSelf(): CourseObjectiveInterface
     {
         $ancestor = $this->getAncestor();
@@ -223,6 +238,7 @@ class CourseObjective implements CourseObjectiveInterface
         return $ancestor ?: $this;
     }
 
+    #[Override]
     public function setDescendants(Collection $descendants): void
     {
         $this->descendants = new ArrayCollection();
@@ -232,6 +248,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function addDescendant(CourseObjectiveInterface $descendant): void
     {
         if (!$this->descendants->contains($descendant)) {
@@ -239,16 +256,19 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function removeDescendant(CourseObjectiveInterface $descendant): void
     {
         $this->descendants->removeElement($descendant);
     }
 
+    #[Override]
     public function getDescendants(): Collection
     {
         return $this->descendants;
     }
 
+    #[Override]
     public function setMeshDescriptors(Collection $meshDescriptors): void
     {
         $this->meshDescriptors = new ArrayCollection();
@@ -258,6 +278,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         if (!$this->meshDescriptors->contains($meshDescriptor)) {
@@ -265,6 +286,7 @@ class CourseObjective implements CourseObjectiveInterface
         }
     }
 
+    #[Override]
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);

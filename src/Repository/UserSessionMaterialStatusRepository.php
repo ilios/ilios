@@ -11,6 +11,7 @@ use App\Traits\ImportableEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 
@@ -25,6 +26,7 @@ class UserSessionMaterialStatusRepository extends BaseRepository
         parent::__construct($registry, UserSessionMaterialStatus::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()
@@ -66,6 +68,7 @@ class UserSessionMaterialStatusRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

@@ -16,6 +16,7 @@ use App\Traits\SchoolEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Repository\VocabularyRepository;
+use Override;
 
 #[ORM\Table(name: 'vocabulary')]
 #[ORM\UniqueConstraint(name: 'unique_vocabulary_title', columns: ['school_id', 'title'])]
@@ -76,6 +77,7 @@ class Vocabulary implements VocabularyInterface
         $this->active = true;
     }
 
+    #[Override]
     public function getIndexableCourses(): array
     {
         $termCourses = $this->terms->map(fn(TermInterface $term) => $term->getIndexableCourses());

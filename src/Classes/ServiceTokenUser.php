@@ -8,6 +8,7 @@ use App\Entity\ServiceTokenInterface;
 use DateTime;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Deprecated;
+use Override;
 
 class ServiceTokenUser implements ServiceTokenUserInterface
 {
@@ -15,6 +16,7 @@ class ServiceTokenUser implements ServiceTokenUserInterface
     {
     }
 
+    #[Override]
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof ServiceTokenUserInterface) {
@@ -24,6 +26,7 @@ class ServiceTokenUser implements ServiceTokenUserInterface
         return $user->getUserIdentifier() === $this->getUserIdentifier();
     }
 
+    #[Override]
     public function getRoles(): array
     {
         return [];
@@ -38,26 +41,31 @@ class ServiceTokenUser implements ServiceTokenUserInterface
         // not implemented.
     }
 
+    #[Override]
     public function getUserIdentifier(): string
     {
         return (string) $this->serviceToken->getId();
     }
 
+    #[Override]
     public function getId(): int
     {
         return $this->serviceToken->getId();
     }
 
+    #[Override]
     public function isEnabled(): bool
     {
         return $this->serviceToken->isEnabled();
     }
 
+    #[Override]
     public function getCreatedAt(): DateTime
     {
         return $this->serviceToken->getCreatedAt();
     }
 
+    #[Override]
     public function getExpiresAt(): DateTime
     {
         return $this->serviceToken->getExpiresAt();

@@ -14,6 +14,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Repository\CourseClerkshipTypeRepository;
+use Override;
 
 #[ORM\Table(name: 'course_clerkship_type')]
 #[ORM\Entity(repositoryClass: CourseClerkshipTypeRepository::class)]
@@ -53,6 +54,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
         $this->courses = new ArrayCollection();
     }
 
+    #[Override]
     public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
@@ -61,6 +63,7 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
         }
     }
 
+    #[Override]
     public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {

@@ -10,6 +10,7 @@ use App\Classes\VoterPermissions;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class UserEvent extends AbstractCalendarEvent
 {
@@ -25,6 +26,7 @@ class UserEvent extends AbstractCalendarEvent
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

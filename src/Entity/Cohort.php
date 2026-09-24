@@ -16,6 +16,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\CoursesEntity;
 use App\Repository\CohortRepository;
+use Override;
 
 #[ORM\Entity(repositoryClass: CohortRepository::class)]
 #[ORM\Table(name: 'cohort')]
@@ -83,16 +84,19 @@ class Cohort implements CohortInterface
         $this->users = new ArrayCollection();
     }
 
+    #[Override]
     public function setProgramYear(?ProgramYearInterface $programYear = null): void
     {
         $this->programYear = $programYear;
     }
 
+    #[Override]
     public function getProgramYear(): ?ProgramYearInterface
     {
         return $this->programYear;
     }
 
+    #[Override]
     public function addCourse(CourseInterface $course): void
     {
         if (!$this->courses->contains($course)) {
@@ -101,6 +105,7 @@ class Cohort implements CohortInterface
         }
     }
 
+    #[Override]
     public function removeCourse(CourseInterface $course): void
     {
         if ($this->courses->contains($course)) {
@@ -109,6 +114,7 @@ class Cohort implements CohortInterface
         }
     }
 
+    #[Override]
     public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
@@ -117,12 +123,14 @@ class Cohort implements CohortInterface
         }
     }
 
+    #[Override]
     public function removeUser(UserInterface $user): void
     {
         $this->users->removeElement($user);
         $user->removeCohort($this);
     }
 
+    #[Override]
     public function getSchool(): ?SchoolInterface
     {
         if ($programYear = $this->getProgramYear()) {
@@ -131,6 +139,7 @@ class Cohort implements CohortInterface
         return null;
     }
 
+    #[Override]
     public function getProgram(): ?ProgramInterface
     {
         return $this->programYear?->getProgram();

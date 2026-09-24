@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 
@@ -22,6 +23,7 @@ class AlertRepository extends BaseRepository
         parent::__construct($registry, Alert::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Alert::class, 'x');
@@ -51,6 +53,7 @@ class AlertRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

@@ -9,6 +9,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Composer\Semver\Semver;
+use Override;
 
 /**
  * Validates PHP version.
@@ -26,6 +27,7 @@ class PhpVersion implements CheckInterface
     {
     }
 
+    #[Override]
     public function check(): ResultInterface
     {
         $contents = @file_get_contents($this->composerFilePath);
@@ -55,6 +57,7 @@ class PhpVersion implements CheckInterface
         );
     }
 
+    #[Override]
     public function getLabel(): string
     {
         return 'PHP version';

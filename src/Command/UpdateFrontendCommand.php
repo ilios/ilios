@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use App\Service\Filesystem;
 use Exception;
 use SplFileObject;
+use Override;
 
 use function filectime;
 use function is_dir;
@@ -121,6 +122,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         }
     }
 
+    #[Override]
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
         try {
@@ -153,6 +155,7 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
         return [];
     }
 
+    #[Override]
     public function isOptional(): bool
     {
         return true;

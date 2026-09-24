@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
+use Override;
 
 #[ORM\Table(name: 'user_preference')]
 #[ORM\Entity(repositoryClass: UserPreferenceRepository::class)]
@@ -33,21 +34,25 @@ class UserPreference implements UserPreferenceInterface
     #[Assert\NotNull]
     protected UserInterface $user;
 
+    #[Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[Override]
     public function getUser(): UserInterface
     {
         return $this->user;
     }
 
+    #[Override]
     public function setJson(string $json): void
     {
         $this->json = $json;
     }
 
+    #[Override]
     public function getJson(): string
     {
         return $this->json;

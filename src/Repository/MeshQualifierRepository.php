@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\MeshQualifier;
 use App\Entity\DTO\MeshQualifierDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 
@@ -22,6 +23,7 @@ class MeshQualifierRepository extends BaseRepository
         parent::__construct($registry, MeshQualifier::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -51,6 +53,7 @@ class MeshQualifierRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

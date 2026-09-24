@@ -9,6 +9,7 @@ use App\Classes\VoterPermissions;
 use App\Entity\CourseInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class Course extends AbstractReadWriteEntityVoter
 {
@@ -28,6 +29,7 @@ class Course extends AbstractReadWriteEntityVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

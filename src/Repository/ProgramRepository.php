@@ -10,6 +10,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\ProgramDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
@@ -23,6 +24,7 @@ class ProgramRepository extends BaseRepository
         parent::__construct($registry, Program::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Program::class, 'x');
@@ -40,6 +42,7 @@ class ProgramRepository extends BaseRepository
         return $this->attachAssociationsToDTOs($programDTOs);
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

@@ -9,9 +9,11 @@ use Composer\Autoload\ClassLoader;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 class Composer implements CheckInterface
 {
+    #[Override]
     public function check(): ResultInterface
     {
         // get the composer autoloader so we can check it's options
@@ -30,6 +32,7 @@ class Composer implements CheckInterface
         return new Success('is correct');
     }
 
+    #[Override]
     public function getLabel(): string
     {
         return 'Composer Autoload Setup';

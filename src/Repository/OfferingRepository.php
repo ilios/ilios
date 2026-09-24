@@ -13,6 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\OfferingDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
@@ -29,6 +30,7 @@ class OfferingRepository extends BaseRepository
         parent::__construct($registry, Offering::class, $cacheManager);
     }
 
+    #[Override]
     protected function findIdsBy(
         array $criteria,
         ?array $orderBy = null,
@@ -48,6 +50,7 @@ class OfferingRepository extends BaseRepository
         return $this->doFindIdsBy($criteria, $orderBy, $limit, $offset);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(Offering::class, 'x');
@@ -132,6 +135,7 @@ class OfferingRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

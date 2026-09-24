@@ -8,6 +8,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 class RequiredENV implements CheckInterface
 {
@@ -24,6 +25,7 @@ class RequiredENV implements CheckInterface
     /**
      * Perform the actual check and return a ResultInterface
      */
+    #[Override]
     public function check(): ResultInterface
     {
         $missingVariables = array_filter(self::REQUIRED_ENV, fn($name) => !getenv($name) && !isset($_ENV[$name]));
@@ -48,6 +50,7 @@ class RequiredENV implements CheckInterface
     /**
      * Return a label describing this test instance.
      */
+    #[Override]
     public function getLabel(): string
     {
         return 'ENV variables';

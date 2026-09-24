@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\PendingUserUpdate;
 use App\Entity\DTO\PendingUserUpdateDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 
@@ -22,6 +23,7 @@ class PendingUserUpdateRepository extends BaseRepository
         parent::__construct($registry, PendingUserUpdate::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -56,6 +58,7 @@ class PendingUserUpdateRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

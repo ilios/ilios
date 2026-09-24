@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\DTO\CurriculumInventoryAcademicLevelDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
@@ -23,6 +24,7 @@ class CurriculumInventoryAcademicLevelRepository extends BaseRepository
         parent::__construct($registry, CurriculumInventoryAcademicLevel::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -66,6 +68,7 @@ class CurriculumInventoryAcademicLevelRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\PendingUserUpdateRepository;
+use Override;
 
 #[ORM\Table(name: 'pending_user_update')]
 #[ORM\Entity(repositoryClass: PendingUserUpdateRepository::class)]
@@ -59,41 +60,49 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[Assert\NotNull]
     protected UserInterface $user;
 
+    #[Override]
     public function setType(string $type): void
     {
         $this->type = $type;
     }
 
+    #[Override]
     public function getType(): string
     {
         return $this->type;
     }
 
+    #[Override]
     public function setProperty(?string $property): void
     {
         $this->property = $property;
     }
 
+    #[Override]
     public function getProperty(): ?string
     {
         return $this->property;
     }
 
+    #[Override]
     public function setValue(?string $value): void
     {
         $this->value = $value;
     }
 
+    #[Override]
     public function getValue(): ?string
     {
         return $this->value;
     }
 
+    #[Override]
     public function setUser(UserInterface $user): void
     {
         $this->user = $user;
     }
 
+    #[Override]
     public function getUser(): UserInterface
     {
         return $this->user;

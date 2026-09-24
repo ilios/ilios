@@ -13,6 +13,7 @@ use App\Attributes as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ActivatableEntity;
+use Override;
 
 #[ORM\Table(name: 'aamc_method')]
 #[ORM\Entity(repositoryClass: AamcMethodRepository::class)]
@@ -60,6 +61,7 @@ class AamcMethod implements AamcMethodInterface
         $this->active = true;
     }
 
+    #[Override]
     public function addSessionType(SessionTypeInterface $sessionType): void
     {
         if (!$this->sessionTypes->contains($sessionType)) {
@@ -68,17 +70,20 @@ class AamcMethod implements AamcMethodInterface
         }
     }
 
+    #[Override]
     public function removeSessionType(SessionTypeInterface $sessionType): void
     {
         $this->sessionTypes->removeElement($sessionType);
         $sessionType->removeAamcMethod($this);
     }
 
+    #[Override]
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return $this->description;

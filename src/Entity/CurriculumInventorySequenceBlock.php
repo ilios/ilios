@@ -16,6 +16,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_sequence_block')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceBlockRepository::class)]
@@ -196,116 +197,139 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         $this->duration = 0;
     }
 
+    #[Override]
     public function setRequired(int $required): void
     {
         $this->required = $required;
     }
 
+    #[Override]
     public function getRequired(): int
     {
         return $this->required;
     }
 
+    #[Override]
     public function setChildSequenceOrder(int $childSequenceOrder): void
     {
         $this->childSequenceOrder = $childSequenceOrder;
     }
 
+    #[Override]
     public function getChildSequenceOrder(): int
     {
         return $this->childSequenceOrder;
     }
 
+    #[Override]
     public function setOrderInSequence(int $orderInSequence): void
     {
         $this->orderInSequence = $orderInSequence;
     }
 
+    #[Override]
     public function getOrderInSequence(): int
     {
         return $this->orderInSequence;
     }
 
+    #[Override]
     public function setMinimum(int $minimum): void
     {
         $this->minimum = $minimum;
     }
 
+    #[Override]
     public function getMinimum(): int
     {
         return $this->minimum;
     }
 
+    #[Override]
     public function setMaximum(int $maximum): void
     {
         $this->maximum = $maximum;
     }
 
+    #[Override]
     public function getMaximum(): int
     {
         return $this->maximum;
     }
 
+    #[Override]
     public function setTrack(bool $track): void
     {
         $this->track = $track;
     }
 
+    #[Override]
     public function hasTrack(): bool
     {
         return $this->track;
     }
 
+    #[Override]
     public function setStartDate(?DateTime $startDate = null): void
     {
         $this->startDate = $startDate;
     }
 
+    #[Override]
     public function getStartDate(): ?DateTime
     {
         return $this->startDate;
     }
 
+    #[Override]
     public function setEndDate(?DateTime $endDate = null): void
     {
         $this->endDate = $endDate;
     }
 
+    #[Override]
     public function getEndDate(): ?DateTime
     {
         return $this->endDate;
     }
 
+    #[Override]
     public function setDuration(int $duration): void
     {
         $this->duration = $duration;
     }
 
+    #[Override]
     public function getDuration(): int
     {
         return $this->duration;
     }
 
+    #[Override]
     public function setCourse(?CourseInterface $course = null): void
     {
         $this->course = $course;
     }
 
+    #[Override]
     public function getCourse(): ?CourseInterface
     {
         return $this->course;
     }
 
+    #[Override]
     public function setParent(?CurriculumInventorySequenceBlockInterface $parent = null): void
     {
         $this->parent = $parent;
     }
 
+    #[Override]
     public function getParent(): ?CurriculumInventorySequenceBlockInterface
     {
         return $this->parent;
     }
 
+    #[Override]
     public function setChildren(Collection $children): void
     {
         $this->children = new ArrayCollection();
@@ -315,6 +339,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
+    #[Override]
     public function addChild(CurriculumInventorySequenceBlockInterface $child): void
     {
         if (!$this->children->contains($child)) {
@@ -322,26 +347,31 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
+    #[Override]
     public function removeChild(CurriculumInventorySequenceBlockInterface $child): void
     {
         $this->children->removeElement($child);
     }
 
+    #[Override]
     public function getChildren(): Collection
     {
         return $this->children;
     }
 
+    #[Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
+    #[Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
     }
 
+    #[Override]
     public function getChildrenAsSortedList(): array
     {
         $children = $this->getChildren()->toArray();
@@ -428,6 +458,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         return 0;
     }
 
+    #[Override]
     public function setExcludedSessions(Collection $sessions): void
     {
         $this->excludedSessions = new ArrayCollection();
@@ -437,6 +468,7 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
+    #[Override]
     public function addExcludedSession(SessionInterface $session): void
     {
         if (!$this->excludedSessions->contains($session)) {
@@ -444,31 +476,37 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
         }
     }
 
+    #[Override]
     public function removeExcludedSession(SessionInterface $session): void
     {
         $this->excludedSessions->removeElement($session);
     }
 
+    #[Override]
     public function getExcludedSessions(): Collection
     {
         return $this->excludedSessions;
     }
 
+    #[Override]
     public function setStartingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->startingAcademicLevel = $level;
     }
 
+    #[Override]
     public function setEndingAcademicLevel(?CurriculumInventoryAcademicLevelInterface $level = null): void
     {
         $this->endingAcademicLevel = $level;
     }
 
+    #[Override]
     public function getStartingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->startingAcademicLevel;
     }
 
+    #[Override]
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->endingAcademicLevel;

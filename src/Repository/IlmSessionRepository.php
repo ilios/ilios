@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\IlmSession;
 use App\Entity\DTO\IlmSessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
@@ -23,6 +24,7 @@ class IlmSessionRepository extends BaseRepository
         parent::__construct($registry, IlmSession::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -68,6 +70,7 @@ class IlmSessionRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
