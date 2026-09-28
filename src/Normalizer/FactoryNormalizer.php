@@ -31,20 +31,20 @@ class FactoryNormalizer implements NormalizerInterface, NormalizationAwareInterf
     }
 
     public function normalize(
-        mixed $object,
+        mixed $data,
         ?string $format = null,
         array $context = [],
     ): array|string|int|float|bool|ArrayObject|null {
-        $class = $object::class;
-        $object = match ($class) {
+        $class = $data::class;
+        $data = match ($class) {
             LearningMaterial::class, LearningMaterialDTO::class =>
-            $this->learningMaterialDecoratorFactory->create($object),
-            CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($object),
+            $this->learningMaterialDecoratorFactory->create($data),
+            CurriculumInventoryReportDTO::class => $this->curriculumInventoryReportDecoratorFactory->create($data),
             default => throw new Exception("{$class} fell through match statement, should it have been decorated?"),
         };
 
         $context[self::ALREADY_CALLED] = true;
-        return $this->normalizer->normalize($object, $format, $context);
+        return $this->normalizer->normalize($data, $format, $context);
     }
 
     /*
