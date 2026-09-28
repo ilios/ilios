@@ -9,6 +9,7 @@ use App\Classes\VoterPermissions;
 use App\Entity\PendingUserUpdateInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class PendingUserUpdate extends AbstractReadWriteEntityVoter
 {
@@ -24,6 +25,7 @@ class PendingUserUpdate extends AbstractReadWriteEntityVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

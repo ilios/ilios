@@ -18,6 +18,7 @@ use App\Entity\DTO\SchoolDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\UserMaterialFactory;
 use App\Traits\CalendarEventRepository;
+use Override;
 
 use function array_values;
 use function array_keys;
@@ -35,6 +36,7 @@ class SchoolRepository extends BaseRepository implements DataImportRepositoryInt
         parent::__construct($registry, School::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(School::class, 'x');
@@ -493,6 +495,7 @@ class SchoolRepository extends BaseRepository implements DataImportRepositoryInt
         return $events;
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -540,6 +543,7 @@ class SchoolRepository extends BaseRepository implements DataImportRepositoryInt
         return array_values($dtos);
     }
 
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `school_id`,`template_prefix`,`title`,`ilios_administrator_email`,`change_alert_recipients`

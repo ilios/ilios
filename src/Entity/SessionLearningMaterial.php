@@ -17,6 +17,7 @@ use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionLearningMaterialRepository;
+use Override;
 
 #[ORM\Table(name: 'session_learning_material')]
 #[ORM\Index(columns: ['session_id', 'learning_material_id'], name: 'session_lm_k')]
@@ -119,16 +120,19 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
         $this->position = 0;
     }
 
+    #[Override]
     public function setSession(SessionInterface $session): void
     {
         $this->session = $session;
     }
 
+    #[Override]
     public function getSession(): SessionInterface
     {
         return $this->session;
     }
 
+    #[Override]
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];

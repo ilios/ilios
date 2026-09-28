@@ -11,6 +11,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\SchoolConfig;
 use App\Entity\DTO\SchoolConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
@@ -24,6 +25,7 @@ class SchoolConfigRepository extends BaseRepository
         parent::__construct($registry, SchoolConfig::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')->distinct()->from(SchoolConfig::class, 'x');
@@ -70,6 +72,7 @@ class SchoolConfigRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

@@ -22,6 +22,7 @@ use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Override;
 
 #[ORM\Table(name: 'user')]
 #[ORM\Index(columns: ["school_id"], name: "fkey_user_school")]
@@ -374,141 +375,169 @@ class User implements UserInterface
         $this->icsFeedKey = self::generateIcsFeedKey();
     }
 
+    #[Override]
     public function setLastName(string $lastName): void
     {
         $this->lastName = $lastName;
     }
 
+    #[Override]
     public function getLastName(): string
     {
         return $this->lastName;
     }
 
+    #[Override]
     public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
 
+    #[Override]
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
+    #[Override]
     public function setMiddleName(?string $middleName): void
     {
         $this->middleName = $middleName;
     }
 
+    #[Override]
     public function getMiddleName(): ?string
     {
         return $this->middleName;
     }
 
+    #[Override]
     public function getFirstAndLastName(): string
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
+    #[Override]
     public function setDisplayName(?string $displayName): void
     {
         $this->displayName = $displayName;
     }
 
+    #[Override]
     public function getDisplayName(): ?string
     {
         return $this->displayName;
     }
 
+    #[Override]
     public function setPhone(?string $phone): void
     {
         $this->phone = $phone;
     }
 
+    #[Override]
     public function getPhone(): ?string
     {
         return $this->phone;
     }
 
+    #[Override]
     public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
+    #[Override]
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    #[Override]
     public function setPreferredEmail(?string $email): void
     {
         $this->preferredEmail = $email;
     }
 
+    #[Override]
     public function getPreferredEmail(): ?string
     {
         return $this->preferredEmail;
     }
 
+    #[Override]
     public function setPronouns(?string $pronouns): void
     {
         $this->pronouns = $pronouns;
     }
 
+    #[Override]
     public function getPronouns(): ?string
     {
         return $this->pronouns;
     }
 
+    #[Override]
     public function setAddedViaIlios(bool $addedViaIlios): void
     {
         $this->addedViaIlios = $addedViaIlios;
     }
 
+    #[Override]
     public function isAddedViaIlios(): bool
     {
         return $this->addedViaIlios;
     }
 
+    #[Override]
     public function setCampusId(?string $campusId): void
     {
         $this->campusId = $campusId;
     }
 
+    #[Override]
     public function getCampusId(): ?string
     {
         return $this->campusId;
     }
 
+    #[Override]
     public function setOtherId(?string $otherId): void
     {
         $this->otherId = $otherId;
     }
 
+    #[Override]
     public function getOtherId(): ?string
     {
         return $this->otherId;
     }
 
+    #[Override]
     public function setExamined(bool $examined): void
     {
         $this->examined = $examined;
     }
 
+    #[Override]
     public function isExamined(): bool
     {
         return $this->examined;
     }
 
+    #[Override]
     public function setUserSyncIgnore(bool $userSyncIgnore): void
     {
         $this->userSyncIgnore = $userSyncIgnore;
     }
 
+    #[Override]
     public function isUserSyncIgnore(): bool
     {
         return $this->userSyncIgnore;
     }
 
+    #[Override]
     public static function generateIcsFeedKey(): string
     {
         $random = random_bytes(128);
@@ -520,16 +549,19 @@ class User implements UserInterface
         return hash('sha256', $key);
     }
 
+    #[Override]
     public function setIcsFeedKey(string $icsFeedKey): void
     {
         $this->icsFeedKey = $icsFeedKey;
     }
 
+    #[Override]
     public function getIcsFeedKey(): string
     {
         return $this->icsFeedKey;
     }
 
+    #[Override]
     public function setDirectedCourses(Collection $courses): void
     {
         $this->directedCourses = new ArrayCollection();
@@ -539,6 +571,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addDirectedCourse(CourseInterface $course): void
     {
         if (!$this->directedCourses->contains($course)) {
@@ -547,17 +580,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeDirectedCourse(CourseInterface $course): void
     {
         $this->directedCourses->removeElement($course);
         $course->removeDirector($this);
     }
 
+    #[Override]
     public function getDirectedCourses(): Collection
     {
         return $this->directedCourses;
     }
 
+    #[Override]
     public function setAdministeredCourses(Collection $courses): void
     {
         $this->administeredCourses = new ArrayCollection();
@@ -567,6 +603,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addAdministeredCourse(CourseInterface $course): void
     {
         if (!$this->administeredCourses->contains($course)) {
@@ -575,17 +612,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeAdministeredCourse(CourseInterface $course): void
     {
         $this->administeredCourses->removeElement($course);
         $course->removeAdministrator($this);
     }
 
+    #[Override]
     public function getAdministeredCourses(): Collection
     {
         return $this->administeredCourses;
     }
 
+    #[Override]
     public function setStudentAdvisedCourses(Collection $courses): void
     {
         $this->studentAdvisedCourses = new ArrayCollection();
@@ -595,6 +635,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addStudentAdvisedCourse(CourseInterface $course): void
     {
         if (!$this->studentAdvisedCourses->contains($course)) {
@@ -603,17 +644,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeStudentAdvisedCourse(CourseInterface $course): void
     {
         $this->studentAdvisedCourses->removeElement($course);
         $course->removeStudentAdvisor($this);
     }
 
+    #[Override]
     public function getStudentAdvisedCourses(): Collection
     {
         return $this->studentAdvisedCourses;
     }
 
+    #[Override]
     public function setAdministeredSessions(Collection $sessions): void
     {
         $this->administeredSessions = new ArrayCollection();
@@ -623,6 +667,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addAdministeredSession(SessionInterface $session): void
     {
         if (!$this->administeredSessions->contains($session)) {
@@ -631,17 +676,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeAdministeredSession(SessionInterface $session): void
     {
         $this->administeredSessions->removeElement($session);
         $session->removeAdministrator($this);
     }
 
+    #[Override]
     public function getAdministeredSessions(): Collection
     {
         return $this->administeredSessions;
     }
 
+    #[Override]
     public function setStudentAdvisedSessions(Collection $sessions): void
     {
         $this->studentAdvisedSessions = new ArrayCollection();
@@ -651,6 +699,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addStudentAdvisedSession(SessionInterface $session): void
     {
         if (!$this->studentAdvisedSessions->contains($session)) {
@@ -659,22 +708,26 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeStudentAdvisedSession(SessionInterface $session): void
     {
         $this->studentAdvisedSessions->removeElement($session);
         $session->removeStudentAdvisor($this);
     }
 
+    #[Override]
     public function getStudentAdvisedSessions(): Collection
     {
         return $this->studentAdvisedSessions;
     }
 
+    #[Override]
     public function isDirectingCourse(int $courseId): bool
     {
         return $this->directedCourses->map(fn(CourseInterface $course) => $course->getId())->contains($courseId);
     }
 
+    #[Override]
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
@@ -683,6 +736,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if ($this->learnerGroups->contains($learnerGroup)) {
@@ -691,6 +745,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function setInstructedLearnerGroups(Collection $learnerGroups): void
     {
         $this->instructedLearnerGroups = new ArrayCollection();
@@ -700,6 +755,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addInstructedLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->instructedLearnerGroups->contains($learnerGroup)) {
@@ -708,17 +764,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeInstructedLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         $this->instructedLearnerGroups->removeElement($learnerGroup);
         $learnerGroup->removeInstructor($this);
     }
 
+    #[Override]
     public function getInstructedLearnerGroups(): Collection
     {
         return $this->instructedLearnerGroups;
     }
 
+    #[Override]
     public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
     {
         if (!$this->instructorGroups->contains($instructorGroup)) {
@@ -727,12 +786,14 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
     {
         $this->instructorGroups->removeElement($instructorGroup);
         $instructorGroup->removeUser($this);
     }
 
+    #[Override]
     public function setInstructorIlmSessions(Collection $sessions): void
     {
         $this->instructorIlmSessions = new ArrayCollection();
@@ -742,6 +803,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addInstructorIlmSession(IlmSessionInterface $session): void
     {
         if (!$this->instructorIlmSessions->contains($session)) {
@@ -750,17 +812,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeInstructorIlmSession(IlmSessionInterface $session): void
     {
         $this->instructorIlmSessions->removeElement($session);
         $session->removeInstructor($this);
     }
 
+    #[Override]
     public function getInstructorIlmSessions(): Collection
     {
         return $this->instructorIlmSessions;
     }
 
+    #[Override]
     public function setLearnerIlmSessions(Collection $ilmSessions): void
     {
         $this->learnerIlmSessions = new ArrayCollection();
@@ -770,6 +835,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addLearnerIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->learnerIlmSessions->contains($ilmSession)) {
@@ -778,6 +844,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeLearnerIlmSession(IlmSessionInterface $ilmSession): void
     {
         if ($this->learnerIlmSessions->contains($ilmSession)) {
@@ -786,11 +853,13 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function getLearnerIlmSessions(): Collection
     {
         return $this->learnerIlmSessions;
     }
 
+    #[Override]
     public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
@@ -799,12 +868,14 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeAlert(AlertInterface $alert): void
     {
         $this->alerts->removeElement($alert);
         $alert->removeInstigator($this);
     }
 
+    #[Override]
     public function setRoles(Collection $roles): void
     {
         $this->roles = new ArrayCollection();
@@ -814,6 +885,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addRole(UserRoleInterface $role): void
     {
         if (!$this->roles->contains($role)) {
@@ -821,16 +893,19 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeRole(UserRoleInterface $role): void
     {
         $this->roles->removeElement($role);
     }
 
+    #[Override]
     public function getRoles(): Collection
     {
         return $this->roles;
     }
 
+    #[Override]
     public function setReports(Collection $reports): void
     {
         $this->reports = new ArrayCollection();
@@ -840,6 +915,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addReport(ReportInterface $report): void
     {
         if (!$this->reports->contains($report)) {
@@ -847,11 +923,13 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeReport(ReportInterface $report): void
     {
         $this->reports->removeElement($report);
     }
 
+    #[Override]
     public function getReports(): Collection
     {
         return $this->reports;
@@ -860,6 +938,7 @@ class User implements UserInterface
     /**
      * Remove Primary cohort if it is no longer a cohorts
      */
+    #[Override]
     public function setCohorts(Collection $cohorts): void
     {
         $this->cohorts = new ArrayCollection();
@@ -874,6 +953,7 @@ class User implements UserInterface
     /**
      * Remove Primary cohort if it is no longer a cohorts
      */
+    #[Override]
     public function removeCohort(CohortInterface $cohort): void
     {
         $this->cohorts->removeElement($cohort);
@@ -883,6 +963,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function setPrimaryCohort(?CohortInterface $primaryCohort = null): void
     {
         if ($primaryCohort && !$this->getCohorts()->contains($primaryCohort)) {
@@ -891,11 +972,13 @@ class User implements UserInterface
         $this->primaryCohort = $primaryCohort;
     }
 
+    #[Override]
     public function getPrimaryCohort(): ?CohortInterface
     {
         return $this->primaryCohort;
     }
 
+    #[Override]
     public function setInstructedOfferings(Collection $instructedOfferings): void
     {
         $this->instructedOfferings = new ArrayCollection();
@@ -905,6 +988,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addInstructedOffering(Offering $instructedOffering): void
     {
         if (!$this->instructedOfferings->contains($instructedOffering)) {
@@ -913,17 +997,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeInstructedOffering(Offering $instructedOffering): void
     {
         $this->instructedOfferings->removeElement($instructedOffering);
         $instructedOffering->removeInstructor($this);
     }
 
+    #[Override]
     public function getInstructedOfferings(): Collection
     {
         return $this->instructedOfferings;
     }
 
+    #[Override]
     public function setAuthentication(?AuthenticationInterface $authentication = null): void
     {
         $this->authentication = $authentication;
@@ -931,11 +1018,13 @@ class User implements UserInterface
         $authentication?->setUser($this);
     }
 
+    #[Override]
     public function getAuthentication(): ?AuthenticationInterface
     {
         return $this->authentication;
     }
 
+    #[Override]
     public function setAuditLogs(Collection $auditLogs): void
     {
         $this->auditLogs = new ArrayCollection();
@@ -945,6 +1034,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addAuditLog(AuditLogInterface $auditLog): void
     {
         if (!$this->auditLogs->contains($auditLog)) {
@@ -952,16 +1042,19 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeAuditLog(AuditLogInterface $auditLog): void
     {
         $this->auditLogs->removeElement($auditLog);
     }
 
+    #[Override]
     public function getAuditLogs(): Collection
     {
         return $this->auditLogs;
     }
 
+    #[Override]
     public function setPendingUserUpdates(Collection $pendingUserUpdates): void
     {
         $this->pendingUserUpdates = new ArrayCollection();
@@ -971,6 +1064,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addPendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate): void
     {
         if (!$this->pendingUserUpdates->contains($pendingUserUpdate)) {
@@ -978,16 +1072,19 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removePendingUserUpdate(PendingUserUpdateInterface $pendingUserUpdate): void
     {
         $this->pendingUserUpdates->removeElement($pendingUserUpdate);
     }
 
+    #[Override]
     public function getPendingUserUpdates(): Collection
     {
         return $this->pendingUserUpdates;
     }
 
+    #[Override]
     public function addProgramYear(ProgramYearInterface $programYear): void
     {
         if (!$this->programYears->contains($programYear)) {
@@ -996,6 +1093,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeProgramYear(ProgramYearInterface $programYear): void
     {
         if ($this->programYears->contains($programYear)) {
@@ -1004,6 +1102,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addOffering(OfferingInterface $offering): void
     {
         if (!$this->offerings->contains($offering)) {
@@ -1012,6 +1111,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeOffering(OfferingInterface $offering): void
     {
         if ($this->offerings->contains($offering)) {
@@ -1020,6 +1120,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function setDirectedSchools(Collection $schools): void
     {
         $this->directedSchools = new ArrayCollection();
@@ -1029,6 +1130,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addDirectedSchool(SchoolInterface $school): void
     {
         if (!$this->directedSchools->contains($school)) {
@@ -1037,17 +1139,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeDirectedSchool(SchoolInterface $school): void
     {
         $this->directedSchools->removeElement($school);
         $school->removeDirector($this);
     }
 
+    #[Override]
     public function getDirectedSchools(): Collection
     {
         return $this->directedSchools;
     }
 
+    #[Override]
     public function setAdministeredSchools(Collection $schools): void
     {
         $this->administeredSchools = new ArrayCollection();
@@ -1057,6 +1162,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addAdministeredSchool(SchoolInterface $school): void
     {
         if (!$this->administeredSchools->contains($school)) {
@@ -1065,17 +1171,20 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeAdministeredSchool(SchoolInterface $school): void
     {
         $this->administeredSchools->removeElement($school);
         $school->removeAdministrator($this);
     }
 
+    #[Override]
     public function getAdministeredSchools(): Collection
     {
         return $this->administeredSchools;
     }
 
+    #[Override]
     public function setDirectedPrograms(Collection $programs): void
     {
         $this->directedPrograms = new ArrayCollection();
@@ -1085,6 +1194,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addDirectedProgram(ProgramInterface $program): void
     {
         if (!$this->directedPrograms->contains($program)) {
@@ -1093,12 +1203,14 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeDirectedProgram(ProgramInterface $program): void
     {
         $this->directedPrograms->removeElement($program);
         $program->removeDirector($this);
     }
 
+    #[Override]
     public function getDirectedPrograms(): Collection
     {
         return $this->directedPrograms;
@@ -1108,6 +1220,7 @@ class User implements UserInterface
      * Get all the schools a user is affiliated with, so we can match
      * permissions.
      */
+    #[Override]
     public function getAllSchools(): Collection
     {
         $cohortSchools = $this->getCohorts()->map(fn(CohortInterface $cohort) => $cohort->getSchool());
@@ -1139,21 +1252,25 @@ class User implements UserInterface
         return new ArrayCollection($allSchools);
     }
 
+    #[Override]
     public function isRoot(): bool
     {
         return $this->root;
     }
 
+    #[Override]
     public function setRoot(bool $root): void
     {
         $this->root = $root;
     }
 
+    #[Override]
     public function getAdministeredCurriculumInventoryReports(): Collection
     {
         return $this->administeredCurriculumInventoryReports;
     }
 
+    #[Override]
     public function setAdministeredCurriculumInventoryReports(Collection $reports): void
     {
         $this->administeredCurriculumInventoryReports = new ArrayCollection();
@@ -1163,6 +1280,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         if (!$this->administeredCurriculumInventoryReports->contains($report)) {
@@ -1171,12 +1289,14 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeAdministeredCurriculumInventoryReport(CurriculumInventoryReportInterface $report): void
     {
         $this->administeredCurriculumInventoryReports->removeElement($report);
         $report->removeAdministrator($this);
     }
 
+    #[Override]
     public function setSessionMaterialStatuses(Collection $sessionMaterialStatuses): void
     {
         $this->sessionMaterialStatuses = new ArrayCollection();
@@ -1186,6 +1306,7 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function addSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus): void
     {
         if (!$this->sessionMaterialStatuses->contains($sessionMaterialStatus)) {
@@ -1193,11 +1314,13 @@ class User implements UserInterface
         }
     }
 
+    #[Override]
     public function removeSessionMaterialStatus(UserSessionMaterialStatus $sessionMaterialStatus): void
     {
         $this->sessionMaterialStatuses->removeElement($sessionMaterialStatus);
     }
 
+    #[Override]
     public function getSessionMaterialStatuses(): Collection
     {
         return $this->sessionMaterialStatuses;

@@ -10,6 +10,7 @@ use App\Entity\SessionTypeInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class SessionType extends AbstractVoter
 {
@@ -27,6 +28,7 @@ class SessionType extends AbstractVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

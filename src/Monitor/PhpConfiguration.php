@@ -9,9 +9,11 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 class PhpConfiguration implements CheckInterface
 {
+    #[Override]
     public function check(): ResultInterface
     {
         $opcacheEnabled = (extension_loaded('Zend OPcache') && ini_get('opcache.enable'));
@@ -59,6 +61,7 @@ class PhpConfiguration implements CheckInterface
         return new Success('is correct');
     }
 
+    #[Override]
     public function getLabel(): string
     {
         return 'PHP Configuration';

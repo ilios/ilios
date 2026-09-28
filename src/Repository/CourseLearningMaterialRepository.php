@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseLearningMaterial;
 use App\Entity\DTO\CourseLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_keys;
 use function array_values;
@@ -23,6 +24,7 @@ class CourseLearningMaterialRepository extends BaseRepository
         parent::__construct($registry, CourseLearningMaterial::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -77,6 +79,7 @@ class CourseLearningMaterialRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

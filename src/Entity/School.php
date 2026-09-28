@@ -21,6 +21,7 @@ use App\Traits\TitledEntity;
 use App\Traits\CoursesEntity;
 use App\Traits\ProgramsEntity;
 use App\Repository\SchoolRepository;
+use Override;
 
 #[ORM\Table(name: 'school')]
 #[ORM\UniqueConstraint(name: 'template_prefix', columns: ['template_prefix'])]
@@ -167,47 +168,56 @@ class School implements SchoolInterface
         $this->configurations = new ArrayCollection();
     }
 
+    #[Override]
     public function setTemplatePrefix(?string $templatePrefix): void
     {
         $this->templatePrefix = $templatePrefix;
     }
 
+    #[Override]
     public function getTemplatePrefix(): ?string
     {
         return $this->templatePrefix;
     }
 
+    #[Override]
     public function setIliosAdministratorEmail(string $iliosAdministratorEmail): void
     {
         $this->iliosAdministratorEmail = $iliosAdministratorEmail;
     }
 
+    #[Override]
     public function getIliosAdministratorEmail(): string
     {
         return $this->iliosAdministratorEmail;
     }
 
+    #[Override]
     public function setChangeAlertRecipients(?string $changeAlertRecipients): void
     {
         $this->changeAlertRecipients = $changeAlertRecipients;
     }
 
+    #[Override]
     public function getChangeAlertRecipients(): ?string
     {
         return $this->changeAlertRecipients;
     }
 
+    #[Override]
     public function setCurriculumInventoryInstitution(
         ?CurriculumInventoryInstitutionInterface $curriculumInventoryInstitution
     ): void {
         $this->curriculumInventoryInstitution = $curriculumInventoryInstitution;
     }
 
+    #[Override]
     public function getCurriculumInventoryInstitution(): ?CurriculumInventoryInstitutionInterface
     {
         return $this->curriculumInventoryInstitution;
     }
 
+    #[Override]
     public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
@@ -216,6 +226,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function removeAlert(AlertInterface $alert): void
     {
         if ($this->alerts->contains($alert)) {
@@ -224,6 +235,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function setVocabularies(Collection $vocabularies): void
     {
         $this->vocabularies = new ArrayCollection();
@@ -233,6 +245,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function addVocabulary(VocabularyInterface $vocabulary): void
     {
         if (!$this->vocabularies->contains($vocabulary)) {
@@ -240,16 +253,19 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function removeVocabulary(VocabularyInterface $vocabulary): void
     {
         $this->vocabularies->removeElement($vocabulary);
     }
 
+    #[Override]
     public function getVocabularies(): Collection
     {
         return $this->vocabularies;
     }
 
+    #[Override]
     public function addDirector(UserInterface $director): void
     {
         if (!$this->directors->contains($director)) {
@@ -258,6 +274,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function removeDirector(UserInterface $director): void
     {
         if ($this->directors->contains($director)) {
@@ -266,6 +283,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -274,6 +292,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function removeAdministrator(UserInterface $administrator): void
     {
         if ($this->administrators->contains($administrator)) {
@@ -282,6 +301,7 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function addConfiguration(SchoolConfigInterface $config): void
     {
         if (!$this->configurations->contains($config)) {
@@ -289,11 +309,13 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function removeConfiguration(SchoolConfigInterface $config): void
     {
         $this->configurations->removeElement($config);
     }
 
+    #[Override]
     public function setConfigurations(Collection $configs): void
     {
         $this->configurations = new ArrayCollection();
@@ -303,11 +325,13 @@ class School implements SchoolInterface
         }
     }
 
+    #[Override]
     public function getConfigurations(): Collection
     {
         return $this->configurations;
     }
 
+    #[Override]
     public function getIndexableCourses(): array
     {
         return $this->courses->toArray();

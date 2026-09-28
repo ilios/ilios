@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\MeshTreeRepository;
+use Override;
 
 #[ORM\Table(name: 'mesh_tree')]
 #[ORM\Entity(repositoryClass: MeshTreeRepository::class)]
@@ -42,16 +43,19 @@ class MeshTree implements MeshTreeInterface
     #[IA\Type('entity')]
     protected MeshDescriptorInterface $descriptor;
 
+    #[Override]
     public function setTreeNumber(string $treeNumber): void
     {
         $this->treeNumber = $treeNumber;
     }
 
+    #[Override]
     public function getTreeNumber(): string
     {
         return $this->treeNumber;
     }
 
+    #[Override]
     public function setDescriptor(MeshDescriptorInterface $descriptor): MeshTree
     {
         $this->descriptor = $descriptor;
@@ -59,6 +63,7 @@ class MeshTree implements MeshTreeInterface
         return $this;
     }
 
+    #[Override]
     public function getDescriptor(): MeshDescriptorInterface
     {
         return $this->descriptor;

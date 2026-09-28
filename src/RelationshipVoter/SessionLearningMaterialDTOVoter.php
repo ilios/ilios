@@ -11,6 +11,7 @@ use App\Service\SessionUserPermissionChecker;
 use DateTime;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class SessionLearningMaterialDTOVoter extends AbstractVoter
 {
@@ -25,6 +26,7 @@ class SessionLearningMaterialDTOVoter extends AbstractVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

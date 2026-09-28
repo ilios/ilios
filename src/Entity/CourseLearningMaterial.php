@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CourseLearningMaterialRepository;
+use Override;
 
 #[ORM\Table(name: 'course_learning_material')]
 #[ORM\Entity(repositoryClass: CourseLearningMaterialRepository::class)]
@@ -115,16 +116,19 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
         $this->position = 0;
     }
 
+    #[Override]
     public function setCourse(CourseInterface $course): void
     {
         $this->course = $course;
     }
 
+    #[Override]
     public function getCourse(): CourseInterface
     {
         return $this->course;
     }
 
+    #[Override]
     public function getIndexableCourses(): array
     {
         return [$this->course];

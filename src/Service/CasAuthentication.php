@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use UnexpectedValueException;
+use Override;
 
 /**
  * Authenticate user using CAS Protocol and return a JWT
@@ -55,6 +56,7 @@ class CasAuthentication implements AuthenticationInterface
      * If the user is logged in, but no account exists set a cookie and redirect them back to the frontend
      * If the user is authenticated set a cookie and redirect back to the frontend
      */
+    #[Override]
     public function login(Request $request): Response
     {
         if ($request->cookies->has(self::JWT_COOKIE)) {
@@ -139,6 +141,7 @@ class CasAuthentication implements AuthenticationInterface
         return $response;
     }
 
+    #[Override]
     public function logout(Request $request): JsonResponse
     {
         $logoutUrl = $this->casManager->getLogoutUrl();
@@ -151,6 +154,7 @@ class CasAuthentication implements AuthenticationInterface
         return $response;
     }
 
+    #[Override]
     public function getPublicConfigurationInformation(Request $request): array
     {
         $configuration = [];
@@ -160,6 +164,7 @@ class CasAuthentication implements AuthenticationInterface
         return $configuration;
     }
 
+    #[Override]
     public function createAuthenticationResponse(Request $request): Response
     {
         if (

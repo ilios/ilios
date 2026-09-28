@@ -17,6 +17,7 @@ use App\Traits\TitledEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\SessionTypeRepository;
+use Override;
 
 #[ORM\Table(name: 'session_type')]
 #[ORM\Index(columns: ['school_id'], name: 'school_id')]
@@ -107,36 +108,43 @@ class SessionType implements SessionTypeInterface
         $this->active = true;
     }
 
+    #[Override]
     public function setCalendarColor(string $color): void
     {
         $this->calendarColor = $color;
     }
 
+    #[Override]
     public function getCalendarColor(): string
     {
         return $this->calendarColor;
     }
 
+    #[Override]
     public function setAssessment(bool $assessment): void
     {
         $this->assessment = $assessment;
     }
 
+    #[Override]
     public function isAssessment(): bool
     {
         return $this->assessment;
     }
 
+    #[Override]
     public function setAssessmentOption(?AssessmentOptionInterface $assessmentOption = null): void
     {
         $this->assessmentOption = $assessmentOption;
     }
 
+    #[Override]
     public function getAssessmentOption(): ?AssessmentOptionInterface
     {
         return $this->assessmentOption;
     }
 
+    #[Override]
     public function setAamcMethods(Collection $aamcMethods): void
     {
         $this->aamcMethods = new ArrayCollection();
@@ -146,6 +154,7 @@ class SessionType implements SessionTypeInterface
         }
     }
 
+    #[Override]
     public function addAamcMethod(AamcMethodInterface $aamcMethod): void
     {
         if (!$this->aamcMethods->contains($aamcMethod)) {
@@ -153,16 +162,19 @@ class SessionType implements SessionTypeInterface
         }
     }
 
+    #[Override]
     public function removeAamcMethod(AamcMethodInterface $aamcMethod): void
     {
         $this->aamcMethods->removeElement($aamcMethod);
     }
 
+    #[Override]
     public function getAamcMethods(): Collection
     {
         return $this->aamcMethods;
     }
 
+    #[Override]
     public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
@@ -171,6 +183,7 @@ class SessionType implements SessionTypeInterface
         }
     }
 
+    #[Override]
     public function removeSession(SessionInterface $session): void
     {
         $sessionId = $session->getId();

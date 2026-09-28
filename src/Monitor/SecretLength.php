@@ -8,6 +8,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
+use Override;
 
 class SecretLength implements CheckInterface
 {
@@ -25,6 +26,7 @@ class SecretLength implements CheckInterface
     /**
      * Ensure ILIOS_SECRET is long enough
      */
+    #[Override]
     public function check(): ResultInterface
     {
         $secret = getenv(self::NAME);
@@ -49,6 +51,7 @@ class SecretLength implements CheckInterface
     /**
      * Describe this test
      */
+    #[Override]
     public function getLabel(): string
     {
         return 'Secret Length';

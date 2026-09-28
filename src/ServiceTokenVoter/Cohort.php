@@ -9,6 +9,7 @@ use App\Classes\VoterPermissions;
 use App\Entity\CohortInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class Cohort extends AbstractReadWriteEntityVoter
 {
@@ -25,6 +26,7 @@ class Cohort extends AbstractReadWriteEntityVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

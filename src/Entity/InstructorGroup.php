@@ -18,6 +18,7 @@ use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\InstructorGroupRepository;
+use Override;
 
 #[ORM\Table(name: 'instructor_group')]
 #[ORM\Entity(repositoryClass: InstructorGroupRepository::class)]
@@ -92,6 +93,7 @@ class InstructorGroup implements InstructorGroupInterface
         $this->offerings = new ArrayCollection();
     }
 
+    #[Override]
     public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if (!$this->learnerGroups->contains($learnerGroup)) {
@@ -100,6 +102,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
+    #[Override]
     public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
     {
         if ($this->learnerGroups->contains($learnerGroup)) {
@@ -108,6 +111,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
+    #[Override]
     public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
@@ -116,6 +120,7 @@ class InstructorGroup implements InstructorGroupInterface
         }
     }
 
+    #[Override]
     public function removeIlmSession(IlmSessionInterface $ilmSession): void
     {
         if ($this->ilmSessions->contains($ilmSession)) {

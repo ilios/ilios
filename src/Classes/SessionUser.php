@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\UserInterface as IliosUserInterface;
 use DateTime;
 use Deprecated;
+use Override;
 
 /**
  * Class SessionUser
@@ -65,6 +66,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function performsNonLearnerFunction(): bool
     {
         return
@@ -81,6 +83,7 @@ class SessionUser implements SessionUserInterface
             !empty($this->getDirectedProgramYearIds());
     }
 
+    #[Override]
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof SessionUser) {
@@ -90,6 +93,7 @@ class SessionUser implements SessionUserInterface
         return $this->getUserIdentifier() === $user->getUserIdentifier();
     }
 
+    #[Override]
     public function isTheUser(IliosUserInterface $user): bool
     {
 
@@ -100,6 +104,7 @@ class SessionUser implements SessionUserInterface
         return false;
     }
 
+    #[Override]
     public function isThePrimarySchool(SchoolInterface $school): bool
     {
 
@@ -110,6 +115,7 @@ class SessionUser implements SessionUserInterface
         return false;
     }
 
+    #[Override]
     public function getRoles(): array
     {
         return [];
@@ -119,6 +125,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAssociatedSchoolIdsInNonLearnerFunction(): array
     {
         return array_merge(
@@ -135,11 +142,13 @@ class SessionUser implements SessionUserInterface
         );
     }
 
+    #[Override]
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
+    #[Override]
     public function getUserIdentifier(): string
     {
         return (string) $this->userId;
@@ -154,26 +163,31 @@ class SessionUser implements SessionUserInterface
         // not implemented.
     }
 
+    #[Override]
     public function isRoot(): bool
     {
         return $this->isRoot;
     }
 
+    #[Override]
     public function isEnabled(): bool
     {
         return $this->isEnabled;
     }
 
+    #[Override]
     public function tokenNotValidBefore(): ?DateTime
     {
         return $this->tokenNotValidBefore;
     }
 
+    #[Override]
     public function getSchoolId(): int
     {
         return $this->schoolId;
     }
 
+    #[Override]
     public function getId(): int
     {
         return $this->userId;
@@ -183,6 +197,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getDirectedCourseIds());
@@ -192,6 +207,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getAdministeredCourseIds());
@@ -201,6 +217,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getDirectedSchoolIds());
@@ -210,6 +227,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredSchoolIds());
@@ -219,6 +237,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingCourseInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getDirectedCourseSchoolIds());
@@ -228,6 +247,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringCourseInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredCourseSchoolIds());
@@ -237,6 +257,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringSessionInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredSessionSchoolIds());
@@ -246,6 +267,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringSessionInCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getAdministeredSessionCourseIds());
@@ -255,6 +277,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isTeachingCourseInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getTaughtCourseSchoolIds());
@@ -264,6 +287,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isTeachingCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getTaughtCourseIds());
@@ -273,6 +297,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringSession(int $sessionId): bool
     {
         return in_array($sessionId, $this->getAdministeredSessionIds());
@@ -282,6 +307,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingProgram(int $programId): bool
     {
         return in_array($programId, $this->getDirectedProgramIds());
@@ -291,6 +317,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingProgramInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getDirectedProgramSchoolIds());
@@ -300,6 +327,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingProgramYearInProgram(int $programId): bool
     {
         return in_array($programId, $this->getDirectedProgramYearProgramIds());
@@ -309,6 +337,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingProgramYear(int $programYearId): bool
     {
         return in_array($programYearId, $this->getDirectedProgramYearIds());
@@ -318,6 +347,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isTeachingSession(int $sessionId): bool
     {
         return in_array($sessionId, $this->getInstructedSessionIds());
@@ -327,6 +357,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isInstructingOffering(int $offeringId): bool
     {
         return in_array($offeringId, $this->getInstructedOfferingIds());
@@ -336,31 +367,37 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isInstructingIlm(int $ilmId): bool
     {
         return in_array($ilmId, $this->getInstructedIlmIds());
     }
 
+    #[Override]
     public function isStudentAdvisorInSession(int $sessionId): bool
     {
         return in_array($sessionId, $this->getStudentAdvisedSessionIds());
     }
 
+    #[Override]
     public function isStudentAdvisorInCourse(int $courseId): bool
     {
         return in_array($courseId, $this->getStudentAdvisedCourseIds());
     }
 
+    #[Override]
     public function isLearnerInOffering(int $offeringId): bool
     {
         return in_array($offeringId, $this->getLearnerOfferingsIds());
     }
 
+    #[Override]
     public function isLearnerInSession(int $sessionId): bool
     {
         return in_array($sessionId, $this->getLearnerSessionIds());
     }
 
+    #[Override]
     public function isLearnerInIlm(int $ilmId): bool
     {
         return in_array($ilmId, $this->getLearnerIlmIds());
@@ -370,6 +407,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function rolesInSchool(
         int $schoolId,
         $roles = [
@@ -432,6 +470,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function rolesInCourse(
         int $courseId,
         $roles = [
@@ -466,6 +505,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function rolesInSession(
         int $sessionId,
         $roles = [UserRoles::SESSION_ADMINISTRATOR, UserRoles::SESSION_INSTRUCTOR]
@@ -486,6 +526,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function rolesInProgram(
         int $programId,
         $roles = [UserRoles::PROGRAM_DIRECTOR, UserRoles::PROGRAM_YEAR_DIRECTOR]
@@ -509,6 +550,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function rolesInProgramYear(int $programYearId, $roles = [UserRoles::PROGRAM_YEAR_DIRECTOR]): array
     {
         $rhett = [];
@@ -527,6 +569,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringCurriculumInventoryReportInSchool(int $schoolId): bool
     {
         return in_array($schoolId, $this->getAdministeredCurriculumInventoryReportSchoolIds());
@@ -536,6 +579,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isAdministeringCurriculumInventoryReport(int $curriculumInventoryReportId): bool
     {
         return in_array($curriculumInventoryReportId, $this->getAdministeredCurriculumInventoryReportIds());
@@ -545,6 +589,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function rolesInCurriculumInventoryReport(
         int $curriculumInventoryReportId,
         $roles = [UserRoles::CURRICULUM_INVENTORY_REPORT_ADMINISTRATOR]
@@ -565,6 +610,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedCourseIds(): array
     {
         return $this->getDirectedCourseAndSchoolIds()['courseIds'];
@@ -574,6 +620,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredCourseIds(): array
     {
         return $this->getAdministeredCourseAndSchoolIds()['courseIds'];
@@ -583,6 +630,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedSchoolIds(): array
     {
         if (!isset($this->directedSchoolIds)) {
@@ -595,6 +643,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredSchoolIds(): array
     {
         if (!isset($this->administeredSchoolIds)) {
@@ -607,6 +656,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedCourseSchoolIds(): array
     {
         return $this->getDirectedCourseAndSchoolIds()['schoolIds'];
@@ -616,6 +666,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredCourseSchoolIds(): array
     {
         return $this->getAdministeredCourseAndSchoolIds()['schoolIds'];
@@ -625,6 +676,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredSessionSchoolIds(): array
     {
         return $this->getAdministeredSessionCourseAndSchoolIds()['schoolIds'];
@@ -634,6 +686,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredSessionCourseIds(): array
     {
         return $this->getAdministeredSessionCourseAndSchoolIds()['courseIds'];
@@ -643,6 +696,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getTaughtCourseIds(): array
     {
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['courseIds'];
@@ -657,6 +711,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredSessionIds(): array
     {
         return $this->getAdministeredSessionCourseAndSchoolIds()['sessionIds'];
@@ -666,6 +721,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getInstructedSessionIds(): array
     {
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['sessionIds'];
@@ -675,6 +731,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getInstructedIlmIds(): array
     {
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['ilmIds'];
@@ -689,6 +746,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getInstructedOfferingIds(): array
     {
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['offeringIds'];
@@ -698,6 +756,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getTaughtCourseSchoolIds(): array
     {
         return $this->getInstructedOfferingIlmSessionCourseAndSchoolIds()['schoolIds'];
@@ -707,6 +766,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedProgramIds(): array
     {
         return $this->getDirectedProgramAndSchoolIds()['programIds'];
@@ -716,6 +776,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedProgramSchoolIds(): array
     {
         return $this->getDirectedProgramAndSchoolIds()['schoolIds'];
@@ -725,6 +786,7 @@ class SessionUser implements SessionUserInterface
      * @@inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedProgramYearIds(): array
     {
         return $this->getDirectedProgramYearProgramAndSchoolIds()['programYearIds'];
@@ -734,6 +796,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getDirectedProgramYearProgramIds(): array
     {
         return $this->getDirectedProgramYearProgramAndSchoolIds()['programIds'];
@@ -743,6 +806,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredCurriculumInventoryReportIds(): array
     {
         return $this->getAdministeredCurriculumInventoryReportAndSchoolIds()['reportIds'];
@@ -752,6 +816,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getAdministeredCurriculumInventoryReportSchoolIds(): array
     {
         return $this->getAdministeredCurriculumInventoryReportAndSchoolIds()['schoolIds'];
@@ -761,6 +826,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isInLearnerGroup(int $learnerGroupId): bool
     {
         $ids = $this->getLearnerGroupIds();
@@ -771,6 +837,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function getCourseIdsLinkedToProgramsDirectedByUser(): array
     {
         return $this->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser()['courseIds'];
@@ -790,6 +857,7 @@ class SessionUser implements SessionUserInterface
      * @inheritdoc
      * @throws Exception
      */
+    #[Override]
     public function isDirectingProgramLinkedToCourse(int $courseId): bool
     {
         $ids = $this->getCourseIdsLinkedToProgramsDirectedByUser();

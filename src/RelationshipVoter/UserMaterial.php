@@ -11,6 +11,7 @@ use App\Entity\LearningMaterialStatusInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class UserMaterial extends AbstractVoter
 {
@@ -25,6 +26,7 @@ class UserMaterial extends AbstractVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

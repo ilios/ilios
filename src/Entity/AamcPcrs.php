@@ -12,6 +12,7 @@ use App\Traits\CompetenciesEntity;
 use App\Attributes as IA;
 use App\Repository\AamcPcrsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
+use Override;
 
 #[ORM\Entity(repositoryClass: AamcPcrsRepository::class)]
 #[ORM\Table(name: 'aamc_pcrs')]
@@ -50,6 +51,7 @@ class AamcPcrs implements AamcPcrsInterface
         $this->competencies = new ArrayCollection();
     }
 
+    #[Override]
     public function addCompetency(CompetencyInterface $competency): void
     {
         if (!$this->competencies->contains($competency)) {
@@ -58,6 +60,7 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
+    #[Override]
     public function removeCompetency(CompetencyInterface $competency): void
     {
         if ($this->competencies->contains($competency)) {
@@ -66,11 +69,13 @@ class AamcPcrs implements AamcPcrsInterface
         }
     }
 
+    #[Override]
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return $this->description;

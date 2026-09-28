@@ -9,11 +9,13 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 class Migrations implements CheckInterface
 {
     public function __construct(protected DependencyFactory $dependencyFactory) {}
 
+    #[Override]
     public function check(): ResultInterface
     {
         // Functionality pilfered and stripped down from the `doctrine:migrations:up-to-date` command.
@@ -35,6 +37,7 @@ class Migrations implements CheckInterface
         return new Failure('You have previously executed migrations in the database that are not registered migrations.');
     }
 
+    #[Override]
     public function getLabel(): string
     {
         return 'Database migrations';

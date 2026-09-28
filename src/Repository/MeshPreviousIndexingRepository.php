@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\MeshPreviousIndexing;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_key_exists;
@@ -24,6 +25,7 @@ class MeshPreviousIndexingRepository extends BaseRepository
         parent::__construct($registry, MeshPreviousIndexing::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -56,6 +58,7 @@ class MeshPreviousIndexingRepository extends BaseRepository
         return array_values($dtos);
     }
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

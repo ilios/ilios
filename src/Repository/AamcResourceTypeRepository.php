@@ -11,6 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AamcResourceTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 
@@ -25,6 +26,7 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
         parent::__construct($registry, AamcResourceType::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -51,6 +53,7 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -71,6 +74,7 @@ class AamcResourceTypeRepository extends BaseRepository implements DataImportRep
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `resource_type_id`,`title`,`description`

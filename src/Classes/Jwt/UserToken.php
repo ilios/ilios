@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Classes\Jwt;
 
 use DateTimeImmutable;
+use Override;
 
 /**
  * An immutable object representation of a decoded JWT user token.
@@ -32,6 +33,7 @@ readonly class UserToken extends Token
         );
     }
 
+    #[Override]
     public function toArray(): array
     {
         $rhett = array_merge(

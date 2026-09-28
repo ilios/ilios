@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableNullableEntity;
 use App\Traits\IdentifiableEntity;
 use App\Repository\CurriculumInventorySequenceRepository;
+use Override;
 
 #[ORM\Table(name: 'curriculum_inventory_sequence')]
 #[ORM\Entity(repositoryClass: CurriculumInventorySequenceRepository::class)]
@@ -50,11 +51,13 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[Assert\Length(max: 65000)]
     protected ?string $description = null;
 
+    #[Override]
     public function setReport(CurriculumInventoryReportInterface $report): void
     {
         $this->report = $report;
     }
 
+    #[Override]
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;

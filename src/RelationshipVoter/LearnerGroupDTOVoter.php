@@ -10,6 +10,7 @@ use App\Entity\DTO\LearnerGroupDTO;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 /**
  * @package App\RelationshipVoter
@@ -27,6 +28,7 @@ class LearnerGroupDTOVoter extends AbstractVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

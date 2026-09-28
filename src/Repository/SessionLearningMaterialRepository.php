@@ -10,6 +10,7 @@ use Doctrine\ORM\AbstractQuery;
 use App\Entity\SessionLearningMaterial;
 use App\Entity\DTO\SessionLearningMaterialDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 use function array_keys;
@@ -23,6 +24,7 @@ class SessionLearningMaterialRepository extends BaseRepository
         parent::__construct($registry, SessionLearningMaterial::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()->createQueryBuilder()->select('x')
@@ -79,6 +81,7 @@ class SessionLearningMaterialRepository extends BaseRepository
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,

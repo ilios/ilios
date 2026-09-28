@@ -11,6 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertChangeTypeDTO;
 use Doctrine\Persistence\ManagerRegistry;
+use Override;
 
 use function array_values;
 
@@ -25,6 +26,7 @@ class AlertChangeTypeRepository extends BaseRepository implements DataImportRepo
         parent::__construct($registry, AlertChangeType::class, $cacheManager);
     }
 
+    #[Override]
     public function hydrateDTOsFromIds(array $ids): array
     {
         $qb = $this->getEntityManager()
@@ -50,6 +52,7 @@ class AlertChangeTypeRepository extends BaseRepository implements DataImportRepo
     }
 
 
+    #[Override]
     protected function attachCriteriaToQueryBuilder(
         QueryBuilder $qb,
         array $criteria,
@@ -70,6 +73,7 @@ class AlertChangeTypeRepository extends BaseRepository implements DataImportRepo
         $this->attachClosingCriteriaToQueryBuilder($qb, $criteria, $orderBy, $limit, $offset);
     }
 
+    #[Override]
     public function import(array $data, string $type, array $referenceMap): array
     {
         // `alert_change_type_id`,`title`

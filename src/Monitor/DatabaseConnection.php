@@ -10,6 +10,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Override;
 
 class DatabaseConnection implements CheckInterface
 {
@@ -17,6 +18,7 @@ class DatabaseConnection implements CheckInterface
     {
     }
 
+    #[Override]
     public function check(): ResultInterface
     {
         // inspired by https://github.com/liip/LiipMonitorBundle/blob/2.x/Check/DoctrineDbal.php
@@ -29,6 +31,7 @@ class DatabaseConnection implements CheckInterface
         }
     }
 
+    #[Override]
     public function getLabel(): string
     {
         return 'Database connection';

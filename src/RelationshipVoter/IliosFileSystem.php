@@ -10,6 +10,7 @@ use App\Classes\SessionUserInterface;
 use App\Service\SessionUserPermissionChecker;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
+use Override;
 
 class IliosFileSystem extends AbstractVoter
 {
@@ -24,6 +25,7 @@ class IliosFileSystem extends AbstractVoter
         );
     }
 
+    #[Override]
     protected function voteOnAttribute(
         string $attribute,
         mixed $subject,

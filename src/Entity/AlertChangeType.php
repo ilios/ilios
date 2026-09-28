@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
+use Override;
 
 #[ORM\Table(name: 'alert_change_type')]
 #[ORM\Entity(repositoryClass: AlertChangeTypeRepository::class)]
@@ -53,6 +54,7 @@ class AlertChangeType implements AlertChangeTypeInterface
         $this->alerts = new ArrayCollection();
     }
 
+    #[Override]
     public function addAlert(AlertInterface $alert): void
     {
         if (!$this->alerts->contains($alert)) {
@@ -61,6 +63,7 @@ class AlertChangeType implements AlertChangeTypeInterface
         }
     }
 
+    #[Override]
     public function removeAlert(AlertInterface $alert): void
     {
         if ($this->alerts->contains($alert)) {

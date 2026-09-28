@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\MeshPreviousIndexingRepository;
+use Override;
 
 #[ORM\Table(name: 'mesh_previous_indexing')]
 #[ORM\UniqueConstraint(name: 'descriptor_previous', columns: ['mesh_descriptor_uid'])]
@@ -43,21 +44,25 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     #[Assert\Length(min: 1, max: 65000)]
     protected string $previousIndexing;
 
+    #[Override]
     public function setDescriptor(MeshDescriptorInterface $descriptor): void
     {
         $this->descriptor = $descriptor;
     }
 
+    #[Override]
     public function getDescriptor(): MeshDescriptorInterface
     {
         return $this->descriptor;
     }
 
+    #[Override]
     public function setPreviousIndexing(string $previousIndexing): void
     {
         $this->previousIndexing = $previousIndexing;
     }
 
+    #[Override]
     public function getPreviousIndexing(): string
     {
         return $this->previousIndexing;

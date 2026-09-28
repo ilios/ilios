@@ -7,9 +7,11 @@ namespace App\Classes;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Override;
 
 abstract class MysqlMigration extends AbstractMigration
 {
+    #[Override]
     public function preUp(Schema $schema): void
     {
         $this->abortIf(
@@ -18,6 +20,7 @@ abstract class MysqlMigration extends AbstractMigration
         );
     }
 
+    #[Override]
     public function preDown(Schema $schema): void
     {
         $this->abortIf(
@@ -26,6 +29,7 @@ abstract class MysqlMigration extends AbstractMigration
         );
     }
 
+    #[Override]
     public function isTransactional(): bool
     {
         return false;
