@@ -307,6 +307,6 @@ class UpdateFrontendCommand extends Command implements CacheWarmerInterface
 
     public static function getActiveFrontendIndexPath(string $kernelProjectDir): string
     {
-        return $kernelProjectDir . self::FRONTEND_FILES  . '/index.json';
+        return $kernelProjectDir . self::FRONTEND_FILES . 'index.json';
     }
 }

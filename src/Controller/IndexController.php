@@ -115,8 +115,7 @@ class IndexController extends AbstractController
 
         $filteredMetas = array_filter(
             $json->meta,
-            fn($obj) =>
-                !property_exists($obj, 'name') || !(str_starts_with($obj->name, "iliosconfig"))
+            fn($obj) => !property_exists($obj, 'name') || !(str_starts_with($obj->name, "iliosconfig"))
         );
 
         $metas = array_map(fn($obj) => [
@@ -155,6 +154,7 @@ class IndexController extends AbstractController
 
         $scripts = array_map(fn($obj) => [
             'src' => property_exists($obj, 'src') ? $obj->src : null,
+            'type' => property_exists($obj, 'type') ? $obj->type : null,
             'content' => property_exists($obj, 'content') ? $obj->content : null,
         ], $json->script);
 
