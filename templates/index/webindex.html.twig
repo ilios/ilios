@@ -28,13 +28,14 @@
     <title>Ilios</title>
 
     {% for l in preloadLinks %}
-        <link rel="preload" href="{{ preload(asset(l.href), { as: l.as, crossorigin: l.crossorigin }) }}" as="{{ l.as }}" crossorigin="{{  l.crossorigin }}" {% if l.type %} type="{{  l.type }}" {% endif %} />
+        <link rel="preload" href="{{ preload(asset(l.href), { as: l.as, crossorigin: l.crossorigin }) }}"
+              as="{{ l.as }}" crossorigin="{{ l.crossorigin }}" {% if l.type %} type="{{ l.type }}" {% endif %} />
     {% endfor %}
 
     {% for l in links %}
         <link rel="{{ l.rel }}" href="{{ l.href }}"
-                {%- if l.type %} type="{{  l.type }}" {% endif -%}
-                {%- if l.sizes %} sizes="{{  l.sizes }}" {% endif -%}
+            {%- if l.type %} type="{{ l.type }}" {% endif -%}
+            {%- if l.sizes %} sizes="{{ l.sizes }}" {% endif -%}
         />
     {% endfor %}
 
@@ -45,21 +46,21 @@
             {% endautoescape %}
         </style>
     {% endfor %}
+    {% for s in stylesheets %}
+        <link rel="stylesheet" href="{{ preload(asset(s.href), { as: 'style' }) }}"/>
+    {% endfor %}
+    <link rel="stylesheet" href="{{ preload(asset('theme-overrides/custom.css'), { as: 'style'}) }}"/>
+
 </head>
 <body>
 
 {% for d in divs %}
     <div id="{{ d.id }}" class="{{ d.class }}">
         {% autoescape false %}
-        {{ d.htmlContent }}
+            {{ d.htmlContent }}
         {% endautoescape %}
     </div>
 {% endfor %}
-
-{% for s in stylesheets %}
-    <link rel="stylesheet" href="{{ preload(asset(s.href), { as: 'style' }) }}"  />
-{% endfor %}
-<link rel="stylesheet" href="{{ preload(asset('theme-overrides/custom.css'), { as: 'style'}) }}" />
 
 {% for n in noScripts %}
     <noscript>
@@ -74,11 +75,15 @@
 
 {% for s in scripts %}
     {% if s.src %}
+    {% if s.type %}
+        <script defer type="{{ s.type }}" src="{{ preload(asset(s.src), { as: 'script' }) }}"></script>
+    {% else %}
         <script defer src="{{ preload(asset(s.src), { as: 'script' }) }}"></script>
+    {% endif %}
     {% else %}
         <script>
             {% autoescape false %}
-                {{ s.content }}
+            {{ s.content }}
             {% endautoescape %}
         </script>
     {% endif %}
