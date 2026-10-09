@@ -6,7 +6,7 @@ permissions:
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 14 * * 1' # weekly, on Monday morning (UTC)
+    - cron: "15 14 * * 1" # weekly, on Monday morning (UTC)
 
 env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_ILIOS_DEPLOYMENT_WEBHOOK_URL }}
@@ -35,14 +35,20 @@ jobs:
         id: vars
         run: |
           lockDiff="$(composer-lock-diff --md)"
-          # We have to manually escape new lines
-          lockDiff="${lockDiff//$'\n'/'%0A'}"
-          echo ::set-output name=pr_title::"Update Dependencies"
-          echo ::set-output name=commit_message::"Update Dependencies \
+          echo "pr_title=Update Dependencies" >> "$GITHUB_OUTPUT"
+          {
+            echo "commit_message<<EOF"
+            echo "Update Dependencies"
+            echo
+            echo "$lockDiff"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
 
-
-          ${lockDiff}."
-          echo ::set-output name=pr_body::"${lockDiff}"
+          {
+            echo "pr_body<<EOF"
+            echo "$lockDiff"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v8
         with:
