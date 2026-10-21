@@ -47,7 +47,6 @@
         <RedundantCast errorLevel="suppress"/>
         <RedundantCondition errorLevel="suppress"/>
         <RedundantFunctionCall errorLevel="suppress"/>
-        <RedundantPropertyInitializationCheck errorLevel="suppress"/>
         <TypeDoesNotContainType errorLevel="suppress"/>
     </issueHandlers>
     <plugins>
