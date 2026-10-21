@@ -30,7 +30,7 @@ class DateTimeType extends CustomScalarType
                                    '[0-5][\d]))$~';
     public string $name = self::NAME;
     public ?string $description = self::DESCRIPTION;
-    public static DateTimeType $instance;
+    private static ?DateTimeType $instance = null;
 
     public function __construct()
     {
@@ -44,7 +44,7 @@ class DateTimeType extends CustomScalarType
 
     public static function getInstance(): DateTimeType
     {
-        if (!isset(self::$instance)) {
+        if (null === self::$instance) {
             self::$instance = new DateTimeType();
         }
         return self::$instance;
