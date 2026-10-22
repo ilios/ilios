@@ -27,23 +27,23 @@ class SessionUser implements SessionUserInterface
     protected int $schoolId;
     protected ?DateTime $tokenNotValidBefore = null;
     protected ?string $password;
-    protected array $directedCourseAndSchoolIds;
-    protected array $administeredCourseAndSchoolIds;
-    protected array $directedSchoolIds;
-    protected array $administeredSchoolIds;
-    protected array $administeredSessionCourseAndSchoolIds;
-    protected array $studentAdvisedSessionAndCourseIds;
-    protected array $instructedOfferingIlmSessionCourseAndSchoolIds;
-    protected array $instructedLearnerGroupSchoolIds;
-    protected array $instructorGroupSchoolIds;
-    protected array $directedProgramAndSchoolIds;
-    protected array $directedProgramYearProgramAndSchoolIds;
-    protected array $administeredCurriculumInventoryReportAndSchoolIds;
-    protected array $learnerGroupIds;
-    protected array $instructorGroupIds;
-    protected array $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser;
-    protected array $learnerIlmAndOfferingIds;
-    protected array $learnerSessionIds;
+    protected ?array $directedCourseAndSchoolIds = null;
+    protected ?array $administeredCourseAndSchoolIds = null;
+    protected ?array $directedSchoolIds = null;
+    protected ?array $administeredSchoolIds = null;
+    protected ?array $administeredSessionCourseAndSchoolIds = null;
+    protected ?array $studentAdvisedSessionAndCourseIds = null;
+    protected ?array $instructedOfferingIlmSessionCourseAndSchoolIds = null;
+    protected ?array $instructedLearnerGroupSchoolIds = null;
+    protected ?array $instructorGroupSchoolIds = null;
+    protected ?array $directedProgramAndSchoolIds = null;
+    protected ?array $directedProgramYearProgramAndSchoolIds = null;
+    protected ?array $administeredCurriculumInventoryReportAndSchoolIds = null;
+    protected ?array $learnerGroupIds = null;
+    protected ?array $instructorGroupIds = null;
+    protected ?array $coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser = null;
+    protected ?array $learnerIlmAndOfferingIds = null;
+    protected ?array $learnerSessionIds = null;
     protected UserRepository $userRepository;
 
     public function __construct(IliosUserInterface $user, UserRepository $userRepository)
@@ -633,7 +633,7 @@ class SessionUser implements SessionUserInterface
     #[Override]
     public function getDirectedSchoolIds(): array
     {
-        if (!isset($this->directedSchoolIds)) {
+        if (null === $this->directedSchoolIds) {
             $this->directedSchoolIds = $this->userRepository->getDirectedSchoolIds($this->getId());
         }
         return $this->directedSchoolIds;
@@ -646,7 +646,7 @@ class SessionUser implements SessionUserInterface
     #[Override]
     public function getAdministeredSchoolIds(): array
     {
-        if (!isset($this->administeredSchoolIds)) {
+        if (null === $this->administeredSchoolIds) {
             $this->administeredSchoolIds = $this->userRepository->getAdministeredSchoolIds($this->getId());
         }
         return $this->administeredSchoolIds;
@@ -869,7 +869,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getDirectedProgramYearProgramAndSchoolIds(): array
     {
-        if (!isset($this->directedProgramYearProgramAndSchoolIds)) {
+        if (null === $this->directedProgramYearProgramAndSchoolIds) {
             $this->directedProgramYearProgramAndSchoolIds =
                 $this->userRepository->getDirectedProgramYearProgramAndSchoolIds($this->getId());
         }
@@ -882,7 +882,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getAdministeredCurriculumInventoryReportAndSchoolIds(): array
     {
-        if (!isset($this->administeredCurriculumInventoryReportAndSchoolIds)) {
+        if (null === $this->administeredCurriculumInventoryReportAndSchoolIds) {
             $this->administeredCurriculumInventoryReportAndSchoolIds =
                 $this->userRepository->getAdministeredCurriculumInventoryReportAndSchoolIds($this->getId());
         }
@@ -894,7 +894,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getInstructedOfferingIlmSessionCourseAndSchoolIds(): array
     {
-        if (!isset($this->instructedOfferingIlmSessionCourseAndSchoolIds)) {
+        if (null === $this->instructedOfferingIlmSessionCourseAndSchoolIds) {
             $this->instructedOfferingIlmSessionCourseAndSchoolIds =
                 $this->userRepository->getInstructedOfferingIlmSessionCourseAndSchoolIds($this->getId());
         }
@@ -906,7 +906,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getDirectedProgramAndSchoolIds(): array
     {
-        if (!isset($this->directedProgramAndSchoolIds)) {
+        if (null === $this->directedProgramAndSchoolIds) {
             $this->directedProgramAndSchoolIds = $this->userRepository->getDirectedProgramAndSchoolIds($this->getId());
         }
         return $this->directedProgramAndSchoolIds;
@@ -917,7 +917,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser(): array
     {
-        if (!isset($this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser)) {
+        if (null === $this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser) {
             $this->coursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser
                 = $this->userRepository
                 ->getCoursesCohortsProgramYearAndProgramIdsLinkedToProgramsDirectedByUser($this->getId());
@@ -930,7 +930,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getAdministeredSessionCourseAndSchoolIds(): array
     {
-        if (!isset($this->administeredSessionCourseAndSchoolIds)) {
+        if (null === $this->administeredSessionCourseAndSchoolIds) {
             $this->administeredSessionCourseAndSchoolIds =
                 $this->userRepository->getAdministeredSessionCourseAndSchoolIds($this->getId());
         }
@@ -942,7 +942,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getStudentAdvisedSessionAndCourseIds(): array
     {
-        if (!isset($this->studentAdvisedSessionAndCourseIds)) {
+        if (null === $this->studentAdvisedSessionAndCourseIds) {
             $this->studentAdvisedSessionAndCourseIds =
                 $this->userRepository->getStudentAdvisedSessionAndCourseIds($this->getId());
         }
@@ -954,7 +954,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getLearnerIlmAndOfferingIds(): array
     {
-        if (!isset($this->learnerIlmAndOfferingIds)) {
+        if (null === $this->learnerIlmAndOfferingIds) {
             $this->learnerIlmAndOfferingIds =
                 $this->userRepository->getLearnerIlmAndOfferingIds($this->getId());
         }
@@ -963,7 +963,7 @@ class SessionUser implements SessionUserInterface
 
     protected function getLearnerSessionIds(): array
     {
-        if (!isset($this->learnerSessionIds)) {
+        if (null === $this->learnerSessionIds) {
             $this->learnerSessionIds = $this->userRepository->getLearnerSessionIds($this->getId());
         }
         return $this->learnerSessionIds;
@@ -974,7 +974,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getAdministeredCourseAndSchoolIds(): array
     {
-        if (!isset($this->administeredCourseAndSchoolIds)) {
+        if (null === $this->administeredCourseAndSchoolIds) {
             $this->administeredCourseAndSchoolIds = $this->userRepository->getAdministeredCourseAndSchoolIds(
                 $this->getId()
             );
@@ -987,7 +987,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getDirectedCourseAndSchoolIds(): array
     {
-        if (!isset($this->directedCourseAndSchoolIds)) {
+        if (null === $this->directedCourseAndSchoolIds) {
             $this->directedCourseAndSchoolIds = $this->userRepository->getDirectedCourseAndSchoolIds($this->getId());
         }
         return $this->directedCourseAndSchoolIds;
@@ -999,7 +999,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getInstructedLearnerGroupSchoolIds(): array
     {
-        if (!isset($this->instructedLearnerGroupSchoolIds)) {
+        if (null === $this->instructedLearnerGroupSchoolIds) {
             $this->instructedLearnerGroupSchoolIds =
                 $this->userRepository->getInstructedLearnerGroupSchoolIds($this->getId());
         }
@@ -1012,7 +1012,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getInstructorGroupSchoolIds(): array
     {
-        if (!isset($this->instructorGroupSchoolIds)) {
+        if (null === $this->instructorGroupSchoolIds) {
             $this->instructorGroupSchoolIds =
                 $this->userRepository->getInstructorGroupSchoolIds($this->getId());
         }
@@ -1025,7 +1025,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getLearnerGroupIds(): array
     {
-        if (!isset($this->learnerGroupIds)) {
+        if (null === $this->learnerGroupIds) {
             $this->learnerGroupIds =
                 $this->userRepository->getLearnerGroupIds($this->getId());
         }
@@ -1038,7 +1038,7 @@ class SessionUser implements SessionUserInterface
      */
     protected function getInstructorGroupIds(): array
     {
-        if (!isset($this->instructorGroupIds)) {
+        if (null === $this->instructorGroupIds) {
             $this->instructorGroupIds =
                 $this->userRepository->getInstructorGroupIds($this->getId());
         }
