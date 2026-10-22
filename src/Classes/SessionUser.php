@@ -37,7 +37,7 @@ class SessionUser implements SessionUserInterface
     protected ?array $instructedLearnerGroupSchoolIds = null;
     protected ?array $instructorGroupSchoolIds = null;
     protected ?array $directedProgramAndSchoolIds = null;
-    protected ?array $directedProgramYearProgramAndSchoolIds;
+    protected ?array $directedProgramYearProgramAndSchoolIds = null;
     protected ?array $administeredCurriculumInventoryReportAndSchoolIds = null;
     protected ?array $learnerGroupIds = null;
     protected ?array $instructorGroupIds = null;
