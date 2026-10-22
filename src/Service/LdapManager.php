@@ -15,7 +15,7 @@ use Symfony\Component\Ldap\Ldap;
  */
 class LdapManager
 {
-    protected Ldap $ldap;
+    protected ?Ldap $ldap;
 
     /**
      * Constructor
@@ -106,7 +106,7 @@ class LdapManager
 
     protected function getConnection(): Ldap
     {
-        if (!isset($this->ldap)) {
+        if (null === $this->ldap) {
             $ldapUrl = $this->config->get('ldap_directory_url');
             $ldapBindUser = $this->config->get('ldap_directory_user');
             $ldapBindPassword = $this->config->get('ldap_directory_password');
