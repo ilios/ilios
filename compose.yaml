@@ -73,15 +73,33 @@ services:
       - var:/srv/app/var:rw
       - public:/srv/app/public:rw
       - shared-storage:/ilios-storage:rw
+
   opensearch:
     build:
       context: .
       target: opensearch
     environment:
       - DISABLE_SECURITY_PLUGIN=true
-      - discovery.type=single-node
+      - cluster.name=ilios-cluster
+      - node.name=opensearch
+      - cluster.initial_cluster_manager_nodes=opensearch,opensearch-node2
+      - discovery.seed_hosts=opensearch,opensearch-node2
+      - "OPENSEARCH_JAVA_OPTS=-Xms1600m -Xmx1600m"
     ports:
       - "9200:9200"
+
+  opensearch-node2:
+    build:
+      context: .
+      target: opensearch
+    environment:
+      - DISABLE_SECURITY_PLUGIN=true
+      - cluster.name=ilios-cluster
+      - node.name=opensearch-node2
+      - cluster.initial_cluster_manager_nodes=opensearch,opensearch-node2
+      - discovery.seed_hosts=opensearch,opensearch-node2
+      - "OPENSEARCH_JAVA_OPTS=-Xms1600m -Xmx1600m"
+
   redis:
     build:
       context: .
