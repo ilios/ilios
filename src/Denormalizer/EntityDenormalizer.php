@@ -70,10 +70,9 @@ class EntityDenormalizer implements DenormalizerInterface
 
                     // we ignore attempts to set entities to NULL when they are type hinted otherwise
                     // This will get caught in the validator with a much nicer message
-                    $errorValue = null == $value ? 'null' : $value;
                     $this->logger->error(
                         'Denormalization error ' . self::class . ' line ' . __LINE__ . ': ' .
-                        "Unable to set '{$name}' to '{$errorValue}' on '{$type}'.  Message: " .
+                        "Unable to set '{$name}' to 'null' on '{$type}'.  Message: " .
                         $exception->getMessage()
                     );
                 }
