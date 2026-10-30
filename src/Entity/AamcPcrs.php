@@ -83,6 +83,6 @@ class AamcPcrs implements AamcPcrsInterface
 
     public function __toString(): string
     {
-        return $this->id ?? '';
+        return $this->id;
     }
 }

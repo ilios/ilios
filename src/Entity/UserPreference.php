@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Repository\UserPreferenceRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Override;
@@ -16,8 +15,6 @@ use Override;
 #[IA\Entity]
 class UserPreference implements UserPreferenceInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(type: 'json_object', nullable: false)]
     #[IA\Expose]
     #[IA\Type('string')]
@@ -56,5 +53,10 @@ class UserPreference implements UserPreferenceInterface
     public function getJson(): string
     {
         return $this->json;
+    }
+
+    public function __toString(): string
+    {
+        return '';
     }
 }
