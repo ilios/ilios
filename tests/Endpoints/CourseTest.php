@@ -34,7 +34,7 @@ final class CourseTest extends AbstractReadWriteEndpoint
 {
     use QEndpointTrait;
 
-    protected string $testName =  'courses';
+    protected string $testName = 'courses';
 
     protected function getFixtures(): array
     {
@@ -265,9 +265,9 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse(
             $course['id'],
             [
-            'year' => 2032,
-            'newStartDate' => 'false',
-            'skipOfferings' => 'false',
+                'year' => 2032,
+                'newStartDate' => 'false',
+                'skipOfferings' => 'false',
             ]
         );
 
@@ -323,8 +323,8 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse(
             $course['id'],
             [
-            'year' => 2032,
-            'newStartDate' => '2032-02-08',
+                'year' => 2032,
+                'newStartDate' => '2032-02-08',
             ]
         );
 
@@ -358,8 +358,8 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse(
             $course['id'],
             [
-            'year' => 2030,
-            'skipOfferings' => true,
+                'year' => 2030,
+                'skipOfferings' => true,
             ]
         );
 
@@ -394,8 +394,8 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse(
             $course['id'],
             [
-            'year' => $course['year'],
-            'newCourseTitle' => $newCourseTitle,
+                'year' => $course['year'],
+                'newCourseTitle' => $newCourseTitle,
             ]
         );
 
@@ -444,7 +444,7 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse(
             $course['id'],
             [
-            'year' => 2032,
+                'year' => 2032,
             ]
         );
 
@@ -482,10 +482,10 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $newCourse = $this->rolloverCourse(
             $course['id'],
             [
-            'year' => 2032,
-            'newStartDate' => 'false',
-            'skipOfferings' => 'true',
-            'newCohorts' => [5],
+                'year' => 2032,
+                'newStartDate' => 'false',
+                'skipOfferings' => 'true',
+                'newCohorts' => [5],
             ]
         );
 
@@ -990,5 +990,55 @@ final class CourseTest extends AbstractReadWriteEndpoint
         $this->filterTest($filters, [$all[2]], $jwt);
         $filters = ['q' => 'course', 'offset' => 1, 'limit' => 2];
         $this->filterTest($filters, [$all[1], $all[2]], $jwt);
+    }
+
+    public function testCannotPutCourseInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame('1', $data['school']);
+        $data['title'] = 'new title';
+
+        $this->badPutTest($data, $data['id'], $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPutCourseSchoolInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame('1', $data['school']);
+        $data['title'] = 'new title';
+        $data['school'] = 2;
+
+        $this->badPutTest($data, $data['id'], $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPatchCourseInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame('1', $data['school']);
+        $data['title'] = 'new title';
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPatchCourseSchoolInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame('1', $data['school']);
+        $data['title'] = 'new title';
+        $data['school'] = 2;
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt, Response::HTTP_FORBIDDEN);
     }
 }
