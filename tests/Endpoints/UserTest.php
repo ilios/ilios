@@ -126,16 +126,16 @@ final class UserTest extends AbstractReadWriteEndpoint
             'phone' => [[1], ['phone' => '415-555-0123']],
             'email' => [[1], ['email' => 'first@example.com']],
             'preferredEmail' => [[2], ['preferredEmail' => 'zweite@example.de']],
-            'enabled' => [[0, 1, 2, 3, 4], ['enabled' => true]],
+            'enabled' => [[0, 1, 2, 3, 4, 5], ['enabled' => true]],
             'notEnabled' => [[], ['enabled' => false]],
             'campusId' => [[0], ['campusId' => '1111@school.edu']],
             'otherId' => [[2], ['otherId' => '001']],
-            'userSyncIgnore' => [[1], ['userSyncIgnore' => true]],
+            'userSyncIgnore' => [[1, 5], ['userSyncIgnore' => true]],
             'notUserSyncIgnore' => [[0, 2, 3, 4], ['userSyncIgnore' => false]],
-            'addedViaIlios' => [[1], ['addedViaIlios' => true]],
+            'addedViaIlios' => [[1, 5], ['addedViaIlios' => true]],
             'notAddedViaIlios' => [[0, 2, 3, 4], ['addedViaIlios' => false]],
             'examined' => [[0, 1], ['examined' => true]],
-            'notExamined' => [[2, 3, 4], ['examined' => false]],
+            'notExamined' => [[2, 3, 4, 5], ['examined' => false]],
             'icsFeedKey' => [[1], ['icsFeedKey' => hash('sha256', '2')]],
             // 'authentication' => [[2], ['authentication' => 2]], // skipped
             // 'reports' => [[1], ['reports' => [1]]], // skipped
@@ -154,7 +154,7 @@ final class UserTest extends AbstractReadWriteEndpoint
             // 'programYears' => [[0], ['programYears' => [1]]], // skipped
             'roles' => [[2], ['roles' => [2]]],
             'cohorts' => [[0, 1], ['cohorts' => [1]]],
-            'nullCohorts' => [[2, 3, 4], ['cohorts' => 'null']],
+            'nullCohorts' => [[2, 3, 4, 5], ['cohorts' => 'null']],
             'primaryCohort' => [[0], ['primaryCohort' => 1]],
             //'nullPrimaryCohort' => [[1, 2, 3, 4], ['primaryCohort' => null]], // skipped
             // 'pendingUserUpdates' => [[0], ['pendingUserUpdates' => [1]]], // skipped
@@ -162,7 +162,7 @@ final class UserTest extends AbstractReadWriteEndpoint
             // 'administeredSchools' => [[0], ['administeredSchools' => [1]]], // skipped
             // 'directedPrograms' => [[0], ['directedPrograms' => [1]]], //skipped
             'isRoot' => [[1], ['root' => true]],
-            'isNotRoot' => [[0, 2, 3, 4], ['root' => false]],
+            'isNotRoot' => [[0, 2, 3, 4, 5], ['root' => false]],
             'instructedCourses' => [[1, 3], ['instructedCourses' => [1]]],
             'instructedAcademicYear' => [[1, 3], ['instructedAcademicYears' => 2016]],
             'instructedAcademicYears' => [[1, 3], ['instructedAcademicYears' => [2016]]],
@@ -187,13 +187,13 @@ final class UserTest extends AbstractReadWriteEndpoint
     {
         return [
             ['first', [1]],
-            ['second', [2]],
+            ['second', [2, 5]],
             ['example', [1, 2]],
             ['example second', [2]],
             ['nobodyxyzmartian', []],
             ['newuser', [1]],
             ['1111@school', [0]],
-            ['', [0, 1, 2, 3, 4]],
+            ['', [0, 1, 2, 3, 4, 5]],
             ['disnom', [1]],
         ];
     }

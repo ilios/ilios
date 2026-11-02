@@ -232,13 +232,54 @@ final class UserData extends AbstractDataLoader
             'authentication' => null,
         ];
 
+        $arr[] = [
+            'id' => 6,
+            'lastName' => 'admin',
+            'middleName' => 'is',
+            'firstName' => 'second school',
+            'email' => 'six@test.org',
+            'phone' => '',
+            'enabled' => true,
+            'campusId' => '666@school.edu',
+            'userSyncIgnore' => true,
+            'addedViaIlios' => true,
+            'examined' => false,
+            'icsFeedKey' => hash('sha256', '6'),
+            'root' => false,
+            'reports' => [],
+            'school' => "2",
+            'directedCourses' => [],
+            'learnerGroups' => [],
+            'instructedLearnerGroups' => [],
+            'instructorGroups' => [],
+            'instructorIlmSessions' => [],
+            'learnerIlmSessions' => [],
+            'offerings' => [],
+            'instructedOfferings' => [],
+            'programYears' => [],
+            'roles' => [],
+            'cohorts' => [],
+            'pendingUserUpdates' => [],
+            'directedSchools' => [],
+            'administeredSchools' => ['2'],
+            'administeredSessions' => [],
+            'administeredCourses' => [],
+            'studentAdvisedCourses' => [],
+            'studentAdvisedSessions' => [],
+            'directedPrograms' => [],
+            'administeredCurriculumInventoryReports' => [],
+            'sessionMaterialStatuses' => [],
+            'primaryCohort' => null,
+            'authentication' => null,
+        ];
+
         return $arr;
     }
 
     public function create(): array
     {
         return [
-            'id' => 6,
+            'id' => 7,
             'lastName' => 'six',
             'firstName' => 'sechs',
             'middleName' => 'middle',

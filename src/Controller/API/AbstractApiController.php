@@ -40,7 +40,7 @@ abstract class AbstractApiController
     ): Response {
         $dto = $this->repository->findDTOBy(['id' => $id]);
 
-        if (! $dto) {
+        if (!$dto) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
@@ -124,6 +124,9 @@ abstract class AbstractApiController
         if ($entity) {
             $code = Response::HTTP_OK;
             $permission = VoterPermissions::EDIT;
+            if (!$authorizationChecker->isGranted($permission, $entity)) {
+                throw new AccessDeniedException('Unauthorized access!');
+            }
         } else {
             $entity = $this->repository->create();
             $code = Response::HTTP_CREATED;
@@ -161,6 +164,10 @@ abstract class AbstractApiController
 
         if (!$entity) {
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
+        }
+
+        if (!$authorizationChecker->isGranted(VoterPermissions::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
         }
 
         $requestParser->extractEntityFromPutRequest($request, $entity, $this->endpoint);

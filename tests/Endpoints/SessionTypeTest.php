@@ -24,6 +24,7 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadSessionTypeData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * SessionType API endpoint Test.
@@ -31,7 +32,7 @@ use App\Tests\Fixture\LoadVocabularyData;
 #[Group('api_3')]
 final class SessionTypeTest extends AbstractReadWriteEndpoint
 {
-    protected string $testName =  'sessionTypes';
+    protected string $testName = 'sessionTypes';
 
     protected function getFixtures(): array
     {
@@ -66,7 +67,7 @@ final class SessionTypeTest extends AbstractReadWriteEndpoint
             'removeAssessmentOption' => ['assessmentOption', null],
             'school' => ['school', '2'],
             'aamcMethods' => ['aamcMethods', ['AM002']],
-            'sessions' => ['sessions', ['1', '2' , '5', '6', '7', '8']],
+            'sessions' => ['sessions', ['1', '2', '5', '6', '7', '8']],
             'calendarColor' => ['calendarColor', '#000000'],
             'assessment' => ['assessment', true],
             'active' => ['active', true],
@@ -100,7 +101,7 @@ final class SessionTypeTest extends AbstractReadWriteEndpoint
             'instructorGroups' => [[1], ['instructorGroups' => [2]]],
             'competencies' => [[0], ['competencies' => [1]]],
             'meshDescriptors' => [[0, 1], ['meshDescriptors' => ['abc1']]],
-            'terms' => [[0 , 1], ['terms' => [1, 2]]],
+            'terms' => [[0, 1], ['terms' => [1, 2]]],
             'calendarColor' => [[1], ['calendarColor' => '#0a1b2c']],
             'assessment' => [[1], ['assessment' => true]],
             'notAssessment' => [[0], ['assessment' => false]],
@@ -119,6 +120,80 @@ final class SessionTypeTest extends AbstractReadWriteEndpoint
         $filters['schools'] = [[0, 1], ['schools' => [1]]];
 
         return $filters;
+    }
+
+    public function testCannotPutSessionTypeInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame(1, $data['school']);
+        $data['title'] = 'new title';
+
+        $this->badPutTest($data, $data['id'], $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPutSessionTypeSchoolInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame(1, $data['school']);
+        $data['title'] = 'new title';
+        $data['school'] = 2;
+
+        $this->badPutTest($data, $data['id'], $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPutSessionTypeSchoolInASchoolWithoutPermissions(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 1);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame(1, $data['school']);
+        $data['school'] = 2;
+
+        $this->badPutTest($data, $data['id'], $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPatchSessionTypeInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame(1, $data['school']);
+        $data['title'] = 'new title';
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPatchSessionTypeSchoolInAnotherSchool(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 6);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame(1, $data['school']);
+        $data['title'] = 'new title';
+        $data['school'] = 2;
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt, Response::HTTP_FORBIDDEN);
+    }
+
+    public function testCannotPatchSessionTypeInASchoolWithoutPermissions(): void
+    {
+        $jwt = $this->createJwtFromUserId($this->kernelBrowser, 1);
+        $dataLoader = $this->getDataLoader();
+        $data = $dataLoader->getOne();
+        $this->assertSame(1, $data['school']);
+        $data['school'] = 2;
+
+        $jsonApiData = $dataLoader->createJsonApi($data);
+
+        $this->badPatchTest($jsonApiData, $jwt, Response::HTTP_FORBIDDEN);
     }
 
     /**

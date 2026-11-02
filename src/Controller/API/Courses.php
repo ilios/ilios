@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[OA\Tag(name:'Courses')]
+#[OA\Tag(name: 'Courses')]
 #[Route('/api/{version<v3>}/courses')]
 class Courses extends AbstractApiController
 {
@@ -379,6 +379,10 @@ class Courses extends AbstractApiController
             throw new NotFoundHttpException(sprintf("%s/%s was not found.", $this->endpoint, $id));
         }
 
+        if (!$authorizationChecker->isGranted(VoterPermissions::EDIT, $entity)) {
+            throw new AccessDeniedException('Unauthorized access!');
+        }
+
         $data = $requestParser->extractPutDataFromRequest($request, $this->endpoint);
 
         if (!$entity->isArchived() && $data->archived) {
@@ -522,11 +526,11 @@ class Courses extends AbstractApiController
     ): Response {
         $course = $this->repository->findOneBy(['id' => $id]);
 
-        if (! $course) {
+        if (!$course) {
             throw new NotFoundHttpException(sprintf('The resource \'%s\' was not found.', $id));
         }
 
-        if (! $authorizationChecker->isGranted(VoterPermissions::EDIT, $course)) {
+        if (!$authorizationChecker->isGranted(VoterPermissions::EDIT, $course)) {
             throw new AccessDeniedException('Unauthorized access!');
         }
 
