@@ -44,7 +44,7 @@ final class SchoolData extends AbstractDataLoader
             'sessionTypes' => [],
             'vocabularies' => ['2'],
             'directors' => [],
-            'administrators' => [],
+            'administrators' => ['6'],
             'configurations' => ['3'],
         ];
 
