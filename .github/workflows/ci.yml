@@ -41,6 +41,8 @@ jobs:
           coverage: none
           php-version: ${{ env.minimum_php_version }}
           extensions: apcu
+      - name: Check Composer version
+        run: composer --version
       - name: install dependencies
         run: composer install --no-interaction --prefer-dist
       - name: Check Composer Lock

@@ -29,6 +29,8 @@ jobs:
           extensions: apcu
       - name: install composer-lock-diff
         run: composer global require davidrjonas/composer-lock-diff
+      - name: Check Composer version
+        run: composer --version
       - name: update dependencies
         run: composer update
       - name: Prepare Messages
