@@ -6,7 +6,6 @@ namespace App\Service;
 
 use DateInterval;
 use Flagception\Manager\FeatureManagerInterface;
-use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use ReflectionClass;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -40,6 +39,7 @@ class DTOCacheManager
         foreach ($dtos as $dto) {
             $this->cacheContract->get(
                 $this->getDtoCacheKey($name, $dto->$idField),
+                /** @param ItemInterface $item */
                 function (ItemInterface $item) use ($dto, $tagger) {
                     $tagger->tag($item, $dto);
                     return $dto;
@@ -56,7 +56,7 @@ class DTOCacheManager
         $cacheIds = array_map(fn(mixed $id) => $this->getDtoCacheKey($name, $id), $ids);
         $items = $this->psr6Cache->getItems($cacheIds);
         $rhett = [];
-        /** @var CacheItemInterface $item */
+        /** @param ItemInterface $item */
         foreach ($items as $item) {
             if ($item->isHit()) {
                 $rhett[] = $item->get();
