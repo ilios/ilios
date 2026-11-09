@@ -608,7 +608,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "main",
             "version": "8.1",
-            "ref": "312027aea160796a50bf2d185503afdb5d71f570"
+            "ref": "3eee55306efebbd99462341126bbd4cac7cd8ba7"
         },
         "files": [
             "config/packages/cache.yaml",
@@ -619,7 +619,8 @@
             "public/index.php",
             "src/Controller/.gitignore",
             "src/Kernel.php",
-            ".editorconfig"
+            ".editorconfig",
+            "AGENTS.md"
         ]
     },
     "symfony/http-client": {
