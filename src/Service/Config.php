@@ -52,7 +52,7 @@ class Config
 
     /**
      * See if there is an environmental variable for this var
-     *
+     * @psalm-taint-escape ssrf
      */
     protected function getValueFromEnv(string $name): string|bool|null
     {

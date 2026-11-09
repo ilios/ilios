@@ -93,7 +93,7 @@ final class JsonWebTokenAuthenticatorTest extends TestCase
             $exception
         );
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
-        $this->assertEquals('Authentication Failed. lorem ipsum', $response->getContent());
+        $this->assertEquals('Authentication Failed.', $response->getContent());
     }
 
     public function testOnAuthenticationSuccess(): void

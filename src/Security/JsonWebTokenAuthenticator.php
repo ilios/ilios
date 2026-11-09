@@ -73,7 +73,7 @@ class JsonWebTokenAuthenticator extends AbstractAuthenticator
     #[Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        return new Response("Authentication Failed. " . $exception->getMessage(), 401);
+        return new Response('Authentication Failed.', 401);
     }
 
     #[Override]
