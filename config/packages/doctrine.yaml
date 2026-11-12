@@ -5,22 +5,21 @@ doctrine:
       charset: utf8mb4
       collate: utf8mb4_unicode_ci
 
-    # IMPORTANT: You MUST configure your server version,
-    # either here or in the DATABASE_URL env var (see .env file)
-    #server_version: '16'
 
-    profiling_collect_backtrace: '%kernel.debug%'
+      # IMPORTANT: You MUST configure your server version,
+      # either here or in the DATABASE_URL env var (see .env file)
+      #server_version: '16'
+
+      profiling_collect_backtrace: '%kernel.debug%'
   orm:
-    controller_resolver:
-    naming_strategy: doctrine.orm.naming_strategy.default
     validate_xml_mapping: true
+    naming_strategy: doctrine.orm.naming_strategy.default
     mappings:
       App:
-        type: attribute
-        is_bundle: false
         dir: '%kernel.project_dir%/src/Entity'
         prefix: 'App\Entity'
         alias: App
+    controller_resolver:
 
 when@dev:
   doctrine:
@@ -47,16 +46,13 @@ when@prod:
       driver: pdo_mysql
     orm:
       query_cache_driver:
-        type: pool
         pool: doctrine.system_cache_pool
       result_cache_driver:
-        type: pool
         pool: doctrine.result_cache_pool
 
   framework:
     cache:
       pools:
-        doctrine.result_cache_pool:
-          adapter: cache.app
+        doctrine.result_cache_pool: null
         doctrine.system_cache_pool:
           adapter: cache.system
