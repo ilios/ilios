@@ -2,6 +2,7 @@ name: Deploy Pull Request
 
 permissions:
   contents: read
+  id-token: write
 
 on:
   pull_request_target:
