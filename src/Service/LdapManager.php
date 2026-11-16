@@ -15,7 +15,7 @@ use Symfony\Component\Ldap\Ldap;
  */
 class LdapManager
 {
-    protected Ldap $ldap;
+    protected ?Ldap $ldap;
 
     /**
      * Constructor
