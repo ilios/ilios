@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Stringable;
-
-interface UserPreferenceInterface extends
-    Stringable
+interface UserPreferenceInterface
 {
     public function setUser(UserInterface $user): void;
 
