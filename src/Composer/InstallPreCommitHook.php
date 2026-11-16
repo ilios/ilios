@@ -22,6 +22,12 @@ final class InstallPreCommitHook
             "{$vendorDir}/bin/phpstan --no-progress --memory-limit=1G",
             'echo "Running psalm..."',
             "{$vendorDir}/bin/psalm --no-progress --monochrome",
+            'if ! command -v pnpx >/dev/null 2>&1; then',
+            '    echo "Error: pnpx is required to run markdownlint." >&2',
+            '    exit 1',
+            'fi',
+            'echo "Running markdownlint..."',
+            'pnpx markdownlint-cli2 README.md docs/*.md',
         ];
         $gitPath = $projectRoot . '/.git';
         if (is_dir($gitPath)) {
