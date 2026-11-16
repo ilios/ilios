@@ -33,7 +33,7 @@ class MeshQualifier implements MeshQualifierInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    protected string $id;
+    protected ?string $id;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]
