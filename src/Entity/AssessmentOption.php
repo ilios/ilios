@@ -33,7 +33,7 @@ class AssessmentOption implements AssessmentOptionInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 20)]
     #[IA\Expose]

@@ -46,7 +46,7 @@ class MeshDescriptor implements MeshDescriptorInterface
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(max: 12)]
-    protected string $id;
+    protected ?string $id;
 
     #[ORM\Column(type: 'string', length: 192)]
     #[IA\Expose]

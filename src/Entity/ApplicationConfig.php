@@ -30,7 +30,7 @@ class ApplicationConfig implements ApplicationConfigInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 200, nullable: false)]
     #[IA\Expose]

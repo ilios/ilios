@@ -31,7 +31,7 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 100)]
     #[IA\Expose]

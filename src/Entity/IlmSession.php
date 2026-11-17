@@ -40,7 +40,7 @@ class IlmSession implements IlmSessionInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\OneToOne(inversedBy: 'ilmSession', targetEntity: Session::class)]
     #[ORM\JoinColumn(

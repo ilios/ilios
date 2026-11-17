@@ -34,7 +34,7 @@ class AamcResourceType implements AamcResourceTypeInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 21)]
-    protected string $id;
+    protected ?string $id;
 
     #[ORM\Column(type: 'string', length: 200)]
     #[IA\Expose]

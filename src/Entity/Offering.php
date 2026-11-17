@@ -44,7 +44,7 @@ class Offering implements OfferingInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'room', type: 'string', length: 255, nullable: true)]
     #[IA\Expose]

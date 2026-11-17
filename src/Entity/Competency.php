@@ -40,7 +40,7 @@ class Competency implements CompetencyInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 200, nullable: true)]
     #[IA\Expose]

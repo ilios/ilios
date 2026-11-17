@@ -25,7 +25,7 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     #[IA\Expose]
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
-    protected string $id; //string because doctrine stores bigint as string for best compatibility
+    protected ?string $id; //string because doctrine stores bigint as string for best compatibility
 
     #[ORM\Column(name: 'status', type: 'integer')]
     #[IA\Expose]

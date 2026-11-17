@@ -36,7 +36,7 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     #[IA\Expose]

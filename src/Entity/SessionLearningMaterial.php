@@ -41,7 +41,7 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'notes', type: 'text', nullable: true)]
     #[IA\Expose]

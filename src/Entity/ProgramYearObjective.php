@@ -40,7 +40,7 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\ManyToOne(targetEntity: ProgramYear::class, inversedBy: 'programYearObjectives')]
     #[ORM\JoinColumn(name: 'program_year_id', referencedColumnName: 'program_year_id', onDelete: 'CASCADE')]

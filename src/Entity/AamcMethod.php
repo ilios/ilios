@@ -32,7 +32,7 @@ class AamcMethod implements AamcMethodInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 10)]
-    protected string $id;
+    protected ?string $id;
 
     #[ORM\Column(name: 'description', type: 'text')]
     #[IA\Expose]

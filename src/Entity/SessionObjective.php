@@ -42,7 +42,7 @@ class SessionObjective implements SessionObjectiveInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'sessionObjectives')]
     #[ORM\JoinColumn(name: 'session_id', referencedColumnName: 'session_id', onDelete: 'CASCADE')]

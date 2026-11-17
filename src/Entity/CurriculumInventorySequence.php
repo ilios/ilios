@@ -29,7 +29,7 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\OneToOne(inversedBy: 'sequence', targetEntity: CurriculumInventoryReport::class)]
     #[ORM\JoinColumn(

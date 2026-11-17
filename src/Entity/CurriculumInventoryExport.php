@@ -31,7 +31,7 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\OneToOne(inversedBy: 'export', targetEntity: CurriculumInventoryReport::class)]
     #[ORM\JoinColumn(name: 'report_id', referencedColumnName: 'report_id', unique: true, nullable: false)]

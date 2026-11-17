@@ -27,7 +27,7 @@ class IngestionException implements IngestionExceptionInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'ingested_wide_uid', type: 'string', length: 32)]
     #[IA\Expose]

@@ -48,7 +48,7 @@ class Term implements TermInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'terms')]
     #[ORM\OrderBy(['id' => 'ASC'])]

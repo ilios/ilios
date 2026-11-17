@@ -23,7 +23,7 @@ class AuditLog implements AuditLogInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 16)]
     #[Assert\NotBlank]
