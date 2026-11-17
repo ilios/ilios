@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CurriculumInventoryInstitutionRepository;
@@ -20,7 +19,6 @@ use Override;
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use NameableEntity;
-    use IdentifiableEntity;
     use StringableIdEntity;
     use SchoolEntity;
 
@@ -166,5 +164,16 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     public function getAddressCountryCode(): string
     {
         return $this->addressCountryCode;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

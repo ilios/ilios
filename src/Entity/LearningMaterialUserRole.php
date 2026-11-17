@@ -10,17 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\LearningMaterialsEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\LearningMaterialUserRoleRepository;
+use Override;
 
 #[ORM\Table(name: 'learning_material_user_role')]
 #[ORM\Entity(repositoryClass: LearningMaterialUserRoleRepository::class)]
 #[IA\Entity]
 class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
-    use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
     use LearningMaterialsEntity;
@@ -49,5 +48,17 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

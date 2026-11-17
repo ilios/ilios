@@ -13,7 +13,6 @@ use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CourseLearningMaterialRepository;
 use Override;
@@ -23,7 +22,6 @@ use Override;
 #[IA\Entity]
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use MeshDescriptorsEntity;
     use SortableEntity;
@@ -132,5 +130,16 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getIndexableCourses(): array
     {
         return [$this->course];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -13,7 +13,6 @@ use App\Traits\SequenceBlocksEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
 use Override;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
-    use IdentifiableEntity;
     use DescribableNullableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
@@ -281,5 +279,16 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredCurriculumInventoryReport($this);
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

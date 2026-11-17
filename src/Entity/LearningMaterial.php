@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
@@ -29,7 +28,6 @@ use function array_unique;
 #[IA\Entity]
 class LearningMaterial implements LearningMaterialInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
     use DescribableNullableEntity;
@@ -482,5 +480,17 @@ class LearningMaterial implements LearningMaterialInterface
             $directCourses->toArray(),
             $sessionCourses->toArray()
         );
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

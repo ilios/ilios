@@ -10,7 +10,6 @@ use App\Repository\AlertRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use Override;
 
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class Alert implements AlertInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'alert_id', type: 'integer')]
@@ -271,5 +269,17 @@ class Alert implements AlertInterface
     public function getServiceTokenInstigators(): Collection
     {
         return $this->serviceTokenInstigators;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -15,7 +15,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
 use App\Traits\ProgramYearsEntity;
@@ -31,7 +30,6 @@ use Override;
 class User implements UserInterface
 {
     use EnableableEntity;
-    use IdentifiableEntity;
     use StringableIdEntity;
     use OfferingsEntity;
     use ProgramYearsEntity;
@@ -1356,5 +1354,16 @@ class User implements UserInterface
                 }
             }
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

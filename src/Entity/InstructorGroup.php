@@ -12,7 +12,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\OfferingsEntity;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class InstructorGroup implements InstructorGroupInterface
 {
-    use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
     use OfferingsEntity;
@@ -127,5 +125,16 @@ class InstructorGroup implements InstructorGroupInterface
             $this->ilmSessions->removeElement($ilmSession);
             $ilmSession->removeInstructorGroup($this);
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

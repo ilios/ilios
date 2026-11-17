@@ -16,7 +16,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Repository\ProgramYearRepository;
 use Override;
 
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class ProgramYear implements ProgramYearInterface
 {
-    use IdentifiableEntity;
     use LockableEntity;
     use ArchivableEntity;
     use ProgramYearObjectivesEntity;
@@ -159,5 +157,16 @@ class ProgramYear implements ProgramYearInterface
     public function getSchool(): SchoolInterface
     {
         return $this->program->getSchool();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

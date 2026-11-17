@@ -13,7 +13,6 @@ use App\Traits\SortableEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SessionLearningMaterialRepository;
@@ -27,7 +26,6 @@ use Override;
 #[IA\Entity]
 class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use SessionConsolidationEntity;
     use MeshDescriptorsEntity;
@@ -136,5 +134,16 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getIndexableCourses(): array
     {
         return [$this->session->getCourse()];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -15,7 +15,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\CoursesEntity;
 use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\StringableIdEntity;
@@ -31,7 +30,6 @@ class Term implements TermInterface
 {
     use CoursesEntity;
     use DescribableNullableEntity;
-    use IdentifiableEntity;
     use ProgramYearsEntity;
     use SessionsEntity;
     use StringableIdEntity;
@@ -302,5 +300,16 @@ class Term implements TermInterface
             $this->courses->toArray(),
             $sessionCourses->toArray()
         );
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

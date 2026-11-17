@@ -11,7 +11,6 @@ use App\Repository\AlertChangeTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use Override;
@@ -23,7 +22,6 @@ class AlertChangeType implements AlertChangeTypeInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use IdentifiableEntity;
     use AlertableEntity;
 
     #[ORM\Column(name: 'alert_change_type_id', type: 'integer')]
@@ -70,5 +68,17 @@ class AlertChangeType implements AlertChangeTypeInterface
             $this->alerts->removeElement($alert);
             $alert->removeChangeType($this);
         }
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\UserRoleRepository;
@@ -23,7 +22,6 @@ class UserRole implements UserRoleInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use IdentifiableEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
@@ -71,5 +69,16 @@ class UserRole implements UserRoleInterface
             $this->users->removeElement($user);
             $user->removeRole($this);
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

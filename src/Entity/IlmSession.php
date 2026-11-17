@@ -14,7 +14,6 @@ use App\Traits\SessionConsolidationEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use DateTime;
 use App\Repository\IlmSessionRepository;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class IlmSession implements IlmSessionInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use SessionConsolidationEntity;
     use LearnerGroupsEntity;
@@ -169,5 +167,16 @@ class IlmSession implements IlmSessionInterface
     public function getSchool(): ?SchoolInterface
     {
         return $this->session->getCourse()->getSchool();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

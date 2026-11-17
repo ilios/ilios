@@ -13,7 +13,6 @@ use App\Traits\ActivatableEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class Competency implements CompetencyInterface
 {
-    use IdentifiableEntity;
     use TitledNullableEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
@@ -204,5 +202,16 @@ class Competency implements CompetencyInterface
             $this->programYears->removeElement($programYear);
             $programYear->removeCompetency($this);
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

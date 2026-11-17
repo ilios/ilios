@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshTermRepository;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class MeshTerm implements MeshTermInterface
 {
-    use IdentifiableEntity;
     use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
@@ -168,5 +166,16 @@ class MeshTerm implements MeshTermInterface
     public function isPermuted(): ?bool
     {
         return $this->permuted;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

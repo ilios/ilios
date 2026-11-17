@@ -10,7 +10,6 @@ use App\Traits\AlertableEntity;
 use App\Traits\CreatedAtEntity;
 use App\Traits\DescribableEntity;
 use App\Traits\EnableableEntity;
-use App\Traits\IdentifiableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,7 +25,6 @@ class ServiceToken implements ServiceTokenInterface
     use CreatedAtEntity;
     use DescribableEntity;
     use EnableableEntity;
-    use IdentifiableEntity;
 
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
@@ -134,5 +132,16 @@ class ServiceToken implements ServiceTokenInterface
             $this->alerts->removeElement($alert);
             $alert->removeServiceTokenInstigator($this);
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

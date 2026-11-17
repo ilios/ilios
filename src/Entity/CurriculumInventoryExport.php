@@ -9,7 +9,6 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryExportRepository;
 use Override;
@@ -21,7 +20,6 @@ use Override;
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
     use CreatedAtEntity;
-    use IdentifiableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'export_id', type: 'integer')]
@@ -98,5 +96,16 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     public function getCreatedBy(): UserInterface
     {
         return $this->createdBy;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

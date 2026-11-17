@@ -9,7 +9,6 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\ReportRepository;
 use Override;
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class Report implements ReportInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use TitledNullableEntity;
 
@@ -153,5 +151,16 @@ class Report implements ReportInterface
     public function setSchool(?SchoolInterface $school = null): void
     {
         $this->school = $school;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

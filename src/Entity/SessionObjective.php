@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Attributes as IA;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
@@ -26,7 +25,6 @@ use Override;
 #[IA\Entity]
 class SessionObjective implements SessionObjectiveInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use SessionConsolidationEntity;
     use TitledEntity;
@@ -251,5 +249,16 @@ class SessionObjective implements SessionObjectiveInterface
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

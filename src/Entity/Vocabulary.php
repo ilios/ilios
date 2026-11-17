@@ -11,7 +11,6 @@ use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\SchoolEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
@@ -24,7 +23,6 @@ use Override;
 #[IA\Entity]
 class Vocabulary implements VocabularyInterface
 {
-    use IdentifiableEntity;
     use SchoolEntity;
     use StringableIdEntity;
     use TitledEntity;
@@ -83,5 +81,16 @@ class Vocabulary implements VocabularyInterface
         $termCourses = $this->terms->map(fn(TermInterface $term) => $term->getIndexableCourses());
 
         return count($termCourses) ? array_merge(...$termCourses->toArray()) : [];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

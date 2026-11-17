@@ -16,7 +16,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
 use Override;
@@ -28,7 +27,6 @@ use Override;
 #[IA\Entity]
 class Offering implements OfferingInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
     use SessionConsolidationEntity;
@@ -260,5 +258,16 @@ class Offering implements OfferingInterface
     public function getSchool(): SchoolInterface
     {
         return $this->session->getSchool();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

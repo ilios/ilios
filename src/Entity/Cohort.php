@@ -12,7 +12,6 @@ use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\CoursesEntity;
 use App\Repository\CohortRepository;
@@ -24,7 +23,6 @@ use Override;
 #[IA\Entity]
 class Cohort implements CohortInterface
 {
-    use IdentifiableEntity;
     use TitledEntity;
     use StringableIdEntity;
     use CoursesEntity;
@@ -143,5 +141,16 @@ class Cohort implements CohortInterface
     public function getProgram(): ?ProgramInterface
     {
         return $this->programYear?->getProgram();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Attributes as IA;
 use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class ProgramYearObjective implements ProgramYearObjectiveInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
     use TitledEntity;
     use MeshDescriptorsEntity;
@@ -266,5 +264,16 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

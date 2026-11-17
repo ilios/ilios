@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
@@ -26,7 +25,6 @@ use Override;
 #[IA\Entity]
 class SessionType implements SessionTypeInterface
 {
-    use IdentifiableEntity;
     use TitledEntity;
     use SessionsEntity;
     use SchoolEntity;
@@ -191,5 +189,16 @@ class SessionType implements SessionTypeInterface
             'Sessions can not be removed from sessionTypes.' .
             "You must modify session #{$sessionId} directly."
         );
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

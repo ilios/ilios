@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
@@ -23,7 +22,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    use IdentifiableEntity;
     use DescribableNullableEntity;
     use TitledEntity;
     use StringableIdEntity;
@@ -510,5 +508,16 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->endingAcademicLevel;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\MeshPreviousIndexingRepository;
 use Override;
@@ -18,7 +17,6 @@ use Override;
 #[IA\Entity]
 class MeshPreviousIndexing implements MeshPreviousIndexingInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'mesh_previous_indexing_id', type: 'integer')]
@@ -66,5 +64,16 @@ class MeshPreviousIndexing implements MeshPreviousIndexingInterface
     public function getPreviousIndexing(): string
     {
         return $this->previousIndexing;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

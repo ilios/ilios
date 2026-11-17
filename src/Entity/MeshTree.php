@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\MeshTreeRepository;
 use Override;
@@ -17,7 +16,6 @@ use Override;
 #[IA\Entity]
 class MeshTree implements MeshTreeInterface
 {
-    use IdentifiableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'mesh_tree_id', type: 'integer')]
@@ -67,5 +65,16 @@ class MeshTree implements MeshTreeInterface
     public function getDescriptor(): MeshDescriptorInterface
     {
         return $this->descriptor;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

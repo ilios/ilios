@@ -21,7 +21,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
@@ -36,7 +35,6 @@ use Override;
 #[IA\Entity]
 class Course implements CourseInterface
 {
-    use IdentifiableEntity;
     use TitledNullableEntity;
     use StringableIdEntity;
     use LockableEntity;
@@ -552,5 +550,16 @@ class Course implements CourseInterface
     public function getIndexableCourses(): array
     {
         return [$this];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

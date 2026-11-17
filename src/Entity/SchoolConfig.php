@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\IdentifiableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
@@ -22,7 +21,6 @@ class SchoolConfig implements SchoolConfigInterface
 {
     use SchoolEntity;
     use NameableEntity;
-    use IdentifiableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -67,5 +65,16 @@ class SchoolConfig implements SchoolConfigInterface
     public function setValue(string $value): void
     {
         $this->value = $value;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -22,7 +22,6 @@ use App\Attributes as IA;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\OfferingsEntity;
-use App\Traits\IdentifiableEntity;
 use App\Repository\SessionRepository;
 use Override;
 
@@ -34,7 +33,6 @@ use Override;
 #[IA\Entity]
 class Session implements SessionInterface
 {
-    use IdentifiableEntity;
     use TitledNullableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
@@ -490,5 +488,16 @@ class Session implements SessionInterface
     public function getIndexableCourses(): array
     {
         return [$this->course];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

@@ -9,7 +9,6 @@ use App\Traits\AdministratorsEntity;
 use App\Traits\AlertableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
-use App\Traits\IdentifiableEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\SessionTypesEntity;
 use App\Traits\StringableIdEntity;
@@ -29,7 +28,6 @@ use Override;
 #[IA\Entity]
 class School implements SchoolInterface
 {
-    use IdentifiableEntity;
     use TitledEntity;
     use CoursesEntity;
     use ProgramsEntity;
@@ -335,5 +333,16 @@ class School implements SchoolInterface
     public function getIndexableCourses(): array
     {
         return $this->courses->toArray();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }

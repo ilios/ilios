@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use App\Traits\DirectorsEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
-use App\Traits\IdentifiableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\ProgramYearsEntity;
@@ -24,7 +23,6 @@ use Override;
 class Program implements ProgramInterface
 {
     use TitledEntity;
-    use IdentifiableEntity;
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
@@ -168,5 +166,16 @@ class Program implements ProgramInterface
             $this->directors->removeElement($director);
             $director->removeDirectedProgram($this);
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 }
