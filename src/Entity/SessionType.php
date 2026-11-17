@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
@@ -29,7 +28,6 @@ class SessionType implements SessionTypeInterface
     use SessionsEntity;
     use SchoolEntity;
     use StringableIdEntity;
-    use ActivatableEntity;
 
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
     #[ORM\Id]
@@ -200,5 +198,17 @@ class SessionType implements SessionTypeInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

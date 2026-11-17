@@ -12,7 +12,6 @@ use App\Traits\SessionTypesEntity;
 use App\Attributes as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ActivatableEntity;
 use Override;
 
 #[ORM\Table(name: 'aamc_method')]
@@ -22,7 +21,6 @@ class AamcMethod implements AamcMethodInterface
 {
     use IdentifiableStringEntity;
     use SessionTypesEntity;
-    use ActivatableEntity;
 
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
     #[ORM\Id]
@@ -92,5 +90,17 @@ class AamcMethod implements AamcMethodInterface
     public function __toString(): string
     {
         return $this->id ?? '';
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

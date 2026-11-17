@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,7 +26,6 @@ class Vocabulary implements VocabularyInterface
     use StringableIdEntity;
     use TitledEntity;
     use CategorizableEntity;
-    use ActivatableEntity;
 
     #[ORM\Column(name: 'vocabulary_id', type: 'integer')]
     #[ORM\Id]
@@ -92,5 +90,17 @@ class Vocabulary implements VocabularyInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

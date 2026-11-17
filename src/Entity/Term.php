@@ -10,7 +10,6 @@ use App\Traits\SessionObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\CoursesEntity;
@@ -34,7 +33,6 @@ class Term implements TermInterface
     use SessionsEntity;
     use StringableIdEntity;
     use TitledEntity;
-    use ActivatableEntity;
     use SessionObjectivesEntity;
     use CourseObjectivesEntity;
     use ProgramYearObjectivesEntity;
@@ -311,5 +309,17 @@ class Term implements TermInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

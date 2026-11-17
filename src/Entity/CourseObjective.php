@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
@@ -27,7 +26,6 @@ class CourseObjective implements CourseObjectiveInterface
     use StringableIdEntity;
     use TitledEntity;
     use MeshDescriptorsEntity;
-    use ActivatableEntity;
     use CategorizableEntity;
     use SortableEntity;
 
@@ -299,5 +297,17 @@ class CourseObjective implements CourseObjectiveInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }

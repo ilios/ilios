@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\ActivatableEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
@@ -29,7 +28,6 @@ class SessionObjective implements SessionObjectiveInterface
     use SessionConsolidationEntity;
     use TitledEntity;
     use MeshDescriptorsEntity;
-    use ActivatableEntity;
     use CategorizableEntity;
     use SortableEntity;
 
@@ -260,5 +258,17 @@ class SessionObjective implements SessionObjectiveInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }
