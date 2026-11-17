@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Traits;
 
 /**
- * @property int $id
+ * @property ?int $id
  */
 trait StringableIdEntity
 {
