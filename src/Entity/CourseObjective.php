@@ -40,7 +40,7 @@ class CourseObjective implements CourseObjectiveInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\ManyToOne(targetEntity: Course::class, inversedBy: 'courseObjectives')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id', onDelete: 'CASCADE')]

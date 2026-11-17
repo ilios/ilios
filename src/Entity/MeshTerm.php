@@ -39,7 +39,7 @@ class MeshTerm implements MeshTermInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'mesh_term_uid', type: 'string', length: 12)]
     #[IA\Expose]

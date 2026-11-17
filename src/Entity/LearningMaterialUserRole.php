@@ -32,7 +32,7 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 60)]
     #[IA\Expose]

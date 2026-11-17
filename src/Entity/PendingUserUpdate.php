@@ -27,7 +27,7 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 32)]
     #[IA\Expose]

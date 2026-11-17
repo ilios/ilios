@@ -27,7 +27,7 @@ class MeshTree implements MeshTreeInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'tree_number', type: 'string', length: 80)]
     #[IA\Expose]

@@ -49,7 +49,7 @@ class User implements UserInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'last_name', type: 'string', length: 50)]
     #[IA\Expose]

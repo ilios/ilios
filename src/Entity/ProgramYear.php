@@ -41,7 +41,7 @@ class ProgramYear implements ProgramYearInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'start_year', type: 'smallint')]
     #[IA\Expose]

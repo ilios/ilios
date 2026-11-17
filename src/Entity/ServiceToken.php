@@ -34,7 +34,7 @@ class ServiceToken implements ServiceTokenInterface
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[IA\Type('boolean')]
     #[ORM\Column(name: 'enabled', type: 'boolean', nullable: false)]

@@ -29,7 +29,7 @@ class Alert implements AlertInterface
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[Assert\Type(type: 'integer')]
-    protected int $id;
+    protected ?int $id;
 
     #[ORM\Column(name: 'table_row_id', type: 'integer')]
     #[IA\Expose]
