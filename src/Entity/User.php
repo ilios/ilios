@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearningMaterialsEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -28,7 +27,6 @@ class User implements UserInterface
     use OfferingsEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
-    use LearningMaterialsEntity;
 
     #[ORM\Column(name: 'user_id', type: 'integer')]
     #[ORM\Id]
@@ -1432,5 +1430,35 @@ class User implements UserInterface
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    #[Override]
+    public function setLearningMaterials(Collection $learningMaterials): void
+    {
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        if (!$this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
+    }
+
+    #[Override]
+    public function getLearningMaterials(): Collection
+    {
+        return $this->learningMaterials;
     }
 }

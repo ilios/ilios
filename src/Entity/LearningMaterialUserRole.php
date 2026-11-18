@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearningMaterialsEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
@@ -22,7 +21,6 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use LearningMaterialsEntity;
 
     #[ORM\Column(name: 'learning_material_user_role_id', type: 'integer')]
     #[ORM\Id]
@@ -60,5 +58,35 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setLearningMaterials(Collection $learningMaterials): void
+    {
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        if (!$this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
+    }
+
+    #[Override]
+    public function getLearningMaterials(): Collection
+    {
+        return $this->learningMaterials;
     }
 }
