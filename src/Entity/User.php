@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\EnableableEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\LearnerGroupsEntity;
@@ -27,7 +26,6 @@ use Override;
 #[IA\Entity]
 class User implements UserInterface
 {
-    use EnableableEntity;
     use StringableIdEntity;
     use OfferingsEntity;
     use ProgramYearsEntity;
@@ -1394,5 +1392,17 @@ class User implements UserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    #[Override]
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }

@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Attributes as IA;
 use App\Repository\ServiceTokenRepository;
-use App\Traits\EnableableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,8 +17,6 @@ use Override;
 #[ORM\Entity(repositoryClass: ServiceTokenRepository::class)]
 class ServiceToken implements ServiceTokenInterface
 {
-    use EnableableEntity;
-
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -181,5 +178,17 @@ class ServiceToken implements ServiceTokenInterface
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    #[Override]
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }
