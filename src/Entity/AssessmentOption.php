@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Traits\SessionTypesEntity;
 use App\Attributes as IA;
 use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,7 +20,6 @@ use Override;
 class AssessmentOption implements AssessmentOptionInterface
 {
     use StringableIdEntity;
-    use SessionTypesEntity;
 
     #[ORM\Id]
     #[ORM\Column(name: 'assessment_option_id', type: 'integer', length: 10)]
@@ -72,5 +70,35 @@ class AssessmentOption implements AssessmentOptionInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    #[Override]
+    public function setSessionTypes(Collection $sessionTypes): void
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    #[Override]
+    public function addSessionType(SessionTypeInterface $sessionType): void
+    {
+        if (!$this->sessionTypes->contains($sessionType)) {
+            $this->sessionTypes->add($sessionType);
+        }
+    }
+
+    #[Override]
+    public function removeSessionType(SessionTypeInterface $sessionType): void
+    {
+        $this->sessionTypes->removeElement($sessionType);
+    }
+
+    #[Override]
+    public function getSessionTypes(): Collection
+    {
+        return $this->sessionTypes;
     }
 }

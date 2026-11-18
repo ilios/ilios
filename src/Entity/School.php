@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionTypesEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +22,6 @@ class School implements SchoolInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use SessionTypesEntity;
 
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
@@ -504,5 +502,35 @@ class School implements SchoolInterface
     public function getPrograms(): Collection
     {
         return $this->programs;
+    }
+
+    #[Override]
+    public function setSessionTypes(Collection $sessionTypes): void
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    #[Override]
+    public function addSessionType(SessionTypeInterface $sessionType): void
+    {
+        if (!$this->sessionTypes->contains($sessionType)) {
+            $this->sessionTypes->add($sessionType);
+        }
+    }
+
+    #[Override]
+    public function removeSessionType(SessionTypeInterface $sessionType): void
+    {
+        $this->sessionTypes->removeElement($sessionType);
+    }
+
+    #[Override]
+    public function getSessionTypes(): Collection
+    {
+        return $this->sessionTypes;
     }
 }

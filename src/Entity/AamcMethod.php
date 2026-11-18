@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionTypesEntity;
 use App\Attributes as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class AamcMethod implements AamcMethodInterface
 {
-    use SessionTypesEntity;
-
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -71,6 +68,22 @@ class AamcMethod implements AamcMethodInterface
     {
         $this->sessionTypes->removeElement($sessionType);
         $sessionType->removeAamcMethod($this);
+    }
+
+    #[Override]
+    public function setSessionTypes(Collection $sessionTypes): void
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    #[Override]
+    public function getSessionTypes(): Collection
+    {
+        return $this->sessionTypes;
     }
 
     #[Override]
