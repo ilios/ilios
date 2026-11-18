@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\DirectorsEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +23,6 @@ class ProgramYear implements ProgramYearInterface
     use LockableEntity;
     use ProgramYearObjectivesEntity;
     use StringableIdEntity;
-    use DirectorsEntity;
 
     #[ORM\Column(name: 'program_year_id', type: 'integer')]
     #[ORM\Id]
@@ -238,5 +236,35 @@ class ProgramYear implements ProgramYearInterface
     public function getCompetencies(): Collection
     {
         return $this->competencies;
+    }
+
+    #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function addDirector(UserInterface $director): void
+    {
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
+        }
+    }
+
+    #[Override]
+    public function removeDirector(UserInterface $director): void
+    {
+        $this->directors->removeElement($director);
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
     }
 }

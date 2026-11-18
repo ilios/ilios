@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\DirectorsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\SessionTypesEntity;
 use App\Traits\StringableIdEntity;
@@ -31,7 +30,6 @@ class School implements SchoolInterface
     use StringableIdEntity;
     use SessionTypesEntity;
     use InstructorGroupsEntity;
-    use DirectorsEntity;
 
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
@@ -292,6 +290,22 @@ class School implements SchoolInterface
             $this->directors->removeElement($director);
             $director->removeDirectedSchool($this);
         }
+    }
+
+    #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
     }
 
     #[Override]

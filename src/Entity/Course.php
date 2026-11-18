@@ -11,7 +11,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\DirectorsEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
 use App\Attributes as IA;
@@ -38,7 +37,6 @@ class Course implements CourseInterface
     use SchoolEntity;
     use PublishableEntity;
     use MeshDescriptorsEntity;
-    use DirectorsEntity;
     use StudentAdvisorsEntity;
     use CourseObjectivesEntity;
 
@@ -417,6 +415,22 @@ class Course implements CourseInterface
             $this->directors->removeElement($director);
             $director->removeDirectedCourse($this);
         }
+    }
+
+    #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
     }
 
     #[Override]

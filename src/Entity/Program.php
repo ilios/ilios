@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DirectorsEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
 use App\Traits\TitledEntity;
@@ -26,7 +25,6 @@ class Program implements ProgramInterface
     use StringableIdEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
-    use DirectorsEntity;
 
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
@@ -167,6 +165,23 @@ class Program implements ProgramInterface
             $director->removeDirectedProgram($this);
         }
     }
+
+    #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
+    }
+
     #[Override]
     public function setId(int $id): void
     {
