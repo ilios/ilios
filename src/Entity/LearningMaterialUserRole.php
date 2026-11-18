@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\LearningMaterialUserRoleRepository;
 use Override;
 
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'learning_material_user_role_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -86,6 +83,18 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\TitledEntity;
 use App\Attributes as IA;
 use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class AamcResourceType implements AamcResourceTypeInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -120,5 +117,17 @@ class AamcResourceType implements AamcResourceTypeInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 }

@@ -9,7 +9,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\SchoolRepository;
 use Override;
 
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class School implements SchoolInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -530,6 +527,18 @@ class School implements SchoolInterface
     public function getSessionTypes(): Collection
     {
         return $this->sessionTypes;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

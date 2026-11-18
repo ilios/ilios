@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class SessionObjective implements SessionObjectiveInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -318,6 +315,18 @@ class SessionObjective implements SessionObjectiveInterface
     public function getPosition(): int
     {
         return $this->position;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

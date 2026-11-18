@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\LearnerGroupRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Override;
@@ -20,7 +19,6 @@ use Override;
 #[IA\Entity]
 class LearnerGroup implements LearnerGroupInterface
 {
-    use TitledEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'group_id', type: 'integer')]
@@ -486,6 +484,18 @@ class LearnerGroup implements LearnerGroupInterface
     public function getInstructors(): Collection
     {
         return $this->instructors;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

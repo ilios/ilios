@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
-use App\Traits\TitledEntity;
 use App\Repository\ProgramRepository;
 use Override;
 
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class Program implements ProgramInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -228,6 +225,18 @@ class Program implements ProgramInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

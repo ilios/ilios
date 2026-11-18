@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use Override;
 
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -555,6 +552,18 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getSessions(): Collection
     {
         return $this->sessions;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

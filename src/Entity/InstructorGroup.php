@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\InstructorGroupRepository;
 use Override;
 
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class InstructorGroup implements InstructorGroupInterface
 {
-    use TitledEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
@@ -201,6 +199,18 @@ class InstructorGroup implements InstructorGroupInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

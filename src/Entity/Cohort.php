@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\CohortRepository;
 use Override;
 
@@ -20,7 +19,6 @@ use Override;
 #[IA\Entity]
 class Cohort implements CohortInterface
 {
-    use TitledEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
@@ -192,6 +190,18 @@ class Cohort implements CohortInterface
     public function getLearnerGroups(): Collection
     {
         return $this->learnerGroups;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

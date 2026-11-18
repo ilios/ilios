@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\TitledEntity;
 use App\Attributes as IA;
 use App\Repository\LearningMaterialRepository;
 use Override;
@@ -26,8 +25,6 @@ use function array_unique;
 #[IA\Entity]
 class LearningMaterial implements LearningMaterialInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -500,6 +497,18 @@ class LearningMaterial implements LearningMaterialInterface
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\UserRoleRepository;
 use Override;
 
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class UserRole implements UserRoleInterface
 {
-    use TitledEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
@@ -78,6 +76,18 @@ class UserRole implements UserRoleInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]

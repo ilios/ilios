@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
 use App\Repository\SessionTypeRepository;
 use Override;
 
@@ -21,8 +20,6 @@ use Override;
 #[IA\Entity]
 class SessionType implements SessionTypeInterface
 {
-    use TitledEntity;
-
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -233,6 +230,18 @@ class SessionType implements SessionTypeInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     #[Override]
