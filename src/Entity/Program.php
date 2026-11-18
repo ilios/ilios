@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\ProgramRepository;
 use Override;
@@ -23,7 +22,6 @@ class Program implements ProgramInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use ProgramYearsEntity;
     use SchoolEntity;
 
     #[ORM\Column(name: 'program_id', type: 'integer')]
@@ -192,5 +190,35 @@ class Program implements ProgramInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    #[Override]
+    public function addProgramYear(ProgramYearInterface $programYear): void
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYear(ProgramYearInterface $programYear): void
+    {
+        $this->programYears->removeElement($programYear);
+    }
+
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
     }
 }

@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
 use Override;
@@ -23,7 +22,6 @@ use Override;
 class Competency implements CompetencyInterface
 {
     use TitledNullableEntity;
-    use ProgramYearsEntity;
     use SchoolEntity;
     use StringableIdEntity;
 
@@ -199,6 +197,22 @@ class Competency implements CompetencyInterface
             $programYear->removeCompetency($this);
         }
     }
+
+    #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

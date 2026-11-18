@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ProgramYearsEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
@@ -23,7 +22,6 @@ use Override;
 #[IA\Entity]
 class Term implements TermInterface
 {
-    use ProgramYearsEntity;
     use SessionsEntity;
     use StringableIdEntity;
     use TitledEntity;
@@ -186,6 +184,22 @@ class Term implements TermInterface
             $this->programYears->removeElement($programYear);
             $programYear->removeTerm($this);
         }
+    }
+
+    #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
     }
 
     #[Override]

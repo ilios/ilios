@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
-use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -23,7 +22,6 @@ use Override;
 class User implements UserInterface
 {
     use StringableIdEntity;
-    use ProgramYearsEntity;
     use SchoolEntity;
 
     #[ORM\Column(name: 'user_id', type: 'integer')]
@@ -1149,6 +1147,22 @@ class User implements UserInterface
             $this->programYears->removeElement($programYear);
             $programYear->removeDirector($this);
         }
+    }
+
+    #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
     }
 
     #[Override]
