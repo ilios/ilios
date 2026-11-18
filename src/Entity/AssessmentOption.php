@@ -11,7 +11,6 @@ use App\Traits\SessionTypesEntity;
 use App\Attributes as IA;
 use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use Override;
 
@@ -21,7 +20,6 @@ use Override;
 #[IA\Entity]
 class AssessmentOption implements AssessmentOptionInterface
 {
-    use NameableEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
 
@@ -62,5 +60,17 @@ class AssessmentOption implements AssessmentOptionInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

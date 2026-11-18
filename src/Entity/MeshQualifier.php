@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\NameableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshQualifierRepository;
 use Override;
@@ -21,7 +20,6 @@ use Override;
 class MeshQualifier implements MeshQualifierInterface
 {
     use TimestampableEntity;
-    use NameableEntity;
 
     #[ORM\Column(name: 'mesh_qualifier_uid', type: 'string', length: 12)]
     #[ORM\Id]
@@ -119,6 +117,18 @@ class MeshQualifier implements MeshQualifierInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function __toString(): string

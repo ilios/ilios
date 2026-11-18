@@ -9,7 +9,6 @@ use App\Attributes as IA;
 use App\Repository\ApplicationConfigRepository;
 use App\Traits\StringableIdEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\NameableEntity;
 use Override;
 
 #[ORM\Table(name: 'application_config')]
@@ -18,7 +17,6 @@ use Override;
 #[IA\Entity]
 class ApplicationConfig implements ApplicationConfigInterface
 {
-    use NameableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -67,5 +65,17 @@ class ApplicationConfig implements ApplicationConfigInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshTermRepository;
@@ -22,7 +21,6 @@ use Override;
 #[IA\Entity]
 class MeshTerm implements MeshTermInterface
 {
-    use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
 
@@ -215,5 +213,17 @@ class MeshTerm implements MeshTermInterface
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

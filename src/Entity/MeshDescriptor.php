@@ -12,7 +12,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\NameableEntity;
 use App\Traits\TimestampableEntity;
 use App\Traits\SessionsEntity;
 use App\Repository\MeshDescriptorRepository;
@@ -23,7 +22,6 @@ use Override;
 #[IA\Entity]
 class MeshDescriptor implements MeshDescriptorInterface
 {
-    use NameableEntity;
     use TimestampableEntity;
     use SessionsEntity;
     use SessionObjectivesEntity;
@@ -487,6 +485,18 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function __toString(): string

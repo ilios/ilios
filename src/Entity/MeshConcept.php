@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\NameableEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\MeshConceptRepository;
 use Override;
@@ -20,7 +19,6 @@ use Override;
 #[IA\Entity]
 class MeshConcept implements MeshConceptInterface
 {
-    use NameableEntity;
     use TimestampableEntity;
 
     #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
@@ -218,6 +216,18 @@ class MeshConcept implements MeshConceptInterface
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function __toString(): string

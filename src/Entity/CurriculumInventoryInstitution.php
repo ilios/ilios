@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\CurriculumInventoryInstitutionRepository;
@@ -18,7 +17,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
-    use NameableEntity;
     use StringableIdEntity;
     use SchoolEntity;
 
@@ -175,5 +173,17 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
