@@ -16,7 +16,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\NameableEntity;
 use App\Traits\TimestampableEntity;
-use App\Traits\CoursesEntity;
 use App\Traits\SessionsEntity;
 use App\Repository\MeshDescriptorRepository;
 use Override;
@@ -29,7 +28,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use IdentifiableStringEntity;
     use NameableEntity;
     use TimestampableEntity;
-    use CoursesEntity;
     use SessionsEntity;
     use CreatedAtEntity;
     use SessionObjectivesEntity;
@@ -332,6 +330,21 @@ class MeshDescriptor implements MeshDescriptorInterface
             $this->courses->removeElement($course);
             $course->removeMeshDescriptor($this);
         }
+    }
+
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
     }
 
     #[Override]

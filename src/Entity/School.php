@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\CoursesEntity;
 use App\Traits\ProgramsEntity;
 use App\Repository\SchoolRepository;
 use Override;
@@ -25,7 +24,6 @@ use Override;
 class School implements SchoolInterface
 {
     use TitledEntity;
-    use CoursesEntity;
     use ProgramsEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
@@ -420,5 +418,35 @@ class School implements SchoolInterface
     public function getCompetencies(): Collection
     {
         return $this->competencies;
+    }
+
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function addCourse(CourseInterface $course): void
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+        }
+    }
+
+    #[Override]
+    public function removeCourse(CourseInterface $course): void
+    {
+        $this->courses->removeElement($course);
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
     }
 }

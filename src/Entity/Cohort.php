@@ -13,7 +13,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Traits\CoursesEntity;
 use App\Repository\CohortRepository;
 use Override;
 
@@ -25,7 +24,6 @@ class Cohort implements CohortInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use CoursesEntity;
     use LearnerGroupsEntity;
     use UsersEntity;
 
@@ -110,6 +108,22 @@ class Cohort implements CohortInterface
             $this->courses->removeElement($course);
             $course->removeCohort($this);
         }
+    }
+
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
     }
 
     #[Override]

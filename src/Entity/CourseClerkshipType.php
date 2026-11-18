@@ -11,7 +11,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
-use App\Traits\CoursesEntity;
 use App\Repository\CourseClerkshipTypeRepository;
 use Override;
 
@@ -22,7 +21,6 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
     use StringableIdEntity;
     use TitledEntity;
-    use CoursesEntity;
 
     #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
     #[ORM\Id]
@@ -69,6 +67,23 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
             $course->setClerkshipType(null);
         }
     }
+
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\CoursesEntity;
 use App\Traits\DescribableNullableEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SessionsEntity;
@@ -26,7 +25,6 @@ use Override;
 #[IA\Entity]
 class Term implements TermInterface
 {
-    use CoursesEntity;
     use DescribableNullableEntity;
     use ProgramYearsEntity;
     use SessionsEntity;
@@ -159,6 +157,21 @@ class Term implements TermInterface
             $this->courses->removeElement($course);
             $course->removeTerm($this);
         }
+    }
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
     }
 
     #[Override]
