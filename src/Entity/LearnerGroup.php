@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IlmSessionsEntity;
-use App\Traits\InstructorGroupsEntity;
 use App\Traits\InstructorsEntity;
 use App\Traits\UsersEntity;
 use App\Attributes as IA;
@@ -30,7 +29,6 @@ class LearnerGroup implements LearnerGroupInterface
     use OfferingsEntity;
     use UsersEntity;
     use InstructorsEntity;
-    use InstructorGroupsEntity;
     use IlmSessionsEntity;
 
     #[ORM\Column(name: 'group_id', type: 'integer')]
@@ -404,5 +402,35 @@ class LearnerGroup implements LearnerGroupInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setInstructorGroups(Collection $instructorGroups): void
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        if (!$this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        $this->instructorGroups->removeElement($instructorGroup);
+    }
+
+    #[Override]
+    public function getInstructorGroups(): Collection
+    {
+        return $this->instructorGroups;
     }
 }

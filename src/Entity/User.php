@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\InstructorGroupsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearningMaterialsEntity;
 use App\Attributes as IA;
@@ -31,7 +30,6 @@ class User implements UserInterface
     use ProgramYearsEntity;
     use SchoolEntity;
     use LearnerGroupsEntity;
-    use InstructorGroupsEntity;
     use LearningMaterialsEntity;
 
     #[ORM\Column(name: 'user_id', type: 'integer')]
@@ -783,6 +781,22 @@ class User implements UserInterface
     {
         $this->instructorGroups->removeElement($instructorGroup);
         $instructorGroup->removeUser($this);
+    }
+
+    #[Override]
+    public function setInstructorGroups(Collection $instructorGroups): void
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function getInstructorGroups(): Collection
+    {
+        return $this->instructorGroups;
     }
 
     #[Override]

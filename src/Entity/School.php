@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\InstructorGroupsEntity;
 use App\Traits\SessionTypesEntity;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
@@ -27,7 +26,6 @@ class School implements SchoolInterface
     use ProgramsEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
-    use InstructorGroupsEntity;
 
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
@@ -448,5 +446,35 @@ class School implements SchoolInterface
     public function getCourses(): Collection
     {
         return $this->courses;
+    }
+
+    #[Override]
+    public function setInstructorGroups(Collection $instructorGroups): void
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        if (!$this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        $this->instructorGroups->removeElement($instructorGroup);
+    }
+
+    #[Override]
+    public function getInstructorGroups(): Collection
+    {
+        return $this->instructorGroups;
     }
 }
