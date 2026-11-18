@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Attributes as IA;
 use App\Repository\ServiceTokenRepository;
-use App\Traits\DescribableEntity;
 use App\Traits\EnableableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +18,6 @@ use Override;
 #[ORM\Entity(repositoryClass: ServiceTokenRepository::class)]
 class ServiceToken implements ServiceTokenInterface
 {
-    use DescribableEntity;
     use EnableableEntity;
 
     #[IA\Type('integer')]
@@ -171,5 +169,17 @@ class ServiceToken implements ServiceTokenInterface
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }
