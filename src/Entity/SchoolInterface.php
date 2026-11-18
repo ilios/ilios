@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\IndexableCoursesEntityInterface;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\AdministratorsEntityInterface;
 use App\Entity\AlertableEntityInterface;
 use App\Entity\CompetenciesEntityInterface;
+use App\Entity\CoursesEntityInterface;
 use App\Entity\DirectorsEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
 use App\Entity\InstructorGroupsEntityInterface;
+use App\Entity\ProgramsEntityInterface;
 use App\Entity\SessionTypesEntityInterface;
 use App\Entity\TitledEntityInterface;
-use App\Entity\CoursesEntityInterface;
-use App\Entity\ProgramsEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface SchoolInterface extends
     IdentifiableEntityInterface,

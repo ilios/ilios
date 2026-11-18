@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Attributes as IA;
 use App\Repository\UserSessionMaterialStatusRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'user_session_material_status')]
 #[ORM\Entity(repositoryClass: UserSessionMaterialStatusRepository::class)]

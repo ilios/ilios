@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ListRootUsersCommand;
 use App\Entity\DTO\UserDTO;
 use App\Repository\UserRepository;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * Tests the List Root Users command.

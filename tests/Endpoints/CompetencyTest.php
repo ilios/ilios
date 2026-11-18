@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAamcPcrsData;
-use App\Tests\Fixture\LoadSchoolData;
-use App\Tests\Fixture\LoadSessionTypeData;
-use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadCompetencyData;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseObjectiveData;
 use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
+use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
+use App\Tests\Fixture\LoadSessionTypeData;
+use App\Tests\Fixture\LoadTermData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Competency API endpoint Test.

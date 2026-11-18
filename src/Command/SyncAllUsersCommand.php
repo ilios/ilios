@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\PendingUserUpdateRepository;
 use App\Repository\UserRepository;
+use App\Service\Directory;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\UserInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Service\Directory;
 
 /**
  * Sync a user with their directory information

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\ServiceTokenVoter;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\VoterPermissions;
 use App\ServiceTokenVoter\ReadonlyEntityVoter as Voter;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 abstract class AbstractReadonlyBase extends AbstractBase

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Command\UpdateFrontendCommand;
+use App\Service\AuthenticationInterface;
 use App\Service\Config;
 use App\Service\Filesystem;
-use App\Service\AuthenticationInterface;
+use DateTime;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use SplFileObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Command\UpdateFrontendCommand;
 use Symfony\Component\Routing\Attribute\Route;
 use Twig\Environment;
-use DateTime;
 
 class IndexController extends AbstractController
 {

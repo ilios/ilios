@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\ErrorController;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadServiceTokenData;
+use App\Tests\Traits\TestableJsonController;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(ErrorController::class)]

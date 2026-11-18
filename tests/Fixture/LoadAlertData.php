@@ -9,9 +9,9 @@ use App\Entity\AlertChangeType;
 use App\Entity\School;
 use App\Entity\User;
 use App\Tests\DataLoader\AlertData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadAlertData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

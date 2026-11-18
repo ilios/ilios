@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
 use App\Entity\AlertChangeTypeInterface;
@@ -17,9 +16,10 @@ use App\Entity\User;
 use App\Repository\AlertChangeTypeRepository;
 use App\Repository\AlertRepository;
 use App\Service\ChangeAlertHandler;
+use App\Tests\TestCase;
 use DateTime;
 use Mockery as m;
-use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class ChangeAlertHandlerTest

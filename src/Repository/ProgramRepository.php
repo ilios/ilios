@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\ProgramDTO;
 use App\Entity\Program;
 use App\Service\DTOCacheManager;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use App\Entity\DTO\ProgramDTO;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 

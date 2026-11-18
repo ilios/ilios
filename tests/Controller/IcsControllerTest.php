@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\IcsController;
 use App\Tests\DataLoader\IlmSessionData;
+use App\Tests\DataLoader\SessionData;
 use App\Tests\Fixture\LoadAuthenticationData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadOfferingData;
@@ -15,13 +14,14 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\GetUrlTrait;
+use App\Tests\Traits\TestableJsonController;
 use DateTime;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\DataLoader\SessionData;
-use App\Tests\Traits\TestableJsonController;
 
 #[Group('controller')]
 #[CoversClass(IcsController::class)]

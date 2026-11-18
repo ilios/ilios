@@ -18,8 +18,8 @@ use function assert;
 use function checkdate;
 use function is_string;
 use function preg_match;
-use function substr;
 use function strpos;
+use function substr;
 
 class DateTimeType extends CustomScalarType
 {

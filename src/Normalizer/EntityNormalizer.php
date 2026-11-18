@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Normalizer;
 
-use App\Service\EntityMetadata;
 use App\Attributes as IA;
+use App\Service\EntityMetadata;
 use ArrayObject;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use HTMLPurifier;
+use Override;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ReflectionClass;
 use ReflectionProperty;
-use Override;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * Ilios Entity normalizer

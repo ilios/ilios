@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\PreferencesController;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserPreferenceData;
 use App\Tests\Traits\TestableJsonController;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;

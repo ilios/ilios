@@ -6,12 +6,12 @@ namespace App\Command;
 
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use DateTime;
 
 /**
  * Invalidate all user tokens issued before now

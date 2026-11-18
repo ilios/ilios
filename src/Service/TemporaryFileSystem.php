@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use RuntimeException;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * Class FileSystem

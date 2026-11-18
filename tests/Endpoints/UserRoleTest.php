@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\Fixture\LoadUserRoleData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * UserRole API endpoint Test.

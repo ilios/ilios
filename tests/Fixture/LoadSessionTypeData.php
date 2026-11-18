@@ -9,8 +9,8 @@ use App\Entity\AssessmentOption;
 use App\Entity\School;
 use App\Entity\SessionType;
 use App\Tests\DataLoader\SessionTypeData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

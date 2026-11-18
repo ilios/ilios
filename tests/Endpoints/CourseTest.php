@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\OfferingData;
 use App\Tests\DataLoader\SessionData;
@@ -24,6 +23,7 @@ use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
 use App\Tests\QEndpointTrait;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Service\HealthCheckRunner;
+use App\Tests\TestCase;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use Mockery as m;
-use App\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(HealthCheckRunner::class)]

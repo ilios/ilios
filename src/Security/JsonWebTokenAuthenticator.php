@@ -12,6 +12,7 @@ use App\Service\Jwt\TokenCodec;
 use App\Service\Jwt\TokenFactory;
 use App\Service\ServiceTokenUserProvider;
 use Exception;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -24,7 +25,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
-use Override;
 
 class JsonWebTokenAuthenticator extends AbstractAuthenticator
 {

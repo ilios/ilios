@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Service\InflectorFactory;
 use App\Tests\Fixture\LoadAamcPcrsData;
 use App\Tests\Fixture\LoadCompetencyData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * AamcPcrses API endpoint Test.

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Service;
 
 use App\Entity\DTO\LearningMaterialDTO;
+use App\Service\IliosFileSystem;
 use App\Service\LearningMaterialTextExtractor;
 use App\Service\NonCachingIliosFileSystem;
 use App\Service\TemporaryFileSystem;
+use App\Tests\TestCase;
 use Exception;
 use Mockery as m;
-use App\Service\IliosFileSystem;
-use App\Tests\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Vaites\ApacheTika\Client;

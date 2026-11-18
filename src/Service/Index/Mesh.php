@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
+use Exception;
 use Ilios\MeSH\Model\Concept;
 use Ilios\MeSH\Model\Descriptor;
-use Exception;
 use InvalidArgumentException;
 
 class Mesh extends OpenSearchBase

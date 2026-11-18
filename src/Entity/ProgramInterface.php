@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use App\Entity\DirectorsEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
+use App\Entity\ProgramYearsEntityInterface;
 use App\Entity\SchoolEntityInterface;
 use App\Entity\TitledEntityInterface;
-use App\Entity\ProgramYearsEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface ProgramInterface extends
     IdentifiableEntityInterface,

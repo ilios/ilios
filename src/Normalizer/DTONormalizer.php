@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Normalizer;
 
-use App\Service\EntityMetadata;
 use App\Attributes as IA;
+use App\Service\EntityMetadata;
 use ArrayObject;
+use Override;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Override;
 
 /**
  * Ilios DTO normalizer

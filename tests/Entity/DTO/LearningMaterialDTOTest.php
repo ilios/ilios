@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity\DTO;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Tests\TestCase;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Class LearningMaterialDTOTest

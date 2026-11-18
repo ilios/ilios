@@ -7,18 +7,18 @@ namespace App\Repository;
 use App\Classes\IndexableCourse;
 use App\Classes\IndexableSession;
 use App\Entity\Course;
+use App\Entity\DTO\CourseDTO;
 use App\Entity\Session;
 use App\Service\DTOCacheManager;
 use DateTime;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\DTO\CourseDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class CourseRepository extends BaseRepository
 {

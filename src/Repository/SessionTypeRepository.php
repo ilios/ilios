@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\SessionTypeDTO;
 use App\Entity\SessionType;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use App\Entity\DTO\SessionTypeDTO;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class SessionTypeRepository extends BaseRepository implements DataImportRepositoryInterface
 {

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\ProgramYearObjective;
 use App\Entity\DTO\ProgramYearObjectiveDTO;
+use App\Entity\ProgramYearObjective;
 use App\Service\DTOCacheManager;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\Persistence\ManagerRegistry;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class ProgramYearObjectiveRepository extends BaseRepository
 {

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DTOCacheManager;
-use App\Traits\ImportableEntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
 use App\Entity\CourseClerkshipType;
 use App\Entity\DTO\CourseClerkshipTypeDTO;
+use App\Service\DTOCacheManager;
+use App\Traits\ImportableEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 

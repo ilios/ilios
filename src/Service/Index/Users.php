@@ -6,8 +6,8 @@ namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
 use App\Entity\DTO\UserDTO;
-use InvalidArgumentException;
 use Exception;
+use InvalidArgumentException;
 
 class Users extends OpenSearchBase
 {

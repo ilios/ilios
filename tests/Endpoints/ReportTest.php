@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadUserData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Report API endpoint Test.

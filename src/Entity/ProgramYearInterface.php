@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\ProgramYearObjectivesEntityInterface;
 use App\Entity\ArchivableEntityInterface;
 use App\Entity\CategorizableEntityInterface;
 use App\Entity\CompetenciesEntityInterface;
 use App\Entity\DirectorsEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\LockableEntityInterface;
+use App\Entity\ProgramYearObjectivesEntityInterface;
 
 interface ProgramYearInterface extends
     IdentifiableEntityInterface,

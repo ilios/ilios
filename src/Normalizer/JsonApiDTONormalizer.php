@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Normalizer;
 
-use App\Service\EntityMetadata;
 use App\Attributes as IA;
+use App\Service\EntityMetadata;
 use ArrayObject;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Override;
 use ReflectionClass;
 use ReflectionProperty;
-use Override;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class JsonApiDTONormalizer implements NormalizerInterface
 {

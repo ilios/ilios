@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\VoterPermissions;
+use App\Entity\DTO\ApplicationConfigDTO;
 use App\RelationshipVoter\ApplicationConfigDTO as Voter;
 use App\Service\SessionUserPermissionChecker;
-use App\Entity\DTO\ApplicationConfigDTO;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

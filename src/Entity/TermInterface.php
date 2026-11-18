@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\CourseObjectivesEntityInterface;
-use App\Entity\IndexableCoursesEntityInterface;
-use App\Entity\ProgramYearObjectivesEntityInterface;
-use App\Entity\SessionObjectivesEntityInterface;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\ActivatableEntityInterface;
+use App\Entity\CourseObjectivesEntityInterface;
 use App\Entity\CoursesEntityInterface;
 use App\Entity\DescribableNullableEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
+use App\Entity\ProgramYearObjectivesEntityInterface;
 use App\Entity\ProgramYearsEntityInterface;
+use App\Entity\SessionObjectivesEntityInterface;
 use App\Entity\SessionsEntityInterface;
 use App\Entity\TitledEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface TermInterface extends
     DescribableNullableEntityInterface,

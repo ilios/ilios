@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\DependencyInjection;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\DependencyInjection\PrefixSeedCompilerPass;
 use App\Tests\TestCase;
 use Composer\InstalledVersions;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 #[CoversClass(PrefixSeedCompilerPass::class)]

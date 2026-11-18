@@ -13,8 +13,8 @@ use App\Entity\Term;
 use App\Entity\User;
 use App\Tests\DataLoader\CourseData;
 use DateTime;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\PersistentCollection;
 use App\Entity\LoggableEntityInterface;
 use App\Service\LoggerQueue;
+use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\PersistentCollection;
 use ReflectionClass;
 
 /**

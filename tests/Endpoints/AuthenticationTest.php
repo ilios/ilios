@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Tests\DataLoader\UserData;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadAuthenticationData;
@@ -19,6 +17,8 @@ use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadUserData;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

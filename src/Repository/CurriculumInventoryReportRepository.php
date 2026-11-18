@@ -6,20 +6,20 @@ namespace App\Repository;
 
 use App\Entity\CourseObjective;
 use App\Entity\CurriculumInventoryReport;
+use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\DTO\CurriculumInventoryReportDTO;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Session;
 use App\Entity\SessionObjective;
 use App\Service\DTOCacheManager;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
-use App\Entity\DTO\CurriculumInventoryReportDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\CurriculumInventoryReportInterface;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class CurriculumInventoryReportRepository extends BaseRepository
 {

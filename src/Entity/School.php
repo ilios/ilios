@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\SchoolRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'school')]
 #[ORM\UniqueConstraint(name: 'template_prefix', columns: ['template_prefix'])]

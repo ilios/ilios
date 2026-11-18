@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\Report;
 use App\Entity\School;
 use App\Entity\User;
 use App\Tests\DataLoader\ReportData;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\Report;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadReportData extends AbstractFixture implements

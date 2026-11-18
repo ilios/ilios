@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Course;
 use App\Entity\CourseObjectiveInterface;
 use App\Entity\School;
@@ -14,6 +12,8 @@ use App\Entity\SessionObjectiveInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests for Entity Course

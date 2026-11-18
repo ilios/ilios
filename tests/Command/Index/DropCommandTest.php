@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\Command\Index;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Command\Index\DropCommand;
 use App\Service\Index\Manager;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 #[Group('cli')]
 final class DropCommandTest extends KernelTestCase

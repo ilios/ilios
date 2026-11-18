@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadApplicationConfigData;
-use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
+use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceData;
 use App\Tests\Fixture\LoadUserData;
 use DateTime;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

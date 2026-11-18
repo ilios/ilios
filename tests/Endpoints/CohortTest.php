@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\ProgramYearData;
 use App\Tests\Fixture\LoadCohortData;
 use App\Tests\Fixture\LoadCourseData;
@@ -12,6 +11,7 @@ use App\Tests\Fixture\LoadLearnerGroupData;
 use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadProgramYearObjectiveData;
 use App\Tests\Fixture\LoadUserData;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

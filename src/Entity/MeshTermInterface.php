@@ -6,9 +6,9 @@ namespace App\Entity;
 
 use App\Entity\ConceptsEntityInterface;
 use App\Entity\CreatedAtEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 use App\Entity\NameableEntityInterface;
 use App\Entity\TimestampableEntityInterface;
-use App\Entity\IdentifiableEntityInterface;
 
 interface MeshTermInterface extends
     IdentifiableEntityInterface,

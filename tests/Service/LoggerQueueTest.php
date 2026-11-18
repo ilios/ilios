@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Entity\School;
 use App\Service\Logger;
 use App\Service\LoggerQueue;
-use App\Entity\School;
-use Mockery as m;
 use App\Tests\TestCase;
+use Mockery as m;
 
 /**
  * Class LoggerQueueTest

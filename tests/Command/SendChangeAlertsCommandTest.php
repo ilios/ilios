@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Command\SendChangeAlertsCommand as Command;
 use App\Entity\Alert;
 use App\Entity\AlertChangeType;
@@ -32,11 +29,14 @@ use App\Repository\OfferingRepository;
 use App\Service\Config;
 use DateTime;
 use DateTimeZone;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
 use Twig\Environment;

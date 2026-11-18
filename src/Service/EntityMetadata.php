@@ -15,11 +15,11 @@ use App\Attributes\RemoveMarkup;
 use App\Attributes\Type;
 use Doctrine\Persistence\Proxy;
 use Exception;
+use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\KernelInterface;
-use ReflectionClass;
-use ReflectionProperty;
 use Symfony\Contracts\Cache\CacheInterface;
 
 use function array_key_exists;

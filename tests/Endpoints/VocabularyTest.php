@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadVocabularyData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Vocabulary API endpoint Test.

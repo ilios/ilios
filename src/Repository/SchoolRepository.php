@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Classes\CalendarEvent;
+use App\Classes\SchoolEvent;
+use App\Entity\DTO\SchoolDTO;
 use App\Entity\School;
 use App\Entity\Session;
 use App\Service\DTOCacheManager;
+use App\Service\UserMaterialFactory;
+use App\Traits\CalendarEventRepository;
 use App\Traits\ImportableEntityRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types as DoctrineType;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
-use App\Classes\CalendarEvent;
-use App\Classes\SchoolEvent;
-use App\Entity\DTO\SchoolDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Service\UserMaterialFactory;
-use App\Traits\CalendarEventRepository;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class SchoolRepository extends BaseRepository implements DataImportRepositoryInterface
 {

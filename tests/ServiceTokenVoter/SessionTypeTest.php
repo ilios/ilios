@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\ServiceTokenVoter;
 
 use App\Classes\VoterPermissions;
-use App\Entity\SessionTypeInterface;
 use App\Entity\SchoolInterface;
+use App\Entity\SessionTypeInterface;
 use App\ServiceTokenVoter\SessionType as Voter;
 use Mockery as m;
 

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\CreatedAtEntityInterface;
+use App\Entity\ConceptsEntityInterface;
 use App\Entity\CourseObjectivesEntityInterface;
+use App\Entity\CoursesEntityInterface;
+use App\Entity\CreatedAtEntityInterface;
 use App\Entity\IdentifiableStringEntityInterface;
 use App\Entity\IndexableCoursesEntityInterface;
+use App\Entity\NameableEntityInterface;
 use App\Entity\ProgramYearObjectivesEntityInterface;
 use App\Entity\SessionObjectivesEntityInterface;
-use Doctrine\Common\Collections\Collection;
-use App\Entity\ConceptsEntityInterface;
-use App\Entity\NameableEntityInterface;
-use App\Entity\TimestampableEntityInterface;
-use App\Entity\CoursesEntityInterface;
 use App\Entity\SessionsEntityInterface;
+use App\Entity\TimestampableEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface MeshDescriptorInterface extends
     IdentifiableStringEntityInterface,

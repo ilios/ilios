@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Attributes as IA;
+use App\Repository\LearningMaterialStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\LearningMaterialStatusRepository;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'learning_material_status')]
 #[ORM\Entity(repositoryClass: LearningMaterialStatusRepository::class)]

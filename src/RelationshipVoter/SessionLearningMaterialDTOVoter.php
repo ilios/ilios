@@ -9,9 +9,9 @@ use App\Classes\VoterPermissions;
 use App\Entity\DTO\SessionLearningMaterialDTO;
 use App\Service\SessionUserPermissionChecker;
 use DateTime;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
-use Override;
 
 class SessionLearningMaterialDTOVoter extends AbstractVoter
 {

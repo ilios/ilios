@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\CourseObjectivesEntityInterface;
-use App\Entity\IndexableCoursesEntityInterface;
-use App\Entity\TitledNullableEntityInterface;
-use DateTime;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\AdministratorsEntityInterface;
 use App\Entity\ArchivableEntityInterface;
 use App\Entity\CategorizableEntityInterface;
 use App\Entity\CohortsEntityInterface;
+use App\Entity\CourseObjectivesEntityInterface;
 use App\Entity\DirectorsEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
 use App\Entity\LockableEntityInterface;
 use App\Entity\MeshDescriptorsEntityInterface;
 use App\Entity\PublishableEntityInterface;
 use App\Entity\SchoolEntityInterface;
-use App\Entity\StudentAdvisorsEntityInterface;
 use App\Entity\SessionsEntityInterface;
+use App\Entity\StudentAdvisorsEntityInterface;
+use App\Entity\TitledNullableEntityInterface;
+use DateTime;
+use Doctrine\Common\Collections\Collection;
 
 interface CourseInterface extends
     IdentifiableEntityInterface,

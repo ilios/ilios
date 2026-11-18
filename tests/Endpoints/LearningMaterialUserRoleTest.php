@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadLearningMaterialUserRoleData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * LearningMaterialUserRole API endpoint Test.

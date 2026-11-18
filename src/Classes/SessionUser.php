@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Classes;
 
 use App\Entity\SchoolInterface;
-use App\Repository\UserRepository;
-use Exception;
-use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\UserInterface as IliosUserInterface;
+use App\Repository\UserRepository;
 use DateTime;
 use Deprecated;
+use Exception;
 use Override;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class SessionUser

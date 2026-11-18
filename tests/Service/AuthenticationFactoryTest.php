@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Service\AuthenticationFactory;
 use App\Service\CasAuthentication;
+use App\Service\Config;
 use App\Service\FormAuthentication;
 use App\Service\LdapAuthentication;
 use App\Service\ShibbolethAuthentication;
-use App\Service\Config;
 use App\Tests\TestCase;
 use Exception;
 use Mockery as m;
-use App\Service\AuthenticationFactory;
 
 final class AuthenticationFactoryTest extends TestCase
 {

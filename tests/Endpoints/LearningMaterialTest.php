@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Controller\API\LearningMaterials;
 use App\Entity\LearningMaterialStatusInterface;
 use App\Tests\DataLoader\LearningMaterialData;
@@ -16,6 +14,8 @@ use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\QEndpointTrait;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\RelationshipVoter;
 
 use App\Service\SessionUserPermissionChecker;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Override;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 abstract class AbstractVoter extends Voter
 {

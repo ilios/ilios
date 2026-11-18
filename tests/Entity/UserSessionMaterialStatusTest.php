@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\SessionLearningMaterialInterface;
 use App\Entity\UserInterface;
 use App\Entity\UserSessionMaterialStatus;
 use App\Entity\UserSessionMaterialStatusInterface;
 use DateTime;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 #[Group('model')]
 #[CoversClass(UserSessionMaterialStatus::class)]

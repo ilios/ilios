@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\UserInterface;
 use App\Entity\UserPreference;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 
 #[Group('model')]
 #[CoversClass(UserPreference::class)]

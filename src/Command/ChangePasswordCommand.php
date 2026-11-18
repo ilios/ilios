@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\AuthenticationInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
-use App\Entity\AuthenticationInterface;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\Argument;

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\ServiceTokenUserInterface;
+use App\Classes\SessionUserInterface;
 use App\Repository\AuditLogRepository;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use App\Classes\SessionUserInterface;
 
 /**
  * Class Logger

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\VoterPermissions;
-use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventoryExportInterface;
+use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\SchoolInterface;
 use App\RelationshipVoter\CurriculumInventoryExport as Voter;
 use App\Service\SessionUserPermissionChecker;

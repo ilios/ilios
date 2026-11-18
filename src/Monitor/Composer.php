@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Monitor;
 
-use Laminas\Diagnostics\Result\ResultInterface;
 use Composer\Autoload\ClassLoader;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Override;
 

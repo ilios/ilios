@@ -6,16 +6,16 @@ namespace App\Command;
 
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
+use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
 use ErrorException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Helper\ProgressBar;
-use App\Service\IliosFileSystem;
 
 /**
  * Cleanup incorrectly stored mime types for learning materials.

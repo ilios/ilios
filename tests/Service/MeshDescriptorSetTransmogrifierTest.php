@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Service\MeshDescriptorSetTransmogrifier;
 use App\Tests\TestCase;
 use DateTime;
@@ -14,6 +13,7 @@ use Ilios\MeSH\Model\Descriptor;
 use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Reference;
 use Ilios\MeSH\Model\Term;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class MeshDescriptorSetTransmogrifierTest

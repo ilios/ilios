@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\SchoolConfigDTO;
+use App\Entity\SchoolConfig;
 use App\Service\DTOCacheManager;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
-use App\Entity\SchoolConfig;
-use App\Entity\DTO\SchoolConfigDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 

@@ -10,9 +10,9 @@ use App\Entity\LearningMaterial;
 use App\Entity\MeshDescriptor;
 use App\Tests\DataLoader\CourseLearningMaterialData;
 use DateTime;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCourseLearningMaterialData extends AbstractFixture implements

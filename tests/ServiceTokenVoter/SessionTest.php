@@ -6,8 +6,8 @@ namespace App\Tests\ServiceTokenVoter;
 
 use App\Classes\VoterPermissions;
 use App\Entity\CourseInterface;
-use App\Entity\SessionInterface;
 use App\Entity\SchoolInterface;
+use App\Entity\SessionInterface;
 use App\ServiceTokenVoter\Session as Voter;
 use Mockery as m;
 

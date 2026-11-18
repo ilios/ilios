@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
-use DateTime;
-use App\Service\Timestamper;
-use App\Entity\TimestampableEntityInterface;
 use App\Entity\OfferingsEntityInterface;
 use App\Entity\SessionStampableInterface;
+use App\Entity\TimestampableEntityInterface;
+use App\Service\Timestamper;
+use DateTime;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;

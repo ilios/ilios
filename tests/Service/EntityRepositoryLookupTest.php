@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\AamcMethod;
 use App\Entity\DTO\AamcMethodDTO;
 use App\Entity\DTO\VocabularyDTO;
@@ -16,6 +14,8 @@ use App\Repository\ProgramYearObjectiveRepository;
 use App\Repository\VocabularyRepository;
 use App\Service\EntityRepositoryLookup;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 #[CoversClass(EntityRepositoryLookup::class)]

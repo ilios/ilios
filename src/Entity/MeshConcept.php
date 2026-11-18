@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\MeshConceptRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'mesh_concept')]
 #[ORM\Entity(repositoryClass: MeshConceptRepository::class)]

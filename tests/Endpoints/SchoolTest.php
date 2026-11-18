@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAlertData;
 use App\Tests\Fixture\LoadCompetencyData;
 use App\Tests\Fixture\LoadCourseData;
@@ -14,6 +13,7 @@ use App\Tests\Fixture\LoadReportData;
 use App\Tests\Fixture\LoadSchoolConfigData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionTypeData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * School API endpoint Test.

@@ -10,9 +10,9 @@ use App\Entity\LearningMaterialUserRole;
 use App\Entity\User;
 use App\Service\Config;
 use App\Tests\DataLoader\LearningMaterialData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
 

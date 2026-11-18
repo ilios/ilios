@@ -6,8 +6,8 @@ namespace App\Tests\DataLoader;
 
 use App\Attributes\Id;
 use App\Attributes\Related;
-use App\Service\EntityRepositoryLookup;
 use App\Service\EntityMetadata;
+use App\Service\EntityRepositoryLookup;
 use DateTime;
 use ReflectionClass;
 use ReflectionProperty;

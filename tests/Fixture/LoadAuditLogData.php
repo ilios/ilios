@@ -6,8 +6,8 @@ namespace App\Tests\Fixture;
 
 use App\Entity\AuditLog;
 use App\Tests\DataLoader\AuditLogData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadAuditLogData extends AbstractFixture implements ORMFixtureInterface

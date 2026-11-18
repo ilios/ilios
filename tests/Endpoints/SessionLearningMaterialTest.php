@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Entity\SessionLearningMaterial;
 use App\Tests\Fixture\LoadLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
 use App\Tests\Fixture\LoadOfferingData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 use function date_format;

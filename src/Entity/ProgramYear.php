@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
+use App\Repository\ProgramYearRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\ProgramYearRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'program_year')]
 #[ORM\Entity(repositoryClass: ProgramYearRepository::class)]

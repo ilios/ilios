@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Service\DataimportFileLocator;
 use App\Service\DefaultDataImporter;
 use App\Service\DefaultDataLoader;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadIlmSessionData;
 use App\Tests\Fixture\LoadInstructorGroupData;
 use App\Tests\Fixture\LoadLearnerGroupData;
@@ -14,6 +13,7 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadUserData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * InstructorGroup API endpoint Test.

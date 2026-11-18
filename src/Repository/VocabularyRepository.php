@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\VocabularyDTO;
+use App\Entity\Vocabulary;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use App\Entity\Vocabulary;
-use App\Entity\DTO\VocabularyDTO;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class VocabularyRepository extends BaseRepository implements DataImportRepositoryInterface
 {

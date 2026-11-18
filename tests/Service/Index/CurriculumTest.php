@@ -11,10 +11,10 @@ use App\Service\Config;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
 use App\Tests\TestCase;
-use OpenSearch\Client;
 use DateTime;
 use Exception;
 use Mockery as m;
+use OpenSearch\Client;
 
 final class CurriculumTest extends TestCase
 {

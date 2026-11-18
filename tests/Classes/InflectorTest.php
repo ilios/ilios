@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Service\InflectorFactory;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 final class InflectorTest extends TestCase

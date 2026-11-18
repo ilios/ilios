@@ -8,9 +8,9 @@ use App\Entity\AamcPcrs;
 use App\Entity\Competency;
 use App\Entity\School;
 use App\Tests\DataLoader\CompetencyData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCompetencyData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

@@ -11,12 +11,12 @@ use App\Repository\SessionRepository;
 use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
 use DateTime;
-use PHPUnit\Framework\Attributes\Group;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 #[Group('cli')]
 final class DetectMissingCommandTest extends KernelTestCase

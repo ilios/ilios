@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadMeshQualifierData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * MeshQualifier API endpoint Test.

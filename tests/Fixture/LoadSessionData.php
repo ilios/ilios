@@ -11,9 +11,9 @@ use App\Entity\SessionType;
 use App\Entity\Term;
 use App\Entity\User;
 use App\Tests\DataLoader\SessionData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadSessionData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

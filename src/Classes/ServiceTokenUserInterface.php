@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Classes;
 
 use DateTime;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface ServiceTokenUserInterface extends UserInterface, EquatableInterface
 {

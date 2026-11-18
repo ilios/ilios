@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCurriculumInventoryAcademicLevelData;
 use App\Tests\Fixture\LoadCurriculumInventoryExportData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadCurriculumInventorySequenceBlockData;
 use App\Tests\Fixture\LoadProgramData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * CurriculumInventoryAcademicLevel API endpoint Test.

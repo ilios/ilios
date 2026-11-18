@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Command\WaitForDatabaseCommand;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\ORM\EntityManagerInterface;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 #[Group('cli')]

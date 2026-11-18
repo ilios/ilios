@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Attributes as IA;
+use App\Repository\CourseClerkshipTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\CourseClerkshipTypeRepository;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'course_clerkship_type')]
 #[ORM\Entity(repositoryClass: CourseClerkshipTypeRepository::class)]

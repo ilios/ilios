@@ -9,6 +9,7 @@ use App\Entity\LearnerGroupInterface;
 use App\Entity\UserInterface;
 use App\Repository\LearnerGroupRepository;
 use App\Repository\UserRepository;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
@@ -17,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * @package App\Tests\Command

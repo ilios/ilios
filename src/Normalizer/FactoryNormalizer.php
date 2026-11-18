@@ -11,10 +11,10 @@ use App\Service\CurriculumInventoryReportDecoratorFactory;
 use App\Service\LearningMaterialDecoratorFactory;
 use ArrayObject;
 use Exception;
+use Override;
 use Symfony\Component\Serializer\Encoder\NormalizationAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Override;
 
 /**
  * Applies a factory to decorate the entity or DTO before it is sent

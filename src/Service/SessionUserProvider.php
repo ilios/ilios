@@ -8,11 +8,11 @@ use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use App\Entity\UserInterface as IliosUser;
 use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Override;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class SessionUserProvider implements UserProviderInterface
 {

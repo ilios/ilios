@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\MeshDescriptorsEntityInterface;
 use App\Entity\SortableEntityInterface;
+use DateTime;
 
 interface LearningMaterialRelationshipInterface extends
     IdentifiableEntityInterface,

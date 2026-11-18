@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CurriculumInventoryInstitutionRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'curriculum_inventory_institution')]
 #[ORM\Entity(repositoryClass: CurriculumInventoryInstitutionRepository::class)]

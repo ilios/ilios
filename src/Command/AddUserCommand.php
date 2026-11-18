@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\AuthenticationInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
-use App\Entity\AuthenticationInterface;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;

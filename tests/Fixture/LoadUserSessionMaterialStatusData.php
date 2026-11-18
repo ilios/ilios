@@ -8,8 +8,8 @@ use App\Entity\SessionLearningMaterial;
 use App\Entity\User;
 use App\Entity\UserSessionMaterialStatus;
 use App\Tests\DataLoader\UserSessionMaterialStatusData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

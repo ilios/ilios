@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory\Export;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
 use App\Repository\CurriculumInventoryInstitutionRepository;
 use App\Service\Config;
@@ -12,6 +11,7 @@ use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Manager;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class AggregatorTest

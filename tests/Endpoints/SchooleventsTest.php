@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Entity\Offering;
 use App\Entity\OfferingInterface;
 use App\Tests\DataLoader\CourseData;
@@ -23,6 +22,7 @@ use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use DateTime;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\VoterPermissions;
 use App\Entity\DTO\AuthenticationDTO;
 use App\Entity\DTO\CourseLearningMaterialDTO;
@@ -15,6 +13,8 @@ use App\Entity\DTO\PendingUserUpdateDTO;
 use App\RelationshipVoter\ElevatedPermissionsViewDTOVoter as Voter;
 use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**

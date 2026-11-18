@@ -6,8 +6,8 @@ namespace App\Tests\Fixture;
 
 use App\Entity\AlertChangeType;
 use App\Tests\DataLoader\AlertChangeTypeData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadAlertChangeTypeData extends AbstractFixture implements ORMFixtureInterface

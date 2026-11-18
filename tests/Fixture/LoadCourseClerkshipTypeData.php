@@ -6,8 +6,8 @@ namespace App\Tests\Fixture;
 
 use App\Entity\CourseClerkshipType;
 use App\Tests\DataLoader\CourseClerkshipTypeData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCourseClerkshipTypeData extends AbstractFixture implements ORMFixtureInterface

@@ -10,12 +10,12 @@ use App\Service\Jwt\TokenCodec;
 use App\Service\Jwt\TokenManager;
 use App\Traits\AuthenticationService;
 use Exception;
+use Override;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Override;
 
 /**
  * Class ShibbolethAuthentication

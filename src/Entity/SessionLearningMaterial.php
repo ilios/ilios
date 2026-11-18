@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
+use App\Repository\SessionLearningMaterialRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\SessionLearningMaterialRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'session_learning_material')]
 #[ORM\Index(columns: ['session_id', 'learning_material_id'], name: 'session_lm_k')]

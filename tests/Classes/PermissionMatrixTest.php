@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\PermissionMatrix;
 use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class PermissionMatrixTest

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
-use App\Tests\DataLoader\ApplicationConfigData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\ApplicationConfig;
+use App\Tests\DataLoader\ApplicationConfigData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Persistence\ObjectManager;
 
 final class LoadApplicationConfigData extends AbstractFixture implements ORMFixtureInterface
 {

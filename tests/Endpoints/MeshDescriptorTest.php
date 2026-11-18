@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadCourseObjectiveData;
@@ -19,6 +18,7 @@ use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\QEndpointTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * MeshDescriptor API endpoint Test.

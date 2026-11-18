@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Group;
 use App\Classes\DiskSpace;
 use App\Command\CleanupS3FilesystemCacheCommand;
 use App\Service\FilesystemFactory;
@@ -13,13 +11,15 @@ use App\Service\IliosFileSystem;
 use League\Flysystem\DirectoryListing;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\StorageAttributes;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * Class CleanupS3FilesystemCacheCommandTest

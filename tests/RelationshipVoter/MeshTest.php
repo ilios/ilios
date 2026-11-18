@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\VoterPermissions;
 use App\Entity\MeshConceptInterface;
 use App\Entity\MeshDescriptorInterface;
@@ -15,6 +14,7 @@ use App\Entity\MeshTreeInterface;
 use App\RelationshipVoter\Mesh as Voter;
 use App\Service\SessionUserPermissionChecker;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 final class MeshTest extends AbstractBase

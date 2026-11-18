@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Classes\SessionUserInterface;
+use App\Command\AddUserCommand;
+use App\Entity\AuthenticationInterface;
+use App\Entity\SchoolInterface;
 use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
-use App\Command\AddUserCommand;
-use App\Entity\AuthenticationInterface;
-use App\Entity\SchoolInterface;
 use App\Tests\Helper\TestQuestionHelper;
 use Exception;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**

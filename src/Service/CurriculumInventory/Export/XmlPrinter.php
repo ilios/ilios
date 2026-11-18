@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\CurriculumInventory\Export;
 
-use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CourseClerkshipTypeInterface;
 use App\Entity\CurriculumInventoryAcademicLevelInterface;
 use App\Entity\CurriculumInventoryInstitutionInterface;
 use App\Entity\CurriculumInventoryReportInterface;
+use App\Entity\CurriculumInventorySequenceBlock;
 use App\Entity\CurriculumInventorySequenceBlockInterface;
 use Exception;
 use XMLWriter;
