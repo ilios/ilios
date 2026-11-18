@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class InstructorGroup implements InstructorGroupInterface
 {
-    use UsersEntity;
-
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -217,5 +214,35 @@ class InstructorGroup implements InstructorGroupInterface
     public function __toString(): string
     {
         return isset($this->id) ? (string) $this->id : '';
+    }
+
+    #[Override]
+    public function setUsers(Collection $users): void
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+
+    #[Override]
+    public function addUser(UserInterface $user): void
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+    }
+
+    #[Override]
+    public function removeUser(UserInterface $user): void
+    {
+        $this->users->removeElement($user);
+    }
+
+    #[Override]
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 }

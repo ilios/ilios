@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class UserRole implements UserRoleInterface
 {
-    use UsersEntity;
-
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -66,6 +63,23 @@ class UserRole implements UserRoleInterface
             $user->removeRole($this);
         }
     }
+
+    #[Override]
+    public function setUsers(Collection $users): void
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+
+    #[Override]
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

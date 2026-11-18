@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CohortRepository;
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class Cohort implements CohortInterface
 {
-    use UsersEntity;
-
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -134,6 +131,21 @@ class Cohort implements CohortInterface
     {
         $this->users->removeElement($user);
         $user->removeCohort($this);
+    }
+
+    #[Override]
+    public function setUsers(Collection $users): void
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+    #[Override]
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 
     #[Override]
