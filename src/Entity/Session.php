@@ -9,7 +9,6 @@ use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\PublishableEntity;
 use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,7 +30,6 @@ class Session implements SessionInterface
     use TitledNullableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
-    use PublishableEntity;
     use SequenceBlocksEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
@@ -611,5 +609,29 @@ class Session implements SessionInterface
     public function getOfferings(): Collection
     {
         return $this->offerings;
+    }
+
+    #[Override]
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+    #[Override]
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    #[Override]
+    public function setPublishedAsTbd(bool $publishedAsTbd): void
+    {
+        $this->publishedAsTbd = $publishedAsTbd;
+    }
+
+    #[Override]
+    public function isPublishedAsTbd(): bool
+    {
+        return $this->publishedAsTbd;
     }
 }

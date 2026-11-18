@@ -10,7 +10,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\PublishableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
@@ -31,7 +30,6 @@ class Course implements CourseInterface
     use StringableIdEntity;
     use SessionsEntity;
     use SchoolEntity;
-    use PublishableEntity;
     use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
@@ -692,5 +690,29 @@ class Course implements CourseInterface
     public function getMeshDescriptors(): Collection
     {
         return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+    #[Override]
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    #[Override]
+    public function setPublishedAsTbd(bool $publishedAsTbd): void
+    {
+        $this->publishedAsTbd = $publishedAsTbd;
+    }
+
+    #[Override]
+    public function isPublishedAsTbd(): bool
+    {
+        return $this->publishedAsTbd;
     }
 }
