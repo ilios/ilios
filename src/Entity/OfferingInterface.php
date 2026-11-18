@@ -6,12 +6,12 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\InstructorGroupsEntityInterface;
-use App\Traits\InstructorsEntityInterface;
-use App\Traits\LearnerGroupsEntityInterface;
-use App\Traits\LearnersEntityInterface;
-use App\Traits\TimestampableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\InstructorGroupsEntityInterface;
+use App\Entity\InstructorsEntityInterface;
+use App\Entity\LearnerGroupsEntityInterface;
+use App\Entity\LearnersEntityInterface;
+use App\Entity\TimestampableEntityInterface;
 
 interface OfferingInterface extends
     IdentifiableEntityInterface,

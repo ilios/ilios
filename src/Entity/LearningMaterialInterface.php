@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IndexableCoursesEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableNullableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Entity\DescribableNullableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\TitledEntityInterface;
 
 interface LearningMaterialInterface extends
     IdentifiableEntityInterface,

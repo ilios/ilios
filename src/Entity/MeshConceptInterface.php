@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntityInterface;
-use App\Traits\IdentifiableStringEntityInterface;
+use App\Entity\CreatedAtEntityInterface;
+use App\Entity\IdentifiableStringEntityInterface;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\NameableEntityInterface;
-use App\Traits\TimestampableEntityInterface;
+use App\Entity\NameableEntityInterface;
+use App\Entity\TimestampableEntityInterface;
 
 interface MeshConceptInterface extends
     IdentifiableStringEntityInterface,

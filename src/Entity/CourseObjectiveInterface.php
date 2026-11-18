@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ActivatableEntityInterface;
-use App\Traits\CategorizableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\IndexableCoursesEntityInterface;
-use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\SortableEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Entity\ActivatableEntityInterface;
+use App\Entity\CategorizableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
+use App\Entity\MeshDescriptorsEntityInterface;
+use App\Entity\SortableEntityInterface;
+use App\Entity\TitledEntityInterface;
 use Doctrine\Common\Collections\Collection;
 use Stringable;
 

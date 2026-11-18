@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ActivatableEntityInterface;
-use App\Traits\IdentifiableStringEntityInterface;
-use App\Traits\SessionTypesEntityInterface;
+use App\Entity\ActivatableEntityInterface;
+use App\Entity\IdentifiableStringEntityInterface;
+use App\Entity\SessionTypesEntityInterface;
 
 interface AamcMethodInterface extends
     IdentifiableStringEntityInterface,

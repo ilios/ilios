@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 use Stringable;
 
 interface IngestionExceptionInterface extends IdentifiableEntityInterface, Stringable

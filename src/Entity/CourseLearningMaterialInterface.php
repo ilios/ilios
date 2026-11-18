@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IndexableCoursesEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
 
 interface CourseLearningMaterialInterface extends
     LearningMaterialRelationshipInterface,

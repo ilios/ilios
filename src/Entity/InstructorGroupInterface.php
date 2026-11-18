@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\IlmSessionsEntityInterface;
-use App\Traits\LearnerGroupsEntityInterface;
-use App\Traits\SchoolEntityInterface;
-use App\Traits\TitledEntityInterface;
-use App\Traits\OfferingsEntityInterface;
-use App\Traits\UsersEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\IlmSessionsEntityInterface;
+use App\Entity\LearnerGroupsEntityInterface;
+use App\Entity\SchoolEntityInterface;
+use App\Entity\TitledEntityInterface;
+use App\Entity\OfferingsEntityInterface;
+use App\Entity\UsersEntityInterface;
 
 interface InstructorGroupInterface extends
     IdentifiableEntityInterface,

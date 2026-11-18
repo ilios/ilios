@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\TimestampableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\TimestampableEntityInterface;
 
 interface UserSessionMaterialStatusInterface extends
     IdentifiableEntityInterface,

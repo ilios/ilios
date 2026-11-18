@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\AlertableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Entity\AlertableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\TitledEntityInterface;
 
 interface AlertChangeTypeInterface extends
     IdentifiableEntityInterface,

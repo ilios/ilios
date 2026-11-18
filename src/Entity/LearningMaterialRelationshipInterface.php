@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTime;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\SortableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\MeshDescriptorsEntityInterface;
+use App\Entity\SortableEntityInterface;
 
 interface LearningMaterialRelationshipInterface extends
     IdentifiableEntityInterface,

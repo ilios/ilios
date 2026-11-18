@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\AlertableEntityInterface;
-use App\Traits\CreatedAtEntityInterface;
-use App\Traits\DescribableEntityInterface;
-use App\Traits\EnableableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
+use App\Entity\AlertableEntityInterface;
+use App\Entity\CreatedAtEntityInterface;
+use App\Entity\DescribableEntityInterface;
+use App\Entity\EnableableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 

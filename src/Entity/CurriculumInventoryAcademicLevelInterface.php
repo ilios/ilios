@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableNullableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\NameableEntityInterface;
+use App\Entity\DescribableNullableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\NameableEntityInterface;
 use Doctrine\Common\Collections\Collection;
 
 interface CurriculumInventoryAcademicLevelInterface extends

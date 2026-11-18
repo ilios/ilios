@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ProgramYearObjectivesEntityInterface;
-use App\Traits\TitledNullableEntityInterface;
+use App\Entity\ProgramYearObjectivesEntityInterface;
+use App\Entity\TitledNullableEntityInterface;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\ActivatableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SchoolEntityInterface;
-use App\Traits\ProgramYearsEntityInterface;
+use App\Entity\ActivatableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\SchoolEntityInterface;
+use App\Entity\ProgramYearsEntityInterface;
 
 interface CompetencyInterface extends
     IdentifiableEntityInterface,

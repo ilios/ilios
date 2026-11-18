@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\NameableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SchoolEntityInterface;
+use App\Entity\NameableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\SchoolEntityInterface;
 
 interface CurriculumInventoryInstitutionInterface extends
     NameableEntityInterface,
