@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\TitledNullableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class Competency implements CompetencyInterface
 {
-    use TitledNullableEntity;
-
     #[ORM\Column(name: 'competency_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -277,6 +274,18 @@ class Competency implements CompetencyInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     #[Override]

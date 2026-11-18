@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
@@ -17,8 +16,6 @@ use Override;
 #[IA\Entity]
 class Report implements ReportInterface
 {
-    use TitledNullableEntity;
-
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -160,6 +157,18 @@ class Report implements ReportInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     #[Override]

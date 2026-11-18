@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -22,8 +21,6 @@ use Override;
 #[IA\Entity]
 class Session implements SessionInterface
 {
-    use TitledNullableEntity;
-
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -722,6 +719,18 @@ class Session implements SessionInterface
     public function getClassName(): string
     {
         return __CLASS__;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     #[Override]

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,8 +21,6 @@ use Override;
 #[IA\Entity]
 class Course implements CourseInterface
 {
-    use TitledNullableEntity;
-
     #[ORM\Column(name: 'course_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -764,6 +761,18 @@ class Course implements CourseInterface
     public function getStudentAdvisors(): Collection
     {
         return $this->studentAdvisors;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
     }
 
     #[Override]
