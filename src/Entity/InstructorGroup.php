@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\IlmSessionsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\UsersEntity;
 use App\Attributes as IA;
@@ -30,7 +29,6 @@ class InstructorGroup implements InstructorGroupInterface
     use SchoolEntity;
     use LearnerGroupsEntity;
     use UsersEntity;
-    use IlmSessionsEntity;
 
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
     #[ORM\Id]
@@ -126,6 +124,23 @@ class InstructorGroup implements InstructorGroupInterface
             $ilmSession->removeInstructorGroup($this);
         }
     }
+
+    #[Override]
+    public function setIlmSessions(Collection $ilmSessions): void
+    {
+        $this->ilmSessions = new ArrayCollection();
+
+        foreach ($ilmSessions as $ilmSession) {
+            $this->addIlmSession($ilmSession);
+        }
+    }
+
+    #[Override]
+    public function getIlmSessions(): Collection
+    {
+        return $this->ilmSessions;
+    }
+
     #[Override]
     public function setId(int $id): void
     {
