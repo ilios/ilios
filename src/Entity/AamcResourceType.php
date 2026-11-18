@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class AamcResourceType implements AamcResourceTypeInterface
 {
-    use IdentifiableStringEntity;
     use TitledEntity;
 
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
@@ -110,5 +108,17 @@ class AamcResourceType implements AamcResourceTypeInterface
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }

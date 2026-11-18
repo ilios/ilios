@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -21,7 +20,6 @@ use Override;
 #[IA\Entity]
 class MeshConcept implements MeshConceptInterface
 {
-    use IdentifiableStringEntity;
     use NameableEntity;
     use TimestampableEntity;
 
@@ -31,7 +29,7 @@ class MeshConcept implements MeshConceptInterface
     #[IA\Expose]
     #[IA\Type('string')]
     #[Assert\Type(type: 'string')]
-    protected string $id;
+    protected ?string $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[IA\Expose]
@@ -208,6 +206,18 @@ class MeshConcept implements MeshConceptInterface
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 
     public function __toString(): string

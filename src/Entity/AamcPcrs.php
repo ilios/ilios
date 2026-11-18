@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class AamcPcrs implements AamcPcrsInterface
 {
-    use IdentifiableStringEntity;
-
     #[ORM\Column(name: 'pcrs_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -28,7 +25,7 @@ class AamcPcrs implements AamcPcrsInterface
     #[Assert\NotBlank]
     #[Assert\Type(type: 'string')]
     #[Assert\Length(min: 1, max: 21)]
-    protected string $id;
+    protected ?string $id;
 
     #[ORM\Column(name: 'description', type: 'text')]
     #[IA\Expose]
@@ -93,6 +90,18 @@ class AamcPcrs implements AamcPcrsInterface
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 
     public function __toString(): string

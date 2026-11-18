@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
 use DateTime;
@@ -24,7 +23,6 @@ use Override;
 #[IA\Entity]
 class MeshDescriptor implements MeshDescriptorInterface
 {
-    use IdentifiableStringEntity;
     use NameableEntity;
     use TimestampableEntity;
     use SessionsEntity;
@@ -477,6 +475,18 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 
     public function __toString(): string

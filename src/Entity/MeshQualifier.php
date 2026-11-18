@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
@@ -21,7 +20,6 @@ use Override;
 #[IA\Entity]
 class MeshQualifier implements MeshQualifierInterface
 {
-    use IdentifiableStringEntity;
     use TimestampableEntity;
     use NameableEntity;
 
@@ -109,6 +107,18 @@ class MeshQualifier implements MeshQualifierInterface
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 
     public function __toString(): string

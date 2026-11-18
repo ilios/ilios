@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class AamcMethod implements AamcMethodInterface
 {
-    use IdentifiableStringEntity;
     use SessionTypesEntity;
 
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
@@ -102,5 +100,17 @@ class AamcMethod implements AamcMethodInterface
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }
