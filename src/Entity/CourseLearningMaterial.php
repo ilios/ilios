@@ -8,7 +8,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SortableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
@@ -21,7 +20,6 @@ use Override;
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
     use StringableIdEntity;
-    use SortableEntity;
 
     #[ORM\Column(name: 'course_learning_material_id', type: 'integer')]
     #[ORM\Id]
@@ -240,5 +238,17 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getMeshDescriptors(): Collection
     {
         return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    #[Override]
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 }

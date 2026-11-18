@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,7 +22,6 @@ class CourseObjective implements CourseObjectiveInterface
 {
     use StringableIdEntity;
     use TitledEntity;
-    use SortableEntity;
 
     #[ORM\Column(name: 'course_objective_id', type: 'integer')]
     #[ORM\Id]
@@ -345,5 +343,17 @@ class CourseObjective implements CourseObjectiveInterface
     public function getTerms(): Collection
     {
         return $this->terms;
+    }
+
+    #[Override]
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    #[Override]
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 }

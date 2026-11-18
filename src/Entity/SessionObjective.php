@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,7 +22,6 @@ class SessionObjective implements SessionObjectiveInterface
 {
     use StringableIdEntity;
     use TitledEntity;
-    use SortableEntity;
 
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
     #[ORM\Id]
@@ -310,5 +308,17 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $session = $this->getSession();
         return new ArrayCollection([$session]);
+    }
+
+    #[Override]
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    #[Override]
+    public function getPosition(): int
+    {
+        return $this->position;
     }
 }
