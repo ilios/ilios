@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,7 +25,6 @@ class Session implements SessionInterface
 {
     use TitledNullableEntity;
     use TimestampableEntity;
-    use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
@@ -692,6 +690,22 @@ class Session implements SessionInterface
     public function getSessionObjectives(): Collection
     {
         return $this->sessionObjectives;
+    }
+
+    #[Override]
+    public function setStudentAdvisors(Collection $studentAdvisors): void
+    {
+        $this->studentAdvisors = new ArrayCollection();
+
+        foreach ($studentAdvisors as $studentAdvisor) {
+            $this->addStudentAdvisor($studentAdvisor);
+        }
+    }
+
+    #[Override]
+    public function getStudentAdvisors(): Collection
+    {
+        return $this->studentAdvisors;
     }
 
     #[Override]

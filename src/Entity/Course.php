@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,7 +23,6 @@ use Override;
 class Course implements CourseInterface
 {
     use TitledNullableEntity;
-    use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
     #[ORM\Id]
@@ -750,6 +748,22 @@ class Course implements CourseInterface
     public function getSessions(): Collection
     {
         return $this->sessions;
+    }
+
+    #[Override]
+    public function setStudentAdvisors(Collection $studentAdvisors): void
+    {
+        $this->studentAdvisors = new ArrayCollection();
+
+        foreach ($studentAdvisors as $studentAdvisor) {
+            $this->addStudentAdvisor($studentAdvisor);
+        }
+    }
+
+    #[Override]
+    public function getStudentAdvisors(): Collection
+    {
+        return $this->studentAdvisors;
     }
 
     #[Override]
