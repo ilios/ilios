@@ -8,7 +8,6 @@ use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CompetenciesEntity;
 use App\Attributes as IA;
 use App\Repository\AamcPcrsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,7 +19,6 @@ use Override;
 class AamcPcrs implements AamcPcrsInterface
 {
     use IdentifiableStringEntity;
-    use CompetenciesEntity;
 
     #[ORM\Column(name: 'pcrs_id', type: 'string', length: 21)]
     #[ORM\Id]
@@ -67,6 +65,22 @@ class AamcPcrs implements AamcPcrsInterface
             $this->competencies->removeElement($competency);
             $competency->removeAamcPcrs($this);
         }
+    }
+
+    #[Override]
+    public function setCompetencies(Collection $competencies): void
+    {
+        $this->competencies = new ArrayCollection();
+
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
+    }
+
+    #[Override]
+    public function getCompetencies(): Collection
+    {
+        return $this->competencies;
     }
 
     #[Override]

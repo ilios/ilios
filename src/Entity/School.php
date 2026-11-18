@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\SessionTypesEntity;
@@ -32,7 +31,6 @@ class School implements SchoolInterface
     use StringableIdEntity;
     use SessionTypesEntity;
     use InstructorGroupsEntity;
-    use CompetenciesEntity;
     use DirectorsEntity;
 
     #[ORM\Column(name: 'school_id', type: 'integer')]
@@ -376,5 +374,37 @@ class School implements SchoolInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setCompetencies(Collection $competencies): void
+    {
+        $this->competencies = new ArrayCollection();
+
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
+    }
+
+    #[Override]
+    public function addCompetency(CompetencyInterface $competency): void
+    {
+        if (!$this->competencies->contains($competency)) {
+            $this->competencies->add($competency);
+        }
+    }
+
+    #[Override]
+    public function removeCompetency(CompetencyInterface $competency): void
+    {
+        if ($this->competencies->contains($competency)) {
+            $this->competencies->removeElement($competency);
+        }
+    }
+
+    #[Override]
+    public function getCompetencies(): Collection
+    {
+        return $this->competencies;
     }
 }
