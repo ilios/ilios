@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearningMaterialRelationshipEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
@@ -30,7 +29,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     use SessionConsolidationEntity;
     use MeshDescriptorsEntity;
     use SortableEntity;
-    use LearningMaterialRelationshipEntity;
 
     #[ORM\Column(name: 'session_learning_material_id', type: 'integer')]
     #[ORM\Id]
@@ -145,5 +143,77 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setNotes(?string $notes): void
+    {
+        $this->notes = $notes;
+    }
+
+    #[Override]
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    #[Override]
+    public function setRequired(bool $required): void
+    {
+        $this->required = $required;
+    }
+
+    #[Override]
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    #[Override]
+    public function setPublicNotes(bool $publicNotes): void
+    {
+        $this->publicNotes = $publicNotes;
+    }
+
+    #[Override]
+    public function hasPublicNotes(): bool
+    {
+        return $this->publicNotes;
+    }
+
+    #[Override]
+    public function setLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        $this->learningMaterial = $learningMaterial;
+    }
+
+    #[Override]
+    public function getLearningMaterial(): LearningMaterialInterface
+    {
+        return $this->learningMaterial;
+    }
+
+    #[Override]
+    public function setStartDate(?DateTime $startDate = null): void
+    {
+        $this->startDate = $startDate;
+    }
+
+    #[Override]
+    public function getStartDate(): ?DateTime
+    {
+        return $this->startDate;
+    }
+
+    #[Override]
+    public function setEndDate(?DateTime $endDate = null): void
+    {
+        $this->endDate = $endDate;
+    }
+
+    #[Override]
+    public function getEndDate(): ?DateTime
+    {
+        return $this->endDate;
     }
 }
