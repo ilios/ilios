@@ -8,7 +8,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
 use App\Traits\SequenceBlocksEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,7 +26,6 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     use DescribableNullableEntity;
     use StringableIdEntity;
     use SequenceBlocksEntity;
-    use AdministratorsEntity;
 
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
@@ -264,6 +262,12 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -280,6 +284,17 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $administrator->removeAdministeredCurriculumInventoryReport($this);
         }
     }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
+        }
+    }
+
     #[Override]
     public function setId(int $id): void
     {

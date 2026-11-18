@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
 use App\Traits\AlertableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
@@ -37,7 +36,6 @@ class School implements SchoolInterface
     use InstructorGroupsEntity;
     use CompetenciesEntity;
     use DirectorsEntity;
-    use AdministratorsEntity;
 
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
@@ -282,6 +280,13 @@ class School implements SchoolInterface
     }
 
     #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -296,6 +301,16 @@ class School implements SchoolInterface
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredSchool($this);
+        }
+    }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
         }
     }
 

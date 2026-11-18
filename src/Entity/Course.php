@@ -11,7 +11,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\CohortsEntity;
 use App\Traits\DirectorsEntity;
@@ -46,7 +45,6 @@ class Course implements CourseInterface
     use CohortsEntity;
     use MeshDescriptorsEntity;
     use DirectorsEntity;
-    use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use CourseObjectivesEntity;
 
@@ -464,6 +462,12 @@ class Course implements CourseInterface
     }
 
     #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -480,6 +484,17 @@ class Course implements CourseInterface
             $administrator->removeAdministeredCourse($this);
         }
     }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
+        }
+    }
+
     #[Override]
     public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {

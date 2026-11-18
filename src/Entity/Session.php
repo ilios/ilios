@@ -10,7 +10,6 @@ use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
 use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
@@ -41,7 +40,6 @@ class Session implements SessionInterface
     use CategorizableEntity;
     use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
-    use AdministratorsEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
     use DescribableNullableEntity;
@@ -378,6 +376,12 @@ class Session implements SessionInterface
     }
 
     #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -394,6 +398,17 @@ class Session implements SessionInterface
             $administrator->removeAdministeredSession($this);
         }
     }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
+        }
+    }
+
     #[Override]
     public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
