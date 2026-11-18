@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserSessionMaterialStatusRepository;
-use App\Traits\TimestampableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
@@ -17,8 +16,6 @@ use Override;
 #[IA\Entity]
 class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
 {
-    use TimestampableEntity;
-
     #[ORM\Column(name: 'id', type: 'bigint')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -122,6 +119,24 @@ class UserSessionMaterialStatus implements UserSessionMaterialStatusInterface
     public function getStatus(): int
     {
         return $this->status;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     public function __toString(): string

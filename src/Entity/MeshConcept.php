@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TimestampableEntity;
 use App\Repository\MeshConceptRepository;
 use Override;
 
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class MeshConcept implements MeshConceptInterface
 {
-    use TimestampableEntity;
-
     #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -228,6 +225,24 @@ class MeshConcept implements MeshConceptInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     public function __toString(): string

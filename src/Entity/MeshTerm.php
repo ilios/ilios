@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TimestampableEntity;
 use App\Repository\MeshTermRepository;
 use Override;
 
@@ -20,8 +19,6 @@ use Override;
 #[IA\Entity]
 class MeshTerm implements MeshTermInterface
 {
-    use TimestampableEntity;
-
     #[ORM\Column(name: 'mesh_term_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -223,6 +220,24 @@ class MeshTerm implements MeshTermInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     #[Override]

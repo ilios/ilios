@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
 use Override;
 
@@ -21,8 +20,6 @@ use Override;
 #[IA\Entity]
 class Offering implements OfferingInterface
 {
-    use TimestampableEntity;
-
     #[ORM\Column(name: 'offering_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -385,6 +382,24 @@ class Offering implements OfferingInterface
     {
         $session = $this->getSession();
         return new ArrayCollection([$session]);
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     #[Override]

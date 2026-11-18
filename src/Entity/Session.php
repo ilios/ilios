@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
-use App\Traits\TimestampableEntity;
 use App\Repository\SessionRepository;
 use Override;
 
@@ -24,7 +23,6 @@ use Override;
 class Session implements SessionInterface
 {
     use TitledNullableEntity;
-    use TimestampableEntity;
 
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
@@ -706,6 +704,24 @@ class Session implements SessionInterface
     public function getStudentAdvisors(): Collection
     {
         return $this->studentAdvisors;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     #[Override]

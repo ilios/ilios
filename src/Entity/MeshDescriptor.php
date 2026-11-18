@@ -10,7 +10,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TimestampableEntity;
 use App\Repository\MeshDescriptorRepository;
 use Override;
 
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class MeshDescriptor implements MeshDescriptorInterface
 {
-    use TimestampableEntity;
-
     #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -574,6 +571,24 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getSessionObjectives(): Collection
     {
         return $this->sessionObjectives;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     public function __toString(): string
