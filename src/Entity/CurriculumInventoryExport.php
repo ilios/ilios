@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
-    use CreatedAtEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'export_id', type: 'integer')]
@@ -107,5 +105,17 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

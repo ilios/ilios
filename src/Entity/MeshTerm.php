@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
@@ -26,7 +25,6 @@ class MeshTerm implements MeshTermInterface
     use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
-    use CreatedAtEntity;
 
     #[ORM\Column(name: 'mesh_term_id', type: 'integer')]
     #[ORM\Id]
@@ -205,5 +203,17 @@ class MeshTerm implements MeshTermInterface
     public function getConcepts(): Collection
     {
         return $this->concepts;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

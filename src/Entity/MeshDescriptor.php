@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntity;
 use App\Traits\IdentifiableStringEntity;
 use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
@@ -29,7 +28,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use NameableEntity;
     use TimestampableEntity;
     use SessionsEntity;
-    use CreatedAtEntity;
     use SessionObjectivesEntity;
     use ProgramYearObjectivesEntity;
 
@@ -467,6 +465,18 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getCourseObjectives(): Collection
     {
         return $this->courseObjectives;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function __toString(): string

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntity;
 use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +24,6 @@ class MeshConcept implements MeshConceptInterface
     use IdentifiableStringEntity;
     use NameableEntity;
     use TimestampableEntity;
-    use CreatedAtEntity;
 
     #[ORM\Column(name: 'mesh_concept_uid', type: 'string', length: 12)]
     #[ORM\Id]
@@ -198,6 +196,18 @@ class MeshConcept implements MeshConceptInterface
     public function getDescriptors(): Collection
     {
         return $this->descriptors;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function __toString(): string

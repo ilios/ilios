@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntity;
 use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +24,6 @@ class MeshQualifier implements MeshQualifierInterface
     use IdentifiableStringEntity;
     use TimestampableEntity;
     use NameableEntity;
-    use CreatedAtEntity;
 
     #[ORM\Column(name: 'mesh_qualifier_uid', type: 'string', length: 12)]
     #[ORM\Id]
@@ -99,6 +97,18 @@ class MeshQualifier implements MeshQualifierInterface
     public function getDescriptors(): Collection
     {
         return $this->descriptors;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     public function __toString(): string
