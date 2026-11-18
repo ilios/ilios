@@ -11,7 +11,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableNullableEntity;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
@@ -22,7 +21,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    use DescribableNullableEntity;
     use TitledEntity;
     use StringableIdEntity;
     use SessionsEntity;
@@ -519,5 +517,17 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }

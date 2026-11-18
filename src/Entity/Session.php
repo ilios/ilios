@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableNullableEntity;
 use App\Traits\SessionObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
@@ -40,7 +39,6 @@ class Session implements SessionInterface
     use SequenceBlocksEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
-    use DescribableNullableEntity;
 
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
@@ -545,5 +543,17 @@ class Session implements SessionInterface
     public function getTerms(): Collection
     {
         return $this->terms;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }

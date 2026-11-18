@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableNullableEntity;
 use App\Repository\CurriculumInventorySequenceRepository;
 use Override;
 
@@ -17,7 +16,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-    use DescribableNullableEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'sequence_id', type: 'integer')]
@@ -68,5 +66,17 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }

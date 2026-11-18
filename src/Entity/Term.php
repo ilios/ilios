@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableNullableEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\StringableIdEntity;
@@ -25,7 +24,6 @@ use Override;
 #[IA\Entity]
 class Term implements TermInterface
 {
-    use DescribableNullableEntity;
     use ProgramYearsEntity;
     use SessionsEntity;
     use StringableIdEntity;
@@ -365,5 +363,17 @@ class Term implements TermInterface
     public function getCourseObjectives(): Collection
     {
         return $this->courseObjectives;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }

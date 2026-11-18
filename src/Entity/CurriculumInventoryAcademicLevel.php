@@ -9,7 +9,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableNullableEntity;
 use App\Traits\NameableEntity;
 use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
@@ -23,7 +22,6 @@ use Override;
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
     use NameableEntity;
-    use DescribableNullableEntity;
     use StringableIdEntity;
 
     #[ORM\Id]
@@ -178,5 +176,17 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 }
