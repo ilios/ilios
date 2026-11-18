@@ -7,7 +7,6 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionConsolidationEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,7 +24,6 @@ class Offering implements OfferingInterface
 {
     use StringableIdEntity;
     use TimestampableEntity;
-    use SessionConsolidationEntity;
 
     #[ORM\Column(name: 'offering_id', type: 'integer')]
     #[ORM\Id]
@@ -382,5 +380,12 @@ class Offering implements OfferingInterface
     public function getLearners(): Collection
     {
         return $this->learners;
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        $session = $this->getSession();
+        return new ArrayCollection([$session]);
     }
 }

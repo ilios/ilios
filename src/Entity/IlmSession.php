@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionConsolidationEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,7 +20,6 @@ use Override;
 class IlmSession implements IlmSessionInterface
 {
     use StringableIdEntity;
-    use SessionConsolidationEntity;
 
     #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
     #[ORM\Id]
@@ -291,5 +289,12 @@ class IlmSession implements IlmSessionInterface
     public function getLearners(): Collection
     {
         return $this->learners;
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        $session = $this->getSession();
+        return new ArrayCollection([$session]);
     }
 }

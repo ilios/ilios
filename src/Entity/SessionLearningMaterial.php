@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,7 +24,6 @@ use Override;
 class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
     use StringableIdEntity;
-    use SessionConsolidationEntity;
     use SortableEntity;
 
     #[ORM\Column(name: 'session_learning_material_id', type: 'integer')]
@@ -243,5 +241,12 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getMeshDescriptors(): Collection
     {
         return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        $session = $this->getSession();
+        return new ArrayCollection([$session]);
     }
 }

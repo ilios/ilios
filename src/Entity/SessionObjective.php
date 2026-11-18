@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
@@ -23,7 +22,6 @@ use Override;
 class SessionObjective implements SessionObjectiveInterface
 {
     use StringableIdEntity;
-    use SessionConsolidationEntity;
     use TitledEntity;
     use SortableEntity;
 
@@ -305,5 +303,12 @@ class SessionObjective implements SessionObjectiveInterface
     public function getTerms(): Collection
     {
         return $this->terms;
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        $session = $this->getSession();
+        return new ArrayCollection([$session]);
     }
 }
