@@ -7,7 +7,6 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Attributes as IA;
@@ -28,7 +27,6 @@ class Offering implements OfferingInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use SessionConsolidationEntity;
-    use LearnerGroupsEntity;
     use LearnersEntity;
 
     #[ORM\Column(name: 'offering_id', type: 'integer')]
@@ -325,5 +323,35 @@ class Offering implements OfferingInterface
     public function getInstructors(): Collection
     {
         return $this->instructors;
+    }
+
+    #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        $this->learnerGroups->removeElement($learnerGroup);
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
     }
 }

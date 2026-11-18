@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearnerGroupsEntity;
 use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,7 +26,6 @@ class InstructorGroup implements InstructorGroupInterface
     use StringableIdEntity;
     use OfferingsEntity;
     use SchoolEntity;
-    use LearnerGroupsEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
@@ -105,6 +103,22 @@ class InstructorGroup implements InstructorGroupInterface
             $this->learnerGroups->removeElement($learnerGroup);
             $learnerGroup->removeInstructorGroup($this);
         }
+    }
+
+    #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
     }
 
     #[Override]

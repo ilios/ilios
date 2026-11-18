@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Attributes as IA;
@@ -24,7 +23,6 @@ class IlmSession implements IlmSessionInterface
 {
     use StringableIdEntity;
     use SessionConsolidationEntity;
-    use LearnerGroupsEntity;
     use LearnersEntity;
 
     #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
@@ -234,5 +232,35 @@ class IlmSession implements IlmSessionInterface
     public function getInstructors(): Collection
     {
         return $this->instructors;
+    }
+
+    #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        $this->learnerGroups->removeElement($learnerGroup);
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
     }
 }

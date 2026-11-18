@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearnerGroupsEntity;
 use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,7 +23,6 @@ class Cohort implements CohortInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use LearnerGroupsEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
@@ -166,5 +164,35 @@ class Cohort implements CohortInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        $this->learnerGroups->removeElement($learnerGroup);
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
     }
 }
