@@ -6,6 +6,7 @@ namespace App\EventListener;
 
 use App\Entity\AuthenticationInterface;
 use App\Entity\CourseInterface;
+use App\Entity\IndexableCoursesEntityInterface;
 use App\Entity\LearningMaterialInterface;
 use App\Entity\SessionInterface;
 use App\Entity\UserInterface;
@@ -20,7 +21,6 @@ use App\Service\Index\Curriculum;
 use App\Service\Index\LearningMaterials;
 use App\Service\Index\Mesh;
 use App\Service\Index\Users;
-use App\Traits\IndexableCoursesEntityInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PreRemoveEventArgs;

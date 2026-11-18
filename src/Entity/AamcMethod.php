@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionTypesEntity;
 use App\Attributes as IA;
 use App\Repository\AamcMethodRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ActivatableEntity;
 use Override;
 
 #[ORM\Table(name: 'aamc_method')]
@@ -20,10 +17,6 @@ use Override;
 #[IA\Entity]
 class AamcMethod implements AamcMethodInterface
 {
-    use IdentifiableStringEntity;
-    use SessionTypesEntity;
-    use ActivatableEntity;
-
     #[ORM\Column(name: 'method_id', type: 'string', length: 10)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -78,6 +71,22 @@ class AamcMethod implements AamcMethodInterface
     }
 
     #[Override]
+    public function setSessionTypes(Collection $sessionTypes): void
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    #[Override]
+    public function getSessionTypes(): Collection
+    {
+        return $this->sessionTypes;
+    }
+
+    #[Override]
     public function setDescription(string $description): void
     {
         $this->description = $description;
@@ -92,5 +101,29 @@ class AamcMethod implements AamcMethodInterface
     public function __toString(): string
     {
         return $this->id ?? '';
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }

@@ -4,25 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableNullableEntity;
-use App\Traits\SessionObjectivesEntity;
-use App\Traits\StudentAdvisorsEntity;
-use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
-use App\Traits\CategorizableEntity;
-use App\Traits\MeshDescriptorsEntity;
-use App\Traits\PublishableEntity;
-use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
-use App\Traits\StringableIdEntity;
-use App\Traits\TimestampableEntity;
-use App\Traits\OfferingsEntity;
-use App\Traits\IdentifiableEntity;
 use App\Repository\SessionRepository;
 use Override;
 
@@ -34,20 +21,6 @@ use Override;
 #[IA\Entity]
 class Session implements SessionInterface
 {
-    use IdentifiableEntity;
-    use TitledNullableEntity;
-    use StringableIdEntity;
-    use TimestampableEntity;
-    use OfferingsEntity;
-    use PublishableEntity;
-    use CategorizableEntity;
-    use MeshDescriptorsEntity;
-    use SequenceBlocksEntity;
-    use AdministratorsEntity;
-    use StudentAdvisorsEntity;
-    use SessionObjectivesEntity;
-    use DescribableNullableEntity;
-
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -380,6 +353,12 @@ class Session implements SessionInterface
     }
 
     #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -396,6 +375,17 @@ class Session implements SessionInterface
             $administrator->removeAdministeredSession($this);
         }
     }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
+        }
+    }
+
     #[Override]
     public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
@@ -490,5 +480,262 @@ class Session implements SessionInterface
     public function getIndexableCourses(): array
     {
         return [$this->course];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function setMeshDescriptors(Collection $meshDescriptors): void
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function addOffering(OfferingInterface $offering): void
+    {
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+        }
+    }
+
+    #[Override]
+    public function removeOffering(OfferingInterface $offering): void
+    {
+        $this->offerings->removeElement($offering);
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
+    }
+
+    #[Override]
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+    #[Override]
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    #[Override]
+    public function setPublishedAsTbd(bool $publishedAsTbd): void
+    {
+        $this->publishedAsTbd = $publishedAsTbd;
+    }
+
+    #[Override]
+    public function isPublishedAsTbd(): bool
+    {
+        return $this->publishedAsTbd;
+    }
+
+    #[Override]
+    public function setSequenceBlocks(Collection $sequenceBlocks): void
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
+
+    #[Override]
+    public function addSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        if (!$this->sequenceBlocks->contains($sequenceBlock)) {
+            $this->sequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    #[Override]
+    public function removeSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        $this->sequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    #[Override]
+    public function getSequenceBlocks(): Collection
+    {
+        return $this->sequenceBlocks;
+    }
+
+    #[Override]
+    public function setSessionObjectives(?Collection $sessionObjectives = null): void
+    {
+        $this->sessionObjectives = new ArrayCollection();
+        if (is_null($sessionObjectives)) {
+            return;
+        }
+
+        foreach ($sessionObjectives as $sessionObjective) {
+            $this->addSessionObjective($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        if (!$this->sessionObjectives->contains($sessionObjective)) {
+            $this->sessionObjectives->add($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        $this->sessionObjectives->removeElement($sessionObjective);
+    }
+
+    #[Override]
+    public function getSessionObjectives(): Collection
+    {
+        return $this->sessionObjectives;
+    }
+
+    #[Override]
+    public function setStudentAdvisors(Collection $studentAdvisors): void
+    {
+        $this->studentAdvisors = new ArrayCollection();
+
+        foreach ($studentAdvisors as $studentAdvisor) {
+            $this->addStudentAdvisor($studentAdvisor);
+        }
+    }
+
+    #[Override]
+    public function getStudentAdvisors(): Collection
+    {
+        return $this->studentAdvisors;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

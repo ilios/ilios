@@ -8,13 +8,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
-use App\Traits\SequenceBlocksEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
 use Override;
 
@@ -25,12 +20,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
-    use IdentifiableEntity;
-    use DescribableNullableEntity;
-    use StringableIdEntity;
-    use SequenceBlocksEntity;
-    use AdministratorsEntity;
-
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -266,6 +255,12 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     }
 
     #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -281,5 +276,77 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredCurriculumInventoryReport($this);
         }
+    }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
+        }
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function setSequenceBlocks(Collection $sequenceBlocks): void
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
+
+    #[Override]
+    public function addSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        if (!$this->sequenceBlocks->contains($sequenceBlock)) {
+            $this->sequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    #[Override]
+    public function removeSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        $this->sequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    #[Override]
+    public function getSequenceBlocks(): Collection
+    {
+        return $this->sequenceBlocks;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

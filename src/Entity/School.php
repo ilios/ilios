@@ -5,21 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
-use App\Traits\AlertableEntity;
-use App\Traits\CompetenciesEntity;
-use App\Traits\DirectorsEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\InstructorGroupsEntity;
-use App\Traits\SessionTypesEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
-use App\Traits\CoursesEntity;
-use App\Traits\ProgramsEntity;
 use App\Repository\SchoolRepository;
 use Override;
 
@@ -29,18 +18,6 @@ use Override;
 #[IA\Entity]
 class School implements SchoolInterface
 {
-    use IdentifiableEntity;
-    use TitledEntity;
-    use CoursesEntity;
-    use ProgramsEntity;
-    use StringableIdEntity;
-    use AlertableEntity;
-    use SessionTypesEntity;
-    use InstructorGroupsEntity;
-    use CompetenciesEntity;
-    use DirectorsEntity;
-    use AdministratorsEntity;
-
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -236,6 +213,25 @@ class School implements SchoolInterface
     }
 
     #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    #[Override]
     public function setVocabularies(Collection $vocabularies): void
     {
         $this->vocabularies = new ArrayCollection();
@@ -284,6 +280,29 @@ class School implements SchoolInterface
     }
 
     #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
+    }
+
+    #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
+
+
+    #[Override]
     public function addAdministrator(UserInterface $administrator): void
     {
         if (!$this->administrators->contains($administrator)) {
@@ -298,6 +317,16 @@ class School implements SchoolInterface
         if ($this->administrators->contains($administrator)) {
             $this->administrators->removeElement($administrator);
             $administrator->removeAdministeredSchool($this);
+        }
+    }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
         }
     }
 
@@ -335,5 +364,186 @@ class School implements SchoolInterface
     public function getIndexableCourses(): array
     {
         return $this->courses->toArray();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setCompetencies(Collection $competencies): void
+    {
+        $this->competencies = new ArrayCollection();
+
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
+    }
+
+    #[Override]
+    public function addCompetency(CompetencyInterface $competency): void
+    {
+        if (!$this->competencies->contains($competency)) {
+            $this->competencies->add($competency);
+        }
+    }
+
+    #[Override]
+    public function removeCompetency(CompetencyInterface $competency): void
+    {
+        if ($this->competencies->contains($competency)) {
+            $this->competencies->removeElement($competency);
+        }
+    }
+
+    #[Override]
+    public function getCompetencies(): Collection
+    {
+        return $this->competencies;
+    }
+
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function addCourse(CourseInterface $course): void
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses->add($course);
+        }
+    }
+
+    #[Override]
+    public function removeCourse(CourseInterface $course): void
+    {
+        $this->courses->removeElement($course);
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    #[Override]
+    public function setInstructorGroups(Collection $instructorGroups): void
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        if (!$this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        $this->instructorGroups->removeElement($instructorGroup);
+    }
+
+    #[Override]
+    public function getInstructorGroups(): Collection
+    {
+        return $this->instructorGroups;
+    }
+
+    #[Override]
+    public function setPrograms(Collection $programs): void
+    {
+        $this->programs = new ArrayCollection();
+
+        foreach ($programs as $program) {
+            $this->addProgram($program);
+        }
+    }
+
+    #[Override]
+    public function addProgram(ProgramInterface $program): void
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs->add($program);
+        }
+    }
+
+    #[Override]
+    public function removeProgram(ProgramInterface $program): void
+    {
+        $this->programs->removeElement($program);
+    }
+
+    #[Override]
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    #[Override]
+    public function setSessionTypes(Collection $sessionTypes): void
+    {
+        $this->sessionTypes = new ArrayCollection();
+
+        foreach ($sessionTypes as $sessionType) {
+            $this->addSessionType($sessionType);
+        }
+    }
+
+    #[Override]
+    public function addSessionType(SessionTypeInterface $sessionType): void
+    {
+        if (!$this->sessionTypes->contains($sessionType)) {
+            $this->sessionTypes->add($sessionType);
+        }
+    }
+
+    #[Override]
+    public function removeSessionType(SessionTypeInterface $sessionType): void
+    {
+        $this->sessionTypes->removeElement($sessionType);
+    }
+
+    #[Override]
+    public function getSessionTypes(): Collection
+    {
+        return $this->sessionTypes;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

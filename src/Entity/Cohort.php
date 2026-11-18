@@ -7,14 +7,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearnerGroupsEntity;
-use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\TitledEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\CoursesEntity;
 use App\Repository\CohortRepository;
 use Override;
 
@@ -24,13 +18,6 @@ use Override;
 #[IA\Entity]
 class Cohort implements CohortInterface
 {
-    use IdentifiableEntity;
-    use TitledEntity;
-    use StringableIdEntity;
-    use CoursesEntity;
-    use LearnerGroupsEntity;
-    use UsersEntity;
-
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -115,6 +102,22 @@ class Cohort implements CohortInterface
     }
 
     #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    #[Override]
     public function addUser(UserInterface $user): void
     {
         if (!$this->users->contains($user)) {
@@ -131,6 +134,21 @@ class Cohort implements CohortInterface
     }
 
     #[Override]
+    public function setUsers(Collection $users): void
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+    #[Override]
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    #[Override]
     public function getSchool(): ?SchoolInterface
     {
         if ($programYear = $this->getProgramYear()) {
@@ -143,5 +161,64 @@ class Cohort implements CohortInterface
     public function getProgram(): ?ProgramInterface
     {
         return $this->programYear?->getProgram();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        $this->learnerGroups->removeElement($learnerGroup);
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

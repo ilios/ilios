@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntity;
-use App\Traits\IdentifiableStringEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\NameableEntity;
-use App\Traits\TimestampableEntity;
 use App\Repository\MeshQualifierRepository;
 use Override;
 
@@ -22,11 +18,6 @@ use Override;
 #[IA\Entity]
 class MeshQualifier implements MeshQualifierInterface
 {
-    use IdentifiableStringEntity;
-    use TimestampableEntity;
-    use NameableEntity;
-    use CreatedAtEntity;
-
     #[ORM\Column(name: 'mesh_qualifier_uid', type: 'string', length: 12)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -99,6 +90,60 @@ class MeshQualifier implements MeshQualifierInterface
     public function getDescriptors(): Collection
     {
         return $this->descriptors;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    #[Override]
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    #[Override]
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    #[Override]
+    public function getClassName(): string
+    {
+        return __CLASS__;
     }
 
     public function __toString(): string

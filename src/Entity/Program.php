@@ -7,14 +7,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DirectorsEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
-use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\ProgramYearsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\ProgramRepository;
 use Override;
 
@@ -23,13 +17,6 @@ use Override;
 #[IA\Entity]
 class Program implements ProgramInterface
 {
-    use TitledEntity;
-    use IdentifiableEntity;
-    use StringableIdEntity;
-    use ProgramYearsEntity;
-    use SchoolEntity;
-    use DirectorsEntity;
-
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -168,5 +155,93 @@ class Program implements ProgramInterface
             $this->directors->removeElement($director);
             $director->removeDirectedProgram($this);
         }
+    }
+
+    #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    #[Override]
+    public function addProgramYear(ProgramYearInterface $programYear): void
+    {
+        if (!$this->programYears->contains($programYear)) {
+            $this->programYears->add($programYear);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYear(ProgramYearInterface $programYear): void
+    {
+        $this->programYears->removeElement($programYear);
+    }
+
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

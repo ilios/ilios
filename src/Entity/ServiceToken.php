@@ -6,11 +6,6 @@ namespace App\Entity;
 
 use App\Attributes as IA;
 use App\Repository\ServiceTokenRepository;
-use App\Traits\AlertableEntity;
-use App\Traits\CreatedAtEntity;
-use App\Traits\DescribableEntity;
-use App\Traits\EnableableEntity;
-use App\Traits\IdentifiableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,12 +17,6 @@ use Override;
 #[ORM\Entity(repositoryClass: ServiceTokenRepository::class)]
 class ServiceToken implements ServiceTokenInterface
 {
-    use AlertableEntity;
-    use CreatedAtEntity;
-    use DescribableEntity;
-    use EnableableEntity;
-    use IdentifiableEntity;
-
     #[IA\Type('integer')]
     #[IA\OnlyReadable]
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -134,5 +123,72 @@ class ServiceToken implements ServiceTokenInterface
             $this->alerts->removeElement($alert);
             $alert->removeServiceTokenInstigator($this);
         }
+    }
+
+    #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[Override]
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    #[Override]
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
 }

@@ -7,24 +7,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\LearningMaterialsEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\LearningMaterialUserRoleRepository;
+use Override;
 
 #[ORM\Table(name: 'learning_material_user_role')]
 #[ORM\Entity(repositoryClass: LearningMaterialUserRoleRepository::class)]
 #[IA\Entity]
 class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
 {
-    use IdentifiableEntity;
-    use TitledEntity;
-    use StringableIdEntity;
-    use LearningMaterialsEntity;
-
     #[ORM\Column(name: 'learning_material_user_role_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -49,5 +41,65 @@ class LearningMaterialUserRole implements LearningMaterialUserRoleInterface
     public function __construct()
     {
         $this->learningMaterials = new ArrayCollection();
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setLearningMaterials(Collection $learningMaterials): void
+    {
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        if (!$this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
+    }
+
+    #[Override]
+    public function getLearningMaterials(): Collection
+    {
+        return $this->learningMaterials;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

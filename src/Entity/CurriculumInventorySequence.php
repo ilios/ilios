@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Repository\CurriculumInventorySequenceRepository;
 use Override;
 
@@ -18,10 +15,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventorySequence implements CurriculumInventorySequenceInterface
 {
-    use IdentifiableEntity;
-    use DescribableNullableEntity;
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'sequence_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -61,5 +54,32 @@ class CurriculumInventorySequence implements CurriculumInventorySequenceInterfac
     public function getReport(): CurriculumInventoryReportInterface
     {
         return $this->report;
+    }
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

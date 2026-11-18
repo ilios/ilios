@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Traits\TimestampableEntityInterface;
+use App\Entity\TimestampableEntityInterface;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\Persistence\ManagerRegistry;

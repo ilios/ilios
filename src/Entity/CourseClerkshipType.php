@@ -9,10 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\TitledEntity;
-use App\Traits\CoursesEntity;
 use App\Repository\CourseClerkshipTypeRepository;
 use Override;
 
@@ -21,11 +17,6 @@ use Override;
 #[IA\Entity]
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
-    use IdentifiableEntity;
-    use StringableIdEntity;
-    use TitledEntity;
-    use CoursesEntity;
-
     #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -70,5 +61,51 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
             $this->courses->removeElement($course);
             $course->setClerkshipType(null);
         }
+    }
+
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

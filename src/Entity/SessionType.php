@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
-use App\Traits\SessionsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\SessionTypeRepository;
 use Override;
 
@@ -26,13 +20,6 @@ use Override;
 #[IA\Entity]
 class SessionType implements SessionTypeInterface
 {
-    use IdentifiableEntity;
-    use TitledEntity;
-    use SessionsEntity;
-    use SchoolEntity;
-    use StringableIdEntity;
-    use ActivatableEntity;
-
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -191,5 +178,75 @@ class SessionType implements SessionTypeInterface
             'Sessions can not be removed from sessionTypes.' .
             "You must modify session #{$sessionId} directly."
         );
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

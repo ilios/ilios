@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ConceptsEntityInterface;
-use App\Traits\CreatedAtEntityInterface;
-use App\Traits\NameableEntityInterface;
-use App\Traits\TimestampableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
+use App\Entity\ConceptsEntityInterface;
+use App\Entity\CreatedAtEntityInterface;
+use App\Entity\NameableEntityInterface;
+use App\Entity\TimestampableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 
 interface MeshTermInterface extends
     IdentifiableEntityInterface,

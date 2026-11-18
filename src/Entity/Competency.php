@@ -4,18 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ProgramYearObjectivesEntity;
-use App\Traits\TitledNullableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\ProgramYearsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
 use Override;
 
@@ -25,14 +18,6 @@ use Override;
 #[IA\Entity]
 class Competency implements CompetencyInterface
 {
-    use IdentifiableEntity;
-    use TitledNullableEntity;
-    use ProgramYearsEntity;
-    use SchoolEntity;
-    use StringableIdEntity;
-    use ActivatableEntity;
-    use ProgramYearObjectivesEntity;
-
     #[ORM\Column(name: 'competency_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -204,5 +189,108 @@ class Competency implements CompetencyInterface
             $this->programYears->removeElement($programYear);
             $programYear->removeCompetency($this);
         }
+    }
+
+    #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+
+    #[Override]
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void
+    {
+        $this->programYearObjectives = new ArrayCollection();
+        if (is_null($programYearObjectives)) {
+            return;
+        }
+
+        foreach ($programYearObjectives as $programYearObjective) {
+            $this->addProgramYearObjective($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        if (!$this->programYearObjectives->contains($programYearObjective)) {
+            $this->programYearObjectives->add($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        $this->programYearObjectives->removeElement($programYearObjective);
+    }
+
+    #[Override]
+    public function getProgramYearObjectives(): Collection
+    {
+        return $this->programYearObjectives;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

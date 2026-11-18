@@ -6,15 +6,10 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionsEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use Override;
 
@@ -23,12 +18,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
-    use IdentifiableEntity;
-    use DescribableNullableEntity;
-    use TitledEntity;
-    use StringableIdEntity;
-    use SessionsEntity;
-
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -510,5 +499,76 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getEndingAcademicLevel(): CurriculumInventoryAcademicLevelInterface
     {
         return $this->endingAcademicLevel;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function addSession(SessionInterface $session): void
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+        }
+    }
+
+    #[Override]
+    public function removeSession(SessionInterface $session): void
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

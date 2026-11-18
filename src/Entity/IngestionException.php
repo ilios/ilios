@@ -7,8 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\IngestionExceptionRepository;
 use Override;
 
@@ -17,9 +15,6 @@ use Override;
 #[IA\Entity]
 class IngestionException implements IngestionExceptionInterface
 {
-    use IdentifiableEntity;
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'ingestion_exception_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -71,5 +66,22 @@ class IngestionException implements IngestionExceptionInterface
     public function getUid(): string
     {
         return $this->uid;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

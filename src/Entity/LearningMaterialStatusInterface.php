@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\LearningMaterialsEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\LearningMaterialsEntityInterface;
+use App\Entity\TitledEntityInterface;
 
 interface LearningMaterialStatusInterface extends
     IdentifiableEntityInterface,

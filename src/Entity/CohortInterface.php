@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\LearnerGroupsEntityInterface;
-use App\Traits\TitledEntityInterface;
-use App\Traits\CoursesEntityInterface;
-use App\Traits\UsersEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\LearnerGroupsEntityInterface;
+use App\Entity\TitledEntityInterface;
+use App\Entity\CoursesEntityInterface;
+use App\Entity\UsersEntityInterface;
 
 interface CohortInterface extends
     IdentifiableEntityInterface,

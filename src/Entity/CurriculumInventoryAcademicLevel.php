@@ -9,10 +9,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\NameableEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use Override;
 
@@ -23,11 +19,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-    use IdentifiableEntity;
-    use NameableEntity;
-    use DescribableNullableEntity;
-    use StringableIdEntity;
-
     #[ORM\Id]
     #[ORM\Column(name: 'academic_level_id', type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -169,5 +160,46 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getEndingSequenceBlocks(): Collection
     {
         return $this->endingSequenceBlocks;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

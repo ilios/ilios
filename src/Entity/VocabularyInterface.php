@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IndexableCoursesEntityInterface;
-use App\Traits\ActivatableEntityInterface;
-use App\Traits\CategorizableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SchoolEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
+use App\Entity\ActivatableEntityInterface;
+use App\Entity\CategorizableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\SchoolEntityInterface;
+use App\Entity\TitledEntityInterface;
 use Stringable;
 
 interface VocabularyInterface extends

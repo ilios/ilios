@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableEntity;
-use App\Traits\IdentifiableStringEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CategorizableEntity;
-use App\Traits\TitledEntity;
 use App\Attributes as IA;
 use App\Repository\AamcResourceTypeRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,11 +17,6 @@ use Override;
 #[IA\Entity]
 class AamcResourceType implements AamcResourceTypeInterface
 {
-    use IdentifiableStringEntity;
-    use TitledEntity;
-    use CategorizableEntity;
-    use DescribableEntity;
-
     #[ORM\Column(name: 'resource_type_id', type: 'string', length: 21)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -80,9 +71,63 @@ class AamcResourceType implements AamcResourceTypeInterface
             $term->removeAamcResourceType($this);
         }
     }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
+    }
 
     public function __toString(): string
     {
         return $this->id ?? '';
+    }
+
+    #[Override]
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 }

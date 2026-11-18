@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\AdministratorsEntityInterface;
+use App\Entity\DescribableNullableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\AdministratorsEntityInterface;
-use App\Traits\DescribableNullableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SequenceBlocksEntityInterface;
 
 interface CurriculumInventoryReportInterface extends
     IdentifiableEntityInterface,

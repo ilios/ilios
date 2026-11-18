@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CourseObjectivesEntity;
-use App\Traits\ProgramYearObjectivesEntity;
-use App\Traits\SessionObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\CoursesEntity;
-use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\ProgramYearsEntity;
-use App\Traits\SessionsEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\TitledEntity;
 use App\Repository\TermRepository;
 use Override;
 
@@ -29,18 +18,6 @@ use Override;
 #[IA\Entity]
 class Term implements TermInterface
 {
-    use CoursesEntity;
-    use DescribableNullableEntity;
-    use IdentifiableEntity;
-    use ProgramYearsEntity;
-    use SessionsEntity;
-    use StringableIdEntity;
-    use TitledEntity;
-    use ActivatableEntity;
-    use SessionObjectivesEntity;
-    use CourseObjectivesEntity;
-    use ProgramYearObjectivesEntity;
-
     #[ORM\Column(name: 'term_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -166,6 +143,21 @@ class Term implements TermInterface
             $course->removeTerm($this);
         }
     }
+    #[Override]
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = new ArrayCollection();
+
+        foreach ($courses as $course) {
+            $this->addCourse($course);
+        }
+    }
+
+    #[Override]
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
 
     #[Override]
     public function addProgramYear(ProgramYearInterface $programYear): void
@@ -186,6 +178,22 @@ class Term implements TermInterface
     }
 
     #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
+    }
+
+    #[Override]
     public function addSession(SessionInterface $session): void
     {
         if (!$this->sessions->contains($session)) {
@@ -201,6 +209,22 @@ class Term implements TermInterface
             $this->sessions->removeElement($session);
             $session->removeTerm($this);
         }
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
     }
 
     #[Override]
@@ -302,5 +326,159 @@ class Term implements TermInterface
             $this->courses->toArray(),
             $sessionCourses->toArray()
         );
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    #[Override]
+    public function setCourseObjectives(?Collection $courseObjectives = null): void
+    {
+        $this->courseObjectives = new ArrayCollection();
+        if (is_null($courseObjectives)) {
+            return;
+        }
+
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        $this->courseObjectives->removeElement($courseObjective);
+    }
+
+    #[Override]
+    public function getCourseObjectives(): Collection
+    {
+        return $this->courseObjectives;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+
+    #[Override]
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void
+    {
+        $this->programYearObjectives = new ArrayCollection();
+        if (is_null($programYearObjectives)) {
+            return;
+        }
+
+        foreach ($programYearObjectives as $programYearObjective) {
+            $this->addProgramYearObjective($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        if (!$this->programYearObjectives->contains($programYearObjective)) {
+            $this->programYearObjectives->add($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        $this->programYearObjectives->removeElement($programYearObjective);
+    }
+
+    #[Override]
+    public function getProgramYearObjectives(): Collection
+    {
+        return $this->programYearObjectives;
+    }
+
+    #[Override]
+    public function setSessionObjectives(?Collection $sessionObjectives = null): void
+    {
+        $this->sessionObjectives = new ArrayCollection();
+        if (is_null($sessionObjectives)) {
+            return;
+        }
+
+        foreach ($sessionObjectives as $sessionObjective) {
+            $this->addSessionObjective($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        if (!$this->sessionObjectives->contains($sessionObjective)) {
+            $this->sessionObjectives->add($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        $this->sessionObjectives->removeElement($sessionObjective);
+    }
+
+    #[Override]
+    public function getSessionObjectives(): Collection
+    {
+        return $this->sessionObjectives;
+    }
+
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

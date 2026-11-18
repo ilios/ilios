@@ -6,16 +6,9 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\InstructorGroupsEntity;
-use App\Traits\InstructorsEntity;
-use App\Traits\LearnerGroupsEntity;
-use App\Traits\LearnersEntity;
-use App\Traits\SessionConsolidationEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
 use DateTime;
 use App\Repository\IlmSessionRepository;
 use Override;
@@ -25,14 +18,6 @@ use Override;
 #[IA\Entity]
 class IlmSession implements IlmSessionInterface
 {
-    use IdentifiableEntity;
-    use StringableIdEntity;
-    use SessionConsolidationEntity;
-    use LearnerGroupsEntity;
-    use LearnersEntity;
-    use InstructorsEntity;
-    use InstructorGroupsEntity;
-
     #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -169,5 +154,150 @@ class IlmSession implements IlmSessionInterface
     public function getSchool(): ?SchoolInterface
     {
         return $this->session->getCourse()->getSchool();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setInstructorGroups(Collection $instructorGroups): void
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function addInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        if (!$this->instructorGroups->contains($instructorGroup)) {
+            $this->instructorGroups->add($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function removeInstructorGroup(InstructorGroupInterface $instructorGroup): void
+    {
+        $this->instructorGroups->removeElement($instructorGroup);
+    }
+
+    #[Override]
+    public function getInstructorGroups(): Collection
+    {
+        return $this->instructorGroups;
+    }
+
+    #[Override]
+    public function setInstructors(Collection $instructors): void
+    {
+        $this->instructors = new ArrayCollection();
+
+        foreach ($instructors as $instructor) {
+            $this->addInstructor($instructor);
+        }
+    }
+
+    #[Override]
+    public function addInstructor(UserInterface $instructor): void
+    {
+        if (!$this->instructors->contains($instructor)) {
+            $this->instructors->add($instructor);
+        }
+    }
+
+    #[Override]
+    public function removeInstructor(UserInterface $instructor): void
+    {
+        $this->instructors->removeElement($instructor);
+    }
+
+    #[Override]
+    public function getInstructors(): Collection
+    {
+        return $this->instructors;
+    }
+
+    #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function addLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        if (!$this->learnerGroups->contains($learnerGroup)) {
+            $this->learnerGroups->add($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function removeLearnerGroup(LearnerGroupInterface $learnerGroup): void
+    {
+        $this->learnerGroups->removeElement($learnerGroup);
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
+    }
+
+
+    #[Override]
+    public function setLearners(Collection $learners): void
+    {
+        $this->learners = new ArrayCollection();
+
+        foreach ($learners as $learner) {
+            $this->addLearner($learner);
+        }
+    }
+
+    #[Override]
+    public function addLearner(UserInterface $learner): void
+    {
+        if (!$this->learners->contains($learner)) {
+            $this->learners->add($learner);
+        }
+    }
+
+    #[Override]
+    public function removeLearner(UserInterface $learner): void
+    {
+        $this->learners->removeElement($learner);
+    }
+
+    #[Override]
+    public function getLearners(): Collection
+    {
+        return $this->learners;
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        $session = $this->getSession();
+        return new ArrayCollection([$session]);
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

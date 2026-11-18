@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
-use App\Traits\ActivatableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SchoolEntityInterface;
-use App\Traits\TitledEntityInterface;
-use App\Traits\SessionsEntityInterface;
+use App\Entity\ActivatableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\SchoolEntityInterface;
+use App\Entity\TitledEntityInterface;
+use App\Entity\SessionsEntityInterface;
 
 interface SessionTypeInterface extends
     IdentifiableEntityInterface,

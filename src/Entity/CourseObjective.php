@@ -5,13 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\ActivatableEntity;
-use App\Traits\CategorizableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\MeshDescriptorsEntity;
-use App\Traits\SortableEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,14 +18,6 @@ use Override;
 #[IA\Entity]
 class CourseObjective implements CourseObjectiveInterface
 {
-    use IdentifiableEntity;
-    use StringableIdEntity;
-    use TitledEntity;
-    use MeshDescriptorsEntity;
-    use ActivatableEntity;
-    use CategorizableEntity;
-    use SortableEntity;
-
     #[ORM\Column(name: 'course_objective_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -290,5 +275,98 @@ class CourseObjective implements CourseObjectiveInterface
     public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
+    }
+
+    #[Override]
+    public function setPosition(int $position): void
+    {
+        $this->position = $position;
+    }
+
+    #[Override]
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

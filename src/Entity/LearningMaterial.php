@@ -9,10 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableNullableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use App\Repository\LearningMaterialRepository;
 use Override;
@@ -29,11 +25,6 @@ use function array_unique;
 #[IA\Entity]
 class LearningMaterial implements LearningMaterialInterface
 {
-    use IdentifiableEntity;
-    use StringableIdEntity;
-    use TitledEntity;
-    use DescribableNullableEntity;
-
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -482,5 +473,47 @@ class LearningMaterial implements LearningMaterialInterface
             $directCourses->toArray(),
             $sessionCourses->toArray()
         );
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    #[Override]
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

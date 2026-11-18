@@ -5,18 +5,10 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\IlmSessionsEntity;
-use App\Traits\LearnerGroupsEntity;
-use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\OfferingsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\InstructorGroupRepository;
 use Override;
 
@@ -25,15 +17,6 @@ use Override;
 #[IA\Entity]
 class InstructorGroup implements InstructorGroupInterface
 {
-    use IdentifiableEntity;
-    use TitledEntity;
-    use StringableIdEntity;
-    use OfferingsEntity;
-    use SchoolEntity;
-    use LearnerGroupsEntity;
-    use UsersEntity;
-    use IlmSessionsEntity;
-
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -112,6 +95,22 @@ class InstructorGroup implements InstructorGroupInterface
     }
 
     #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
+    }
+
+    #[Override]
     public function addIlmSession(IlmSessionInterface $ilmSession): void
     {
         if (!$this->ilmSessions->contains($ilmSession)) {
@@ -127,5 +126,123 @@ class InstructorGroup implements InstructorGroupInterface
             $this->ilmSessions->removeElement($ilmSession);
             $ilmSession->removeInstructorGroup($this);
         }
+    }
+
+    #[Override]
+    public function setIlmSessions(Collection $ilmSessions): void
+    {
+        $this->ilmSessions = new ArrayCollection();
+
+        foreach ($ilmSessions as $ilmSession) {
+            $this->addIlmSession($ilmSession);
+        }
+    }
+
+    #[Override]
+    public function getIlmSessions(): Collection
+    {
+        return $this->ilmSessions;
+    }
+
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function addOffering(OfferingInterface $offering): void
+    {
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+        }
+    }
+
+    #[Override]
+    public function removeOffering(OfferingInterface $offering): void
+    {
+        $this->offerings->removeElement($offering);
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
+    }
+
+    #[Override]
+    public function setUsers(Collection $users): void
+    {
+        $this->users = new ArrayCollection();
+
+        foreach ($users as $user) {
+            $this->addUser($user);
+        }
+    }
+
+    #[Override]
+    public function addUser(UserInterface $user): void
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
+    }
+
+    #[Override]
+    public function removeUser(UserInterface $user): void
+    {
+        $this->users->removeElement($user);
+    }
+
+    #[Override]
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 }

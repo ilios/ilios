@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\EnableableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AlertableEntity;
-use App\Traits\CohortsEntity;
-use App\Traits\InstructorGroupsEntity;
-use App\Traits\LearnerGroupsEntity;
-use App\Traits\LearningMaterialsEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\OfferingsEntity;
-use App\Traits\ProgramYearsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Override;
@@ -30,18 +19,6 @@ use Override;
 #[IA\Entity]
 class User implements UserInterface
 {
-    use EnableableEntity;
-    use IdentifiableEntity;
-    use StringableIdEntity;
-    use OfferingsEntity;
-    use ProgramYearsEntity;
-    use SchoolEntity;
-    use AlertableEntity;
-    use LearnerGroupsEntity;
-    use CohortsEntity;
-    use InstructorGroupsEntity;
-    use LearningMaterialsEntity;
-
     #[ORM\Column(name: 'user_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -746,6 +723,22 @@ class User implements UserInterface
     }
 
     #[Override]
+    public function setLearnerGroups(Collection $learnerGroups): void
+    {
+        $this->learnerGroups = new ArrayCollection();
+
+        foreach ($learnerGroups as $learnerGroup) {
+            $this->addLearnerGroup($learnerGroup);
+        }
+    }
+
+    #[Override]
+    public function getLearnerGroups(): Collection
+    {
+        return $this->learnerGroups;
+    }
+
+    #[Override]
     public function setInstructedLearnerGroups(Collection $learnerGroups): void
     {
         $this->instructedLearnerGroups = new ArrayCollection();
@@ -791,6 +784,22 @@ class User implements UserInterface
     {
         $this->instructorGroups->removeElement($instructorGroup);
         $instructorGroup->removeUser($this);
+    }
+
+    #[Override]
+    public function setInstructorGroups(Collection $instructorGroups): void
+    {
+        $this->instructorGroups = new ArrayCollection();
+
+        foreach ($instructorGroups as $instructorGroup) {
+            $this->addInstructorGroup($instructorGroup);
+        }
+    }
+
+    #[Override]
+    public function getInstructorGroups(): Collection
+    {
+        return $this->instructorGroups;
     }
 
     #[Override]
@@ -873,6 +882,25 @@ class User implements UserInterface
     {
         $this->alerts->removeElement($alert);
         $alert->removeInstigator($this);
+    }
+
+    #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
     }
 
     #[Override]
@@ -961,6 +989,20 @@ class User implements UserInterface
         if ($primaryCohort && $cohort === $primaryCohort) {
             $this->setPrimaryCohort(null);
         }
+    }
+
+    #[Override]
+    public function addCohort(CohortInterface $cohort): void
+    {
+        if (!$this->cohorts->contains($cohort)) {
+            $this->cohorts->add($cohort);
+        }
+    }
+
+    #[Override]
+    public function getCohorts(): Collection
+    {
+        return $this->cohorts;
     }
 
     #[Override]
@@ -1103,6 +1145,22 @@ class User implements UserInterface
     }
 
     #[Override]
+    public function setProgramYears(Collection $programYears): void
+    {
+        $this->programYears = new ArrayCollection();
+
+        foreach ($programYears as $programYear) {
+            $this->addProgramYear($programYear);
+        }
+    }
+
+    #[Override]
+    public function getProgramYears(): Collection
+    {
+        return $this->programYears;
+    }
+
+    #[Override]
     public function addOffering(OfferingInterface $offering): void
     {
         if (!$this->offerings->contains($offering)) {
@@ -1118,6 +1176,22 @@ class User implements UserInterface
             $this->offerings->removeElement($offering);
             $offering->removeLearner($this);
         }
+    }
+
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
     }
 
     #[Override]
@@ -1356,5 +1430,76 @@ class User implements UserInterface
                 }
             }
         }
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    #[Override]
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
+    }
+
+    #[Override]
+    public function setLearningMaterials(Collection $learningMaterials): void
+    {
+        $this->learningMaterials = new ArrayCollection();
+
+        foreach ($learningMaterials as $learningMaterial) {
+            $this->addLearningMaterial($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function addLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        if (!$this->learningMaterials->contains($learningMaterial)) {
+            $this->learningMaterials->add($learningMaterial);
+        }
+    }
+
+    #[Override]
+    public function removeLearningMaterial(LearningMaterialInterface $learningMaterial): void
+    {
+        $this->learningMaterials->removeElement($learningMaterial);
+    }
+
+    #[Override]
+    public function getLearningMaterials(): Collection
+    {
+        return $this->learningMaterials;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

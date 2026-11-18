@@ -6,8 +6,8 @@ namespace App\EventListener;
 
 use DateTime;
 use App\Service\Timestamper;
-use App\Traits\TimestampableEntityInterface;
-use App\Traits\OfferingsEntityInterface;
+use App\Entity\TimestampableEntityInterface;
+use App\Entity\OfferingsEntityInterface;
 use App\Entity\SessionStampableInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\TitledEntityInterface;
-use App\Traits\UsersEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\TitledEntityInterface;
+use App\Entity\UsersEntityInterface;
 
 interface UserRoleInterface extends
     IdentifiableEntityInterface,

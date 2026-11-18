@@ -6,10 +6,10 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\DescribableNullableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\SessionsEntityInterface;
-use App\Traits\TitledEntityInterface;
+use App\Entity\DescribableNullableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\SessionsEntityInterface;
+use App\Entity\TitledEntityInterface;
 
 interface CurriculumInventorySequenceBlockInterface extends
     IdentifiableEntityInterface,

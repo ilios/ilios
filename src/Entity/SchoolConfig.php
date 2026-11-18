@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\IdentifiableEntity;
-use App\Traits\NameableEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\SchoolEntity;
 use App\Repository\SchoolConfigRepository;
 use Override;
 
@@ -20,11 +16,6 @@ use Override;
 #[IA\Entity]
 class SchoolConfig implements SchoolConfigInterface
 {
-    use SchoolEntity;
-    use NameableEntity;
-    use IdentifiableEntity;
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -67,5 +58,46 @@ class SchoolConfig implements SchoolConfigInterface
     public function setValue(string $value): void
     {
         $this->value = $value;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    #[Override]
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

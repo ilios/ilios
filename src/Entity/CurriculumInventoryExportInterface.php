@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CreatedAtEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
+use App\Entity\CreatedAtEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 
 interface CurriculumInventoryExportInterface extends
     CreatedAtEntityInterface,

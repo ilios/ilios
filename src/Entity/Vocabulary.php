@@ -7,14 +7,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ActivatableEntity;
-use App\Traits\CategorizableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\IdentifiableEntity;
-use App\Traits\SchoolEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\TitledEntity;
 use App\Repository\VocabularyRepository;
 use Override;
 
@@ -24,13 +18,6 @@ use Override;
 #[IA\Entity]
 class Vocabulary implements VocabularyInterface
 {
-    use IdentifiableEntity;
-    use SchoolEntity;
-    use StringableIdEntity;
-    use TitledEntity;
-    use CategorizableEntity;
-    use ActivatableEntity;
-
     #[ORM\Column(name: 'vocabulary_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -83,5 +70,90 @@ class Vocabulary implements VocabularyInterface
         $termCourses = $this->terms->map(fn(TermInterface $term) => $term->getIndexableCourses());
 
         return count($termCourses) ? array_merge(...$termCourses->toArray()) : [];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isActive(): bool
+    {
+        return $this->active;
+    }
+
+    #[Override]
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

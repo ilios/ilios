@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\DescribableNullableEntityInterface;
-use App\Traits\IndexableCoursesEntityInterface;
-use App\Traits\SessionObjectivesEntityInterface;
-use App\Traits\StudentAdvisorsEntityInterface;
-use App\Traits\TitledNullableEntityInterface;
+use App\Entity\AdministratorsEntityInterface;
+use App\Entity\CategorizableEntityInterface;
+use App\Entity\DescribableNullableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
+use App\Entity\IndexableCoursesEntityInterface;
+use App\Entity\MeshDescriptorsEntityInterface;
+use App\Entity\OfferingsEntityInterface;
+use App\Entity\PublishableEntityInterface;
+use App\Entity\SessionObjectivesEntityInterface;
+use App\Entity\StudentAdvisorsEntityInterface;
+use App\Entity\TimestampableEntityInterface;
+use App\Entity\TitledNullableEntityInterface;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\AdministratorsEntityInterface;
-use App\Traits\CategorizableEntityInterface;
-use App\Traits\IdentifiableEntityInterface;
-use App\Traits\MeshDescriptorsEntityInterface;
-use App\Traits\PublishableEntityInterface;
-use App\Traits\SequenceBlocksEntityInterface;
-use App\Traits\TimestampableEntityInterface;
-use App\Traits\OfferingsEntityInterface;
 
 interface SessionInterface extends
     IdentifiableEntityInterface,

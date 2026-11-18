@@ -4,27 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CourseObjectivesEntity;
-use App\Traits\StudentAdvisorsEntity;
-use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AdministratorsEntity;
-use App\Traits\CategorizableEntity;
-use App\Traits\CohortsEntity;
-use App\Traits\DirectorsEntity;
-use App\Traits\MeshDescriptorsEntity;
-use App\Traits\PublishableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ArchivableEntity;
-use App\Traits\LockableEntity;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
-use App\Traits\SessionsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\CourseRepository;
 use Override;
 
@@ -36,22 +21,6 @@ use Override;
 #[IA\Entity]
 class Course implements CourseInterface
 {
-    use IdentifiableEntity;
-    use TitledNullableEntity;
-    use StringableIdEntity;
-    use LockableEntity;
-    use ArchivableEntity;
-    use SessionsEntity;
-    use SchoolEntity;
-    use PublishableEntity;
-    use CategorizableEntity;
-    use CohortsEntity;
-    use MeshDescriptorsEntity;
-    use DirectorsEntity;
-    use AdministratorsEntity;
-    use StudentAdvisorsEntity;
-    use CourseObjectivesEntity;
-
     #[ORM\Column(name: 'course_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -430,6 +399,22 @@ class Course implements CourseInterface
     }
 
     #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
+    }
+
+    #[Override]
     public function addCohort(CohortInterface $cohort): void
     {
         if (!$this->cohorts->contains($cohort)) {
@@ -445,6 +430,21 @@ class Course implements CourseInterface
             $this->cohorts->removeElement($cohort);
             $cohort->removeCourse($this);
         }
+    }
+    #[Override]
+    public function setCohorts(Collection $cohorts): void
+    {
+        $this->cohorts = new ArrayCollection();
+
+        foreach ($cohorts as $cohort) {
+            $this->addCohort($cohort);
+        }
+    }
+
+    #[Override]
+    public function getCohorts(): Collection
+    {
+        return $this->cohorts;
     }
 
     #[Override]
@@ -464,6 +464,30 @@ class Course implements CourseInterface
             $term->removeCourse($this);
         }
     }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
+    }
+
+    #[Override]
+    public function getAdministrators(): Collection
+    {
+        return $this->administrators;
+    }
 
     #[Override]
     public function addAdministrator(UserInterface $administrator): void
@@ -482,6 +506,17 @@ class Course implements CourseInterface
             $administrator->removeAdministeredCourse($this);
         }
     }
+
+    #[Override]
+    public function setAdministrators(Collection $administrators): void
+    {
+        $this->administrators = new ArrayCollection();
+
+        foreach ($administrators as $administrator) {
+            $this->addAdministrator($administrator);
+        }
+    }
+
     #[Override]
     public function addStudentAdvisor(UserInterface $studentAdvisor): void
     {
@@ -519,6 +554,32 @@ class Course implements CourseInterface
     }
 
     #[Override]
+    public function setCourseObjectives(?Collection $courseObjectives = null): void
+    {
+        $this->courseObjectives = new ArrayCollection();
+        if (is_null($courseObjectives)) {
+            return;
+        }
+
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function getCourseObjectives(): Collection
+    {
+        return $this->courseObjectives;
+    }
+    #[Override]
     public function setSequenceBlocks(Collection $sequenceBlocks): void
     {
         $this->sequenceBlocks = new ArrayCollection();
@@ -552,5 +613,171 @@ class Course implements CourseInterface
     public function getIndexableCourses(): array
     {
         return [$this];
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    #[Override]
+    public function setArchived(bool $archived): void
+    {
+        $this->archived = $archived;
+    }
+
+    #[Override]
+    public function setLocked(bool $locked): void
+    {
+        $this->locked = $locked;
+    }
+
+    #[Override]
+    public function isLocked(): bool
+    {
+        return $this->locked;
+    }
+
+
+    #[Override]
+    public function setMeshDescriptors(Collection $meshDescriptors): void
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+    #[Override]
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    #[Override]
+    public function setPublishedAsTbd(bool $publishedAsTbd): void
+    {
+        $this->publishedAsTbd = $publishedAsTbd;
+    }
+
+    #[Override]
+    public function isPublishedAsTbd(): bool
+    {
+        return $this->publishedAsTbd;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function addSession(SessionInterface $session): void
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+        }
+    }
+
+    #[Override]
+    public function removeSession(SessionInterface $session): void
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    #[Override]
+    public function setStudentAdvisors(Collection $studentAdvisors): void
+    {
+        $this->studentAdvisors = new ArrayCollection();
+
+        foreach ($studentAdvisors as $studentAdvisor) {
+            $this->addStudentAdvisor($studentAdvisor);
+        }
+    }
+
+    #[Override]
+    public function getStudentAdvisors(): Collection
+    {
+        return $this->studentAdvisors;
+    }
+
+    #[Override]
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    #[Override]
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

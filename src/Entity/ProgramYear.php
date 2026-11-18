@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ProgramYearObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CategorizableEntity;
-use App\Traits\CompetenciesEntity;
-use App\Traits\DirectorsEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ArchivableEntity;
-use App\Traits\LockableEntity;
-use App\Traits\IdentifiableEntity;
 use App\Repository\ProgramYearRepository;
 use Override;
 
@@ -25,15 +17,6 @@ use Override;
 #[IA\Entity]
 class ProgramYear implements ProgramYearInterface
 {
-    use IdentifiableEntity;
-    use LockableEntity;
-    use ArchivableEntity;
-    use ProgramYearObjectivesEntity;
-    use CategorizableEntity;
-    use StringableIdEntity;
-    use DirectorsEntity;
-    use CompetenciesEntity;
-
     #[ORM\Column(name: 'program_year_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -159,5 +142,174 @@ class ProgramYear implements ProgramYearInterface
     public function getSchool(): SchoolInterface
     {
         return $this->program->getSchool();
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    #[Override]
+    public function setArchived(bool $archived): void
+    {
+        $this->archived = $archived;
+    }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
+    }
+
+    #[Override]
+    public function setCompetencies(Collection $competencies): void
+    {
+        $this->competencies = new ArrayCollection();
+
+        foreach ($competencies as $competency) {
+            $this->addCompetency($competency);
+        }
+    }
+
+    #[Override]
+    public function addCompetency(CompetencyInterface $competency): void
+    {
+        if (!$this->competencies->contains($competency)) {
+            $this->competencies->add($competency);
+        }
+    }
+
+    #[Override]
+    public function removeCompetency(CompetencyInterface $competency): void
+    {
+        if ($this->competencies->contains($competency)) {
+            $this->competencies->removeElement($competency);
+        }
+    }
+
+    #[Override]
+    public function getCompetencies(): Collection
+    {
+        return $this->competencies;
+    }
+
+    #[Override]
+    public function setDirectors(Collection $directors): void
+    {
+        $this->directors = new ArrayCollection();
+
+        foreach ($directors as $director) {
+            $this->addDirector($director);
+        }
+    }
+
+    #[Override]
+    public function addDirector(UserInterface $director): void
+    {
+        if (!$this->directors->contains($director)) {
+            $this->directors->add($director);
+        }
+    }
+
+    #[Override]
+    public function removeDirector(UserInterface $director): void
+    {
+        $this->directors->removeElement($director);
+    }
+
+    #[Override]
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
+    }
+
+    #[Override]
+    public function setLocked(bool $locked): void
+    {
+        $this->locked = $locked;
+    }
+
+    #[Override]
+    public function isLocked(): bool
+    {
+        return $this->locked;
+    }
+
+
+    #[Override]
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void
+    {
+        $this->programYearObjectives = new ArrayCollection();
+        if (is_null($programYearObjectives)) {
+            return;
+        }
+
+        foreach ($programYearObjectives as $programYearObjective) {
+            $this->addProgramYearObjective($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        if (!$this->programYearObjectives->contains($programYearObjective)) {
+            $this->programYearObjectives->add($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        $this->programYearObjectives->removeElement($programYearObjective);
+    }
+
+    #[Override]
+    public function getProgramYearObjectives(): Collection
+    {
+        return $this->programYearObjectives;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

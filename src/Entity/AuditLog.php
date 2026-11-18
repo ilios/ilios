@@ -7,8 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
-use App\Traits\IdentifiableEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\AuditLogRepository;
 use Override;
 
@@ -16,9 +14,6 @@ use Override;
 #[ORM\Entity(repositoryClass: AuditLogRepository::class)]
 class AuditLog implements AuditLogInterface
 {
-    use IdentifiableEntity;
-    use StringableIdEntity;
-
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -149,5 +144,22 @@ class AuditLog implements AuditLogInterface
     public function getServiceToken(): ?ServiceTokenInterface
     {
         return $this->serviceToken;
+    }
+    #[Override]
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    #[Override]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }
