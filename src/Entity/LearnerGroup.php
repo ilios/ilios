@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Traits\OfferingsEntity;
 use App\Repository\LearnerGroupRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Override;
@@ -24,7 +23,6 @@ class LearnerGroup implements LearnerGroupInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use OfferingsEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'group_id', type: 'integer')]
@@ -309,6 +307,21 @@ class LearnerGroup implements LearnerGroupInterface
             $this->offerings->removeElement($offering);
             $offering->removeLearnerGroup($this);
         }
+    }
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
     }
 
     #[Override]

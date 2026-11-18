@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
-use App\Traits\OfferingsEntity;
 use App\Traits\ProgramYearsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
@@ -24,7 +23,6 @@ use Override;
 class User implements UserInterface
 {
     use StringableIdEntity;
-    use OfferingsEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
 
@@ -1169,6 +1167,22 @@ class User implements UserInterface
             $this->offerings->removeElement($offering);
             $offering->removeLearner($this);
         }
+    }
+
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
     }
 
     #[Override]

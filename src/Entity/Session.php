@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
 use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
-use App\Traits\OfferingsEntity;
 use App\Repository\SessionRepository;
 use Override;
 
@@ -32,7 +31,6 @@ class Session implements SessionInterface
     use TitledNullableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
-    use OfferingsEntity;
     use PublishableEntity;
     use SequenceBlocksEntity;
     use StudentAdvisorsEntity;
@@ -583,5 +581,35 @@ class Session implements SessionInterface
     public function getMeshDescriptors(): Collection
     {
         return $this->meshDescriptors;
+    }
+
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function addOffering(OfferingInterface $offering): void
+    {
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+        }
+    }
+
+    #[Override]
+    public function removeOffering(OfferingInterface $offering): void
+    {
+        $this->offerings->removeElement($offering);
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
     }
 }

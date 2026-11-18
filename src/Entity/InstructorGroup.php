@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Traits\OfferingsEntity;
 use App\Traits\SchoolEntity;
 use App\Repository\InstructorGroupRepository;
 use Override;
@@ -24,7 +23,6 @@ class InstructorGroup implements InstructorGroupInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use OfferingsEntity;
     use SchoolEntity;
     use UsersEntity;
 
@@ -165,5 +163,35 @@ class InstructorGroup implements InstructorGroupInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setOfferings(Collection $offerings): void
+    {
+        $this->offerings = new ArrayCollection();
+
+        foreach ($offerings as $offering) {
+            $this->addOffering($offering);
+        }
+    }
+
+    #[Override]
+    public function addOffering(OfferingInterface $offering): void
+    {
+        if (!$this->offerings->contains($offering)) {
+            $this->offerings->add($offering);
+        }
+    }
+
+    #[Override]
+    public function removeOffering(OfferingInterface $offering): void
+    {
+        $this->offerings->removeElement($offering);
+    }
+
+    #[Override]
+    public function getOfferings(): Collection
+    {
+        return $this->offerings;
     }
 }
