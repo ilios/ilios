@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CategorizableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\SchoolEntity;
@@ -25,7 +24,6 @@ class Vocabulary implements VocabularyInterface
     use SchoolEntity;
     use StringableIdEntity;
     use TitledEntity;
-    use CategorizableEntity;
 
     #[ORM\Column(name: 'vocabulary_id', type: 'integer')]
     #[ORM\Id]
@@ -102,5 +100,37 @@ class Vocabulary implements VocabularyInterface
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
     }
 }

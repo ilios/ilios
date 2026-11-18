@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\ProgramYearObjectivesEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CategorizableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\StringableIdEntity;
@@ -25,7 +24,6 @@ class ProgramYear implements ProgramYearInterface
 {
     use LockableEntity;
     use ProgramYearObjectivesEntity;
-    use CategorizableEntity;
     use StringableIdEntity;
     use DirectorsEntity;
     use CompetenciesEntity;
@@ -178,5 +176,37 @@ class ProgramYear implements ProgramYearInterface
     public function setArchived(bool $archived): void
     {
         $this->archived = $archived;
+    }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
     }
 }

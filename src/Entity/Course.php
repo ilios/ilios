@@ -11,7 +11,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CategorizableEntity;
 use App\Traits\CohortsEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\MeshDescriptorsEntity;
@@ -39,7 +38,6 @@ class Course implements CourseInterface
     use SessionsEntity;
     use SchoolEntity;
     use PublishableEntity;
-    use CategorizableEntity;
     use CohortsEntity;
     use MeshDescriptorsEntity;
     use DirectorsEntity;
@@ -457,6 +455,24 @@ class Course implements CourseInterface
             $this->terms->removeElement($term);
             $term->removeCourse($this);
         }
+    }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
     }
 
     #[Override]

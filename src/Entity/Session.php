@@ -10,7 +10,6 @@ use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
 use App\Traits\SequenceBlocksEntity;
@@ -37,7 +36,6 @@ class Session implements SessionInterface
     use TimestampableEntity;
     use OfferingsEntity;
     use PublishableEntity;
-    use CategorizableEntity;
     use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
     use StudentAdvisorsEntity;
@@ -514,5 +512,38 @@ class Session implements SessionInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
     }
 }

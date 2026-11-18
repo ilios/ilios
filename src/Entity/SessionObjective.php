@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\CategorizableEntity;
 use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
@@ -28,7 +27,6 @@ class SessionObjective implements SessionObjectiveInterface
     use SessionConsolidationEntity;
     use TitledEntity;
     use MeshDescriptorsEntity;
-    use CategorizableEntity;
     use SortableEntity;
 
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
@@ -270,5 +268,37 @@ class SessionObjective implements SessionObjectiveInterface
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+    #[Override]
+    public function setTerms(?Collection $terms = null): void
+    {
+        $this->terms = new ArrayCollection();
+        if (is_null($terms)) {
+            return;
+        }
+
+        foreach ($terms as $term) {
+            $this->addTerm($term);
+        }
+    }
+
+    #[Override]
+    public function addTerm(TermInterface $term): void
+    {
+        if (!$this->terms->contains($term)) {
+            $this->terms->add($term);
+        }
+    }
+
+    #[Override]
+    public function removeTerm(TermInterface $term): void
+    {
+        $this->terms->removeElement($term);
+    }
+
+    #[Override]
+    public function getTerms(): Collection
+    {
+        return $this->terms;
     }
 }
