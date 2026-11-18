@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Traits\CreatedAtEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ConceptsEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,7 +26,6 @@ class MeshTerm implements MeshTermInterface
     use NameableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
-    use ConceptsEntity;
     use CreatedAtEntity;
 
     #[ORM\Column(name: 'mesh_term_id', type: 'integer')]
@@ -177,5 +175,35 @@ class MeshTerm implements MeshTermInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function setConcepts(Collection $concepts): void
+    {
+        $this->concepts = new ArrayCollection();
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    #[Override]
+    public function addConcept(MeshConceptInterface $concept): void
+    {
+        if (!$this->concepts->contains($concept)) {
+            $this->concepts->add($concept);
+        }
+    }
+
+    #[Override]
+    public function removeConcept(MeshConceptInterface $concept): void
+    {
+        $this->concepts->removeElement($concept);
+    }
+
+    #[Override]
+    public function getConcepts(): Collection
+    {
+        return $this->concepts;
     }
 }

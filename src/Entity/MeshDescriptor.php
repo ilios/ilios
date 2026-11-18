@@ -11,7 +11,6 @@ use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\ConceptsEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,7 +32,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use TimestampableEntity;
     use CoursesEntity;
     use SessionsEntity;
-    use ConceptsEntity;
     use CreatedAtEntity;
     use SessionObjectivesEntity;
     use CourseObjectivesEntity;
@@ -372,6 +370,22 @@ class MeshDescriptor implements MeshDescriptorInterface
             $this->concepts->removeElement($concept);
             $concept->removeDescriptor($this);
         }
+    }
+
+    #[Override]
+    public function setConcepts(Collection $concepts): void
+    {
+        $this->concepts = new ArrayCollection();
+
+        foreach ($concepts as $concept) {
+            $this->addConcept($concept);
+        }
+    }
+
+    #[Override]
+    public function getConcepts(): Collection
+    {
+        return $this->concepts;
     }
 
     #[Override]
