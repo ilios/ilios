@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AlertableEntity;
 use App\Attributes as IA;
 use App\Repository\AlertChangeTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,7 +21,6 @@ class AlertChangeType implements AlertChangeTypeInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use AlertableEntity;
 
     #[ORM\Column(name: 'alert_change_type_id', type: 'integer')]
     #[ORM\Id]
@@ -68,6 +66,25 @@ class AlertChangeType implements AlertChangeTypeInterface
             $this->alerts->removeElement($alert);
             $alert->removeChangeType($this);
         }
+    }
+
+    #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
     }
 
     #[Override]

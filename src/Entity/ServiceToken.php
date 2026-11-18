@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Attributes as IA;
 use App\Repository\ServiceTokenRepository;
-use App\Traits\AlertableEntity;
 use App\Traits\CreatedAtEntity;
 use App\Traits\DescribableEntity;
 use App\Traits\EnableableEntity;
@@ -21,7 +20,6 @@ use Override;
 #[ORM\Entity(repositoryClass: ServiceTokenRepository::class)]
 class ServiceToken implements ServiceTokenInterface
 {
-    use AlertableEntity;
     use CreatedAtEntity;
     use DescribableEntity;
     use EnableableEntity;
@@ -133,6 +131,26 @@ class ServiceToken implements ServiceTokenInterface
             $alert->removeServiceTokenInstigator($this);
         }
     }
+
+    #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

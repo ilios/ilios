@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\EnableableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AlertableEntity;
 use App\Traits\CohortsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\LearnerGroupsEntity;
@@ -34,7 +33,6 @@ class User implements UserInterface
     use OfferingsEntity;
     use ProgramYearsEntity;
     use SchoolEntity;
-    use AlertableEntity;
     use LearnerGroupsEntity;
     use CohortsEntity;
     use InstructorGroupsEntity;
@@ -871,6 +869,25 @@ class User implements UserInterface
     {
         $this->alerts->removeElement($alert);
         $alert->removeInstigator($this);
+    }
+
+    #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
     }
 
     #[Override]

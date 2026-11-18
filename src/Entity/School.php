@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\AlertableEntity;
 use App\Traits\CompetenciesEntity;
 use App\Traits\DirectorsEntity;
 use App\Traits\InstructorGroupsEntity;
@@ -31,7 +30,6 @@ class School implements SchoolInterface
     use CoursesEntity;
     use ProgramsEntity;
     use StringableIdEntity;
-    use AlertableEntity;
     use SessionTypesEntity;
     use InstructorGroupsEntity;
     use CompetenciesEntity;
@@ -229,6 +227,25 @@ class School implements SchoolInterface
             $this->alerts->removeElement($alert);
             $alert->removeRecipient($this);
         }
+    }
+
+    #[Override]
+    public function setAlerts(?Collection $alerts = null): void
+    {
+        $this->alerts = new ArrayCollection();
+        if (is_null($alerts)) {
+            return;
+        }
+
+        foreach ($alerts as $alert) {
+            $this->addAlert($alert);
+        }
+    }
+
+    #[Override]
+    public function getAlerts(): Collection
+    {
+        return $this->alerts;
     }
 
     #[Override]
