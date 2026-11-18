@@ -8,7 +8,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,7 +21,6 @@ use Override;
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
     use StringableIdEntity;
-    use MeshDescriptorsEntity;
     use SortableEntity;
 
     #[ORM\Column(name: 'course_learning_material_id', type: 'integer')]
@@ -211,5 +209,36 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getEndDate(): ?DateTime
     {
         return $this->endDate;
+    }
+
+
+    #[Override]
+    public function setMeshDescriptors(Collection $meshDescriptors): void
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
     }
 }

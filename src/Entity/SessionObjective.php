@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
@@ -26,7 +25,6 @@ class SessionObjective implements SessionObjectiveInterface
     use StringableIdEntity;
     use SessionConsolidationEntity;
     use TitledEntity;
-    use MeshDescriptorsEntity;
     use SortableEntity;
 
     #[ORM\Column(name: 'session_objective_id', type: 'integer')]
@@ -246,6 +244,13 @@ class SessionObjective implements SessionObjectiveInterface
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
     }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

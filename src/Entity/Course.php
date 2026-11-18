@@ -10,7 +10,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,7 +32,6 @@ class Course implements CourseInterface
     use SessionsEntity;
     use SchoolEntity;
     use PublishableEntity;
-    use MeshDescriptorsEntity;
     use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
@@ -663,5 +661,36 @@ class Course implements CourseInterface
     public function isLocked(): bool
     {
         return $this->locked;
+    }
+
+
+    #[Override]
+    public function setMeshDescriptors(Collection $meshDescriptors): void
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
     }
 }

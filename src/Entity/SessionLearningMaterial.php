@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SessionConsolidationEntity;
 use App\Traits\SortableEntity;
 use App\Attributes as IA;
@@ -27,7 +26,6 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
 {
     use StringableIdEntity;
     use SessionConsolidationEntity;
-    use MeshDescriptorsEntity;
     use SortableEntity;
 
     #[ORM\Column(name: 'session_learning_material_id', type: 'integer')]
@@ -215,5 +213,35 @@ class SessionLearningMaterial implements SessionLearningMaterialInterface
     public function getEndDate(): ?DateTime
     {
         return $this->endDate;
+    }
+
+    #[Override]
+    public function setMeshDescriptors(Collection $meshDescriptors): void
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
     }
 }

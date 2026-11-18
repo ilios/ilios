@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\MeshDescriptorsEntity;
 use App\Traits\SortableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
@@ -24,7 +23,6 @@ class CourseObjective implements CourseObjectiveInterface
 {
     use StringableIdEntity;
     use TitledEntity;
-    use MeshDescriptorsEntity;
     use SortableEntity;
 
     #[ORM\Column(name: 'course_objective_id', type: 'integer')]
@@ -285,6 +283,13 @@ class CourseObjective implements CourseObjectiveInterface
     {
         $this->meshDescriptors->removeElement($meshDescriptor);
     }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

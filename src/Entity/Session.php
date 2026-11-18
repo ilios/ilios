@@ -9,7 +9,6 @@ use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
 use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
@@ -35,7 +34,6 @@ class Session implements SessionInterface
     use TimestampableEntity;
     use OfferingsEntity;
     use PublishableEntity;
-    use MeshDescriptorsEntity;
     use SequenceBlocksEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
@@ -555,5 +553,35 @@ class Session implements SessionInterface
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function setMeshDescriptors(Collection $meshDescriptors): void
+    {
+        $this->meshDescriptors = new ArrayCollection();
+
+        foreach ($meshDescriptors as $meshDescriptor) {
+            $this->addMeshDescriptor($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function addMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        if (!$this->meshDescriptors->contains($meshDescriptor)) {
+            $this->meshDescriptors->add($meshDescriptor);
+        }
+    }
+
+    #[Override]
+    public function removeMeshDescriptor(MeshDescriptorInterface $meshDescriptor): void
+    {
+        $this->meshDescriptors->removeElement($meshDescriptor);
+    }
+
+    #[Override]
+    public function getMeshDescriptors(): Collection
+    {
+        return $this->meshDescriptors;
     }
 }
