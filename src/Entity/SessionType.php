@@ -13,7 +13,6 @@ use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\SessionsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\SessionTypeRepository;
 use Override;
 
@@ -26,7 +25,6 @@ class SessionType implements SessionTypeInterface
 {
     use TitledEntity;
     use SessionsEntity;
-    use SchoolEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
@@ -210,5 +208,17 @@ class SessionType implements SessionTypeInterface
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

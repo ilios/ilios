@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\SchoolEntity;
 use App\Repository\SchoolConfigRepository;
 use Override;
 
@@ -18,7 +17,6 @@ use Override;
 #[IA\Entity]
 class SchoolConfig implements SchoolConfigInterface
 {
-    use SchoolEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'id', type: 'integer')]
@@ -86,5 +84,17 @@ class SchoolConfig implements SchoolConfigInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

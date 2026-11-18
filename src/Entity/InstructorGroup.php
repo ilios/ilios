@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\InstructorGroupRepository;
 use Override;
 
@@ -23,7 +22,6 @@ class InstructorGroup implements InstructorGroupInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use SchoolEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
@@ -193,5 +191,17 @@ class InstructorGroup implements InstructorGroupInterface
     public function getOfferings(): Collection
     {
         return $this->offerings;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

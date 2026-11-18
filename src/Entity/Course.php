@@ -14,7 +14,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\CourseRepository;
 use Override;
 
@@ -29,7 +28,6 @@ class Course implements CourseInterface
     use TitledNullableEntity;
     use StringableIdEntity;
     use SessionsEntity;
-    use SchoolEntity;
     use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
@@ -714,5 +712,17 @@ class Course implements CourseInterface
     public function isPublishedAsTbd(): bool
     {
         return $this->publishedAsTbd;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

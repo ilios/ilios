@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\SchoolEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Repository\VocabularyRepository;
@@ -21,7 +20,6 @@ use Override;
 #[IA\Entity]
 class Vocabulary implements VocabularyInterface
 {
-    use SchoolEntity;
     use StringableIdEntity;
     use TitledEntity;
 
@@ -132,5 +130,17 @@ class Vocabulary implements VocabularyInterface
     public function getTerms(): Collection
     {
         return $this->terms;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

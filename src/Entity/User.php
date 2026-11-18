@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Override;
@@ -22,7 +21,6 @@ use Override;
 class User implements UserInterface
 {
     use StringableIdEntity;
-    use SchoolEntity;
 
     #[ORM\Column(name: 'user_id', type: 'integer')]
     #[ORM\Id]
@@ -1488,5 +1486,17 @@ class User implements UserInterface
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

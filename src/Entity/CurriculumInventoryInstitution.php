@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\CurriculumInventoryInstitutionRepository;
 use Override;
 
@@ -18,7 +17,6 @@ use Override;
 class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionInterface
 {
     use StringableIdEntity;
-    use SchoolEntity;
 
     #[ORM\Column(name: 'institution_id', type: 'integer')]
     #[ORM\Id]
@@ -185,5 +183,17 @@ class CurriculumInventoryInstitution implements CurriculumInventoryInstitutionIn
     public function getName(): string
     {
         return $this->name;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

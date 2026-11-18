@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
 use App\Traits\TitledEntity;
 use App\Traits\StringableIdEntity;
-use App\Traits\SchoolEntity;
 use App\Repository\ProgramRepository;
 use Override;
 
@@ -22,7 +21,6 @@ class Program implements ProgramInterface
 {
     use TitledEntity;
     use StringableIdEntity;
-    use SchoolEntity;
 
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
@@ -220,5 +218,17 @@ class Program implements ProgramInterface
     public function getProgramYears(): Collection
     {
         return $this->programYears;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }

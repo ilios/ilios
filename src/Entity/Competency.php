@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\SchoolEntity;
 use App\Repository\CompetencyRepository;
 use Override;
 
@@ -22,7 +21,6 @@ use Override;
 class Competency implements CompetencyInterface
 {
     use TitledNullableEntity;
-    use SchoolEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'competency_id', type: 'integer')]
@@ -269,5 +267,17 @@ class Competency implements CompetencyInterface
     public function getProgramYearObjectives(): Collection
     {
         return $this->programYearObjectives;
+    }
+
+    #[Override]
+    public function getSchool(): SchoolInterface
+    {
+        return $this->school;
+    }
+
+    #[Override]
+    public function setSchool(SchoolInterface $school): void
+    {
+        $this->school = $school;
     }
 }
