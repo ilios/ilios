@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
+use App\Classes\CalendarEvent;
+use App\Classes\UserMaterial;
 use App\Entity\Competency;
 use App\Entity\Course;
 use App\Entity\Session;
 use App\Entity\User;
+use App\Service\UserMaterialFactory;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use App\Classes\CalendarEvent;
-use App\Classes\UserMaterial;
-use App\Service\UserMaterialFactory;
 
 /**
  * Class CalendarEventRepository

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadTermData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * AamcResourceType API endpoint Test.

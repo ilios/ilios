@@ -7,8 +7,8 @@ namespace App\Service;
 use App\Entity\TimestampableEntityInterface;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 
 class Timestamper
 {

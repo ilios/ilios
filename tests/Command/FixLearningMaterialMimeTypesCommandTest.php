@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Command\FixLearningMaterialMimeTypesCommand;
 use App\Entity\LearningMaterialInterface;
 use App\Repository\LearningMaterialRepository;
+use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
 use ErrorException;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
-use App\Service\IliosFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**

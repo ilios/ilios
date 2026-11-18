@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\ServiceTokenVoter;
 
 use App\Classes\Jwt\ServiceToken;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Override;
 
 abstract class AbstractReadWriteEntityVoter extends Voter
 {

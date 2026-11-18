@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\CalendarEvent;
 use App\Classes\UserEvent;
 use App\Classes\UserMaterial;
 use App\Entity\LearningMaterialStatusInterface;
 use App\Tests\TestCase;
 use DateTime;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class UserEventTest

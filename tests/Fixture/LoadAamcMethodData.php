@@ -6,8 +6,8 @@ namespace App\Tests\Fixture;
 
 use App\Entity\AamcMethod;
 use App\Tests\DataLoader\AamcMethodData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadAamcMethodData extends AbstractFixture implements ORMFixtureInterface

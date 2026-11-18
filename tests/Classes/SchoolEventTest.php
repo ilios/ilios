@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\CalendarEvent;
 use App\Classes\SchoolEvent;
 use App\Classes\UserMaterial;
 use App\Tests\TestCase;
-use Mockery as m;
 use DateTime;
+use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class SchoolEventTest

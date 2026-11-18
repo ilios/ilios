@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\MeshDescriptorDTO;
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
@@ -17,7 +18,6 @@ use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\DTO\MeshDescriptorDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Ilios\MeSH\Model\AllowableQualifier;
@@ -27,8 +27,8 @@ use Ilios\MeSH\Model\DescriptorSet;
 use Ilios\MeSH\Model\Term;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class MeshDescriptorRepository extends BaseRepository
 {

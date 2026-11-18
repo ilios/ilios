@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Classes\Capabilities;
 use App\Classes\PermissionMatrixInterface;
 use App\Classes\SessionUserInterface;
@@ -16,6 +15,7 @@ use App\Entity\SessionInterface;
 use App\Service\SessionUserPermissionChecker;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class PermissionCheckerTest

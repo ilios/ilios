@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\API;
 
-use App\Service\GraphQL\TypeResolver;
 use App\Service\GraphQL\TypeRegistry;
+use App\Service\GraphQL\TypeResolver;
 use GraphQL\GraphQL as GQL;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Schema;

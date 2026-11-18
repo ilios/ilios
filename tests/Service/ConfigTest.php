@@ -6,8 +6,8 @@ namespace App\Tests\Service;
 
 use App\Repository\ApplicationConfigRepository;
 use App\Service\Config;
-use Mockery as m;
 use App\Tests\TestCase;
+use Mockery as m;
 
 /**
  * Class LoggerQueueTest

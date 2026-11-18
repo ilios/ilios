@@ -6,13 +6,13 @@ namespace App\Tests\Service;
 
 use App\Entity\LearningMaterialInterface;
 use App\Exception\IliosFilesystemException;
+use App\Service\IliosFileSystem;
+use App\Tests\TestCase;
 use League\Flysystem\Filesystem;
 use Mockery as m;
 use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
-use App\Service\IliosFileSystem;
-use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class IliosFileSystemTest extends TestCase

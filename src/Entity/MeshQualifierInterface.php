@@ -6,9 +6,9 @@ namespace App\Entity;
 
 use App\Entity\CreatedAtEntityInterface;
 use App\Entity\IdentifiableStringEntityInterface;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\NameableEntityInterface;
 use App\Entity\TimestampableEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface MeshQualifierInterface extends
     IdentifiableStringEntityInterface,

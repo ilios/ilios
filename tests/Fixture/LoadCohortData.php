@@ -7,9 +7,9 @@ namespace App\Tests\Fixture;
 use App\Entity\Cohort;
 use App\Entity\ProgramYear;
 use App\Tests\DataLoader\CohortData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCohortData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

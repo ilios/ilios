@@ -8,9 +8,9 @@ use App\Entity\AamcResourceType;
 use App\Entity\Term;
 use App\Entity\Vocabulary;
 use App\Tests\DataLoader\TermData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadTermData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

@@ -6,8 +6,8 @@ namespace App\Tests\Fixture;
 
 use App\Entity\AssessmentOption;
 use App\Tests\DataLoader\AssessmentOptionData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadAssessmentOptionData extends AbstractFixture implements ORMFixtureInterface

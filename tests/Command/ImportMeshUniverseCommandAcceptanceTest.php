@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use App\Command\ImportMeshUniverseCommand;
 use App\Entity\MeshConcept;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshPreviousIndexing;
 use App\Entity\MeshQualifier;
 use App\Entity\MeshTerm;
 use App\Entity\MeshTree;
-use Doctrine\ORM\EntityManager;
-use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
-use App\Command\ImportMeshUniverseCommand;
 use App\Repository\MeshDescriptorRepository;
 use App\Service\Index\Mesh;
+use Doctrine\ORM\EntityManager;
 use Ilios\MeSH\Parser;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;

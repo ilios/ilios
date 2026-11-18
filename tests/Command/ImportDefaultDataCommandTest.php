@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Command\ImportDefaultDataCommand;
 use App\Entity\DTO\SchoolDTO;
 use App\Repository\AamcMethodRepository;
@@ -25,12 +23,14 @@ use App\Repository\TermRepository;
 use App\Repository\UserRoleRepository;
 use App\Repository\VocabularyRepository;
 use App\Service\DefaultDataImporter;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * Class ImportDefaultDataCommandTest

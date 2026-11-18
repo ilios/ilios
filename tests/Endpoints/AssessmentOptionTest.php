@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAssessmentOptionData;
 use App\Tests\Fixture\LoadSessionTypeData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * AssessmentOption API endpoint Test.

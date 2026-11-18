@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Repository\DataImportRepositoryInterface;
 use App\Service\DefaultDataImporter;
 use App\Service\DefaultDataLoader;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * @package App\Tests\Service

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\EnableableEntityInterface;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\AlertableEntityInterface;
 use App\Entity\CohortsEntityInterface;
+use App\Entity\EnableableEntityInterface;
+use App\Entity\IdentifiableEntityInterface;
 use App\Entity\InstructorGroupsEntityInterface;
 use App\Entity\LearnerGroupsEntityInterface;
 use App\Entity\LearningMaterialsEntityInterface;
-use App\Entity\IdentifiableEntityInterface;
 use App\Entity\OfferingsEntityInterface;
 use App\Entity\ProgramYearsEntityInterface;
 use App\Entity\SchoolEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface UserInterface extends
     EnableableEntityInterface,

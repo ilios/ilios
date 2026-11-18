@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadMeshConceptData;
 use App\Tests\Fixture\LoadMeshTermData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * MeshTerm API endpoint Test.

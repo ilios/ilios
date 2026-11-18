@@ -24,10 +24,10 @@ use App\Entity\MeshTermInterface;
 use App\Entity\MeshTreeInterface;
 use App\Entity\UserInterface;
 use App\Entity\UserRoleInterface;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Override;
 
 class ReadonlyEntityVoter extends Voter
 {

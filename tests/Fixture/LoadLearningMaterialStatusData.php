@@ -6,8 +6,8 @@ namespace App\Tests\Fixture;
 
 use App\Entity\LearningMaterialStatus;
 use App\Tests\DataLoader\LearningMaterialStatusData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadLearningMaterialStatusData extends AbstractFixture implements ORMFixtureInterface

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
-use App\Tests\Fixture\LoadPendingUserUpdateData;
 use App\Tests\Endpoints\PutEndpointTestInterface as PutEndpointInterface;
+use App\Tests\Fixture\LoadPendingUserUpdateData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * PendingUserUpdate API endpoint Test.

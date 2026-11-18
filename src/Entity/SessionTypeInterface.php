@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use App\Entity\ActivatableEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\SchoolEntityInterface;
-use App\Entity\TitledEntityInterface;
 use App\Entity\SessionsEntityInterface;
+use App\Entity\TitledEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface SessionTypeInterface extends
     IdentifiableEntityInterface,

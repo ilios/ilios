@@ -7,10 +7,10 @@ namespace App\Tests\Service\Index;
 use App\Service\Config;
 use App\Service\Index\Mesh;
 use App\Tests\TestCase;
-use OpenSearch\Client;
 use Exception;
 use Ilios\MeSH\Model\Descriptor;
 use Mockery as m;
+use OpenSearch\Client;
 
 final class MeshTest extends TestCase
 {

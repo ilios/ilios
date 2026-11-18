@@ -12,10 +12,10 @@ use App\Entity\MeshPreviousIndexingInterface;
 use App\Entity\MeshQualifierInterface;
 use App\Entity\MeshTermInterface;
 use App\Entity\MeshTreeInterface;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Override;
 
 class Mesh extends Voter
 {

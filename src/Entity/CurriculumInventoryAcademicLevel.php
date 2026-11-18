@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Repository\CurriculumInventoryAcademicLevelRepository;
+use Doctrine\ORM\Mapping as ORM;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'curriculum_inventory_academic_level')]
 #[ORM\UniqueConstraint(name: 'report_id_level', columns: ['report_id', 'level'])]

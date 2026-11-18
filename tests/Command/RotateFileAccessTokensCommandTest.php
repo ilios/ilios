@@ -6,17 +6,17 @@ namespace App\Tests\Command;
 
 use App\Command\RotateFileAccessTokensCommand;
 use App\Entity\CurriculumInventoryReportInterface;
-use App\Repository\CurriculumInventoryReportRepository;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\LearningMaterialInterface;
+use App\Repository\CurriculumInventoryReportRepository;
 use App\Repository\LearningMaterialRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 #[Group('cli')]
 #[CoversClass(RotateFileAccessTokensCommand::class)]

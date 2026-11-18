@@ -7,9 +7,9 @@ namespace App\Tests\Fixture;
 use App\Entity\PendingUserUpdate;
 use App\Entity\User;
 use App\Tests\DataLoader\PendingUserUpdateData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadPendingUserUpdateData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

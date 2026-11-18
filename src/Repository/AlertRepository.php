@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Alert;
-use App\Service\DTOCacheManager;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
 use App\Entity\DTO\AlertDTO;
+use App\Service\DTOCacheManager;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Classes\LocalCachingFilesystemDecorator;
+use App\Entity\LearningMaterialInterface;
 use App\Exception\IliosFilesystemException;
 use Aws\S3\Exception\S3Exception;
 use Exception;
@@ -15,7 +16,6 @@ use League\Flysystem\UnableToDeleteFile;
 use League\Flysystem\UnableToReadFile;
 use League\Flysystem\UnableToWriteFile;
 use Symfony\Component\HttpFoundation\File\File;
-use App\Entity\LearningMaterialInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**

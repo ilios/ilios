@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Repository\LearningMaterialRepository;
+use App\Service\IliosFileSystem;
 use Exception;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use Symfony\Component\Console\Helper\ProgressBar;
-use App\Service\IliosFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**

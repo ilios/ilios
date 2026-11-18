@@ -7,9 +7,9 @@ namespace App\Entity;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\IlmSessionsEntityInterface;
 use App\Entity\LearnerGroupsEntityInterface;
+use App\Entity\OfferingsEntityInterface;
 use App\Entity\SchoolEntityInterface;
 use App\Entity\TitledEntityInterface;
-use App\Entity\OfferingsEntityInterface;
 use App\Entity\UsersEntityInterface;
 
 interface InstructorGroupInterface extends

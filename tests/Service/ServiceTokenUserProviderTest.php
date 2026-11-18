@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUser;
 use App\Entity\ServiceToken;
@@ -14,6 +12,8 @@ use App\Repository\ServiceTokenRepository;
 use App\Service\ServiceTokenUserProvider;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 #[CoversClass(ServiceTokenUserProvider::class)]

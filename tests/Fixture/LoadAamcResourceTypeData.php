@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
-use App\Tests\DataLoader\AamcResourceTypeData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
 use App\Entity\AamcResourceType;
+use App\Tests\DataLoader\AamcResourceTypeData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Persistence\ObjectManager;
 
 final class LoadAamcResourceTypeData extends AbstractFixture implements ORMFixtureInterface
 {

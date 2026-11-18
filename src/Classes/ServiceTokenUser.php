@@ -6,9 +6,9 @@ namespace App\Classes;
 
 use App\Entity\ServiceTokenInterface;
 use DateTime;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Deprecated;
 use Override;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ServiceTokenUser implements ServiceTokenUserInterface
 {

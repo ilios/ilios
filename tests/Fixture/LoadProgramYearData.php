@@ -9,9 +9,9 @@ use App\Entity\Program;
 use App\Entity\ProgramYear;
 use App\Entity\Term;
 use App\Tests\DataLoader\ProgramYearData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadProgramYearData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

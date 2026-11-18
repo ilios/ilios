@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use DateTime;
-use SplFileObject;
 use Exception;
+use SplFileObject;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\RelationshipVoter;
 
-use App\Service\SessionUserPermissionChecker;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
+use App\Service\SessionUserPermissionChecker;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;

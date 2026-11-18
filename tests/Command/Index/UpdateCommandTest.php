@@ -14,6 +14,7 @@ use App\Repository\LearningMaterialRepository;
 use App\Repository\MeshDescriptorRepository;
 use App\Repository\UserRepository;
 use App\Service\Config;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Attributes\Group;
 use stdClass;
@@ -22,7 +23,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Mockery as m;
 
 #[Group('cli')]
 final class UpdateCommandTest extends KernelTestCase

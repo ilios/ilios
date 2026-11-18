@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\DependencyInjection;
 
 use Composer\InstalledVersions;
+use Override;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Override;
 
 /**
  * Add the contents of our VERSION file to the cache prefix seed

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\IlmSessionsEntityInterface;
 use App\Entity\InstructorGroupsEntityInterface;
 use App\Entity\InstructorsEntityInterface;
-use App\Entity\TitledEntityInterface;
 use App\Entity\OfferingsEntityInterface;
+use App\Entity\TitledEntityInterface;
 use App\Entity\UsersEntityInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface LearnerGroupInterface extends
     IdentifiableEntityInterface,

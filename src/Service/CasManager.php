@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Service;
 
 use DOMDocument;
-use Exception;
 use DOMElement;
+use Exception;
 
 /**
  * Class CasManager

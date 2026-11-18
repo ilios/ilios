@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Classes\SessionUser;
 use App\Entity\AuthenticationInterface;
@@ -18,6 +16,8 @@ use App\Service\SessionUserProvider;
 use App\Tests\TestCase;
 use DateTime;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 #[CoversClass(SessionUserProvider::class)]

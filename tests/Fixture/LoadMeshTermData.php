@@ -7,8 +7,8 @@ namespace App\Tests\Fixture;
 use App\Entity\MeshConcept;
 use App\Entity\MeshTerm;
 use App\Tests\DataLoader\MeshTermData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

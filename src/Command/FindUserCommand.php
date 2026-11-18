@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\Directory;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
-use App\Service\Directory;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Find a user in the directory

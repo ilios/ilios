@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\TermDTO;
 use App\Entity\Term;
+use App\Entity\TermInterface;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\DTO\TermDTO;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\TermInterface;
 use Exception;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 class TermRepository extends BaseRepository implements DataImportRepositoryInterface
 {

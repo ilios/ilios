@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\RelationshipVoter;
 
+use App\Classes\SessionUserInterface;
 use App\Classes\VoterPermissions;
 use App\Service\SessionUserPermissionChecker;
 use App\Service\TemporaryFileSystem as FileSystem;
-use App\Classes\SessionUserInterface;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
-use Override;
 
 class TemporaryFileSystem extends AbstractVoter
 {

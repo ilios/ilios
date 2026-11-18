@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
-use App\Service\CurriculumInventory\Manager;
 use App\Repository\CurriculumInventoryReportRepository;
+use App\Service\CurriculumInventory\Manager;
+use App\Tests\TestCase;
 use DateTime;
 use Mockery as m;
-use App\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class ManagerTest

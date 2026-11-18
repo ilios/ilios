@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Fixture;
 
+use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Tests\DataLoader\CurriculumInventoryReportData;
 use DateTime;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use App\Entity\CurriculumInventoryReport;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCurriculumInventoryReportData extends AbstractFixture implements

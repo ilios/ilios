@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\CurriculumInventoryReportInterface;
 use App\Repository\CurriculumInventoryExportRepository;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\Exporter;
@@ -11,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Entity\CurriculumInventoryReportInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**

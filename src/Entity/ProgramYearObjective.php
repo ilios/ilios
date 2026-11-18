@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
+use App\Repository\ProgramYearObjectiveRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\ProgramYearObjectiveRepository;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'program_year_x_objective')]
 #[ORM\Index(columns: ['program_year_id'], name: 'IDX_7A16FDD6CB2B0673')]

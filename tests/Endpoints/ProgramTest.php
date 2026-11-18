@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCurriculumInventoryReportData;
 use App\Tests\Fixture\LoadProgramData;
@@ -12,6 +11,7 @@ use App\Tests\Fixture\LoadProgramYearData;
 use App\Tests\Fixture\LoadSchoolData;
 use App\Tests\Fixture\LoadSessionData;
 use App\Tests\Fixture\LoadTermData;
+use PHPUnit\Framework\Attributes\Group;
 
 use function PHPUnit\Framework\assertCount;
 

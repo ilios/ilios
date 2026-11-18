@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadAamcResourceTypeData;
 use App\Tests\Fixture\LoadCourseData;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
@@ -21,6 +20,7 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\Fixture\LoadVocabularyData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Term API endpoint Test.

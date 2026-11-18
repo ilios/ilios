@@ -7,9 +7,9 @@ namespace App\Tests\Fixture;
 use App\Entity\Program;
 use App\Entity\School;
 use App\Tests\DataLoader\ProgramData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadProgramData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

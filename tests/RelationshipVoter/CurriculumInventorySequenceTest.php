@@ -8,9 +8,9 @@ use App\Classes\VoterPermissions;
 use App\Entity\CurriculumInventoryExportInterface;
 use App\Entity\CurriculumInventoryReportInterface;
 use App\Entity\CurriculumInventorySequenceInterface;
+use App\Entity\School;
 use App\RelationshipVoter\CurriculumInventorySequence as Voter;
 use App\Service\SessionUserPermissionChecker;
-use App\Entity\School;
 use Mockery as m;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 

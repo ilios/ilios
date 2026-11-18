@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Command\RolloverCurriculumInventoryReportCommand;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\Program;
 use App\Repository\CurriculumInventoryReportRepository;
 use App\Service\CurriculumInventory\ReportRollover;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 /**
  * Class RolloverCurriculumInventoryReportCommandTest

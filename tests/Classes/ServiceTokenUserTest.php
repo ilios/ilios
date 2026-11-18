@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\ServiceTokenUser;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\SessionUserInterface;
@@ -13,6 +11,8 @@ use App\Entity\ServiceTokenInterface;
 use App\Tests\TestCase;
 use DateTime;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[CoversClass(ServiceTokenUser::class)]

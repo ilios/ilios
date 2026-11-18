@@ -7,9 +7,9 @@ namespace App\Tests\Fixture;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventorySequence;
 use App\Tests\DataLoader\CurriculumInventorySequenceData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCurriculumInventorySequenceData extends AbstractFixture implements

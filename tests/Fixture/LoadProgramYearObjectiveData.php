@@ -10,8 +10,8 @@ use App\Entity\ProgramYear;
 use App\Entity\ProgramYearObjective;
 use App\Entity\Term;
 use App\Tests\DataLoader\ProgramYearObjectiveData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

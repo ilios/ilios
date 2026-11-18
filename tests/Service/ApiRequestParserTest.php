@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\AamcMethod;
 use App\Entity\AamcMethodInterface;
 use App\Entity\SessionType;
@@ -15,6 +13,8 @@ use App\Tests\Fixture\LoadSessionTypeData;
 use Closure;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Request;

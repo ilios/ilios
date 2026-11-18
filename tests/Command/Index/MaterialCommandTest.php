@@ -9,12 +9,12 @@ use App\Entity\DTO\LearningMaterialDTO;
 use App\Repository\LearningMaterialRepository;
 use App\Service\Config;
 use App\Service\Index\LearningMaterials;
-use PHPUnit\Framework\Attributes\Group;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 #[Group('cli')]
 final class MaterialCommandTest extends KernelTestCase

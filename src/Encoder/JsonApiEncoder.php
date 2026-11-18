@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Encoder;
 
 use App\Service\JsonApiDataShaper;
+use Override;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
-use Override;
 
 class JsonApiEncoder implements EncoderInterface, DecoderInterface
 {

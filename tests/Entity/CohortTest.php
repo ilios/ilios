@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Cohort;
 use App\Entity\Program;
 use App\Entity\ProgramYear;
 use App\Entity\School;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests for Entity Cohort

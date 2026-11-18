@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\IlmSessionData;
 use App\Tests\DataLoader\LearningMaterialData;
 use App\Tests\DataLoader\SessionLearningMaterialData;
@@ -18,6 +17,7 @@ use App\Tests\Fixture\LoadSessionLearningMaterialData;
 use App\Tests\Fixture\LoadSessionObjectiveData;
 use App\Tests\Fixture\LoadTermData;
 use App\Tests\QEndpointTrait;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Session API endpoint Test.

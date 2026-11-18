@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Tests\Controller;
 
+use App\Controller\UploadController;
 use App\Exception\IliosFilesystemException;
 use App\Service\IliosFileSystem;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use App\Controller\UploadController;
 use App\Tests\Fixture\LoadServiceTokenData;
 use App\Tests\Fixture\LoadUserData;
+use App\Tests\Traits\TestableJsonController;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
-use App\Tests\Traits\TestableJsonController;
-use Mockery as m;
 
 #[Group('controller')]
 #[CoversClass(UploadController::class)]

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use Override;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Override;
 
 class Extension extends AbstractExtension
 {

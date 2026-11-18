@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CourseInterface;
 use App\Entity\SessionInterface;
 use App\Entity\Term;
 use App\Entity\VocabularyInterface;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests for Entity Term

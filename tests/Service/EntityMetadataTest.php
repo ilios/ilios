@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Attributes\DTO;
 use App\Attributes\Entity;
 use App\Classes\AcademicYear;
@@ -20,6 +18,8 @@ use App\Entity\Session;
 use App\Entity\Vocabulary;
 use App\Service\EntityMetadata;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 use ReflectionProperty;
 use stdClass;

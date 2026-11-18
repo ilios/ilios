@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Classes;
 
 use App\Classes\DiskSpace;
-use PHPUnit\Framework\Attributes\WithoutErrorHandler;
-use RuntimeException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 #[CoversClass(DiskSpace::class)]
 final class DiskSpaceTest extends TestCase

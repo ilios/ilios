@@ -7,13 +7,13 @@ namespace App\Tests\Command;
 use App\Command\ExtractLearningMaterialsTextCommand;
 use App\Message\LearningMaterialTextExtractionRequest;
 use App\Repository\LearningMaterialRepository;
-use PHPUnit\Framework\Attributes\Group;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\Group;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 

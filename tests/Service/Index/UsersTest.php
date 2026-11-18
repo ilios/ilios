@@ -9,10 +9,10 @@ use App\Entity\User;
 use App\Service\Config;
 use App\Service\Index\Users;
 use App\Tests\TestCase;
-use OpenSearch\Client;
 use Exception;
 use InvalidArgumentException;
 use Mockery as m;
+use OpenSearch\Client;
 
 final class UsersTest extends TestCase
 {

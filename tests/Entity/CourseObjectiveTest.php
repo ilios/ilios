@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\Course;
 use App\Entity\CourseObjective;
 use App\Entity\MeshDescriptor;
 use App\Entity\ProgramYearObjective;
 use App\Entity\SessionObjective;
 use Doctrine\Common\Collections\ArrayCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests for Entity CourseObjective

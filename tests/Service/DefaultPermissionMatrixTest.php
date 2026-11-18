@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\Capabilities;
 use App\Classes\UserRoles;
+use App\Entity\DTO\SchoolDTO;
 use App\Repository\SchoolRepository;
 use App\Service\DefaultPermissionMatrix;
-use App\Entity\DTO\SchoolDTO;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class DefaultPermissionMatrixTest

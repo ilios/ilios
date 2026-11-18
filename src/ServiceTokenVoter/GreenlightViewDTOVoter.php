@@ -50,10 +50,10 @@ use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserDTO;
 use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Override;
 
 class GreenlightViewDTOVoter extends Voter
 {

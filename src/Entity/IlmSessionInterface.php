@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\InstructorGroupsEntityInterface;
 use App\Entity\InstructorsEntityInterface;
 use App\Entity\LearnerGroupsEntityInterface;
 use App\Entity\LearnersEntityInterface;
+use DateTime;
+use Doctrine\Common\Collections\Collection;
 
 interface IlmSessionInterface extends
     IdentifiableEntityInterface,

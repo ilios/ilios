@@ -7,10 +7,10 @@ namespace App\Tests\Fixture;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshTree;
 use App\Tests\DataLoader\MeshTreeData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Persistence\ObjectManager;
 
 final class LoadMeshTreeData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {

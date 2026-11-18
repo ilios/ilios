@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Entity\CourseLearningMaterial;
 use App\Tests\Fixture\LoadCourseLearningMaterialData;
 use App\Tests\Fixture\LoadMeshDescriptorData;
+use PHPUnit\Framework\Attributes\Group;
 
 use function array_key_exists;
 use function date_format;

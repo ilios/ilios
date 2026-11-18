@@ -10,9 +10,9 @@ use App\Entity\Session;
 use App\Entity\SessionLearningMaterial;
 use App\Tests\DataLoader\SessionLearningMaterialData;
 use DateTime;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadSessionLearningMaterialData extends AbstractFixture implements

@@ -11,10 +11,10 @@ use App\Entity\DTO\CourseLearningMaterialDTO;
 use App\Entity\DTO\IngestionExceptionDTO;
 use App\Entity\DTO\OfferingDTO;
 use App\Entity\DTO\PendingUserUpdateDTO;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Override;
 
 /**
  * Grants VIEW permissions on all supported DTOs if the given user

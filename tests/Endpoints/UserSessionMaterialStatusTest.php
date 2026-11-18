@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Entity\UserSessionMaterialStatusInterface;
 use App\Tests\Fixture\LoadUserSessionMaterialStatusData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * UserSessionMaterialStatusTest API endpoint Test.

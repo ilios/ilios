@@ -9,8 +9,8 @@ use App\Repository\AuthenticationRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'authentication')]
 #[ORM\Entity(repositoryClass: AuthenticationRepository::class)]

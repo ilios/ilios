@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\AuthenticationInterface;
+use App\Entity\SchoolInterface;
+use App\Entity\UserInterface;
 use App\Repository\AuthenticationRepository;
 use App\Repository\SchoolRepository;
 use App\Repository\UserRepository;
 use App\Service\SessionUserProvider;
-use App\Entity\AuthenticationInterface;
-use App\Entity\SchoolInterface;
-use App\Entity\UserInterface;
 use Exception;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;

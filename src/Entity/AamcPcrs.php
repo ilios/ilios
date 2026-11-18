@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Attributes as IA;
+use App\Repository\AamcPcrsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attributes as IA;
-use App\Repository\AamcPcrsRepository;
-use Symfony\Component\Validator\Constraints as Assert;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AamcPcrsRepository::class)]
 #[ORM\Table(name: 'aamc_pcrs')]

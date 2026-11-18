@@ -9,9 +9,9 @@ use App\Entity\InstructorGroup;
 use App\Entity\LearnerGroup;
 use App\Entity\User;
 use App\Tests\DataLoader\LearnerGroupData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadLearnerGroupData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

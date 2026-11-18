@@ -7,9 +7,9 @@ namespace App\Tests\Fixture;
 use App\Entity\User;
 use App\Entity\UserPreference;
 use App\Tests\DataLoader\UserPreferenceData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadUserPreferenceData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

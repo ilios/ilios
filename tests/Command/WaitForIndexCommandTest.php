@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use Exception;
-use PHPUnit\Framework\Attributes\Group;
 use App\Command\WaitForIndexCommand;
 use App\Service\Index\Manager;
+use Exception;
+use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use OpenSearch\Client;
 use OpenSearch\Namespaces\NodesNamespace;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\Stopwatch\Stopwatch;
 

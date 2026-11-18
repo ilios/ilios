@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use App\Entity\CourseObjective;
 use App\Command\SendTeachingRemindersCommand;
 use App\Entity\Course;
+use App\Entity\CourseObjective;
 use App\Entity\InstructorGroup;
 use App\Entity\LearnerGroup;
 use App\Entity\LearnerGroupInterface;
@@ -25,12 +23,14 @@ use App\Repository\SchoolRepository;
 use App\Service\Config;
 use DateTime;
 use DateTimeZone;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use RuntimeException;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
+use RuntimeException;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Mailer\MailerInterface;
 

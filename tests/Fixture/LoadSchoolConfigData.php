@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Fixture;
 
 use App\Entity\School;
+use App\Entity\SchoolConfig;
 use App\Tests\DataLoader\SchoolConfigData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\SchoolConfig;
 
 final class LoadSchoolConfigData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface
 {

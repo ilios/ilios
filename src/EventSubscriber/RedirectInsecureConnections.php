@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Service\Config;
+use Override;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Override;
 
 class RedirectInsecureConnections implements EventSubscriberInterface
 {

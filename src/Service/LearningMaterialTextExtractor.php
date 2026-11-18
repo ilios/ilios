@@ -7,9 +7,9 @@ namespace App\Service;
 use App\Entity\DTO\LearningMaterialDTO;
 use App\Exception\LearningMaterialTextExtractorException;
 use Exception;
+use Normalizer;
 use Symfony\Component\HttpFoundation\Response;
 use Vaites\ApacheTika\Client;
-use Normalizer;
 
 class LearningMaterialTextExtractor
 {

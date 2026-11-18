@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\Fixture\LoadCourseClerkshipTypeData;
 use App\Tests\Fixture\LoadCourseData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * CourseClerkshipType API endpoint Test.

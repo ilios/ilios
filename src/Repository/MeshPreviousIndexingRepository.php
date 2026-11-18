@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DTOCacheManager;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
-use App\Entity\MeshPreviousIndexing;
 use App\Entity\DTO\MeshPreviousIndexingDTO;
+use App\Entity\MeshPreviousIndexing;
+use App\Service\DTOCacheManager;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 
-use function array_values;
 use function array_key_exists;
 use function array_keys;
+use function array_values;
 
 class MeshPreviousIndexingRepository extends BaseRepository
 {

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReport;
 use App\Entity\CurriculumInventoryReportInterface;
@@ -24,6 +22,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Mockery;
 use Mockery\MockInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function count;
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use App\Tests\Command\TestDoubles\TestableUpdateFrontendCommand;
 use App\Service\Archive;
 use App\Service\Config;
 use App\Service\Fetch;
 use App\Service\Filesystem;
+use App\Tests\Command\TestDoubles\TestableUpdateFrontendCommand;
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\Attributes\Group;

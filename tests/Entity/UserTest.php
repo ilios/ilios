@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\Attributes\CoversClass;
-use App\Entity\Cohort;
 use App\Entity\Authentication;
+use App\Entity\Cohort;
 use App\Entity\LearnerGroup;
 use App\Entity\User;
-use Mockery as m;
 use Doctrine\Common\Collections\ArrayCollection;
+use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests for Entity Objective

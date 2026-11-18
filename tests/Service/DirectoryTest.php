@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Service\Config;
-use App\Service\LdapManager;
-use Mockery as m;
 use App\Service\Directory;
+use App\Service\LdapManager;
 use App\Tests\TestCase;
+use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 #[CoversClass(Directory::class)]
 final class DirectoryTest extends TestCase

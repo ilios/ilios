@@ -7,13 +7,13 @@ namespace App\Tests\Service;
 use App\Classes\LocalCachingFilesystemDecorator;
 use App\Entity\LearningMaterialInterface;
 use App\Service\FilesystemFactory;
+use App\Service\IliosFileSystem;
 use App\Service\NonCachingIliosFileSystem;
+use App\Tests\TestCase;
 use League\Flysystem\Filesystem;
 use Mockery as m;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
 use Symfony\Component\HttpFoundation\File\File;
-use App\Service\IliosFileSystem;
-use App\Tests\TestCase;
 
 final class NonCachingIliosFileSystemTest extends TestCase
 {

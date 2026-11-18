@@ -10,11 +10,11 @@ use App\Message\MeshDescriptorIndexRequest;
 use App\Message\UserIndexRequest;
 use App\Service\Index\Manager;
 use Doctrine\ORM\EntityManagerInterface;
+use ReflectionClass;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
-use ReflectionClass;
 
 /**
  * Drop Search Index

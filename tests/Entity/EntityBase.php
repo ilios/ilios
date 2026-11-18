@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
-use PHPUnit\Framework\Attributes\Group;
+use App\Tests\TestCase;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection as Collection;
 use Exception;
 use Mockery as m;
-use Doctrine\Common\Collections\ArrayCollection as Collection;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\Validator\Validation;
-use App\Tests\TestCase;
 
 /**
  * Class EntityBase

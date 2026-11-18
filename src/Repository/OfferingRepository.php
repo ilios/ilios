@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\OfferingDTO;
 use App\Entity\Offering;
 use App\Service\DTOCacheManager;
 use DateTime;
 use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use App\Entity\DTO\OfferingDTO;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 
-use function array_values;
 use function array_keys;
+use function array_values;
 
 /**
  * Class OfferingRepository

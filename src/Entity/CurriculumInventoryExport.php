@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Attributes as IA;
+use App\Repository\CurriculumInventoryExportRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Attributes as IA;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\CurriculumInventoryExportRepository;
 use Override;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'curriculum_inventory_export')]
 #[ORM\Index(columns: ['created_by'], name: 'fkey_curriculum_inventory_export_user_id')]

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Monitor;
 
 use App\Monitor\PhpVersion;
+use App\Tests\TestCase;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use App\Tests\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 

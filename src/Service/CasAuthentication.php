@@ -10,6 +10,7 @@ use App\Service\Jwt\TokenCodec;
 use App\Service\Jwt\TokenManager;
 use App\Traits\AuthenticationService;
 use Exception;
+use Override;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use UnexpectedValueException;
-use Override;
 
 /**
  * Authenticate user using CAS Protocol and return a JWT

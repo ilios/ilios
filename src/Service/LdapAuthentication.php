@@ -8,10 +8,10 @@ use App\Repository\AuthenticationRepository;
 use App\Service\Jwt\TokenCodec;
 use App\Service\Jwt\TokenManager;
 use App\Traits\AuthenticationService;
+use Override;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Override;
 
 class LdapAuthentication implements AuthenticationInterface
 {

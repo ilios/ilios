@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Endpoints;
 
-use PHPUnit\Framework\Attributes\Group;
 use App\Tests\DataLoader\SchoolData;
 use App\Tests\Fixture\LoadCurriculumInventoryInstitutionData;
 use App\Tests\Fixture\LoadSchoolData;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * CurriculumInventoryInstitution API endpoint Test.

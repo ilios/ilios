@@ -14,8 +14,10 @@ use App\Service\ApiResponseBuilder;
 use App\Service\IliosFileSystem;
 use App\Service\TemporaryFileSystem;
 use App\Traits\ApiAccessValidation;
+use Exception;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -28,8 +30,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Exception;
-use RuntimeException;
 
 /**
  * learning materials are decorated with additional information

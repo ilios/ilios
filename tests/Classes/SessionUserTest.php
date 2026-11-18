@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Tests\Classes;
 
-use App\Entity\Authentication;
-use App\Entity\User;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Classes\SessionUser;
 use App\Classes\SessionUserInterface;
 use App\Classes\UserRoles;
+use App\Entity\Authentication;
 use App\Entity\School;
 use App\Entity\SchoolInterface;
+use App\Entity\User;
 use App\Entity\UserInterface;
 use App\Repository\UserRepository;
 use App\Service\AuthenticationInterface;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
 
 /**

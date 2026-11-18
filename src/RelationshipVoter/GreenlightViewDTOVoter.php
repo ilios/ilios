@@ -42,10 +42,10 @@ use App\Entity\DTO\SessionTypeDTO;
 use App\Entity\DTO\TermDTO;
 use App\Entity\DTO\UserRoleDTO;
 use App\Entity\DTO\VocabularyDTO;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Override;
 
 /**
  * Always grants VIEW permissions on all supported DTOs.

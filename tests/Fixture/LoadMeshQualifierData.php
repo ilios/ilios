@@ -7,8 +7,8 @@ namespace App\Tests\Fixture;
 use App\Entity\MeshDescriptor;
 use App\Entity\MeshQualifier;
 use App\Tests\DataLoader\MeshQualifierData;
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 

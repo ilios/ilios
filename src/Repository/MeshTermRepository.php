@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Service\DTOCacheManager;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\AbstractQuery;
-use App\Entity\MeshTerm;
 use App\Entity\DTO\MeshTermDTO;
+use App\Entity\MeshTerm;
+use App\Service\DTOCacheManager;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 

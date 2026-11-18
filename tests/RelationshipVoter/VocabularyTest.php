@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\RelationshipVoter;
 
 use App\Classes\VoterPermissions;
-use App\Entity\VocabularyInterface;
 use App\Entity\SchoolInterface;
+use App\Entity\VocabularyInterface;
 use App\RelationshipVoter\Vocabulary as Voter;
 use App\Service\SessionUserPermissionChecker;
 use Mockery as m;

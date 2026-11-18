@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Service\CurriculumInventory;
 
-use PHPUnit\Framework\Attributes\CoversClass;
 use App\Entity\CurriculumInventoryReport;
 use App\Service\CurriculumInventory\Export\Aggregator;
 use App\Service\CurriculumInventory\Export\XmlPrinter;
 use App\Service\CurriculumInventory\Exporter;
 use App\Tests\TestCase;
 use Mockery as m;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Class ExporterTest

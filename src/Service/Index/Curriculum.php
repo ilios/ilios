@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service\Index;
 
-use App\Classes\OpenSearchBase;
 use App\Classes\IndexableCourse;
+use App\Classes\OpenSearchBase;
 use App\Repository\CourseRepository;
 use App\Service\Config;
 use DateTime;

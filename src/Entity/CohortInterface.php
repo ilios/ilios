@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\CoursesEntityInterface;
 use App\Entity\IdentifiableEntityInterface;
 use App\Entity\LearnerGroupsEntityInterface;
 use App\Entity\TitledEntityInterface;
-use App\Entity\CoursesEntityInterface;
 use App\Entity\UsersEntityInterface;
 
 interface CohortInterface extends

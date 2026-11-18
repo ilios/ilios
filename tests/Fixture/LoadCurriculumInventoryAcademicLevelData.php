@@ -7,9 +7,9 @@ namespace App\Tests\Fixture;
 use App\Entity\CurriculumInventoryAcademicLevel;
 use App\Entity\CurriculumInventoryReport;
 use App\Tests\DataLoader\CurriculumInventoryAcademicLevelData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadCurriculumInventoryAcademicLevelData extends AbstractFixture implements

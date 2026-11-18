@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
+use App\Service\TemporaryFileSystem;
+use App\Tests\TestCase;
 use Mockery as m;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\WithoutErrorHandler;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use App\Service\TemporaryFileSystem;
-use App\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[CoversClass(TemporaryFileSystem::class)]

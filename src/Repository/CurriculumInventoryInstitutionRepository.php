@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\CurriculumInventoryInstitution;
+use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
 use App\Service\DefaultDataImporter;
 use App\Service\DTOCacheManager;
 use App\Traits\ImportableEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\AbstractQuery;
-use App\Entity\CurriculumInventoryInstitution;
-use App\Entity\DTO\CurriculumInventoryInstitutionDTO;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 

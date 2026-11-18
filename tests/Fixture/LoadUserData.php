@@ -12,9 +12,9 @@ use App\Entity\School;
 use App\Entity\User;
 use App\Entity\UserRole;
 use App\Tests\DataLoader\UserData;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 final class LoadUserData extends AbstractFixture implements ORMFixtureInterface, DependentFixtureInterface

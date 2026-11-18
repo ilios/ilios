@@ -7,9 +7,9 @@ namespace App\ServiceTokenVoter;
 use App\Classes\ServiceTokenUserInterface;
 use App\Classes\VoterPermissions;
 use App\Entity\ProgramInterface;
+use Override;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Vote;
-use Override;
 
 class Program extends AbstractReadWriteEntityVoter
 {

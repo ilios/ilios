@@ -11,9 +11,11 @@ use App\Entity\DTO\CurriculumInventorySequenceBlockDTO;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use App\Service\ApiRequestParser;
 use App\Service\ApiResponseBuilder;
+use Exception;
 use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use OutOfRangeException;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -22,8 +24,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Exception;
-use RuntimeException;
 
 #[OA\Tag(name: 'Curriculum inventory sequence blocks (deprecated)')]
 #[Route('/api/{version<v3>}/curriculuminventorysequenceblocks')]

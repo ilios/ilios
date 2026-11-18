@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Override;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem as SymfonyFileSystem;
-use Override;
 
 /**
  * Extends Symfonys built in file system to add methods useful for test mocks that symfony

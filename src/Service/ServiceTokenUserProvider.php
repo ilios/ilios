@@ -8,11 +8,11 @@ use App\Classes\ServiceTokenUser;
 use App\Classes\ServiceTokenUserInterface;
 use App\Entity\ServiceTokenInterface;
 use App\Repository\ServiceTokenRepository;
+use Override;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Override;
 
 class ServiceTokenUserProvider implements UserProviderInterface
 {

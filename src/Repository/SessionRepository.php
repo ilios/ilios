@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\DTO\SessionDTO;
 use App\Entity\Session;
 use App\Service\DTOCacheManager;
 use DateTime;
@@ -11,7 +12,6 @@ use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\DTO\SessionDTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Override;
 
