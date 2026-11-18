@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Traits\EnableableEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\CohortsEntity;
 use App\Traits\InstructorGroupsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearningMaterialsEntity;
@@ -34,7 +33,6 @@ class User implements UserInterface
     use ProgramYearsEntity;
     use SchoolEntity;
     use LearnerGroupsEntity;
-    use CohortsEntity;
     use InstructorGroupsEntity;
     use LearningMaterialsEntity;
 
@@ -976,6 +974,20 @@ class User implements UserInterface
         if ($primaryCohort && $cohort === $primaryCohort) {
             $this->setPrimaryCohort(null);
         }
+    }
+
+    #[Override]
+    public function addCohort(CohortInterface $cohort): void
+    {
+        if (!$this->cohorts->contains($cohort)) {
+            $this->cohorts->add($cohort);
+        }
+    }
+
+    #[Override]
+    public function getCohorts(): Collection
+    {
+        return $this->cohorts;
     }
 
     #[Override]
