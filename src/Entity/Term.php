@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,7 +28,6 @@ class Term implements TermInterface
     use StringableIdEntity;
     use TitledEntity;
     use SessionObjectivesEntity;
-    use ProgramYearObjectivesEntity;
 
     #[ORM\Column(name: 'term_id', type: 'integer')]
     #[ORM\Id]
@@ -375,5 +373,39 @@ class Term implements TermInterface
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+
+    #[Override]
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void
+    {
+        $this->programYearObjectives = new ArrayCollection();
+        if (is_null($programYearObjectives)) {
+            return;
+        }
+
+        foreach ($programYearObjectives as $programYearObjective) {
+            $this->addProgramYearObjective($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        if (!$this->programYearObjectives->contains($programYearObjective)) {
+            $this->programYearObjectives->add($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        $this->programYearObjectives->removeElement($programYearObjective);
+    }
+
+    #[Override]
+    public function getProgramYearObjectives(): Collection
+    {
+        return $this->programYearObjectives;
     }
 }

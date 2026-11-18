@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +24,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use TimestampableEntity;
     use SessionsEntity;
     use SessionObjectivesEntity;
-    use ProgramYearObjectivesEntity;
 
     #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
     #[ORM\Id]
@@ -497,6 +495,40 @@ class MeshDescriptor implements MeshDescriptorInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+
+    #[Override]
+    public function setProgramYearObjectives(?Collection $programYearObjectives = null): void
+    {
+        $this->programYearObjectives = new ArrayCollection();
+        if (is_null($programYearObjectives)) {
+            return;
+        }
+
+        foreach ($programYearObjectives as $programYearObjective) {
+            $this->addProgramYearObjective($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function addProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        if (!$this->programYearObjectives->contains($programYearObjective)) {
+            $this->programYearObjectives->add($programYearObjective);
+        }
+    }
+
+    #[Override]
+    public function removeProgramYearObjective(ProgramYearObjectiveInterface $programYearObjective): void
+    {
+        $this->programYearObjectives->removeElement($programYearObjective);
+    }
+
+    #[Override]
+    public function getProgramYearObjectives(): Collection
+    {
+        return $this->programYearObjectives;
     }
 
     public function __toString(): string
