@@ -369,6 +369,10 @@ class LearnerGroup implements LearnerGroupInterface
             return;
         }
 
+        if (count($this->users) === 0) {
+            return;
+        }
+
         $parentUsers = $parent->getUsers();
         $siblings = $parent->getChildren()->filter(fn(LearnerGroupInterface $group) => $group !== $this);
 
