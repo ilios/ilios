@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\ProgramsEntity;
 use App\Repository\SchoolRepository;
 use Override;
 
@@ -23,7 +22,6 @@ use Override;
 class School implements SchoolInterface
 {
     use TitledEntity;
-    use ProgramsEntity;
     use StringableIdEntity;
     use SessionTypesEntity;
 
@@ -476,5 +474,35 @@ class School implements SchoolInterface
     public function getInstructorGroups(): Collection
     {
         return $this->instructorGroups;
+    }
+
+    #[Override]
+    public function setPrograms(Collection $programs): void
+    {
+        $this->programs = new ArrayCollection();
+
+        foreach ($programs as $program) {
+            $this->addProgram($program);
+        }
+    }
+
+    #[Override]
+    public function addProgram(ProgramInterface $program): void
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs->add($program);
+        }
+    }
+
+    #[Override]
+    public function removeProgram(ProgramInterface $program): void
+    {
+        $this->programs->removeElement($program);
+    }
+
+    #[Override]
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
     }
 }
