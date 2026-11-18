@@ -7,7 +7,6 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\InstructorsEntity;
 use App\Traits\LearnerGroupsEntity;
 use App\Traits\LearnersEntity;
 use App\Traits\SessionConsolidationEntity;
@@ -31,7 +30,6 @@ class Offering implements OfferingInterface
     use SessionConsolidationEntity;
     use LearnerGroupsEntity;
     use LearnersEntity;
-    use InstructorsEntity;
 
     #[ORM\Column(name: 'offering_id', type: 'integer')]
     #[ORM\Id]
@@ -297,5 +295,35 @@ class Offering implements OfferingInterface
     public function getInstructorGroups(): Collection
     {
         return $this->instructorGroups;
+    }
+
+    #[Override]
+    public function setInstructors(Collection $instructors): void
+    {
+        $this->instructors = new ArrayCollection();
+
+        foreach ($instructors as $instructor) {
+            $this->addInstructor($instructor);
+        }
+    }
+
+    #[Override]
+    public function addInstructor(UserInterface $instructor): void
+    {
+        if (!$this->instructors->contains($instructor)) {
+            $this->instructors->add($instructor);
+        }
+    }
+
+    #[Override]
+    public function removeInstructor(UserInterface $instructor): void
+    {
+        $this->instructors->removeElement($instructor);
+    }
+
+    #[Override]
+    public function getInstructors(): Collection
+    {
+        return $this->instructors;
     }
 }
