@@ -14,7 +14,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\ArchivableEntity;
 use App\Traits\LockableEntity;
 use App\Repository\ProgramYearRepository;
 use Override;
@@ -25,7 +24,6 @@ use Override;
 class ProgramYear implements ProgramYearInterface
 {
     use LockableEntity;
-    use ArchivableEntity;
     use ProgramYearObjectivesEntity;
     use CategorizableEntity;
     use StringableIdEntity;
@@ -168,5 +166,17 @@ class ProgramYear implements ProgramYearInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    #[Override]
+    public function setArchived(bool $archived): void
+    {
+        $this->archived = $archived;
     }
 }
