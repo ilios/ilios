@@ -9,7 +9,6 @@ use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SequenceBlocksEntity;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,7 +29,6 @@ class Session implements SessionInterface
     use TitledNullableEntity;
     use StringableIdEntity;
     use TimestampableEntity;
-    use SequenceBlocksEntity;
     use StudentAdvisorsEntity;
     use SessionObjectivesEntity;
 
@@ -633,5 +631,37 @@ class Session implements SessionInterface
     public function isPublishedAsTbd(): bool
     {
         return $this->publishedAsTbd;
+    }
+
+    #[Override]
+    public function setSequenceBlocks(Collection $sequenceBlocks): void
+    {
+        $this->sequenceBlocks = new ArrayCollection();
+
+        foreach ($sequenceBlocks as $sequenceBlock) {
+            $this->addSequenceBlock($sequenceBlock);
+        }
+    }
+
+    #[Override]
+    public function addSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        if (!$this->sequenceBlocks->contains($sequenceBlock)) {
+            $this->sequenceBlocks->add($sequenceBlock);
+        }
+    }
+
+    #[Override]
+    public function removeSequenceBlock(
+        CurriculumInventorySequenceBlockInterface $sequenceBlock
+    ): void {
+        $this->sequenceBlocks->removeElement($sequenceBlock);
+    }
+
+    #[Override]
+    public function getSequenceBlocks(): Collection
+    {
+        return $this->sequenceBlocks;
     }
 }
