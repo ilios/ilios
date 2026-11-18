@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\SessionsEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -23,7 +22,6 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
 {
     use TitledEntity;
     use StringableIdEntity;
-    use SessionsEntity;
 
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
@@ -529,5 +527,35 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function addSession(SessionInterface $session): void
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+        }
+    }
+
+    #[Override]
+    public function removeSession(SessionInterface $session): void
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
     }
 }

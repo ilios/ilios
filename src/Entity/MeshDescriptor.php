@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TimestampableEntity;
-use App\Traits\SessionsEntity;
 use App\Repository\MeshDescriptorRepository;
 use Override;
 
@@ -21,7 +20,6 @@ use Override;
 class MeshDescriptor implements MeshDescriptorInterface
 {
     use TimestampableEntity;
-    use SessionsEntity;
 
     #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
     #[ORM\Id]
@@ -353,6 +351,22 @@ class MeshDescriptor implements MeshDescriptorInterface
             $this->sessions->removeElement($session);
             $session->removeMeshDescriptor($this);
         }
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
     }
 
     #[Override]

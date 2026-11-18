@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\SessionsEntity;
 use App\Repository\SessionTypeRepository;
 use Override;
 
@@ -24,7 +23,6 @@ use Override;
 class SessionType implements SessionTypeInterface
 {
     use TitledEntity;
-    use SessionsEntity;
     use StringableIdEntity;
 
     #[ORM\Column(name: 'session_type_id', type: 'integer')]
@@ -186,6 +184,23 @@ class SessionType implements SessionTypeInterface
             "You must modify session #{$sessionId} directly."
         );
     }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
     #[Override]
     public function setId(int $id): void
     {

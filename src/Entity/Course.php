@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\StringableIdEntity;
-use App\Traits\SessionsEntity;
 use App\Repository\CourseRepository;
 use Override;
 
@@ -27,7 +26,6 @@ class Course implements CourseInterface
 {
     use TitledNullableEntity;
     use StringableIdEntity;
-    use SessionsEntity;
     use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
@@ -724,5 +722,35 @@ class Course implements CourseInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function addSession(SessionInterface $session): void
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions->add($session);
+        }
+    }
+
+    #[Override]
+    public function removeSession(SessionInterface $session): void
+    {
+        $this->sessions->removeElement($session);
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
     }
 }

@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\SessionsEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Repository\TermRepository;
@@ -21,7 +20,6 @@ use Override;
 #[IA\Entity]
 class Term implements TermInterface
 {
-    use SessionsEntity;
     use StringableIdEntity;
     use TitledEntity;
 
@@ -216,6 +214,22 @@ class Term implements TermInterface
             $this->sessions->removeElement($session);
             $session->removeTerm($this);
         }
+    }
+
+    #[Override]
+    public function setSessions(Collection $sessions): void
+    {
+        $this->sessions = new ArrayCollection();
+
+        foreach ($sessions as $session) {
+            $this->addSession($session);
+        }
+    }
+
+    #[Override]
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
     }
 
     #[Override]
