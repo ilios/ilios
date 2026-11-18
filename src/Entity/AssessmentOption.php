@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Attributes as IA;
 use App\Repository\AssessmentOptionRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use Override;
 
 #[ORM\Table(name: 'assessment_option')]
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class AssessmentOption implements AssessmentOptionInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Id]
     #[ORM\Column(name: 'assessment_option_id', type: 'integer', length: 10)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -100,5 +97,11 @@ class AssessmentOption implements AssessmentOptionInterface
     public function getSessionTypes(): Collection
     {
         return $this->sessionTypes;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

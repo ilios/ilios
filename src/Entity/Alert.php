@@ -10,7 +10,6 @@ use App\Repository\AlertRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use Override;
 
 #[ORM\Table(name: 'alert')]
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class Alert implements AlertInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'alert_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -281,5 +278,11 @@ class Alert implements AlertInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

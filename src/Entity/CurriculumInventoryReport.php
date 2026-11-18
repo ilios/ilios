@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryReportRepository;
 use Override;
 
@@ -21,8 +20,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryReport implements CurriculumInventoryReportInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'report_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -345,5 +342,11 @@ class CurriculumInventoryReport implements CurriculumInventoryReportInterface
     public function getSequenceBlocks(): Collection
     {
         return $this->sequenceBlocks;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

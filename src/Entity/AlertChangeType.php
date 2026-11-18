@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use Override;
 
 #[ORM\Table(name: 'alert_change_type')]
@@ -20,7 +19,6 @@ use Override;
 class AlertChangeType implements AlertChangeTypeInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
 
     #[ORM\Column(name: 'alert_change_type_id', type: 'integer')]
     #[ORM\Id]
@@ -97,5 +95,11 @@ class AlertChangeType implements AlertChangeTypeInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

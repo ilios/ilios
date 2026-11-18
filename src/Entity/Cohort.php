@@ -11,7 +11,6 @@ use App\Traits\UsersEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\CohortRepository;
 use Override;
 
@@ -22,7 +21,6 @@ use Override;
 class Cohort implements CohortInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'cohort_id', type: 'integer')]
@@ -194,5 +192,11 @@ class Cohort implements CohortInterface
     public function getLearnerGroups(): Collection
     {
         return $this->learnerGroups;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

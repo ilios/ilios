@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,7 +20,6 @@ use Override;
 class School implements SchoolInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
 
     #[ORM\Column(name: 'school_id', type: 'integer')]
     #[ORM\Id]
@@ -532,5 +530,11 @@ class School implements SchoolInterface
     public function getSessionTypes(): Collection
     {
         return $this->sessionTypes;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

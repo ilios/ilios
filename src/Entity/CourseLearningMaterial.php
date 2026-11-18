@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Repository\CourseLearningMaterialRepository;
 use Override;
 
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class CourseLearningMaterial implements CourseLearningMaterialInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'course_learning_material_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -250,5 +247,11 @@ class CourseLearningMaterial implements CourseLearningMaterialInterface
     public function getPosition(): int
     {
         return $this->position;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

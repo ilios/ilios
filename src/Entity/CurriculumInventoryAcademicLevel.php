@@ -9,7 +9,6 @@ use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryAcademicLevelRepository;
 use Override;
 
@@ -20,8 +19,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLevelInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Id]
     #[ORM\Column(name: 'academic_level_id', type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -198,5 +195,11 @@ class CurriculumInventoryAcademicLevel implements CurriculumInventoryAcademicLev
     public function getName(): string
     {
         return $this->name;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

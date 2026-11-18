@@ -8,7 +8,6 @@ use App\Traits\TitledNullableEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CompetencyRepository;
@@ -21,7 +20,6 @@ use Override;
 class Competency implements CompetencyInterface
 {
     use TitledNullableEntity;
-    use StringableIdEntity;
 
     #[ORM\Column(name: 'competency_id', type: 'integer')]
     #[ORM\Id]
@@ -279,5 +277,11 @@ class Competency implements CompetencyInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

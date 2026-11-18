@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\OfferingRepository;
 use Override;
@@ -22,7 +21,6 @@ use Override;
 #[IA\Entity]
 class Offering implements OfferingInterface
 {
-    use StringableIdEntity;
     use TimestampableEntity;
 
     #[ORM\Column(name: 'offering_id', type: 'integer')]
@@ -387,5 +385,11 @@ class Offering implements OfferingInterface
     {
         $session = $this->getSession();
         return new ArrayCollection([$session]);
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

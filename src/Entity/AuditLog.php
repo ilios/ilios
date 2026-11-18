@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
-use App\Traits\StringableIdEntity;
 use App\Repository\AuditLogRepository;
 use Override;
 
@@ -15,8 +14,6 @@ use Override;
 #[ORM\Entity(repositoryClass: AuditLogRepository::class)]
 class AuditLog implements AuditLogInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -158,5 +155,11 @@ class AuditLog implements AuditLogInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

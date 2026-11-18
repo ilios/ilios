@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\InstructorGroupRepository;
 use Override;
 
@@ -21,7 +20,6 @@ use Override;
 class InstructorGroup implements InstructorGroupInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'instructor_group_id', type: 'integer')]
@@ -203,5 +201,11 @@ class InstructorGroup implements InstructorGroupInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

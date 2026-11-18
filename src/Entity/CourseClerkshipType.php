@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use App\Repository\CourseClerkshipTypeRepository;
 use Override;
@@ -19,7 +18,6 @@ use Override;
 #[IA\Entity]
 class CourseClerkshipType implements CourseClerkshipTypeInterface
 {
-    use StringableIdEntity;
     use TitledEntity;
 
     #[ORM\Column(name: 'course_clerkship_type_id', type: 'integer')]
@@ -94,5 +92,11 @@ class CourseClerkshipType implements CourseClerkshipTypeInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

@@ -9,7 +9,6 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Repository\ReportRepository;
 use Override;
 
@@ -18,7 +17,6 @@ use Override;
 #[IA\Entity]
 class Report implements ReportInterface
 {
-    use StringableIdEntity;
     use TitledNullableEntity;
 
     #[ORM\Column(name: 'report_id', type: 'integer')]
@@ -162,5 +160,11 @@ class Report implements ReportInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

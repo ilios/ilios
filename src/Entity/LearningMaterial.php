@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use App\Repository\LearningMaterialRepository;
 use Override;
@@ -27,7 +26,6 @@ use function array_unique;
 #[IA\Entity]
 class LearningMaterial implements LearningMaterialInterface
 {
-    use StringableIdEntity;
     use TitledEntity;
 
     #[ORM\Column(name: 'learning_material_id', type: 'integer')]
@@ -502,5 +500,11 @@ class LearningMaterial implements LearningMaterialInterface
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

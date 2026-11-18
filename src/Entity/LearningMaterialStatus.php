@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\LearningMaterialStatusRepository;
 use Override;
 
@@ -20,7 +19,6 @@ use Override;
 class LearningMaterialStatus implements LearningMaterialStatusInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
 
     #[ORM\Column(name: 'learning_material_status_id', type: 'integer')]
     #[ORM\Id]
@@ -87,5 +85,11 @@ class LearningMaterialStatus implements LearningMaterialStatusInterface
     public function getLearningMaterials(): Collection
     {
         return $this->learningMaterials;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

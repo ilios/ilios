@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\StringableIdEntity;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class ProgramYear implements ProgramYearInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'program_year_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -308,5 +305,11 @@ class ProgramYear implements ProgramYearInterface
     public function getProgramYearObjectives(): Collection
     {
         return $this->programYearObjectives;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

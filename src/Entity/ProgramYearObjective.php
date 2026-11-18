@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Attributes as IA;
-use App\Traits\StringableIdEntity;
 use App\Traits\TitledEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,7 +19,6 @@ use Override;
 #[IA\Entity]
 class ProgramYearObjective implements ProgramYearObjectiveInterface
 {
-    use StringableIdEntity;
     use TitledEntity;
 
     #[ORM\Column(name: 'program_year_objective_id', type: 'integer')]
@@ -330,5 +328,11 @@ class ProgramYearObjective implements ProgramYearObjectiveInterface
     public function getPosition(): int
     {
         return $this->position;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

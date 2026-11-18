@@ -7,7 +7,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Repository\PendingUserUpdateRepository;
 use Override;
 
@@ -16,8 +15,6 @@ use Override;
 #[IA\Entity]
 class PendingUserUpdate implements PendingUserUpdateInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'exception_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -115,5 +112,11 @@ class PendingUserUpdate implements PendingUserUpdateInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

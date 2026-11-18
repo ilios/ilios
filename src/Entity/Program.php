@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\ProgramRepository;
 use Override;
 
@@ -20,7 +19,6 @@ use Override;
 class Program implements ProgramInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
 
     #[ORM\Column(name: 'program_id', type: 'integer')]
     #[ORM\Id]
@@ -230,5 +228,11 @@ class Program implements ProgramInterface
     public function setSchool(SchoolInterface $school): void
     {
         $this->school = $school;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

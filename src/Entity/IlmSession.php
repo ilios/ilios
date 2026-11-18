@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use DateTime;
 use App\Repository\IlmSessionRepository;
 use Override;
@@ -19,8 +18,6 @@ use Override;
 #[IA\Entity]
 class IlmSession implements IlmSessionInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'ilm_session_facet_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -296,5 +293,11 @@ class IlmSession implements IlmSessionInterface
     {
         $session = $this->getSession();
         return new ArrayCollection([$session]);
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

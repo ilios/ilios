@@ -8,7 +8,6 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventoryExportRepository;
 use Override;
 
@@ -18,8 +17,6 @@ use Override;
 #[IA\Entity]
 class CurriculumInventoryExport implements CurriculumInventoryExportInterface
 {
-    use StringableIdEntity;
-
     #[ORM\Column(name: 'export_id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -117,5 +114,11 @@ class CurriculumInventoryExport implements CurriculumInventoryExportInterface
     public function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

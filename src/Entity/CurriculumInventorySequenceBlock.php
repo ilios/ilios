@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\CurriculumInventorySequenceBlockRepository;
 use Override;
 
@@ -21,7 +20,6 @@ use Override;
 class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlockInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
 
     #[ORM\Column(name: 'sequence_block_id', type: 'integer')]
     #[ORM\Id]
@@ -557,5 +555,11 @@ class CurriculumInventorySequenceBlock implements CurriculumInventorySequenceBlo
     public function getSessions(): Collection
     {
         return $this->sessions;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\LearnerGroupRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Override;
@@ -22,7 +21,6 @@ use Override;
 class LearnerGroup implements LearnerGroupInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'group_id', type: 'integer')]
@@ -488,5 +486,11 @@ class LearnerGroup implements LearnerGroupInterface
     public function getInstructors(): Collection
     {
         return $this->instructors;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Attributes as IA;
-use App\Traits\StringableIdEntity;
 use App\Traits\TimestampableEntity;
 use App\Repository\SessionRepository;
 use Override;
@@ -26,7 +25,6 @@ use Override;
 class Session implements SessionInterface
 {
     use TitledNullableEntity;
-    use StringableIdEntity;
     use TimestampableEntity;
     use StudentAdvisorsEntity;
 
@@ -694,5 +692,11 @@ class Session implements SessionInterface
     public function getSessionObjectives(): Collection
     {
         return $this->sessionObjectives;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\StringableIdEntity;
 use App\Repository\CourseRepository;
 use Override;
 
@@ -25,7 +24,6 @@ use Override;
 class Course implements CourseInterface
 {
     use TitledNullableEntity;
-    use StringableIdEntity;
     use StudentAdvisorsEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
@@ -752,5 +750,11 @@ class Course implements CourseInterface
     public function getSessions(): Collection
     {
         return $this->sessions;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }

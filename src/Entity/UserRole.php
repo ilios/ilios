@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\TitledEntity;
-use App\Traits\StringableIdEntity;
 use App\Repository\UserRoleRepository;
 use Override;
 
@@ -21,7 +20,6 @@ use Override;
 class UserRole implements UserRoleInterface
 {
     use TitledEntity;
-    use StringableIdEntity;
     use UsersEntity;
 
     #[ORM\Column(name: 'user_role_id', type: 'integer')]
@@ -80,5 +78,11 @@ class UserRole implements UserRoleInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    #[Override]
+    public function __toString(): string
+    {
+        return isset($this->id) ? (string) $this->id : '';
     }
 }
