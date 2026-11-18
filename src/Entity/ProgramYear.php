@@ -11,7 +11,6 @@ use App\Attributes as IA;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\LockableEntity;
 use App\Repository\ProgramYearRepository;
 use Override;
 
@@ -20,7 +19,6 @@ use Override;
 #[IA\Entity]
 class ProgramYear implements ProgramYearInterface
 {
-    use LockableEntity;
     use ProgramYearObjectivesEntity;
     use StringableIdEntity;
 
@@ -266,5 +264,17 @@ class ProgramYear implements ProgramYearInterface
     public function getDirectors(): Collection
     {
         return $this->directors;
+    }
+
+    #[Override]
+    public function setLocked(bool $locked): void
+    {
+        $this->locked = $locked;
+    }
+
+    #[Override]
+    public function isLocked(): bool
+    {
+        return $this->locked;
     }
 }

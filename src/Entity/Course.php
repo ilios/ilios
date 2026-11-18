@@ -14,7 +14,6 @@ use App\Traits\MeshDescriptorsEntity;
 use App\Traits\PublishableEntity;
 use App\Attributes as IA;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Traits\LockableEntity;
 use App\Traits\StringableIdEntity;
 use App\Traits\SessionsEntity;
 use App\Traits\SchoolEntity;
@@ -31,7 +30,6 @@ class Course implements CourseInterface
 {
     use TitledNullableEntity;
     use StringableIdEntity;
-    use LockableEntity;
     use SessionsEntity;
     use SchoolEntity;
     use PublishableEntity;
@@ -653,5 +651,17 @@ class Course implements CourseInterface
     public function setArchived(bool $archived): void
     {
         $this->archived = $archived;
+    }
+
+    #[Override]
+    public function setLocked(bool $locked): void
+    {
+        $this->locked = $locked;
+    }
+
+    #[Override]
+    public function isLocked(): bool
+    {
+        return $this->locked;
     }
 }
