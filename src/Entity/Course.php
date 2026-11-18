@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CourseObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
@@ -38,7 +37,6 @@ class Course implements CourseInterface
     use PublishableEntity;
     use MeshDescriptorsEntity;
     use StudentAdvisorsEntity;
-    use CourseObjectivesEntity;
 
     #[ORM\Column(name: 'course_id', type: 'integer')]
     #[ORM\Id]
@@ -572,6 +570,32 @@ class Course implements CourseInterface
         }
     }
 
+    #[Override]
+    public function setCourseObjectives(?Collection $courseObjectives = null): void
+    {
+        $this->courseObjectives = new ArrayCollection();
+        if (is_null($courseObjectives)) {
+            return;
+        }
+
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function getCourseObjectives(): Collection
+    {
+        return $this->courseObjectives;
+    }
     #[Override]
     public function setSequenceBlocks(Collection $sequenceBlocks): void
     {

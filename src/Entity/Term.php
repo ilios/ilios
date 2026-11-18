@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\CourseObjectivesEntity;
 use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,7 +33,6 @@ class Term implements TermInterface
     use StringableIdEntity;
     use TitledEntity;
     use SessionObjectivesEntity;
-    use CourseObjectivesEntity;
     use ProgramYearObjectivesEntity;
 
     #[ORM\Column(name: 'term_id', type: 'integer')]
@@ -321,5 +319,38 @@ class Term implements TermInterface
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    #[Override]
+    public function setCourseObjectives(?Collection $courseObjectives = null): void
+    {
+        $this->courseObjectives = new ArrayCollection();
+        if (is_null($courseObjectives)) {
+            return;
+        }
+
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        $this->courseObjectives->removeElement($courseObjective);
+    }
+
+    #[Override]
+    public function getCourseObjectives(): Collection
+    {
+        return $this->courseObjectives;
     }
 }

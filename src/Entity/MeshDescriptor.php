@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Traits\CreatedAtEntity;
-use App\Traits\CourseObjectivesEntity;
 use App\Traits\IdentifiableStringEntity;
 use App\Traits\ProgramYearObjectivesEntity;
 use App\Traits\SessionObjectivesEntity;
@@ -34,7 +33,6 @@ class MeshDescriptor implements MeshDescriptorInterface
     use SessionsEntity;
     use CreatedAtEntity;
     use SessionObjectivesEntity;
-    use CourseObjectivesEntity;
     use ProgramYearObjectivesEntity;
 
     #[ORM\Column(name: 'mesh_descriptor_uid', type: 'string', length: 12)]
@@ -423,6 +421,39 @@ class MeshDescriptor implements MeshDescriptorInterface
             $sessionCourses->toArray(),
             $flatObjectiveCourses
         );
+    }
+
+    #[Override]
+    public function setCourseObjectives(?Collection $courseObjectives = null): void
+    {
+        $this->courseObjectives = new ArrayCollection();
+        if (is_null($courseObjectives)) {
+            return;
+        }
+
+        foreach ($courseObjectives as $courseObjective) {
+            $this->addCourseObjective($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function addCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        if (!$this->courseObjectives->contains($courseObjective)) {
+            $this->courseObjectives->add($courseObjective);
+        }
+    }
+
+    #[Override]
+    public function removeCourseObjective(CourseObjectiveInterface $courseObjective): void
+    {
+        $this->courseObjectives->removeElement($courseObjective);
+    }
+
+    #[Override]
+    public function getCourseObjectives(): Collection
+    {
+        return $this->courseObjectives;
     }
 
     public function __toString(): string
