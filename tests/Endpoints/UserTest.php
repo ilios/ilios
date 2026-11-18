@@ -129,6 +129,7 @@ final class UserTest extends AbstractReadWriteEndpoint
             'enabled' => [[0, 1, 2, 3, 4, 5], ['enabled' => true]],
             'notEnabled' => [[], ['enabled' => false]],
             'campusId' => [[0], ['campusId' => '1111@school.edu']],
+            'campusIds' => [[1, 2], ['campusId' => ['2222@school.edu', '3333@school.edu']]],
             'otherId' => [[2], ['otherId' => '001']],
             'userSyncIgnore' => [[1, 5], ['userSyncIgnore' => true]],
             'notUserSyncIgnore' => [[0, 2, 3, 4], ['userSyncIgnore' => false]],
@@ -179,6 +180,7 @@ final class UserTest extends AbstractReadWriteEndpoint
         $filters = self::filtersToTest();
         $filters['ids'] = [[1, 2], ['ids' => [2, 3]]];
         $filters['missingIds'] = [[], ['ids' => [99]]];
+        unset($filters['campusIds']);
 
         return $filters;
     }
