@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\SessionObjectivesEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +24,6 @@ class Term implements TermInterface
     use SessionsEntity;
     use StringableIdEntity;
     use TitledEntity;
-    use SessionObjectivesEntity;
 
     #[ORM\Column(name: 'term_id', type: 'integer')]
     #[ORM\Id]
@@ -421,5 +419,38 @@ class Term implements TermInterface
     public function getProgramYearObjectives(): Collection
     {
         return $this->programYearObjectives;
+    }
+
+    #[Override]
+    public function setSessionObjectives(?Collection $sessionObjectives = null): void
+    {
+        $this->sessionObjectives = new ArrayCollection();
+        if (is_null($sessionObjectives)) {
+            return;
+        }
+
+        foreach ($sessionObjectives as $sessionObjective) {
+            $this->addSessionObjective($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        if (!$this->sessionObjectives->contains($sessionObjective)) {
+            $this->sessionObjectives->add($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        $this->sessionObjectives->removeElement($sessionObjective);
+    }
+
+    #[Override]
+    public function getSessionObjectives(): Collection
+    {
+        return $this->sessionObjectives;
     }
 }

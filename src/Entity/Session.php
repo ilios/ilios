@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Traits\SessionObjectivesEntity;
 use App\Traits\StudentAdvisorsEntity;
 use App\Traits\TitledNullableEntity;
 use DateTime;
@@ -30,7 +29,6 @@ class Session implements SessionInterface
     use StringableIdEntity;
     use TimestampableEntity;
     use StudentAdvisorsEntity;
-    use SessionObjectivesEntity;
 
     #[ORM\Column(name: 'session_id', type: 'integer')]
     #[ORM\Id]
@@ -663,5 +661,38 @@ class Session implements SessionInterface
     public function getSequenceBlocks(): Collection
     {
         return $this->sequenceBlocks;
+    }
+
+    #[Override]
+    public function setSessionObjectives(?Collection $sessionObjectives = null): void
+    {
+        $this->sessionObjectives = new ArrayCollection();
+        if (is_null($sessionObjectives)) {
+            return;
+        }
+
+        foreach ($sessionObjectives as $sessionObjective) {
+            $this->addSessionObjective($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function addSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        if (!$this->sessionObjectives->contains($sessionObjective)) {
+            $this->sessionObjectives->add($sessionObjective);
+        }
+    }
+
+    #[Override]
+    public function removeSessionObjective(SessionObjectiveInterface $sessionObjective): void
+    {
+        $this->sessionObjectives->removeElement($sessionObjective);
+    }
+
+    #[Override]
+    public function getSessionObjectives(): Collection
+    {
+        return $this->sessionObjectives;
     }
 }
