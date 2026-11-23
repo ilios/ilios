@@ -5,9 +5,19 @@ declare(strict_types=1);
 namespace App\Service\Index;
 
 use App\Classes\OpenSearchBase;
+use App\Service\Config;
+use OpenSearch\Client;
 
 class Manager extends OpenSearchBase
 {
+    public function __construct(
+        private readonly Curriculum $curriculumIndex,
+        Config $config,
+        ?Client $client = null
+    ) {
+        parent::__construct($config, $client);
+    }
+
     public function drop(): void
     {
         if (!$this->enabled) {
@@ -42,7 +52,7 @@ class Manager extends OpenSearchBase
         ]);
         $this->client->indices()->create([
             'index' => Curriculum::INDEX,
-            'body' => Curriculum::getMapping(),
+            'body' => $this->curriculumIndex->getMapping(),
         ]);
 
         $this->client->ingest()->putPipeline(Users::getPipeline());
