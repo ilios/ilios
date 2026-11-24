@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b152b7927b1d5de49a63575b66e20f5a",
+    "content-hash": "9e21ebf336b5021351933b9f87ca2c1b",
     "packages": [
         {
             "name": "async-aws/core",
@@ -18024,7 +18024,6 @@
         "symfony/web-link": 0,
         "symfony/web-profiler-bundle": 0,
         "symfony/yaml": 0,
-        "vimeo/psalm": 0,
         "weirdan/doctrine-psalm-plugin": 0
     },
     "prefer-stable": false,
