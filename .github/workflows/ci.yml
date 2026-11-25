@@ -52,7 +52,7 @@ jobs:
       - name: lint twig
         run: bin/console lint:twig templates custom
       - name: lint markdown
-        uses: DavidAnson/markdownlint-cli2-action@v25.0.0
+        uses: DavidAnson/markdownlint-cli2-action@v25.1.0
         with:
           globs: |
             CHANGELOG.md
