@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Repository\ApplicationConfigRepository;
+use Deprecated;
 use Doctrine\DBAL\Exception\ConnectionException;
 use Doctrine\DBAL\Exception\ServerException;
 
@@ -38,8 +39,8 @@ class Config
     /**
      * Look in ENV variables first, if this is set there then
      * go ahead and ignore the DB
-     *
      */
+    #[Deprecated(message: "use setting-specific getters instead.")]
     public function get(string $name): string|bool|int|null
     {
         $result = $this->getValueFromEnv($name);
