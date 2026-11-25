@@ -9,6 +9,7 @@ use App\Service\Jwt\TokenCodec;
 use App\Service\Jwt\TokenManager;
 use App\Traits\AuthenticationService;
 use Override;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,12 +28,54 @@ class LdapAuthentication implements AuthenticationInterface
         protected AuthenticationRepository $authRepository,
         protected TokenCodec $tokenCodec,
         protected TokenManager $tokenManager,
-        Config $config,
+        protected Config $config,
         protected SessionUserProvider $sessionUserProvider
     ) {
-        $this->ldapHost = $config->get('ldap_authentication_host');
-        $this->ldapPort = $config->get('ldap_authentication_port');
-        $this->ldapBindTemplate = $config->get('ldap_authentication_bind_template');
+    }
+
+    /**
+     * @psalm-taint-escape ssrf
+     */
+    protected function getLdapHost(): string
+    {
+        if (!isset($this->ldapHost)) {
+            $host = $this->config->get('ldap_authentication_host');
+            if (!isset($host)) {
+                throw new RuntimeException('LDAP host must be set.');
+            }
+            $this->ldapHost = $host;
+        }
+        return $this->ldapHost;
+    }
+
+    /**
+     * @psalm-taint-escape ssrf
+     */
+    protected function getLdapPort(): string
+    {
+        if (!isset($this->ldapPort)) {
+            $port = $this->config->get('ldap_authentication_port');
+            if (!isset($port)) {
+                throw new RuntimeException('LDAP port must be set.');
+            }
+            $this->ldapPort = $port;
+        }
+        return $this->ldapPort;
+    }
+
+    /**
+     * @psalm-taint-escape ssrf
+     */
+    protected function getLdapBindTemplate(): string
+    {
+        if (!isset($this->ldapBindTemplate)) {
+            $template = $this->config->get('ldap_authentication_bind_template');
+            if (!isset($template)) {
+                throw new RuntimeException('LDAP bind template must be set.');
+            }
+            $this->ldapBindTemplate = $template;
+        }
+        return $this->ldapBindTemplate;
     }
 
     /**
@@ -105,9 +148,9 @@ class LdapAuthentication implements AuthenticationInterface
      */
     public function checkLdapPassword(string $username, string $password): bool
     {
-        $ldapConn = @ldap_connect("{$this->ldapHost}:{$this->ldapPort}");
+        $ldapConn = @ldap_connect("{$this->getLdapHost()}:{$this->getLdapPort()}");
         if ($ldapConn) {
-            $ldapRdn = sprintf($this->ldapBindTemplate, $username);
+            $ldapRdn = sprintf($this->getLdapBindTemplate(), $username);
             $ldapBind = @ldap_bind($ldapConn, $ldapRdn, $password);
             if ($ldapBind) {
                 return true;

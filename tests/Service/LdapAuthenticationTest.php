@@ -21,14 +21,15 @@ use DateInterval;
 use DateTimeImmutable;
 use Mockery as m;
 use PHPUnit\Framework\Attributes\DataProvider;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 
 final class LdapAuthenticationTest extends TestCase
 {
-    protected m\MockInterface $authRepository;
-    protected m\MockInterface $sessionUserProvider;
-    protected m\MockInterface $sessionUserPermissionChecker;
-    protected m\MockInterface $config;
+    protected m\MockInterface|AuthenticationRepository $authRepository;
+    protected m\MockInterface|SessionUserProvider $sessionUserProvider;
+    protected m\MockInterface|SessionUserPermissionChecker $sessionUserPermissionChecker;
+    protected m\MockInterface|Config $config;
     protected TokenCodec $tokenCodec;
     protected TokenManager $tokenManager;
     protected LdapAuthentication $obj;
@@ -244,5 +245,58 @@ final class LdapAuthenticationTest extends TestCase
             [10, true, false, true],
             [20, false, true, false],
         ];
+    }
+
+    public function testMissingLdapHostThrowsException(): void
+    {
+        $config = m::mock(Config::class);
+        $config->shouldReceive('get')->with('ldap_authentication_host')->andReturn(null);
+        $obj = new LdapAuthentication(
+            $this->authRepository,
+            $this->tokenCodec,
+            $this->tokenManager,
+            $config,
+            $this->sessionUserProvider
+        );
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('LDAP host must be set.');
+        $obj->checkLdapPassword('foo', 'bar');
+    }
+
+    public function testMissingLdapPortThrowsException(): void
+    {
+        $config = m::mock(Config::class);
+        $config->shouldReceive('get')->with('ldap_authentication_host')->andReturn('ldap://lorem');
+        $config->shouldReceive('get')->with('ldap_authentication_port')->andReturn(null);
+        $obj = new LdapAuthentication(
+            $this->authRepository,
+            $this->tokenCodec,
+            $this->tokenManager,
+            $config,
+            $this->sessionUserProvider
+        );
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('LDAP port must be set.');
+        $obj->checkLdapPassword('foo', 'bar');
+    }
+    public function testMissingLdapBindTemplateThrowsException(): void
+    {
+        $config = m::mock(Config::class);
+        $config->shouldReceive('get')->with('ldap_authentication_host')->andReturn('ldap://lorem');
+        $config->shouldReceive('get')->with('ldap_authentication_port')->andReturn('1234');
+        $config->shouldReceive('get')->with('ldap_authentication_bind_template')->andReturn(null);
+        $obj = new LdapAuthentication(
+            $this->authRepository,
+            $this->tokenCodec,
+            $this->tokenManager,
+            $config,
+            $this->sessionUserProvider
+        );
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageIsOrContains('LDAP bind template must be set.');
+        $obj->checkLdapPassword('foo', 'bar');
     }
 }
